@@ -1,0 +1,11 @@
+[
+	null,
+	{"id":1,"battlerName":"Actor1_1","characterIndex":0,"characterName":"Actor1","classId":1,"equips":[
+		1,
+		1,
+		2,
+		3,
+		0
+	],"faceIndex":0,"faceName":"Actor1","traits":[
+	],"initialLevel":1,"maxLevel":99,"name":"超人先生","nickname":"","note":"<skillTree:[\n[3,4,5,[6,\"true\",\"alert('第1行ㄉ')\"]],\n[8,0,[6,\"true\",\"alert('第2行ㄉ')\"]],\n[],\n0,\n[9,10,[6,\"$gamePlayer.x<5\",\"alert('第5行ㄉ')\"],11]\n]>","profile":"第一次參加，好緊張。"}
+]
