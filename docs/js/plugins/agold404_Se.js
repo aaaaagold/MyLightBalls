@@ -67,7 +67,7 @@ maxSameCntInSameFrame,
 	this._seCurrentFrame.clear();
 });
 
-setInterval(()=>AudioManager.seCurrentFrame_clear(),1.0/64);
+setInterval((function(){ this.seCurrentFrame_clear(); }).bind(AudioManager),1000/64);
 
 new cfc(Game_System.prototype).add('seEcho_opt_clear',function(){
 	this._seEcho_opt=undefined;
@@ -97,13 +97,13 @@ nextVolRate:0.75,
 }).add('seEcho_echos_getCont',function f(){
 	let c=this._seEcho_echos; if(!c) c=this._seEcho_echos=new Heap(f.tbl[0]);
 	if(c.constructor!==Heap){
-		c=Object.assign(new Heap(),c);
+		c=Object.assign(new Heap(f.tbl[0]),c);
 		c._searchTbl=new Map();
 		c.makeHeap();
 	}
 	return c;
 },[
-(a,b)=>a._echoFrame-b._echoFrame, // 0: cmp3
+(a,b)=>b._echoFrame-a._echoFrame, // 0: cmp3 for max heap
 ]).add('seEcho_echos_add',function f(se){
 	const opt=se._echoOpt||this.seEcho_opt_get(); if(!opt) return;
 	const info=Object.assign({},se);

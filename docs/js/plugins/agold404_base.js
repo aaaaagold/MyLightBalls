@@ -94,6 +94,10 @@ p.findChildren=function(f){ const rtv=[]; return this._findChild_r(f,rtv); };
 }
 //
 Sprite_Actor.prototype.damageOffsetY=()=>-32; // 角色身上的數字上shift
+new cfc(Sprite_Damage.prototype).add('createDigits',function f(baseRow, value){
+	while(this.children.length) this.removeChild(this.children.back);
+	return f.ori.apply(this,arguments);
+});
 { const p=SceneManager;
 p.isScene_battle =function(){ const sc=this._scene; return sc && sc.constructor===Scene_Battle; };
 p.isScene_map    =function(){ const sc=this._scene; return sc && sc.constructor===Scene_Map;    };
@@ -160,10 +164,24 @@ new cfc(Sprite.prototype).add('isInScreen_local',function(){
 	const xo=this.x,yo=this.y,ws=this.width*sx,hs=this.height*sy;
 	let x=xo-ws*a.x,xe=x+ws; if(xe<x){ let t=x; x=xe; xe=t; }
 	let y=yo-hs*a.y,ye=y+hs; if(ye<y){ let t=y; y=ye; ye=t; }
+	const ext=this.isInScreen_local_getExt();
+	if(ext){
+		x-=ext.l; xe+=ext.r;
+		y-=ext.u; ye+=ext.d;
+	}
 	if(x>=Graphics._boxWidth||xe<0||y>=Graphics._boxHeight||ye<0) return; // out-of-bound
 	
 	return true;
-});
+}).add('isInScreen_local_getExt',function f(){
+	return f.tbl[0];
+},[
+{
+l:0|0,
+r:0|0,
+u:0|0,
+d:0|0,
+},
+]);
 new cfc(Graphics).add('isInScreen_rect',function(rect){
 	return !(rect.x>=this.boxWidth || rect.x+rect.width<0 || rect.y>=this.boxHeight || rect.y+rect.height<0);
 });
@@ -476,8 +494,42 @@ function(f){ if(!f()) this.push(f); },
 		}
 	}
 },undefined,false,true);
+// refine Window_Base
+new cfc(Window_Base.prototype).add('updateTone',function f(){
+	const tone=$gameSystem&&$gameSystem.windowTone()||f.tbl[0];
+	this.setTone(tone[0], tone[1], tone[2]);
+},[0,0,0,0],true,true).add('drawTextEx',function f(text, x, y, _3, _4, out_textState){
+	// return dx
+	const textState=out_textState||{};
+	if(isNaN(textState.index-=0)) textState.index=0;
+	if(isNaN(textState.x-=0)) textState.x=x-0||0;
+	if(isNaN(textState.y-=0)) textState.y=y-0||0;
+	if(isNaN(textState.left-=0)) textState.left=textState.x;
+	textState.right=Math.max(textState.right||0,textState.left);
+	if(!text) return 0;
+	textState.text=this.convertEscapeCharacters(text);
+	textState.height=this.calcTextHeight(textState,false);
+	this.resetFontSettings();
+	for(const len=textState.text.length;textState.index<len;) this.processCharacter(textState);
+	return textState.x-x;
+},undefined,true,true).add('processNormalCharacter',function f(textState){
+	const c=textState.text[textState.index++];
+	const w=this.textWidth(c);
+	if(!textState.isMeasureOnly) this.contents.drawText(c,textState.x,textState.y,w*2,textState.height,undefined,textState);
+	textState.x+=w;
+	textState.right=Math.max(textState.right,textState.x);
+	return w;
+}).add('measure_drawTextEx',function f(text, x, y, _3, _4, out_textState){
+	// reserved for auto-line-break or something automatically changed by window size
+	return this.drawTextEx.apply(this,arguments);
+}).add('drawText',function f(text,x,y,maxWidth,align,opt){
+	if(opt&&opt.isMeasureOnly) return;
+	return f.ori.apply(this,arguments);
+});
 //
-new cfc(Window_Base.prototype).add('positioning',function f(setting,ref){
+new cfc(Window_Base.prototype).add('lineHeight',function f(){
+	return 1+~~(this.standardFontSize()*1.25);
+},undefined,true,true).add('positioning',function f(setting,ref){
 	setting=setting||f.tbl;
 	let x,y,w,h;
 	if(ref){
@@ -521,6 +573,15 @@ new cfc(Window_Base.prototype).add('positioning',function f(setting,ref){
 		return JSON.parse(textState.text.slice(info.start,info.end));
 	}else return f.tbl[0];
 },[''],true,true);
+//
+new cfc(Window_Help.prototype).add('setText',function f(text,forceUpdate){
+	if(this.setText_condOk(text,forceUpdate)) this.setText_doUpdate(text);
+},undefined,true,true).add('setText_condOk',function f(text,forceUpdate){
+	return forceUpdate || this._text!==text;
+},undefined,true,true).add('setText_doUpdate',function f(text){
+	this._text=text;
+	this.refresh();
+},undefined,true,true);
 //
 new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	const idx=this.index();
@@ -615,7 +676,7 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	rect.width = this.itemWidth();
 	rect.height = this.itemHeight();
 	rect.x = index % maxCols * (rect.width + this.spacing()) - this._scrollX;
-	rect.y = Math.floor(index / maxCols) * (rect.height + this.itemSpacingY()) - this._scrollY;
+	rect.y = ~~(index / maxCols) * (rect.height + this.itemSpacingY()) - this._scrollY; // it's too much if over int32, so let it bug.
 	return rect;
 },undefined,false,true).add('itemSpacingY',function f(){
 	return 0;
@@ -905,7 +966,12 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 		w.exposeToTopFrame=f;
 		const arr=f.tbl=f.tbl||getPrefixPropertyNames(window,'$data'); arr.uniquePop('$dataMap');
 		arr.uniquePush('$dataMap','$gameTemp','$gameSystem','$gameScreen','$gameTimer','$gameMessage','$gameSwitches','$gameVariables','$gameSelfSwitches','$gameActors','$gameParty','$gameTroop','$gameMap','$gamePlayer',);
-		arr.forEach(key=>key&&Object.defineProperty(w,key,{ get:function(){ return window[key]; }, configurable: true }));
+		arr.forEach(key=>{ if(!key) return;
+			try{
+				Object.defineProperty(w,key,{ get:function(){ return window[key]; }, configurable: true });
+			}catch(e){
+			}
+		});
 	}
 	{
 		const arr=[];
@@ -927,6 +993,129 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 	}
 	for(let x=0,arr=arguments,xs=arr.length;x!==xs;++x) w[arr[x]]=w._w[arr[x]];
 };
+// Window_Text
+{ const a=class Window_Text extends Window_Base{
+	_refreshBack(){ if(this._windowBackSprite) Window_Base.prototype._refreshBack.apply(this,arguments); }
+	_refreshFrame(){ if(this._windowFrameSprite) Window_Base.prototype._refreshFrame.apply(this,arguments); }
+	standardPadding(){ return 0; }
+};
+window[a.name]=a;
+const p=a.prototype;
+makeDummyWindowProto(p);
+Object.defineProperty(Window.prototype, 'backOpacity', {
+	set:function(value){
+		const sp=this._windowBackSprite;
+		if(sp) sp.alpha=value.clamp(0,255)/255;
+		return value;
+	},get:function(){
+		const sp=this._windowBackSprite;
+		return sp?sp.alpha*255:0;
+	}, configurable: true
+});
+new cfc(p).add('_createAllParts',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.windowStyle_adjust();
+	return rtv;
+}).add('windowStyle_adjust',function f(){
+	return this.windowStyle_setTextOnly();
+}).add('windowStyle_setTextOnly',function f(){
+	let t,k;
+	for(let x=0,arr=f.tbl[0],xs=arr.length;x!==xs;++x){
+		// not setting following properties to `undefined` for capability
+		t=this[arr[x]];
+		t.parent && t.parent.removeChild(t);
+	}
+},[
+[
+'_windowFrameSprite',
+'_windowBackSprite',
+], // 0: keys
+]).add('setText',function f(styledText,isFixedWindowSize,isAppending,isForcedRedraw){
+	// text having something like `\{` , `\}` , ...
+	
+	// skip if same
+	if(!isForcedRedraw && !isAppending && this._lastText===styledText) return;
+	
+	// modes
+	if(isAppending){
+		this._lastText+=styledText;
+		styledText=this._lastText;
+	}else this._lastText=styledText;
+	
+	// take use of y
+	if(styledText) styledText+='\n';
+	
+	const wt=this;
+	// const stdpad=wt.standardPadding(); // is 0
+	const txtpad=wt.textPadding(),textState={};
+	const measure=wt.measure_drawTextEx(styledText,0,0,undefined,undefined,textState);
+	
+	const width=Math.max(0,1+~~textState.right);
+	const widthp=width+(txtpad<<1);
+	if(!isFixedWindowSize){
+		wt.width=widthp;
+		wt.height=textState.y;
+	}
+	const w=wt.width;
+	const h=wt.height;
+	wt.position.set(-(w>>>1),-h);
+	wt.createContents();
+	wt.drawTextEx(styledText,txtpad,0);
+	//console.log(measure,textState); // debug
+	return this;
+}).add('reApplyText',function f(isFixedWindowSize){
+	return this.setText(this._lastText,isFixedWindowSize,false,true);
+},undefined,true,true);
+}
+
+// ---- ---- ---- ---- refine for future extensions
+
+(()=>{ let k,r,t;
+
+new cfc(Input).add('_onKeyUp',function f(event){
+	return this._onKeyUp_do.apply(this,arguments);
+},undefined,true,true).add('_onKeyUp_do',function f(event){
+	const buttonName=this.keyMapper[event.keyCode];
+	this._currentState[buttonName||event.keyCode]=false;
+	if(event.keyCode===0) this.clear(); // For QtWebEngine on OS X
+},undefined,true,true).add('_onKeyDown',function f(event){
+	return this._onKeyDown_do.apply(this,arguments);
+},undefined,true,true).add('_onKeyDown_do',function f(event){
+	if (this._shouldPreventDefault(event.keyCode)) event.preventDefault();
+/*
+	if(event.keyCode===144){ // Numlock
+		this.clear();
+		return;
+	}
+*/
+	const buttonName=this.keyMapper[event.keyCode];
+	if(this._onKeyDown_okForRetryResource()) return;
+	this._currentState[buttonName||event.keyCode]=true;
+},undefined,true,true).add('_onKeyDown_okForRetryResource',function f(buttonName){
+	const rtv=Graphics._errorShowed&&buttonName==='ok';
+	ResourceHandler.retry();
+	return rtv;
+},undefined,true,true);
+
+})(); // refine for future extensions
+
+// ---- ---- ---- ---- PluginManager
+
+(()=>{ let k,r,t;
+
+new cfc(PluginManager).add('setParameters',function f(key,params){
+	return this._parameters[key]=params;
+},undefined,false,false).add('parameters',function f(key){
+	return this._parameters[key] || f.tbl[0][key] || (f.tbl[0][key]={});
+},[
+{}, // 0: common defaults
+],false,false);
+
+PluginManager._parameters={};
+window.$pluginsMap=$plugins.map(plugin=>[plugin.name,plugin]);
+$plugins.forEach(plugin=>plugin.status&&PluginManager.setParameters(plugin.name, plugin.parameters));
+
+})(); // PluginManager
 
 // ---- ---- ---- ---- load other files
 
@@ -992,6 +1181,26 @@ TouchInput._setupEventHandlers = function() {
 
 (()=>{ let k,r,t;
 
+new cfc(DataManager).add('getDebugInfo',function f(){
+	const sc=SceneManager._scene;
+	return ({
+		sc:sc,
+		scCtor:sc.constructor,
+		mapId:$gameMap&&$gameMap._mapId,
+		xy:$gamePlayer&&({x:$gamePlayer.x,y:$gamePlayer.y}),
+		xyReal:$gamePlayer&&({x:$gamePlayer._realX,y:$gamePlayer._realY}),
+	});
+}).add('getDebugInfoStr',function f(){
+	const res=[];
+	const info=this.getDebugInfo();
+	const scName=info.scCtor&&info.scCtor.name;
+	res.push("scene: "+scName);
+	res.push("mapId: "+info.mapId);
+	res.push("xy: "+JSON.stringify(info.xy||null));
+	res.push("xyReal: "+JSON.stringify(info.xyReal||null));
+	return res.join(' ; ');
+});
+
 new cfc(Game_Interpreter.prototype).add('command111',function f(){
 	// interpreter branch
 	if(this._params[0]===12){
@@ -1002,7 +1211,8 @@ new cfc(Game_Interpreter.prototype).add('command111',function f(){
 			if(this && this._params){
 				console.warn(this._params);
 				e.message+='\n\nScript:\n'+this._params[1];
-				e.message+=getStr_英文不好齁()+f.tbl[1][1];
+				//e.message+=getStr_英文不好齁()+f.tbl[1][1];
+				e.message+='\n'+DataManager.getDebugInfoStr()+'\n';
 			}
 			e.name+=' in Game_Interpreter.prototype.command111';
 			e._msgOri=e.message;
@@ -1031,7 +1241,8 @@ new cfc(Game_Interpreter.prototype).add('command111',function f(){
 		console.warn(f.tbl[1][0],'\n',script);
 		if(script){
 			e.message+='\n\nScript:\n'+script;
-			e.message+=getStr_英文不好齁()+f.tbl[1][1];
+			//e.message+=getStr_英文不好齁()+f.tbl[1][1];
+			e.message+='\n'+DataManager.getDebugInfoStr()+'\n';
 		}
 		e.name+=' in ';
 		e.name+=f.tbl[0];
@@ -1062,7 +1273,8 @@ new cfc(Game_Action.prototype).add('evalDamageFormula',function f(target){
 			if(item && item.damage){
 				console.warn(item.damage.formula);
 				e.message+='\n\nDamage Formula:\n'+item.damage.formula;
-				e.message+=getStr_英文不好齁()+f.tbl[1][1];
+				//e.message+=getStr_英文不好齁()+f.tbl[1][1];
+				e.message+='\n'+DataManager.getDebugInfoStr()+'\n';
 			}
 			e.name+=' in damage formula of '+f.tbl[2](item);
 			e._msgOri=e.message;
@@ -1180,39 +1392,167 @@ new cfc(Game_Battler.prototype).add('getSprite',function f(){
 	return m&&m.get(this);
 },undefined,false,true);
 
+new cfc(SceneManager).add('getSprite',function f(obj){
+	const sc=this._scene;
+	const func=f.tbl[0].get(sc&&sc.constructor);
+	const m=func&&func(sc);
+	return m&&m.get(obj);
+},[
+new Map([
+[Scene_Map,sc=>sc._chr2sp],
+[Scene_Battle,sc=>sc._btlr2sp],
+]), // 0: constructor -> spritesMap
+]);
+
 })(); // gameObj2sprite
 
 // ---- ---- ---- ---- shorthand
 
 (()=>{ let k,r,t;
 
-new cfc(Game_Character.prototype).add('jumpTo',function f(x,y){
-	this.jump(x-this.x,y-this.y);
+if(!window.addEnum) window.addEnum=function(key){
+	if(this[key]) return;
+	this._enumMax|=0;
+	this[key]=++this._enumMax;
 	return this;
-},undefined,true,true).add('frontPos',function f(){
+};
+
+t=[
+({
+2:4,
+4:8,
+8:6,
+6:2,
+}), // 0: rightPos remap
+({
+'f':{
+2:2,
+4:4,
+6:6,
+8:8,
+}, // 1-f
+'b':{
+2:8,
+4:6,
+6:4,
+8:2,
+}, // 1-b
+'l':{
+2:6,
+4:2,
+6:8,
+8:4,
+}, // 1-l
+'r':{
+2:4,
+4:8,
+6:2,
+8:6,
+}, // 1-r
+}), // 1: facingAfterJump
+];
+
+new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
 	const d=this.direction();
-	return {
-		x:$gameMap.roundXWithDirection(this.x,d),
-		y:$gameMap.roundYWithDirection(this.y,d),
-	};
-},undefined,true,true).add('jumpFront',function f(dist){
+	this.jump(x-this.x,y-this.y);
+	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
+	return this;
+},t,true,true).add('frontPos',function f(xy,y){
+	let x;
+	if(typeof xy==='number') x=xy;
+	else if(xy){ x=xy.x; y=xy.y; }
+	else{ x=this.x; y=this.y; }
+	const d=this.direction();
+	return ({
+		x:$gameMap.roundXWithDirection(x,d),
+		y:$gameMap.roundYWithDirection(y,d),
+	});
+},undefined,true,true).add('rightPos',function f(xy,y){
+	let x;
+	if(typeof xy==='number') x=xy;
+	else if(xy){ x=xy.x; y=xy.y; }
+	else{ x=this.x; y=this.y; }
+	const d=this.rightPos_dirRemap(this.direction());
+	return ({
+		x:$gameMap.roundXWithDirection(x,d),
+		y:$gameMap.roundYWithDirection(y,d),
+	});
+},undefined,true,true).add('rightPos_dirRemap',function f(d){
+	return f.tbl[0][d]||d;
+},t,true,true).add('jumpFront',function f(dist,facingAfterJump){
 	let dx=0,dy=0;
-	if(0<(dist|=0)){
+	if((dist|=0)){
 		const xy=this.frontPos();
 		dx+=(xy.x-this.x)*dist;
 		dy+=(xy.y-this.y)*dist;
 	}
+	const d=this.direction();
 	this.jump(dx,dy);
+	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
 	return this;
-});
+},t,true,true).add('jumpFacingRelative',function f(leftRight,backFront,facingAfterJump,refChr){
+	// -+ , -+
+	let dx=0,dy=0;
+	const ref=refChr||this;
+	if((leftRight|=0)){
+		const xy=ref.rightPos();
+		dx+=(xy.x-ref.x)*leftRight;
+		dy+=(xy.y-ref.y)*leftRight;
+	}
+	if((backFront|=0)){
+		const xy=ref.frontPos();
+		dx+=(xy.x-ref.x)*backFront;
+		dy+=(xy.y-ref.y)*backFront;
+	}
+	const d=this.direction();
+	this.jumpTo(dx+ref.x,dy+ref.y);
+	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
+	return this;
+},t,true,true).add('_jump_remapDir_facingAfterJump',function f(d,facingAfterJump){
+	if(facingAfterJump in f.tbl[1]) this._direction=f.tbl[1][facingAfterJump][d];
+	else if(facingAfterJump in f.tbl[0]) this._direction=facingAfterJump;
+},t,true,true);
 
-new cfc(Game_Event.prototype).add('setChrIdxName',function f(chrIdx,chrName){
-	this._characterIndex=chrIdx;
-	this._characterName=chrName;
+new cfc(Game_Character.prototype).add('getTileIdAt',function f(dx,dy,z){
+	dx=dx-0||0;
+	dy=dy-0||0;
+	z=z-0||0;
+	return $gameMap&&$gameMap.tileId(this.x+dx,this.y+dy,z);
+},undefined,true,true).add('getLayeredTilesAt',function f(dx,dy){
+	dx=dx-0||0;
+	dy=dy-0||0;
+	z=z-0||0;
+	return $gameMap&&$gameMap.layeredTiles(this.x+dx,this.y+dy);
+},undefined,true,true);
+
+new cfc(Game_CharacterBase.prototype).add('setOpacity',function f(opa){
+	f.ori.apply(this,arguments);
+	return this;
+},undefined,true).add('initMembers',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._characteHue=0;
+	return rtv;
+}).add('characterHue',function f(){
+	return this._characterHue||0;
+},undefined,true,true).add;
+
+t=new cfc(Game_Event.prototype).add('setChrIdxName',function f(chrIdx,chrName,hue,isObj){
+	this._characterIndex=chrIdx===undefined?this._characterIndex:chrIdx;
+	this._characterName=chrName===undefined?this._characterName:chrName;
+	this._characterHue=hue||0;
+	this._isObjectCharacter=isObj===undefined?ImageManager.isObjectCharacter(chrName):isObj;
+	return this;
 },undefined,true,true).add('setupPageSettings',function f(){
 	const rtv=this.page();
 	f.ori.apply(this,arguments);
 	return rtv;
+},undefined,true).add('locate',function f(x,y){
+	f.ori.apply(this,arguments);
+	return this;
+},undefined,true).getP();
+for(let p=t,arr=['clearPageSettings','clearStartingFlag','erase','refresh','resetPattern','setupPage','start',],x=arr.length;x--;) new cfc(p).add(arr[x],function f(x,y){
+	f.ori.apply(this,arguments);
+	return this;
 },undefined,true);
 
 new cfc(Game_Interpreter.prototype).add('getEvt',function f(){
@@ -1228,6 +1568,102 @@ SceneManager.getTilemap=function(){
 	const sps=sc&&sc._spriteset;
 	return sps&&sps._tilemap;
 };
+
+new cfc(DataManager).add('getItemCont',function f(key){
+	if(!f.tbl[0]) f.tbl[0]=({
+		i:$dataItems,
+		w:$dataWeapons,
+		a:$dataArmors,
+	});
+	return f.tbl[0][key];
+},[
+undefined,
+]);
+
+ImageManager.getLoadStates=function f(){
+	const rtv=[];
+	const cache=this._imageCache; if(!cache) return rtv;
+	for(let arr=Object.keys(cache._items),x=arr.length;x--;) rtv.push([arr[x],cache._items[arr[x]].bitmap.isReady(),]);
+	return rtv;
+};
+
+new cfc(Sprite.prototype).add('setFrameIdx',function f(idx,facing,patternIt,isBig){
+	if(patternIt===undefined) patternIt=1;
+	facing=f.tbl[0][facing]; if(facing===undefined) facing=1;
+	
+	this.setFrameIdx_info={
+		idx:idx,
+		patternIt:patternIt,
+		facingIdx:facing,
+		isBig:isBig,
+	};
+	this.setFrameIdx_update();
+},[
+{
+2:0,
+4:1,
+6:2,
+8:3,
+}, // 0: facing to idx
+],true,true).add('setFrameIdx_update',function f(){
+	this.bitmap.addLoadListener(this.setFrameIdx_do.bind(this));
+},undefined,true,true).add('setFrameIdx_do',function f(bmp){
+	const info=this.setFrameIdx_info; if(!info) return;
+	//this.setFrameIdx_info=undefined;
+	const p=Sprite_Character.prototype;
+	const w=p.patternWidth.call(this);
+	const h=p.patternHeight.call(this);
+	const nSetsEachRow=f.tbl[0][0|!info.isBig];
+	const nFramesEachCol=f.tbl[1][0|!info.isBig];
+	const nFramesEachRow=nSetsEachRow*f.tbl[2];
+	const idxX=(info.idx%nSetsEachRow)*f.tbl[2]+f.tbl[4][info.patternIt|0];
+	const idxY=~~(info.idx/nSetsEachRow)*f.tbl[3]+info.facingIdx;
+	const px0=~~(bmp.width  * idxX/nFramesEachRow),px1=~~(bmp.width  * (idxX+1)/nFramesEachRow);
+	const py0=~~(bmp.height * idxY/nFramesEachCol),py1=~~(bmp.height * (idxY+1)/nFramesEachCol);
+	
+	this.setFrame(px0,py0,px1-px0,py1-py0);
+},t=[
+[1,4], // 0: N sets in a row // [isBig,notBig]
+[4,8], // 1: N frames each col // [isBig,notBig]
+3, // 2: N patterns each set in a row
+4, // 3: N dirs in a pattern
+[0,1,2,1], // 4: patternIt to patternIdx
+],true,true).add('setFrameIdx_nextPattern',function f(shouldUpdate){
+	const info=this.setFrameIdx_info; if(!info) return;
+	info.patternIdx=~~((info.patternIdx+1)%f.tbl[4].length);
+	if(shouldUpdate) this.setFrameIdx_update();
+	return this;
+},t,true,true);
+
+new cfc(Sprite_Character.prototype).add('updateBitmap',function f(){
+	if(this.isImageChanged()) this.updateBitmap_do();
+},undefined,true,true).add('updateBitmap_do',function f(){
+	this._tilesetId=$gameMap.tilesetId();
+	this._tileId=this._character.tileId();
+	this._characterName=this._character.characterName();
+	this._characterIndex=this._character.characterIndex();
+	this._characterHue=this._character.characterHue();
+	if(0<this._tileId) this.setTileBitmap();
+	else this.setCharacterBitmap();
+},undefined,true,true).add('setCharacterBitmap',function f(){
+	this.bitmap=ImageManager.loadCharacter(this._characterName,this._characterHue);
+	this._isBigCharacter=ImageManager.isBigCharacter(this._characterName);
+},undefined,true,true).add('tilesetBitmap',function f(tileId){
+	const tileset=$gameMap.tileset();
+	const setNumber=5+(tileId>>8);
+	return ImageManager.loadTileset(tileset.tilesetNames[setNumber],this._characterHue);
+},undefined,true,true).add('isImageChanged',function f(){
+	return f.ori.apply(this,arguments) || this._characterHue!==this._character.characterHue();
+});
+
+new cfc(PIXI.Container.prototype).add('containsGlobalPoint',function f(x,y){
+	const xy0=this.toGlobal(f.tbl[0]);
+	const xy1=this.toGlobal({x:this.width,y:this.height});
+	const rect=new Rectangle(xy0.x,xy0.y,xy1.x-xy0.x,xy1.y-xy0.y);
+	return rect.contains(x,y);
+},[
+{x:0,y:0},
+]);
 
 })(); // shorthand
 
@@ -1275,7 +1711,12 @@ new cfc(SceneManager).add('push',function f(sceneClass,shouldRecordCurrentScene)
 	}
 },[
 3, // max call count of 'this.terminate();'
-],true,true);
+],true,true).add('changeScene',function f(){
+	const sc=this._scene;
+	const rtv=f.ori.apply(this,arguments);
+	if(this._scene && sc && this._scene!==sc) this.onSceneChange();
+	return rtv;
+});
 
 })(); // 支援前場景暫存恢復+確保下個場景要預讀(in initialize)的東西好了 // ImageManager.isReady()
 
@@ -1286,20 +1727,63 @@ new cfc(Scene_Base.prototype).add('start_after',function f(){
 });
 
 new cfc(Scene_Boot.prototype).add('start_after',function f(){
+	// TBD
+	// next scene might be: test battle, test map
+	// ALL $data* and its elements should not be changed
+	// only creating search tables here
 	return Scene_Base.prototype.start_after.apply(this,arguments);
 }).add('start_before',function f(){
-	return Scene_Base.prototype.start_before.apply(this,arguments);
-});
+	// TBD
+	// change contents of elelments in $data* 
+	// change $data* 
+	const rtv=Scene_Base.prototype.start_before.apply(this,arguments);
+	this.modData();
+	this.createSearchTables(true);
+	return rtv;
+}).add('createSearchTables',function f(isRegenAll){
+	// consider some data is changed after last call
+	// TODO
+}).add('modData',function f(){
+	this.modTraits();
+	this.modEffects(); // consider passive skill traits referrer to a state 
+}).add('modTraits',function f(){
+	// order: editor menu
+	$dataActors  .forEach(this.modTrait1);
+	$dataClasses .forEach(this.modTrait1);
+	//$dataSkills  .forEach(this.modTrait1);
+	//$dataItems   .forEach(this.modTrait1);
+	$dataWeapons .forEach(this.modTrait1);
+	$dataArmors  .forEach(this.modTrait1);
+	$dataEnemies .forEach(this.modTrait1);
+	$dataTroops  .forEach(this.modTrait1);
+	$dataStates  .forEach(this.modTrait1);
+}).add('modTrait1',none).add('modEffects',function f(){
+	// order: editor menu
+	$dataSkills  .forEach(this.modEffect1);
+	$dataItems   .forEach(this.modEffect1);
+}).add('modEffect1',none).add('modItems',function f(){
+	// order: editor menu
+	$dataItems   .forEach(this.modItem1);
+	$dataWeapons .forEach(this.modItem1);
+	$dataArmors  .forEach(this.modItem1);
+}).add('modItem1',none);
 
 // ---- ---- ---- ---- scene.terminate before/after + clean scene child
+
+new cfc(Sprite.prototype).add('initialize',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._dontDestroyWhenSceneTerminated=false;
+	return rtv;
+});
 
 new cfc(Scene_Base.prototype).add('terminate_after',function f(){
 	if(this.children){ while(this.children.length){
 		const currLen=this.children.length;
 		const sp=this.children.back;
-		if(sp.destroy) sp.destroy();
+		if(sp.destroy && !sp._dontDestroyWhenSceneTerminated) sp.destroy();
 		// preventing 'sp.destroy' is modified
-		if(this.children.length===currLen) this.removeChildAt(this.children.length-1);
+		if(this.children.back===sp) this.removeChildAt(this.children.length-1);
+		else if(this.children.length>=currLen) throw new Error('got new child when terminating');
 	} }
 }).add('terminate_before',function f(){
 });
@@ -1719,11 +2203,15 @@ new cfc(Game_CharacterBase.prototype).add('update',function f(){
 		dst:[dx,dy],
 		dur:0,
 		durDst:dur,
-	}; }
+	}; }else{
+		this._screenXyData=undefined;
+		this._screenDx=dx|0;
+		this._screenDy=dy|0;
+	}
 	this.updateScreenXy();
 }).add('updateScreenXy',function f(){
 	if(this._screenXyData && this._screenXyData.dur<this._screenXyData.durDst){
-		const r=++this._screenXyData.dur/this._screenXyData.durDst;
+		const r=++this._screenXyData.dur/this._screenXyData.durDst; // dur is casted to int32 in 'setScreenXy' 
 		this._screenDx=r*(this._screenXyData.dst[0]-this._screenXyData.src[0])+this._screenXyData.src[0];
 		this._screenDy=r*(this._screenXyData.dst[1]-this._screenXyData.src[1])+this._screenXyData.src[1];
 	}else this._screenXyData=undefined;
@@ -1734,13 +2222,13 @@ new cfc(Game_CharacterBase.prototype).add('update',function f(){
 		this._opacitySrc=from===undefined?opacity_ori:from;
 		this._opacityDst=opacity;
 		this._opacityDur=0;
-		this._opacityDurDst=dur;
 	}
+	this._opacityDurDst=dur;
 	this.updateOpacity();
 	return rtv;
 }).add('updateOpacity',function f(){
 	if(this._opacityDur<this._opacityDurDst){
-		this._opacity=++this._opacityDur/this._opacityDurDst*(this._opacityDst-this._opacitySrc)+this._opacitySrc;
+		this._opacity=++this._opacityDur/this._opacityDurDst*(this._opacityDst-this._opacitySrc)+this._opacitySrc; // dur is casted to int32 in 'setOpacity' 
 	}else this._opacityDst=this._opacitySrc=this._opacityDur=this._opacityDurDst=undefined;
 },undefined,true,true).add('setPosition',function f(x,y){
 	this._x = this._realX = x;
@@ -1845,6 +2333,7 @@ r=p[k]; (p[k]=function(folder, filename, hue, smooth, reservationId){
 }).ori=r;
 k='loadNormalBitmap';
 r=p[k]; (p[k]=function(path, hue){
+	if(!path) return ImageManager.loadEmptyBitmap();
 	const key = this._generateCacheKey(path, hue);
 	let bitmap = this._imageCache.get(key);
 	if(!bitmap){
@@ -2075,7 +2564,7 @@ new cfc(StorageManager).add('pseudoStorage_getCont',function f(){
 
 })(); // pretending localStorage is ok
 
-// ---- ---- ---- ----  map evt search table
+// ---- ---- ---- ---- map evt search table
 
 (()=>{ let k,r,t;
 
@@ -2274,7 +2763,116 @@ new cfc(Game_Event.prototype).add('moveStraight',function f(d){
 
 })(); // map evt search table
 
-// ---- ---- ---- ----  modify update reload
+// ---- ---- ---- ---- refine error html
+
+(()=>{ let k,r,t;
+
+new cfc(Graphics).add('_forEachCss',function f(item){
+	// bind 'this' to dom.style
+	// 'item' = [cssKey , the value]
+	this[item[0]]=item[1];
+},undefined,true,true).add('currentLoadErrorDivs_getCont',function f(dontInit){
+	let arr=this._currentLoadErrorDivs; if(!arr&&!dontInit) arr=this._currentLoadErrorDivs=[];
+	return arr;
+},undefined,true,true).add('currentLoadErrorDivs_getCnt',function f(){
+	return this.currentLoadErrorDivs_getCont().length;
+},undefined,true,true).add('currentLoadErrorDivs_add',function f(div){
+	if(div instanceof HTMLElement) this.currentLoadErrorDivs_getCont().uniquePush(div);
+},undefined,true,true).add('currentLoadErrorDivs_clear',function f(div){
+	const arr=this.currentLoadErrorDivs_getCont(true); if(!arr) return;
+	if(div!==undefined){
+		f.tbl[0].bind(null)(div);
+		f.tbl[1].bind(arr)(div);
+		return;
+	}
+	const delList=[];
+	arr.forEach(f.tbl[0],delList);
+	delList.forEach(f.tbl[1],arr);
+},[
+function(div){ if(this&&this!==window) this.push(div); const p=div.parentNode; if(p) p.removeChild(div); }, // 0:
+function(div){ this.uniquePop(div); }, // 1:
+],true,true).add('_makeErrorHtml',function f(name,message,opt){
+	const d=document;
+	let main;
+	const rtv=d.ce('div').ac(main=d.ce('div').ac(
+		d.ce('pre').sa('style',f.tbl[0][0]).ac(d.ce('b').atxt(name)).ac(d.ce('br'))
+	).ac(
+		d.ce('pre').sa('style',f.tbl[0][1]).atxt(message).ac(d.ce('br'))
+	).sa('style',f.tbl[0][2])).sa('style',f.tbl[0][3]);
+	rtv._main=main;
+	return rtv;
+},[
+['color:yellow;','color:white;','margin:4px;','background-color:rgba(0,0,0,0.25);text-align:left;overflow-x:scroll;',], // 0: css
+],true,true).add('printLoadingError',function f(url,opt){
+	if(!this.printLoadingError_can(url,opt)) return false;
+	this.printLoadingError_do(url,opt);
+	return true;
+},undefined,true,true).add('printLoadingError_do',function f(url,opt){
+	// can continue
+	this._updateErrorPrinter_setShow(true);
+	const div=this._makeErrorHtml('Loading Error', 'Failed to load: ' + url);
+	this._errorPrinter.ac(div);
+	this.currentLoadErrorDivs_add(div);
+	
+	const btn=document.createElement('button');
+	btn.ac(document.createTextNode('Retry'));
+	btn.sa('style',f.tbl[0][0]);
+	btn._root=div;
+	btn.onmousedown = btn.ontouchstart = f.tbl[1].bind(this);
+	(div._main?div._main:div).ac(btn);
+	
+	this._loadingCount = -Infinity;
+},[
+['font-size:24px;color:#FFFFFF;background-color:#000000',], // 0: css
+function(event){
+	ResourceHandler.retry();
+	event.stopPropagation();
+	this.currentLoadErrorDivs_clear(event.target._root);
+	if(!this.currentLoadErrorDivs_getCnt()) this._updateErrorPrinter_setShow(false);
+	this._updateErrorPrinter();
+},
+],true,true).add('printLoadingError_can',function f(){
+	return this._errorPrinter;
+},undefined,true,true).add('printError',function f(name,message,opt){
+	// cannot continue
+	this._updateErrorPrinter_setShow(true);
+	const ep=this._errorPrinter;
+	if(ep){
+		ep.ac(this._makeErrorHtml(name, message,opt));
+		this._updateErrorPrinter();
+	}
+	this._applyCanvasFilter();
+	this._clearUpperCanvas();
+},undefined,true,true).add('_updateErrorPrinter',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	const ep=this._errorPrinter.ra('height').ra('width');
+	f.tbl[0].forEach(this._forEachCss,ep.style);
+	this._updateErrorPrinter_setShow();
+	return rtv;
+},[
+[
+['width','75%'],
+['height','75%'],
+], // 0: css
+]).add('_createErrorPrinter',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	f.tbl[0].forEach(this._forEachCss,this._errorPrinter.style);
+	return rtv;
+},[
+[
+['backgroundColor','rgba(0,0,0,0.25)'],
+['overflow-y','scroll'],
+], // 0: css
+]).add('_updateErrorPrinter_setShow',function f(isShow){
+	if(isShow!==undefined) this._errorShowed=!!isShow;
+	this._errorPrinter.style.display=f.tbl[0][this._errorShowed|0];
+},[
+['none','',], // 0: css.display switch by this._errorShowed
+],true,true);
+
+})(); // refine error html
+
+// ---- ---- ---- ---- modify update reload
 
 (()=>{ let k,r,t;
 
@@ -2288,11 +2886,42 @@ new cfc(Scene_Load.prototype).add('reloadMapIfUpdated',function f(){
 
 })(); // modify update reload
 
+// ---- ---- ---- ---- modify key map
+
+(()=>{ let k,r,t;
+
+Input.keyMapper[18]='alter';
+for(let x=96;x<=105;++x) delete Input.keyMapper[x]; // num pad when num lock on
+
+})(); // modify key map
+
+// ---- ---- ---- ---- fix bug
+
+(()=>{ let k,r,t;
+
+new cfc(Window_Selectable.prototype).add('maxPageRows',function(isReturnReal){
+	const pageHeight=this.height-this.padding*2;
+	return isReturnReal?pageHeight/this.itemHeight():~~(pageHeight/this.itemHeight());
+},undefined,true,true).add('maxPageItems',function f(){
+	return Math.ceil(this.maxPageRows(true))*this.maxCols();
+},undefined,true,true).add('isCursorVisible',function f(){
+	const rect=this.itemRect_curr();
+	const c=this._windowContentsSprite;
+	return c&&rect.overlap(c);
+},undefined,true,true);
+
+})(); // fix bug
+
 // ---- ---- ---- ---- 
 
 (()=>{ let k,r,t;
 
-exposeToTopFrame();
+new cfc(SceneManager).add('run',function f(){
+	setTimeout(exposeToTopFrame,f.tbl[0]);
+	return f.ori.apply(this,arguments);
+},[
+1024,
+]);
 
 })();
 

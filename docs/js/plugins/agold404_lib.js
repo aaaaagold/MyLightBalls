@@ -665,6 +665,7 @@ p.rf=function(i){
 	while(arr.length>i) this.rc(arr[arr.length-1]);
 	return this;
 };
+p.ra=function(a){ this.removeAttribute(a); return this; };
 p.ga=p.getAttribute;
 p.sa=function(a,v){ this.setAttribute(a,v); return this; };
 }
