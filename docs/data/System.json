@@ -78,12 +78,14 @@
 	{"name":"Shop1","pan":0,"pitch":100,"volume":90},
 	{"name":"Item3","pan":0,"pitch":100,"volume":90},
 	{"name":"Item3","pan":0,"pitch":100,"volume":90}
-],"startMapId":7,"startX":8,"startY":6,"switches":[
+],"startMapId":5,"startX":1,"startY":1,"switches":[
 	"",
 	"",
 	"",
 	"",
 	"",
+	"砲台-天亮",
+	"砲台-times'up",
 	"",
 	"",
 	"",
@@ -199,6 +201,18 @@
 	"",
 	"",
 	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"30: next view/開路/放塔/守城/?",
+	"31: view/開路/放塔/守城/?",
 	""
 ],"versionId":37321085,"victoryMe":{"name":"","pan":0,"pitch":100,"volume":90},"weaponTypes":[
 	"",
