@@ -5399,7 +5399,7 @@
 				"evt._opacity=0;"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"AudioManager.playSe({name:'Cancel2',volume:100,pitch:100,pan:100});"
+				"AudioManager.playSe({name:'Cancel2',volume:100,pitch:100,pan:0});"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"}"
@@ -5554,7 +5554,7 @@
 			{"code":112,"indent":0,"parameters":[
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"if(!($gameTemp._ctr&15)) AudioManager.playSe({name:'Water1',volume:50,pitch:200,pan:100});"
+				"if(!($gameTemp._ctr&15)) AudioManager.playSe({name:'Water1',volume:50,pitch:200,pan:0});"
 			]},
 			{"code":111,"indent":1,"parameters":[
 				12,
@@ -6249,7 +6249,7 @@
 				"} this._drops._data.uniquePop(info);"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"AudioManager.playSe({name:'Saint5',volume:100,pitch:100,pan:100});"
+				"AudioManager.playSe({name:'Saint5',volume:100,pitch:100,pan:0});"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"let kv=$gameTemp._takesMap.get(info.sel); if(!kv){ this._takes.push(kv=[info.sel,0]); $gameTemp._takesMap.set(info.sel,kv); } ++kv[1];"
@@ -6360,7 +6360,7 @@
 				"for(let x=0,xs=infoLightening,rad=7+this._bullets.speedBoost;x!==xs;++x){ let rot=-(x+1)*Math.PI/(xs+1); this._bullets._data.uniquePush($gameTemp._createBulletInfo($gameTemp._body.getSprite(),Math.cos(rot)*rad,Math.sin(rot)*rad,$gameTemp._colorLighteningBullet,0,0,64)); }"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"AudioManager.playSe({name:'Cursor2',volume:25,pitch:100,pan:100});"
+				"AudioManager.playSe({name:'Cursor2',volume:25,pitch:100,pan:0});"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"}"
