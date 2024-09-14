@@ -2573,7 +2573,8 @@ DataManager._def_normalPriority=1;
 new cfc(Game_Character.prototype).add('getPosKey',function(dx,dy){
 	return $gameMap?$gameMap.getPosKey((dx|0)+(this.x|0),(dy|0)+(this.y|0)):undefined;
 },undefined,false,true).add('isCollidedWithEvents',function f(x,y){
-	return !!$gameMap.eventsXyNtNp(x,y).length;
+	const arr=$gameMap.eventsXyNtNp(x,y);
+	return !!(arr.uniqueHas(this)?arr.length-1:arr.length);
 },undefined,false,true).add('isNormalPriority',function f(){
 	return DataManager._def_normalPriority===this._priorityType;
 });

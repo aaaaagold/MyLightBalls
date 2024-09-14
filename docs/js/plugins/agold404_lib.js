@@ -838,6 +838,22 @@ window.jurl=(url, method, header, data, resType, callback, callback_all_h, callb
 
 })(); // jurl
 
+// getProperty
+(()=>{ let k,r,t;
+
+const getPropertyValue=window.getPropertyValue=function f(obj,key,defaultVal){
+	if(obj&&(key in obj)) return obj[key];
+	else return defaultVal;
+};
+
+})(); // jurl
+
+// empty
+(()=>{ let k,r,t;
+
+
+})(); // jurl
+
 
 })(); // lib
 

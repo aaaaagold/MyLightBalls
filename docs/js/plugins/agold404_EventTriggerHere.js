@@ -30,7 +30,7 @@ evtd=>{ if(!evtd) return;
 ]);
 
 new cfc(Game_Event.prototype).add('isTriggerIn',function f(triggers){
-	return triggers._here&&this._triggerHere&&(Input.isTriggered(f.tbl[0])||TouchInput.isTriggered(f.tbl[0]))||f.ori.apply(this,arguments);
+	return triggers._here?this._triggerHere&&(Input.isTriggered(f.tbl[0])||TouchInput.isTriggered(f.tbl[0])):f.ori.apply(this,arguments);
 },[
 'ok',
 ]).add('setupPageSettings',function f(){
