@@ -12,6 +12,7 @@ var $plugins =
 {"name":"agold404_CanPassInRegions","status":true,"description":"let player or events can in ONLY some regions","parameters":{}},
 {"name":"agold404_ChangeTile","status":true,"description":"online change tile","parameters":{}},
 {"name":"agold404_CopyEvent","status":true,"description":"複製事件","parameters":{}},
+{"name":"agold404_Depository","status":true,"description":"depository where one can put thing inside.\r\n\r\n$gameParty.depository_open(depositoryId) // id can only be basic immutable type which can be converted to string type.\r\n\r\n$gameParty.depository_add(depositoryId,itemData,count) // return itemInfo\r\n$gameParty.depository_del(depositoryId,itemData,count) // return -1 if fail\r\n\r\n$gameParty.depository_transIn(depositoryId,itemData,count) // return -1 if fail\r\n$gameParty.depository_transOut(depositoryId,itemData,count) // return -1 if fail\r\n\r\nwrite <disableDepository> for disabling an item being put into depository\r\nuse $gameParty.depository_setItemCanUse(depositoryId,itemData)\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
 {"name":"agold404_EvalToStr","status":true,"description":"eval a piece of js code to string in Window_Base.drawTextEx","parameters":{}},
 {"name":"agold404_EventText","status":true,"description":"display texts on events","parameters":{}},
 {"name":"agold404_EventTriggerHere","status":true,"description":"get event can be triggered when overlapped with player","parameters":{}},
@@ -24,6 +25,7 @@ var $plugins =
 {"name":"agold404_ImageQueryString","status":true,"description":"runtime 調整圖片","parameters":{}},
 {"name":"agold404_InNoteTraits_ElementRate","status":true,"description":"setting element rate in note ; thus can be a wierd value","parameters":{}},
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
+{"name":"agold404_MenuCommandAccess","status":true,"description":"api to switch accessibility of menu commands\r\n\r\n$gameSystem.menuCommand_setOptionsExists(options,isEnabled)\r\n$gameSystem.menuCommand_setOptionsEnabled(options,isEnabled)\r\n\r\noptions: an array of some cases in Window_MenuCommand.prototype.needsCommand\r\nisEnabled: true, false, undefined(=not using this record)\r\n\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
 {"name":"agold404_NullEventTrigger","status":true,"description":"can make event not to be triggered: set event data page's 'trigger' to null","parameters":{}},
 {"name":"agold404_NumBoard","status":true,"description":"數字板","parameters":{}},
 {"name":"agold404_PopupMsg","status":true,"description":"popup msg","parameters":{}},
@@ -37,5 +39,6 @@ var $plugins =
 {"name":"agold404_ThroughEventsOnly","status":true,"description":"讓事件可以只穿透事件而不穿透玩家、可在note區設定一事件是否不因離畫面太遠而不行動","parameters":{}},
 {"name":"agold404_Timer","status":true,"description":"Much more useful timer","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
-{"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}}
+{"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
+{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}}
 ];
