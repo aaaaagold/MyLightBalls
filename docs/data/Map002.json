@@ -19,6 +19,9 @@
 			{"code":655,"indent":0,"parameters":[
 				"$gamePlayer._moveSpeed=5;"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameSystem.menuCommand_setOptionsExists(['item','skill','equip','status','formation','save',],true);"
+			]},
 			{"code":214,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
