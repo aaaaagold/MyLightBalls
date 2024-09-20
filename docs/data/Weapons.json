@@ -12,5 +12,44 @@
 		0,
 		0,
 		0
+	],"price":500,"wtypeId":2},
+	{"id":2,"animationId":6,"description":"dscr: Sword2","etypeId":1,"traits":[
+		{"code":31,"dataId":1,"value":0},
+		{"code":22,"dataId":0,"value":0}
+	],"iconIndex":97,"name":"Sword2","note":"","params":[
+		0,
+		0,
+		10,
+		0,
+		0,
+		0,
+		0,
+		0
+	],"price":500,"wtypeId":2},
+	{"id":3,"animationId":6,"description":"dscr: Sword3","etypeId":1,"traits":[
+		{"code":31,"dataId":1,"value":0},
+		{"code":22,"dataId":0,"value":0}
+	],"iconIndex":97,"name":"Sword3","note":"","params":[
+		0,
+		0,
+		10,
+		0,
+		0,
+		0,
+		0,
+		0
+	],"price":500,"wtypeId":2},
+	{"id":4,"animationId":6,"description":"dscr: Sword4","etypeId":1,"traits":[
+		{"code":31,"dataId":1,"value":0},
+		{"code":22,"dataId":0,"value":0}
+	],"iconIndex":97,"name":"Sword4","note":"","params":[
+		0,
+		0,
+		10,
+		0,
+		0,
+		0,
+		0,
+		0
 	],"price":500,"wtypeId":2}
 ]
