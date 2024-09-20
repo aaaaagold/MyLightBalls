@@ -99,8 +99,6 @@
 	"",
 	"",
 	"",
-	"",
-	"",
 	""
 ],"terms":{"basic":[
 	"Level",
@@ -118,14 +116,14 @@
 	"Escape",
 	"Attack",
 	"Guard",
-	"道具",
+	"Item",
 	"Skill",
 	"Equip",
 	"Status",
 	"Formation",
 	"儲存ㄉㄉㄉ",
 	"結束ㄉㄉㄉ",
-	"設定",
+	"Options",
 	"Weapon",
 	"Armor",
 	"Key Item",
@@ -136,7 +134,7 @@
 	"繼續ㄉㄉㄉ",
 	null,
 	"停止ㄉㄉㄉ",
-	"取消",
+	"Cancel",
 	null,
 	"Buy",
 	"Sell"
@@ -213,6 +211,10 @@
 	"",
 	"30: next view/開路/放塔/守城/?",
 	"31: view/開路/放塔/守城/?",
+	"",
+	"",
+	"",
+	"",
 	""
 ],"versionId":37321085,"victoryMe":{"name":"","pan":0,"pitch":100,"volume":90},"weaponTypes":[
 	"",
