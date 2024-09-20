@@ -1,12 +1,14 @@
 [
 	null,
 	{"id":1,"list":[
+		{"code":134,"indent":0,"parameters":[0]},
 		{"code":111,"indent":0,"parameters":[12,"window._injected"]},
 		{"code":214,"indent":1,"parameters":[]},
 		{"code":115,"indent":1,"parameters":[]},
 		{"code":0,"indent":1,"parameters":[]},
 		{"code":412,"indent":0,"parameters":[]},
 		{"code":355,"indent":0,"parameters":["window._injected=true;"]},
+		{"code":655,"indent":0,"parameters":["$dataSystem.menuCommands[0]=true;"]},
 		{"code":355,"indent":0,"parameters":["window.isWaterTile=(x,y)=>1===~~(($gameMap.tileId(x,y,0)-2000)/48);"]},
 		{"code":655,"indent":0,"parameters":["window.isOnWater=c=>window.isWaterTile(c.x,c.y);"]},
 		{"code":655,"indent":0,"parameters":["Game_Character.prototype.jumpToChr=function(chr){ return this.jump(chr.x-this.x,chr.y-this.y); };"]},
