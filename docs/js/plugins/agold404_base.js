@@ -1105,6 +1105,36 @@ new cfc(Input).add('_onKeyUp',function f(event){
 	return rtv;
 },undefined,true,true);
 
+new cfc(Window.prototype).add('_updateCursor',function f(){
+	const bp=this._updateCursor_getBlinkPeriod();
+	const blinkCount=this._animationCount%bp;
+	let cursorOpacity=this.contentsOpacity;
+	if(this.active) cursorOpacity*=(Math.sin(blinkCount*this._updateCursor_getBlinkTickWeight()/bp*Math.PI*2)+this._updateCursor_getBlinkSineShift())/this._updateCursor_getBlinkAlphaScale();
+	else cursorOpacity*=this._updateCursor_getInactiveAlphaScale();
+	this._windowCursorSprite.alpha=cursorOpacity/255;
+	this._windowCursorSprite.visible=this.isOpen();
+},undefined,true,true).add('_updateCursor_getBlinkPeriod',function f(){
+	return f.tbl[0];
+},[
+~~32,
+],true,true).add('_updateCursor_getBlinkTickWeight',function f(){
+	return f.tbl[0];
+},[
+~~1,
+],true,true).add('_updateCursor_getBlinkSineShift',function f(){
+	return f.tbl[0];
+},[
+~~2,
+],true,true).add('_updateCursor_getBlinkAlphaScale',function f(){
+	return f.tbl[0];
+},[
+~~3,
+],true,true).add('_updateCursor_getInactiveAlphaScale',function f(){
+	return f.tbl[0];
+},[
+0.5,
+],true,true);
+
 })(); // refine for future extensions
 
 // ---- ---- ---- ---- PluginManager
@@ -1334,9 +1364,9 @@ new cfc(Game_Unit.prototype).add('allMembers',function(){
 
 (()=>{ let k,r,t;
 
-new cfc(DataManager).add('onLoad_before_map',function f(obj,name,src,msg){
+new cfc(DataManager).add('onLoad_after_map',function f(obj,name,src,msg){
 	const rtv=f.ori.apply(this,arguments);
-	this.onload_addMapEvtPgNote.apply(this,arguments);
+	this.onload_addMapEvtPgNote.apply(this,arguments); // needs to copy event.meta to each page.meta
 	return rtv;
 }).add('onload_addMapEvtPgNote',function f(obj,name,src,msg){
 	obj.events.forEach(f.tbl[0]);
@@ -1354,9 +1384,21 @@ evtd=>{ if(!evtd) return;
 		}
 		pg.note=noteLines.join('\n');
 		DataManager.extractMetadata(pg);
+		if(evtd.meta) Object.assign(pg.meta,evtd.meta);
 	}
 },
 ],false,true);
+
+new cfc(Game_Event.prototype).add('page',function f(){
+	const evtd=this.event();
+	return evtd&&evtd.pages[this._pageIndex];
+},undefined,true,true).add('getMeta',function f(){
+	const pg=this.page();
+	// do not edit the return value after getting it from calling this function
+	return pg&&pg.meta||f.tbl[0];
+},[
+{}, // 0: default
+],true,true);
 
 })(); // event page note
 
@@ -2634,7 +2676,7 @@ new cfc(Game_Character.prototype).add('getPosKey',function(dx,dy){
 });
 
 new cfc(Game_Map.prototype).add('getPosKey',function f(x,y){
-	return $dataMap&&(0|x)+$dataMap.width*((y<<2)|2);
+	return $dataMap&&$gameMap.roundX(0|x)+$dataMap.width*(($gameMap.roundY(0|y)<<2)|2);
 }).add('update',function f(){
 	this.update_locTbl();
 	return f.ori.apply(this,arguments);
@@ -2728,13 +2770,15 @@ function(evt,i,a){
 	}
 },
 ]).add('update_locTbl_addEvt',function f(evt,coord){
+	return this._update_locTbl_addEvt_byKey(evt,coord,evt.getPosKey());
+}).add('_update_locTbl_addEvt_byKey',function f(evt,coord,key){
 	if(!coord) return;
-	const key=evt.getPosKey();
 	let cont=coord.get(key); if(!cont) coord.set(key,cont=[]);
 	return cont.uniquePush(evt);
 }).add('update_locTbl_delEvt',function f(evt,coord,x,y){
+	return this._update_locTbl_delEvt_byKey(evt,coord,this.getPosKey(x,y));
+}).add('_update_locTbl_delEvt_byKey',function f(evt,coord,key){
 	if(!coord) return;
-	const key=this.getPosKey(x,y);
 	const cont=coord.get(key); if(!cont) return;
 	return cont.uniquePop(evt);
 }).add('update_locTbl_chkEvtErr',function f(evt){
