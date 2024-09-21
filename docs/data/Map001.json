@@ -1343,7 +1343,7 @@
 	0,
 	0,
 	0,
-	0,
+	3195,
 	0,
 	0,
 	0,
@@ -6893,6 +6893,18 @@
 			{"code":408,"indent":0,"parameters":[
 				"<expandRange:1>"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"expandRange"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"A:1"
+			]},
 			{"code":123,"indent":0,"parameters":[
 				"A",
 				0
@@ -6911,7 +6923,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":4,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true},
-		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":true,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":true,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":0},"list":[
 			{"code":108,"indent":0,"parameters":[
 				"@NOTE"
 			]},
@@ -6919,13 +6931,73 @@
 				"<expandRange:3>"
 			]},
 			{"code":408,"indent":0,"parameters":[
+				"<expandRangeF:3>"
+			]},
+			{"code":408,"indent":0,"parameters":[
 				"<throughEventsOnlyOnTags:>"
 			]},
 			{"code":408,"indent":0,"parameters":[
 				"<throughPlayers>"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"expandRange"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"A:3;F:3"
+			]},
 			{"code":123,"indent":0,"parameters":[
 				"A",
+				1
+			]},
+			{"code":123,"indent":0,"parameters":[
+				"B",
+				0
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":45,"parameters":[
+				"{ if(!this._dir) this._dir=4; const x=this.x,y=this.y; this.moveStraight(this._dir); if(x===this.x&&y===this.y) this._dir^=2; }"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true},
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"B","selfSwitchValid":true,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<expandRange:3>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<expandRangeF:-3>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<throughEventsOnlyOnTags:>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<throughPlayers>"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"expandRange"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"A:3;F:-3"
+			]},
+			{"code":123,"indent":0,"parameters":[
+				"B",
 				1
 			]},
 			{"code":0,"indent":0,"parameters":[
@@ -6936,7 +7008,7 @@
 			],"indent":null},
 			{"code":0,"parameters":[
 			]}
-		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
+		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":2,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
 	],"x":25,"y":11},
 	{"id":15,"name":"EV015","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
