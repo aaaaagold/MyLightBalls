@@ -105,22 +105,22 @@ p.isScene_map    =function(){ const sc=this._scene; return sc && sc.constructor=
 //
 SceneManager.getScConstructor=function(){ return this._scene && this._scene.constructor; };
 // { const p=Window_BattleLog.prototype,k='displayAffectedStatus'; const r=p[k]; (p[k]=function(){}).ori=r; }
-new cfc(Graphics).add('_requestFullScreen',function(){
+new cfc(Graphics).addBase('_requestFullScreen',function(){
 	const element = getTopFrameWindow().document.body;
 	if(element.requestFullScreen) element.requestFullScreen();
 	else if(element.mozRequestFullScreen) element.mozRequestFullScreen();
 	else if(element.webkitRequestFullScreen) element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 	else if(element.msRequestFullscreen) element.msRequestFullscreen();
-},undefined,true,true).add('_isFullScreen',function(){
+}).addBase('_isFullScreen',function(){
 	const d=getTopFrameWindow().document;
 	return ( (d.fullScreenElement && d.fullScreenElement !== null) || (!d.mozFullScreen && !d.webkitFullscreenElement && !d.msFullscreenElement) );
-},undefined,true,true).add('_cancelFullScreen',function(){
+}).addBase('_cancelFullScreen',function(){
 	const d=getTopFrameWindow().document;
 	if(d.cancelFullScreen) d.cancelFullScreen();
 	else if(d.mozCancelFullScreen) d.mozCancelFullScreen();
 	else if(d.webkitCancelFullScreen) d.webkitCancelFullScreen();
 	else if(d.msExitFullscreen) d.msExitFullscreen();
-},undefined,true,true);
+});
 Scene_Boot.prototype.updateDocumentTitle=()=>{
 	getTopFrameWindow().document.title=$dataSystem.gameTitle;
 };
@@ -172,7 +172,7 @@ new cfc(Sprite.prototype).add('isInScreen_local',function(){
 	if(x>=Graphics._boxWidth||xe<0||y>=Graphics._boxHeight||ye<0) return; // out-of-bound
 	
 	return true;
-}).add('isInScreen_local_getExt',function f(){
+}).addBase('isInScreen_local_getExt',function f(){
 	return f.tbl[0];
 },[
 {
@@ -181,7 +181,16 @@ r:0|0,
 u:0|0,
 d:0|0,
 },
-]);
+]).addBase('getRect_local',function f(){
+	const a=this.anchor;
+	const w=this.width,h=this.height;
+	return new Rectangle(-a.x*w,-a.y*h,w,h);
+}).addBase('containsPoint_global',function f(xy){
+	const pt=this.toLocal(xy);
+	return this.getRect_local().contains(pt.x,pt.y);
+}).addBase('containsPoint_local',function f(xy){
+	return this.getRect_local().contains(xy.x,xy.y);
+});
 new cfc(Graphics).add('isInScreen_rect',function(rect){
 	return !(rect.x>=this.boxWidth || rect.x+rect.width<0 || rect.y>=this.boxHeight || rect.y+rect.height<0);
 });
@@ -323,7 +332,7 @@ new cfc(Input).add('isTexting_set',function f(){
 t=[
 none,
 ];
-new cfc(TouchInput).add('_onTouchStart',function f(event){
+new cfc(TouchInput).addBase('_onTouchStart',function f(event){
 	this._touched=true;
 	let preventDefaulted=false;
 	for(let i=0;i<event.changedTouches.length;++i){
@@ -347,7 +356,7 @@ new cfc(TouchInput).add('_onTouchStart',function f(event){
 	if (window.cordova || window.navigator.standalone) {
 		if(!preventDefaulted){ preventDefaulted=true; event.preventDefault(); }
 	}
-},undefined,true,true).add('_onWheel',function f(evt){
+}).add('_onWheel',function f(evt){
 	if(this.bypassPreventDefault_wheel_get(evt)) evt.preventDefault=f.tbl[0];
 	return f.ori.apply(this,arguments);
 },t).add('bypassPreventDefault_wheel_get',function f(){
@@ -381,11 +390,11 @@ new cfc(TouchInput).add('_onTouchStart',function f(event){
 	return --this._bypassPreventDefault_touch_stackSize;
 });
 //
-new cfc(AudioManager).add('audioFileExt',function f(){
+new cfc(AudioManager).addBase('audioFileExt',function f(){
 	return f.tbl[0];
 },[
 '.ogg',
-],true,true).add('createBuffer',function(folder, name) {
+]).add('createBuffer',function(folder, name) {
 	const ext = this.audioFileExt();
 	const url = this._path + folder + '/' + name + ext;
 	return new WebAudio(url);
@@ -401,7 +410,7 @@ new cfc(AudioManager).add('audioFileExt',function f(){
 SceneManager._updateSceneCnt=0|0;
 new cfc(SceneManager).add('isMapOrIsBattle',function f(){
 	return this._scene&&f.tbl.has(this._scene.constructor);
-},new Set([Scene_Map,Scene_Battle])).add('updateMain',function f(){
+},new Set([Scene_Map,Scene_Battle])).addBase('updateMain',function f(){
 	if(Utils.isMobileSafari()){
 		// this.updateInputData(); // already in .update
 		this.changeScene_before();
@@ -429,7 +438,7 @@ new cfc(SceneManager).add('isMapOrIsBattle',function f(){
 	this.renderScene();
 	this.renderScene_after();
 	this.requestUpdate();
-},[0.25,],true,true).add('additionalUpdate_doArr',function f(arr){
+},[0.25,]).add('additionalUpdate_doArr',function f(arr){
 	const rtv=[],popup=[]; // remained funcs
 	const src=arr.slice();
 	arr.length=0;
@@ -495,10 +504,10 @@ function(f){ if(!f()) this.push(f); },
 	}
 },undefined,false,true);
 // refine Window_Base
-new cfc(Window_Base.prototype).add('updateTone',function f(){
+new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const tone=$gameSystem&&$gameSystem.windowTone()||f.tbl[0];
 	this.setTone(tone[0], tone[1], tone[2]);
-},[0,0,0,0],true,true).add('drawTextEx',function f(text, x, y, _3, _4, out_textState){
+},[0,0,0,0]).addBase('drawTextEx',function f(text, x, y, _3, _4, out_textState){
 	// return dx
 	const textState=out_textState||{};
 	if(isNaN(textState.index-=0)) textState.index=0;
@@ -512,7 +521,7 @@ new cfc(Window_Base.prototype).add('updateTone',function f(){
 	this.resetFontSettings();
 	for(const len=textState.text.length;textState.index<len;) this.processCharacter(textState);
 	return textState.x-x;
-},undefined,true,true).add('processNormalCharacter',function f(textState){
+}).add('processNormalCharacter',function f(textState){
 	const c=textState.text[textState.index++];
 	const w=this.textWidth(c);
 	if(!textState.isMeasureOnly) this.contents.drawText(c,textState.x,textState.y,w*2,textState.height,undefined,textState);
@@ -527,9 +536,9 @@ new cfc(Window_Base.prototype).add('updateTone',function f(){
 	return f.ori.apply(this,arguments);
 });
 //
-new cfc(Window_Base.prototype).add('lineHeight',function f(){
+new cfc(Window_Base.prototype).addBase('lineHeight',function f(){
 	return 1+~~(this.standardFontSize()*1.25);
-},undefined,true,true).add('positioning',function f(setting,ref){
+}).add('positioning',function f(setting,ref){
 	setting=setting||f.tbl;
 	let x,y,w,h;
 	if(ref){
@@ -566,22 +575,22 @@ new cfc(Window_Base.prototype).add('lineHeight',function f(){
 	this.y=y;
 	this.width=w;
 	this.height=h;
-},{}).add('processCStyleStringContent',function f(textState){
+},{}).addBase('processCStyleStringContent',function f(textState){
 	const info=getCStyleStringStartAndEndFromString(textState.text,textState.index);
 	if(info.start<info.end){
 		textState.index=info.end;
 		return JSON.parse(textState.text.slice(info.start,info.end));
 	}else return f.tbl[0];
-},[''],true,true);
+},['']);
 //
-new cfc(Window_Help.prototype).add('setText',function f(text,forceUpdate){
+new cfc(Window_Help.prototype).addBase('setText',function f(text,forceUpdate){
 	if(this.setText_condOk(text,forceUpdate)) this.setText_doUpdate(text);
-},undefined,true,true).add('setText_condOk',function f(text,forceUpdate){
+}).addBase('setText_condOk',function f(text,forceUpdate){
 	return forceUpdate || this._text!==text;
-},undefined,true,true).add('setText_doUpdate',function f(text){
+}).addBase('setText_doUpdate',function f(text){
 	this._text=text;
 	this.refresh();
-},undefined,true,true);
+});
 //
 new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	const idx=this.index();
@@ -717,7 +726,7 @@ new cfc(Window_Message.prototype).add('updateClose',function f(){
 },undefined,false,true);
 }
 //
-new cfc(Scene_Base.prototype).add('_prevScene_store',function f(){
+new cfc(Scene_Base.prototype).addBase('_prevScene_store',function f(){
 	// called when 'scene.initialize'
 	this._lastBgBm=SceneManager.backgroundBitmap();
 	this._oriStop=undefined;
@@ -732,7 +741,7 @@ new cfc(Scene_Base.prototype).add('_prevScene_store',function f(){
 	}
 },[
 function(){ Scene_Base.prototype.stop.call(this); },
-],true,true).add('_prevScene_restore',function f(){
+]).addBase('_prevScene_restore',function f(){
 	// called in 'scene.create', after background created
 	if(this._oriStop){
 		const sc=this._prevScene; // if this._oriStop!==undefined, sc!==undefined // already stopped 
@@ -740,7 +749,7 @@ function(){ Scene_Base.prototype.stop.call(this); },
 		else sc.stop=this._oriStop;
 	}
 	if(this._lastBgBm) SceneManager._backgroundBitmap=this._lastBgBm;
-},t,true,true);
+},t);
 //
 new cfc(DataManager).add('isSkill',function f(item){
 	return item && $dataSkills.uniqueHas(item);
@@ -750,7 +759,7 @@ new cfc(DataManager).add('isSkill',function f(item){
 	return item && $dataWeapons.uniqueHas(item);
 }).add('isArmor',function f(item){
 	return item && $dataArmors.uniqueHas(item);
-}).add('loadDataFile',function f(name,src,msg,directSrc,mimeType,method,data){
+}).addBase('loadDataFile',function f(name,src,msg,directSrc,mimeType,method,data){
 	method=method||'GET';
 	mimeType=mimeType||'application/json';
 	const xhr=new XMLHttpRequest();
@@ -772,7 +781,7 @@ function(name,src,msg,e) {
 function(src,e) {
 	DataManager._errorUrl = DataManager._errorUrl || src;
 }, // 1: onerror
-],true,true).add('onLoad',function f(obj,name,src,msg){
+]).add('onLoad',function f(obj,name,src,msg){
 	this.onLoad_before.apply(this,arguments);
 	const rtv=f.ori.apply(this,arguments);
 	this.onLoad_after.apply(this,arguments);
@@ -783,31 +792,31 @@ function(src,e) {
 },undefined,true).add('onLoad_after',function f(obj,name,src,msg){
 	const func=f.tbl.get(name);
 	return func && func.apply(this,arguments);
-},undefined,true).add('_onLoad_before_map',function f(obj,name,src,msg){
+},undefined,true).addBase('_onLoad_before_map',function f(obj,name,src,msg){
 	return this.onLoad_before_map.apply(this,arguments);
-},undefined,true,true).add('_onLoad_after_map',function f(obj,name,src,msg){
+}).addBase('_onLoad_after_map',function f(obj,name,src,msg){
 	return this.onLoad_after_map.apply(this,arguments);
-},undefined,true,true).add('onLoad_before_map',function f(obj,name,src,msg){
+}).addBase('onLoad_before_map',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true).add('onLoad_after_map',function f(obj,name,src,msg){
+}).addBase('onLoad_after_map',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true).add('_onLoad_before_skill',function f(obj,name,src,msg){
+}).addBase('_onLoad_before_skill',function f(obj,name,src,msg){
 	return this.onLoad_before_skill.apply(this,arguments);
-},undefined,true,true).add('_onLoad_after_skill',function f(obj,name,src,msg){
+}).addBase('_onLoad_after_skill',function f(obj,name,src,msg){
 	return this.onLoad_after_skill.apply(this,arguments);
-},undefined,true,true).add('onLoad_before_skill',function f(obj,name,src,msg){
+}).addBase('onLoad_before_skill',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true).add('onLoad_after_skill',function f(obj,name,src,msg){
+}).addBase('onLoad_after_skill',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true).add('_onLoad_before_tileset',function f(obj,name,src,msg){
+}).addBase('_onLoad_before_tileset',function f(obj,name,src,msg){
 	return this.onLoad_before_tileset.apply(this,arguments);
-},undefined,true,true).add('_onLoad_after_tileset',function f(obj,name,src,msg){
+}).addBase('_onLoad_after_tileset',function f(obj,name,src,msg){
 	return this.onLoad_after_tileset.apply(this,arguments);
-},undefined,true,true).add('onLoad_before_tileset',function f(obj,name,src,msg){
+}).addBase('onLoad_before_tileset',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true).add('onLoad_after_tileset',function f(obj,name,src,msg){
+}).addBase('onLoad_after_tileset',function f(obj,name,src,msg){
 	// dummy
-},undefined,true,true);
+});
 { const p=DataManager;
 p.onLoad_before.tbl=new Map([
 	['$dataMap',	p._onLoad_before_map],
@@ -1071,24 +1080,26 @@ new cfc(p).add('_createAllParts',function f(){
 	wt.drawTextEx(styledText,txtpad,0);
 	//console.log(measure,textState); // debug
 	return this;
-}).add('reApplyText',function f(isFixedWindowSize){
+}).addBase('reApplyText',function f(isFixedWindowSize){
 	return this.setText(this._lastText,isFixedWindowSize,false,true);
-},undefined,true,true);
+});
 }
 
 // ---- ---- ---- ---- refine for future extensions
 
 (()=>{ let k,r,t;
 
-new cfc(Input).add('_onKeyUp',function f(event){
+new cfc(Input).addBase('_getKeyName',function f(event){
+	return this.keyMapper[event.keyCode]||event.keyCode;
+}).addBase('_onKeyUp',function f(event){
 	return this._onKeyUp_do.apply(this,arguments);
-},undefined,true,true).add('_onKeyUp_do',function f(event){
-	const buttonName=this.keyMapper[event.keyCode];
-	this._currentState[buttonName||event.keyCode]=false;
-	if(event.keyCode===0) this.clear(); // For QtWebEngine on OS X
-},undefined,true,true).add('_onKeyDown',function f(event){
+}).addBase('_onKeyUp_do',function f(event){
+	const btnName=this._getKeyName(event);
+	this._currentState[btnName]=false;
+	if(event.keyCode===0) this.clear(); // it is said that: For QtWebEngine on OS X
+}).addBase('_onKeyDown',function f(event){
 	return this._onKeyDown_do.apply(this,arguments);
-},undefined,true,true).add('_onKeyDown_do',function f(event){
+}).addBase('_onKeyDown_do',function f(event){
 	if (this._shouldPreventDefault(event.keyCode)) event.preventDefault();
 /*
 	if(event.keyCode===144){ // Numlock
@@ -1096,16 +1107,45 @@ new cfc(Input).add('_onKeyUp',function f(event){
 		return;
 	}
 */
-	const buttonName=this.keyMapper[event.keyCode];
-	if(this._onKeyDown_okForRetryResource()) return;
-	this._currentState[buttonName||event.keyCode]=true;
-},undefined,true,true).add('_onKeyDown_okForRetryResource',function f(buttonName){
+	const btnName=this._getKeyName(event);
+	if(this._onKeyDown_okForRetryResource(btnName)) return;
+	this._currentState[btnName]=true;
+}).addBase('_onKeyDown_okForRetryResource',function f(buttonName){
 	const rtv=Graphics._errorShowed&&buttonName==='ok';
 	ResourceHandler.retry();
 	return rtv;
-},undefined,true,true);
+});
 
-new cfc(Window.prototype).add('_updateCursor',function f(){
+new cfc(DataManager).addBase('loadGlobalInfo',function(){
+	return this.loadGlobalInfo_parseData(this.loadGlobalInfo_loadRaw());
+}).addBase('loadGlobalInfo_loadRaw',function f(){
+	try{
+		return StorageManager.load(0);
+	}catch(e){
+		console.error(e);
+	}
+	// return false-like
+}).addBase('loadGlobalInfo_parseData',function f(jsonStr){
+	if(jsonStr){
+		const globalInfo=JSON.parse(jsonStr),sz=this.maxSavefiles();
+		for(let i=1,shouldDel;i<=sz;++i){
+			shouldDel=false;
+			if(!globalInfo[i]) shouldDel=true;
+			else{
+				try{
+					if(!StorageManager.exists(i)) shouldDel=true;
+				}catch(e){
+					shouldDel=true;
+				}
+			}
+			if(shouldDel) delete globalInfo[i];
+		}
+		return globalInfo;
+	}
+	return [];
+});
+
+new cfc(Window.prototype).addBase('_updateCursor',function f(){
 	const bp=this._updateCursor_getBlinkPeriod();
 	const blinkCount=this._animationCount%bp;
 	let cursorOpacity=this.contentsOpacity;
@@ -1113,27 +1153,38 @@ new cfc(Window.prototype).add('_updateCursor',function f(){
 	else cursorOpacity*=this._updateCursor_getInactiveAlphaScale();
 	this._windowCursorSprite.alpha=cursorOpacity/255;
 	this._windowCursorSprite.visible=this.isOpen();
-},undefined,true,true).add('_updateCursor_getBlinkPeriod',function f(){
+}).addBase('_updateCursor_getBlinkPeriod',function f(){
 	return f.tbl[0];
 },[
 ~~32,
-],true,true).add('_updateCursor_getBlinkTickWeight',function f(){
+]).addBase('_updateCursor_getBlinkTickWeight',function f(){
 	return f.tbl[0];
 },[
 ~~1,
-],true,true).add('_updateCursor_getBlinkSineShift',function f(){
+]).addBase('_updateCursor_getBlinkSineShift',function f(){
 	return f.tbl[0];
 },[
 ~~2,
-],true,true).add('_updateCursor_getBlinkAlphaScale',function f(){
+]).addBase('_updateCursor_getBlinkAlphaScale',function f(){
 	return f.tbl[0];
 },[
 ~~3,
-],true,true).add('_updateCursor_getInactiveAlphaScale',function f(){
+]).addBase('_updateCursor_getInactiveAlphaScale',function f(){
 	return f.tbl[0];
 },[
 0.5,
-],true,true);
+]);
+
+
+new cfc(Sprite.prototype).addBase('update',function f(){
+	this.update_before();
+	this.children.forEach(f.tbl[0]);
+	this.update_after();
+},[
+child=>child.update&&child.update(), // 0: forEach
+]).addBase('update_before',none,
+).addBase('update_after',none,
+);
 
 })(); // refine for future extensions
 
@@ -1296,7 +1347,7 @@ new Set([355,655,]),
 ],
 ]);
 
-new cfc(Game_Action.prototype).add('evalDamageFormula',function f(target){
+new cfc(Game_Action.prototype).addBase('evalDamageFormula',function f(target){
 	try{
 		const item=this.item();
 		const a=this.subject();
@@ -1338,7 +1389,7 @@ function f(dataobj){
 	rtv+=dataobj.id;
 	return rtv;
 },
-],true,true);
+]);
 
 })(); // js error
 
@@ -1389,16 +1440,16 @@ evtd=>{ if(!evtd) return;
 },
 ],false,true);
 
-new cfc(Game_Event.prototype).add('page',function f(){
+new cfc(Game_Event.prototype).addBase('page',function f(){
 	const evtd=this.event();
 	return evtd&&evtd.pages[this._pageIndex];
-},undefined,true,true).add('getMeta',function f(){
+}).addBase('getMeta',function f(){
 	const pg=this.page();
 	// do not edit the return value after getting it from calling this function
 	return pg&&pg.meta||f.tbl[0];
 },[
 {}, // 0: default
-],true,true);
+]);
 
 })(); // event page note
 
@@ -1449,8 +1500,8 @@ new cfc(SceneManager).add('getSprite',function f(obj){
 	return m&&m.get(obj);
 },[
 new Map([
-[Scene_Map,sc=>sc._chr2sp],
-[Scene_Battle,sc=>sc._btlr2sp],
+[Scene_Map,sc=>sc&&sc._chr2sp],
+[Scene_Battle,sc=>sc&&sc._btlr2sp],
 ]), // 0: constructor -> spritesMap
 ]);
 
@@ -1502,12 +1553,12 @@ t=[
 }), // 1: facingAfterJump
 ];
 
-new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
+new cfc(Game_Character.prototype).addBase('jumpTo',function f(x,y,facingAfterJump){
 	const d=this.direction();
 	this.jump(x-this.x,y-this.y);
 	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
 	return this;
-},t,true,true).add('frontPos',function f(xy,y){
+},t).addBase('frontPos',function f(xy,y){
 	let x;
 	if(typeof xy==='number') x=xy;
 	else if(xy){ x=xy.x; y=xy.y; }
@@ -1517,7 +1568,7 @@ new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
 		x:$gameMap.roundXWithDirection(x,d),
 		y:$gameMap.roundYWithDirection(y,d),
 	});
-},undefined,true,true).add('rightPos',function f(xy,y){
+}).addBase('rightPos',function f(xy,y){
 	let x;
 	if(typeof xy==='number') x=xy;
 	else if(xy){ x=xy.x; y=xy.y; }
@@ -1527,9 +1578,9 @@ new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
 		x:$gameMap.roundXWithDirection(x,d),
 		y:$gameMap.roundYWithDirection(y,d),
 	});
-},undefined,true,true).add('rightPos_dirRemap',function f(d){
+}).addBase('rightPos_dirRemap',function f(d){
 	return f.tbl[0][d]||d;
-},t,true,true).add('jumpFront',function f(dist,facingAfterJump){
+},t).addBase('jumpFront',function f(dist,facingAfterJump){
 	let dx=0,dy=0;
 	if((dist|=0)){
 		const xy=this.frontPos();
@@ -1540,7 +1591,7 @@ new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
 	this.jump(dx,dy);
 	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
 	return this;
-},t,true,true).add('jumpFacingRelative',function f(leftRight,backFront,facingAfterJump,refChr){
+},t).addBase('jumpFacingRelative',function f(leftRight,backFront,facingAfterJump,refChr){
 	// -+ , -+
 	let dx=0,dy=0;
 	const ref=refChr||this;
@@ -1558,22 +1609,22 @@ new cfc(Game_Character.prototype).add('jumpTo',function f(x,y,facingAfterJump){
 	this.jumpTo(dx+ref.x,dy+ref.y);
 	this._jump_remapDir_facingAfterJump(d,facingAfterJump);
 	return this;
-},t,true,true).add('_jump_remapDir_facingAfterJump',function f(d,facingAfterJump){
+},t).addBase('_jump_remapDir_facingAfterJump',function f(d,facingAfterJump){
 	if(facingAfterJump in f.tbl[1]) this._direction=f.tbl[1][facingAfterJump][d];
 	else if(facingAfterJump in f.tbl[0]) this._direction=facingAfterJump;
-},t,true,true);
+},t);
 
-new cfc(Game_Character.prototype).add('getTileIdAt',function f(dx,dy,z){
+new cfc(Game_Character.prototype).addBase('getTileIdAt',function f(dx,dy,z){
 	dx=dx-0||0;
 	dy=dy-0||0;
 	z=z-0||0;
 	return $gameMap&&$gameMap.tileId(this.x+dx,this.y+dy,z);
-},undefined,true,true).add('getLayeredTilesAt',function f(dx,dy){
+}).addBase('getLayeredTilesAt',function f(dx,dy){
 	dx=dx-0||0;
 	dy=dy-0||0;
 	z=z-0||0;
 	return $gameMap&&$gameMap.layeredTiles(this.x+dx,this.y+dy);
-},undefined,true,true);
+});
 
 new cfc(Game_CharacterBase.prototype).add('setOpacity',function f(opa){
 	f.ori.apply(this,arguments);
@@ -1582,17 +1633,17 @@ new cfc(Game_CharacterBase.prototype).add('setOpacity',function f(opa){
 	const rtv=f.ori.apply(this,arguments);
 	this._characteHue=0;
 	return rtv;
-}).add('characterHue',function f(){
+}).addBase('characterHue',function f(){
 	return this._characterHue||0;
-},undefined,true,true).add;
+});
 
-t=new cfc(Game_Event.prototype).add('setChrIdxName',function f(chrIdx,chrName,hue,isObj){
+t=new cfc(Game_Event.prototype).addBase('setChrIdxName',function f(chrIdx,chrName,hue,isObj){
 	this._characterIndex=chrIdx===undefined?this._characterIndex:chrIdx;
 	this._characterName=chrName===undefined?this._characterName:chrName;
 	this._characterHue=hue||0;
 	this._isObjectCharacter=isObj===undefined?ImageManager.isObjectCharacter(chrName):isObj;
 	return this;
-},undefined,true,true).add('setupPageSettings',function f(){
+}).add('setupPageSettings',function f(){
 	const rtv=this.page();
 	f.ori.apply(this,arguments);
 	return rtv;
@@ -1605,13 +1656,13 @@ for(let p=t,arr=['clearPageSettings','clearStartingFlag','erase','refresh','rese
 	return this;
 },undefined,true);
 
-new cfc(Game_Interpreter.prototype).add('getEvt',function f(){
+new cfc(Game_Interpreter.prototype).addBase('getEvt',function f(){
 	// map init ensures '_events' be Array
 	return $gameMap&&$gameMap._events[this._eventId];
-},undefined,true,true).add('getCmd',function f(offset){
+}).addBase('getCmd',function f(offset){
 	offset|=0;
 	return this._list&&this._list[this._index+offset];
-},undefined,true,true);
+});
 
 SceneManager.getTilemap=function(){
 	const sc=this._scene;
@@ -1619,7 +1670,7 @@ SceneManager.getTilemap=function(){
 	return sps&&sps._tilemap;
 };
 
-new cfc(DataManager).add('getItemCont',function f(key){
+new cfc(DataManager).addBase('getItemCont',function f(key){
 	if(!f.tbl[0]) f.tbl[0]=({
 		i:$dataItems,
 		w:$dataWeapons,
@@ -1637,7 +1688,7 @@ ImageManager.getLoadStates=function f(){
 	return rtv;
 };
 
-new cfc(Sprite.prototype).add('setFrameIdx',function f(idx,facing,patternIt,isBig){
+new cfc(Sprite.prototype).addBase('setFrameIdx',function f(idx,facing,patternIt,isBig){
 	if(patternIt===undefined) patternIt=1;
 	facing=f.tbl[0][facing]; if(facing===undefined) facing=1;
 	
@@ -1655,9 +1706,9 @@ new cfc(Sprite.prototype).add('setFrameIdx',function f(idx,facing,patternIt,isBi
 6:2,
 8:3,
 }, // 0: facing to idx
-],true,true).add('setFrameIdx_update',function f(){
+]).addBase('setFrameIdx_update',function f(){
 	this.bitmap.addLoadListener(this.setFrameIdx_do.bind(this));
-},undefined,true,true).add('setFrameIdx_do',function f(bmp){
+}).addBase('setFrameIdx_do',function f(bmp){
 	const info=this.setFrameIdx_info; if(!info) return;
 	//this.setFrameIdx_info=undefined;
 	const p=Sprite_Character.prototype;
@@ -1678,16 +1729,16 @@ new cfc(Sprite.prototype).add('setFrameIdx',function f(idx,facing,patternIt,isBi
 3, // 2: N patterns each set in a row
 4, // 3: N dirs in a pattern
 [0,1,2,1], // 4: patternIt to patternIdx
-],true,true).add('setFrameIdx_nextPattern',function f(shouldUpdate){
+]).addBase('setFrameIdx_nextPattern',function f(shouldUpdate){
 	const info=this.setFrameIdx_info; if(!info) return;
 	info.patternIdx=~~((info.patternIdx+1)%f.tbl[4].length);
 	if(shouldUpdate) this.setFrameIdx_update();
 	return this;
-},t,true,true);
+},t);
 
-new cfc(Sprite_Character.prototype).add('updateBitmap',function f(){
+new cfc(Sprite_Character.prototype).addBase('updateBitmap',function f(){
 	if(this.isImageChanged()) this.updateBitmap_do();
-},undefined,true,true).add('updateBitmap_do',function f(){
+}).addBase('updateBitmap_do',function f(){
 	this._tilesetId=$gameMap.tilesetId();
 	this._tileId=this._character.tileId();
 	this._characterName=this._character.characterName();
@@ -1695,34 +1746,79 @@ new cfc(Sprite_Character.prototype).add('updateBitmap',function f(){
 	this._characterHue=this._character.characterHue();
 	if(0<this._tileId) this.setTileBitmap();
 	else this.setCharacterBitmap();
-},undefined,true,true).add('setCharacterBitmap',function f(){
+}).addBase('setCharacterBitmap',function f(){
 	this.bitmap=ImageManager.loadCharacter(this._characterName,this._characterHue);
 	this._isBigCharacter=ImageManager.isBigCharacter(this._characterName);
-},undefined,true,true).add('tilesetBitmap',function f(tileId){
+}).addBase('tilesetBitmap',function f(tileId){
 	const tileset=$gameMap.tileset();
 	const setNumber=5+(tileId>>8);
 	return ImageManager.loadTileset(tileset.tilesetNames[setNumber],this._characterHue);
-},undefined,true,true).add('isImageChanged',function f(){
+}).add('isImageChanged',function f(){
 	return f.ori.apply(this,arguments) || this._characterHue!==this._character.characterHue();
 });
 
-new cfc(PIXI.Container.prototype).add('containsGlobalPoint',function f(x,y){
+new cfc(PIXI.Container.prototype).addBase('containsGlobalPoint',function f(x,y){
 	const xy0=this.toGlobal(f.tbl[0]);
 	const xy1=this.toGlobal({x:this.width,y:this.height});
 	const rect=new Rectangle(xy0.x,xy0.y,xy1.x-xy0.x,xy1.y-xy0.y);
 	return rect.contains(x,y);
 },[
 {x:0,y:0},
-]);
+]).add('getChildIndex',function f(c,isNoErr,returnEndIdxIfNotFound){
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+		if(!isNoErr) throw e;
+	}
+	return returnEndIfNotFound?this.children.length:-1;
+});
 
-new cfc(Game_Item.prototype).add('getItemKeyInfo',function f(){
+new cfc(PIXI.Container.prototype).add('renderCanvas',function f(renderer){
+	const noDraw=this.renderCanvas_retVal_noDraw();
+	let rtv;
+	if((rtv=this.renderCanvas_clipPoints(f.ori,arguments))!==noDraw) return rtv;
+	return f.ori.apply(this,arguments);
+}).addBase('renderCanvas_retVal_noDraw',function f(){
+	return f.tbl[0];
+},[
+{}, // 0: ret
+]).addBase('renderCanvas_clipPoints',function f(renderFunc,argv){
+	const points=this._clipPointExtWidth-0?getWiderPoints(this._clipPoints,this._clipPointExtWidth):this._clipPoints;
+	const renderer=argv[0]; if(!renderer||!points||!(points.length>=3)||!this.parent) return this.renderCanvas_retVal_noDraw();
+	const ctx=renderer.context;
+	const t=ctx.getTransform();
+	ctx.save(); // save before clipping
+	//ctx.imageSmoothingEnabled=true; // slow
+	ctx.setTransform(1,0,0,1,0,0);
+	ctx.beginPath();
+	for(let i=0,sz=points.length;i<sz;++i){
+		const p=this.parent?this.parent.toGlobal({x:points[i][0],y:points[i][1],}):({x:points[i][0],y:points[i][1],});
+		if(i) ctx.lineTo(p.x,p.y);
+		else ctx.moveTo(p.x,p.y);
+	}
+	ctx.clip();
+	ctx.setTransform(t.a,t.b,t.c,t.d,t.e,t.f);
+	const rtv=renderFunc.apply(this,argv);
+	ctx.restore(); // restore clipping
+	return rtv;
+}).addBase('setClipPoints',function f(points,extWidth){
+	this._clipPointExtWidth=extWidth-0||0;
+	return this._clipPoints=points; // this.parent view
+});
+new cfc(Sprite.prototype).add('initialize',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._clipPoints=undefined;
+	return rtv;
+});
+
+new cfc(Game_Item.prototype).addBase('getItemKeyInfo',function f(){
 	return [(this._dataClass?this._dataClass[0]:"_"),this._itemId];
-},undefined,true,true).add('getItemKey',function f(){
+}).addBase('getItemKey',function f(){
 	return this.getItemKeyInfo().join(f.tbl[0]);
 },t=[
 ":",
-],true,true);
-new cfc(Game_Item).add('itemKeyInfoToDataobj',function f(itemKeyInfo){
+]);
+new cfc(Game_Item).addBase('itemKeyInfoToDataobj',function f(itemKeyInfo){
 	if(!itemKeyInfo) return false;
 	if(!f.tbl[0]){ f.tbl[0]={
 		i:$dataItems,
@@ -1733,33 +1829,69 @@ new cfc(Game_Item).add('itemKeyInfoToDataobj',function f(itemKeyInfo){
 	return cont&&cont[itemKeyInfo[1]];
 },[
 undefined,
-],true,true).add('itemKeyToDataobj',function f(itemKey){
+]).addBase('itemKeyToDataobj',function f(itemKey){
 	return this.itemKeyInfoToDataobj(itemKey&&itemKey.split(f.tbl[0]));
-},t,true,true).add;
+},t);
 
-new cfc(Window_ItemList.prototype).add('drawItemNumber',function f(item, x, y, width){
+new cfc(Window_ItemList.prototype).addBase('drawItemNumber',function f(item, x, y, width){
 	if(this.needsNumber()) this.drawItemNumber_num(item,x,y,width,$gameParty.numItems(item));
-},undefined,true,true).add('drawItemNumber_num',function f(item,x,y,width,num){
+}).addBase('drawItemNumber_num',function f(item,x,y,width,num){
 	const digitsWidth=this.textWidth('0'.repeat(this.drawItemNumber_getReservedDigitsCnt()));
 	this.drawText(':',x,y,width-digitsWidth,'right');
 	this.drawText(num+'',x+width-digitsWidth,y,digitsWidth,'right');
-},undefined,true,true).add('drawItemNumber_getReservedDigitsCnt',function f(){
+}).addBase('drawItemNumber_getReservedDigitsCnt',function f(){
 	return f.tbl[0];
 },[
 4,
-],true,true).add('drawItem',function f(idx){
+]).addBase('drawItem',function f(idx){
 	this.drawItemByIndex(idx);
-},undefined,true,true).add('drawItemByIndex',function f(idx){
+}).addBase('drawItemByIndex',function f(idx){
 	const item=this._data[idx];
 	if(item) this.drawItemByItemAndRect(item,this.itemRect(idx));
-},undefined,true,true).add('drawItemByItemAndRect',function f(item,rect){
+}).addBase('drawItemByItemAndRect',function f(item,rect){
 	const numberWidth=this.numberWidth();
 	rect.width-=this.textPadding();
 	this.changePaintOpacity(this.isEnabled(item));
 	this.drawItemName(item, rect.x, rect.y, rect.width - numberWidth);
 	this.drawItemNumber(item, rect.x, rect.y, rect.width);
 	this.changePaintOpacity(1);
-},undefined,true,true);
+});
+
+new cfc(Game_Battler.prototype).add('getParty',function f(){
+	const func=f.tbl[0].get(this.constructor);
+	return func&&func();
+},[
+new Map([
+[Game_Enemy,()=>$gameTroop,],
+[Game_Actor,()=>$gameParty,],
+]), // 0: 
+]);
+
+new cfc(Bitmap.prototype).addBase('mirror_h',function f(forceRegen){
+	if(!this.isReady()) return;
+	return this._mirror_h_do(forceRegen);
+}).addBase('_mirror_h_do',function f(forceRegen){
+	if(!forceRegen&&this._mirrorBmp_h) return this._mirrorBmp_h;
+	const rtv=new Bitmap(1,1);
+	const w=this.width,h=this.height;
+	rtv.resize(w,h);
+	rtv.clear();
+	rtv.bltImage({width:w,height:h,_image:this._canvas.mirror_h()},0,0,w,h,0,0,w,h);
+	rtv._loadingState='loaded';
+	return this._mirrorBmp_h=rtv;
+}).addBase('mirror_v',function f(forceRegen){
+	if(!this.isReady()) return;
+	return this._mirror_v_do(forceRegen);
+}).addBase('_mirror_v_do',function f(forceRegen){
+	if(!forceRegen&&this._mirrorBmp_v) return this._mirrorBmp_v;
+	const rtv=new Bitmap(1,1);
+	const w=this.width,h=this.height;
+	rtv.resize(w,h);
+	rtv.clear();
+	rtv.bltImage({width:w,height:h,_image:this._canvas.mirror_v()},0,0,w,h,0,0,w,h);
+	rtv._loadingState='loaded';
+	return this._mirrorBmp_v=rtv;
+});
 
 })(); // shorthand
 
@@ -1767,12 +1899,12 @@ new cfc(Window_ItemList.prototype).add('drawItemNumber',function f(item, x, y, w
 
 (()=>{ let k,r,t;
 
-new cfc(SceneManager).add('push',function f(sceneClass,shouldRecordCurrentScene){
+new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentScene){
 	this._stack.push(this._scene.constructor);
 	this.goto(sceneClass,shouldRecordCurrentScene);
 	if(shouldRecordCurrentScene && this._nextScene) this._nextScene._prevScene=this._scene;
 	return this._nextScene && this._nextScene._prevScene;
-},undefined,true,true).add('changeScene',function f(){
+}).addBase('changeScene',function f(){
 	if(this.isSceneChanging() && !this.isCurrentSceneBusy() && ImageManager.isReady()){
 		let recordedPrevScene;
 		if(this._scene){
@@ -1807,7 +1939,7 @@ new cfc(SceneManager).add('push',function f(sceneClass,shouldRecordCurrentScene)
 	}
 },[
 3, // max call count of 'this.terminate();'
-],true,true).add('changeScene',function f(){
+]).add('changeScene',function f(){
 	const sc=this._scene;
 	const rtv=f.ori.apply(this,arguments);
 	if(this._scene && sc && this._scene!==sc) this.onSceneChange();
@@ -1922,7 +2054,7 @@ new cfc(p).add('renderScene',function f(){
 },[
 // sp=>sp.refresh_do()===SceneManager.NOT_REFRESHED && SceneManager._scene._needRefreshes_notYet, // discard if can't refresh
 sp=>sp.refresh_do(),
-]).add('addRefresh',function f(obj,forcePending){
+]).addBase('addRefresh',function f(obj,forcePending){
 	if(!obj||(typeof obj.refresh_do!=='function')) return console.warn('got unsupported obj',obj);
 	const sc=this._scene; if(!sc) return;
 	if(!forcePending&&!f.tbl[0].has(obj.constructor)&&!f.tbl[0].has(obj.parent&&obj.parent.constructor)&&
@@ -1951,7 +2083,7 @@ Window_NumberInput,
 Window_ScrollText,
 ]), // 0: target sprites
 Scene_Map, // since only this scene //new Set([Scene_Map,]), // 1: disable pending refresh scenes
-],true,true);
+]);
 }
 
 { const p=Sprite.prototype;
@@ -1961,17 +2093,84 @@ p._refresh=function f(){ SceneManager.addRefresh(this); };
 
 })(); // lazy refresh
 
-// ---- ---- ---- ---- btlr.getParty
+// ---- ---- ---- ---- drawMask API
 
-new cfc(Game_Battler.prototype).add('getParty',function f(){
-	const func=f.tbl[0].get(this.constructor);
-	return func&&func();
+(()=>{ let k,r,t;
+
+(t=function f(){ return this.parent&&f.ori.apply(this,arguments); }).ori=Sprite.prototype.refresh_do;
+new cfc(PIXI.Container.prototype).addBase('drawMask_set',function f(x,y,width,height){
+	const info={x:x|0,y:y|0,w:width|0,h:height|0};
+	const isInvalid=!(info.w>=0)||!(info.h>=0);
+	if(Graphics.isWebGL()) return this.drawMask_set_WebGL(info,isInvalid);
+	if(isInvalid) return this._drawMask=undefined;
+	return this._drawMask=info;
+}).addBase('drawMask_set_WebGL',function f(info,isInvalid){
+	if(!PIXI.Container._bmp1x1) (PIXI.Container._bmp1x1=new Bitmap(1,1)).fillAll(f.tbl[0]);
+	if(this.mask){ this.removeChild(this.mask); this.mask=null; }
+	if(this._drawMaskSp) this._drawMaskSp.destroy();
+	if(isInvalid) return;
+	if(this.parent) this.parent.addChild(this._drawMaskSp=new Sprite(PIXI.Container._bmp1x1));
+	const msk=this._drawMaskSp;
+	if(this.mask!==msk){
+		msk.refresh_do=f.tbl[1];
+		this.update_drawMaskSp(msk,info);
+		this.mask=msk;
+	}
+	return this._drawMask=info;
 },[
-new Map([
-[Game_Enemy,()=>$gameTroop,],
-[Game_Actor,()=>$gameParty,],
-]), // 0: 
-]);
+'#FFFFFF',
+t,
+]).addBase('drawMask_clear',function f(){
+	this._drawMask=undefined;
+	if(Graphics.isWebGL()) this.drawMask_set_WebGL(undefined,true);
+}).add('renderCanvas',function f(renderer){
+	return this.renderCanvas_drawMask(f.ori,arguments);
+}).addBase('renderCanvas_drawMask',function f(renderFunc,argv){
+	const conf=this._drawMask;
+	const renderer=argv[0]; if(!renderer||!conf|!this.parent) return renderFunc.apply(this,argv);
+	const ctx=renderer.context;
+	const p0=this.parent.toGlobal({x:this.x+conf.x,y:this.y+conf.y}),p1=this.parent.toGlobal({x:this.x+conf.x+conf.w,y:this.y+conf.y+conf.h});
+	const t=ctx.getTransform();
+	ctx.save(); // save before clipping
+	ctx.setTransform(1,0,0,1,0,0);
+	ctx.beginPath();
+	ctx.moveTo(p0.x,p0.y);
+	ctx.lineTo(p1.x,p0.y);
+	ctx.lineTo(p1.x,p1.y);
+	ctx.lineTo(p0.x,p1.y);
+	ctx.clip();
+	ctx.setTransform(t.a,t.b,t.c,t.d,t.e,t.f);
+	const rtv=renderFunc.apply(this,argv);
+	ctx.restore(); // restore clipping
+	return rtv;
+}).addBase('update_drawMaskSp',function f(msk,info){
+	msk=msk||this._drawMaskSp;
+	info=info||this._drawMask;
+	if(!msk||!info) return;
+	const anchor=this.anchor;
+	const scale=this.scale;
+	const W=scale.x*this.width;
+	const H=scale.y*this.height;
+	msk.position.set(
+		this.x+info.x, //-anchor.x*W,
+		this.y+info.y, //-anchor.y*H,
+	);
+	msk.scale.set(
+		info.w*scale.x,
+		info.h*scale.y,
+	);
+});
+new cfc(Sprite.prototype).add('update',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.update_drawMaskSp();
+	return rtv;
+}).add('initialize',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._drawMaskSp=undefined;
+	return rtv;
+});
+
+})(); // drawMask API
 
 // ---- ---- ---- ---- Tilemap / Spriteset
 
@@ -2103,48 +2302,48 @@ t=[
 undefined, // 1: default values // not used
 ];
 t[1]=new Map(t[0]);
-new cfc(Game_System.prototype).add('animationOptions_get',function f(){
+new cfc(Game_System.prototype).addBase('animationOptions_get',function f(){
 	let rtv=this._aniOpt;
 	if(!rtv){
 		rtv=this._aniOpt={};
 		for(let x=0,arr=f.tbl[0],xs=arr.length;x!==xs;++x) rtv[arr[x][0]]=arr[x][1];
 	}
 	return rtv;
-},t,true,true).add('animationOptions_reset',function f(){
+},t).addBase('animationOptions_reset',function f(){
 	const opt=this.animationOptions_get();
 	for(let x=0,arr=f.tbl[0],xs=arr.length;x!==xs;++x) opt[arr[x][0]]=arr[x][1];
 	return this;
-},t,true,true).add('animationOptions_setRotate',function f(rotate){
+},t).addBase('animationOptions_setRotate',function f(rotate){
 	const opt=this.animationOptions_get();
 	opt.rotate=rotate;
 	return this;
-},t,true,true).add('animationOptions_setScaleX',function f(scalex){
+},t).addBase('animationOptions_setScaleX',function f(scalex){
 	const opt=this.animationOptions_get();
 	opt.scalex=scalex;
 	return this;
-},t,true,true).add('animationOptions_setScaleY',function f(scaley){
+},t).addBase('animationOptions_setScaleY',function f(scaley){
 	const opt=this.animationOptions_get();
 	opt.scaley=scaley;
 	return this;
-},t,true,true).add('animationOptions_setScale',function f(scale){
+},t).addBase('animationOptions_setScale',function f(scale){
 	return this.animationOptions_setScaleX(scale).animationOptions_setScaleY(scale);
-},t,true,true).add('animationOptions_setDelay',function f(delay){
+},t).addBase('animationOptions_setDelay',function f(delay){
 	const opt=this.animationOptions_get();
 	opt.delay=delay;
 	return this;
-},t,true,true).add('animationOptions_setDRate',function f(drate){
+},t).addBase('animationOptions_setDRate',function f(drate){
 	const opt=this.animationOptions_get();
 	opt.drate=drate;
 	return this;
-},t,true,true).add('animationOptions_setOnTop',function f(onTop){
+},t).addBase('animationOptions_setOnTop',function f(onTop){
 	const opt=this.animationOptions_get();
 	opt.onTop=onTop;
 	return this;
-},t,true,true).add('animationOptions_set',function f(newOpt){
+},t).addBase('animationOptions_set',function f(newOpt){
 	const opt=this.animationOptions_get();
 	for(let x=0,arr=f.tbl[0],xs=arr.length;x!==xs;++x) if(arr[x][0] in newOpt) opt[arr[x][0]]=newOpt[arr[x][0]];
 	return this;
-},t,true,true).add('animationOptions_applyTo',function f(opt,carryingOn){
+},t).addBase('animationOptions_applyTo',function f(opt,carryingOn){
 	const sysOpt=this.animationOptions_get(),tbl0=f.tbl[0];
 	let rotate=0;
 	let scalex=1;
@@ -2170,7 +2369,7 @@ new cfc(Game_System.prototype).add('animationOptions_get',function f(){
 	else opt.drate=drate;
 	opt.onTop=onTop;
 	return this;
-},t,true,true);
+},t);
 
 
 t=[
@@ -2322,14 +2521,14 @@ new cfc(Game_CharacterBase.prototype).add('update',function f(){
 	this._opacityDurDst=dur;
 	this.updateOpacity();
 	return rtv;
-}).add('updateOpacity',function f(){
+}).addBase('updateOpacity',function f(){
 	if(this._opacityDur<this._opacityDurDst){
 		this._opacity=++this._opacityDur/this._opacityDurDst*(this._opacityDst-this._opacitySrc)+this._opacitySrc; // dur is casted to int32 in 'setOpacity' 
 	}else this._opacityDst=this._opacitySrc=this._opacityDur=this._opacityDurDst=undefined;
-},undefined,true,true).add('setPosition',function f(x,y){
+}).addBase('setPosition',function f(x,y){
 	this._x = this._realX = x;
 	this._y = this._realY = y;
-},undefined,true,true);
+});
 
 })(); // chr appearance
 
@@ -2497,6 +2696,7 @@ new cfc(p).add('render',function f(stage){
 		}
 		this.renderOtherEffects(stage);
 		this._skipCount=Math.min((Date.now()-startTime)>>4,this._maxSkip);
+		this.pasteCanvas();
 	}
 	this.frameCount+=SceneManager._updateSceneCnt|0; SceneManager._updateSceneCnt=0|0;
 },[
@@ -2539,6 +2739,14 @@ p.getImageData=function f(x,y,w,h){
 		return {data:pixv,width:w,height:h};
 	}else return this._canvas.getContext('2d').getImageData(x,y,w,h);
 };
+p.pasteCanvas=function f(){
+	if(!this._createScreenShot) return;
+	this._createScreenShot=false;
+	pasteCanvas(this._canvas);
+};
+p.createScreenShot=function f(){
+	this._createScreenShot=true;
+};
 }
 
 { const p=PIXI.utils;
@@ -2563,7 +2771,7 @@ r=p[k]; (p[k]=function f(){ // PIXI's built-in uses 'failIfMajorPerformanceCavea
 p[k].trgt="SwiftShader";
 }
 
-new cfc(Graphics).add('_webgl_saveShader',function f(){
+new cfc(Graphics).addBase('_webgl_saveShader',function f(){
 	const gl=this._renderer&&this._renderer.gl; if(!gl) return;
 	const info={
 		getParameter:[],getVertexAttrib:[],
@@ -2588,12 +2796,12 @@ new cfc(Graphics).add('_webgl_saveShader',function f(){
 getVertexAttrib:['VERTEX_ATTRIB_ARRAY_SIZE','VERTEX_ATTRIB_ARRAY_TYPE','VERTEX_ATTRIB_ARRAY_NORMALIZED','VERTEX_ATTRIB_ARRAY_STRIDE',],
 bindBuffer:['ARRAY_BUFFER','ELEMENT_ARRAY_BUFFER',],
 }, // 0: 
-],true,true).add('_webgl_restoreShader',function f(gl,info){
+]).addBase('_webgl_restoreShader',function f(gl,info){
 	if(!info) return;
 	gl.useProgram(info.CURRENT_PROGRAM);
 	for(let arr=f.tbl[0].bindBuffer,x=arr.length;x--;) gl.bindBuffer(gl[arr[x]], info.getParameter[x], gl.STATIC_DRAW);
 	for(let i=0,arrv=info.getVertexAttrib,sz=arrv.length;i!==sz;++i) if(arrv[i]) gl.vertexAttribPointer.apply(gl,arrv[i]);
-},t,true,true);
+},t);
 
 })(); // rendering
 
@@ -2626,17 +2834,25 @@ new cfc(Bitmap.prototype).add('_makeFontNameText',function f(){
 
 })(); // default font
 
-// ---- ---- ---- ---- pretending localStorage is ok
+// ---- ---- ---- ---- save cache (both local and web) + pretending localStorage is ok
 
 (()=>{ let k,r,t;
 
-new cfc(StorageManager).add('pseudoStorage_getCont',function f(){
+t=[
+"bak-", // 0: pseudoStorage backup key prefix
+];
+
+new cfc(StorageManager).addBase('pseudoStorage_getCont',function f(){
 	let rtv=this._pseudoStorage; if(!rtv) rtv=this._pseudoStorage=new Map();
 	return rtv;
-}).add('pseudoStorage_save',function f(key,val){
+}).addBase('pseudoStorage_save',function f(key,val){
 	this.pseudoStorage_getCont().set(key+'',val+'');
-}).add('pseudoStorage_load',function f(key){
+}).addBase('pseudoStorage_load',function f(key){
 	return this.pseudoStorage_getCont().get(key+'')||null;
+}).addBase('pseudoStorage_has',function f(key){
+	return this.pseudoStorage_getCont().has(key+'');
+}).addBase('pseudoStorage_del',function f(key){
+	return this.pseudoStorage_getCont().delete(key+'');
 }).add('saveToWebStorage',function f(savefileId,json){
 	try{
 		return f.ori.apply(this,arguments);
@@ -2644,8 +2860,9 @@ new cfc(StorageManager).add('pseudoStorage_getCont',function f(){
 		if(e instanceof DOMException){
 			const key=this.webStorageKey(savefileId);
 			const data=LZString.compressToBase64(json);
-			this.pseudoStorage_save(key,data);
+			return this.pseudoStorage_save(key,data);
 		}
+		throw e;
 	}
 }).add('loadFromWebStorage',function f(savefileId){
 	try{
@@ -2655,10 +2872,124 @@ new cfc(StorageManager).add('pseudoStorage_getCont',function f(){
 			const key=this.webStorageKey(savefileId);
 			return LZString.decompressFromBase64(this.pseudoStorage_load(key));
 		}
+		throw e;
 	}
-});
+}).add('webStorageExists',function f(savefileId){
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+		if(e instanceof DOMException){
+			const key=this.webStorageKey(savefileId);
+			return this.pseudoStorage_has(key);
+		}
+		throw e;
+	}
+}).add('removeWebStorage',function f(savefileId){
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+		if(e instanceof DOMException){
+			const key=this.webStorageKey(savefileId);
+			return this.pseudoStorage_del(key);
+		}
+		throw e;
+	}
+}).addBase('saveCache_getCont',function f(){
+	let rtv=this._saveCache; if(!rtv) rtv=this._saveCache=new Map();
+	return rtv;
+}).addBase('saveCache_save',function(savefileId,json){
+	return this.saveCache_getCont().set(savefileId,json);
+}).addBase('saveCache_load',function(savefileId){
+	return this.saveCache_getCont().get(savefileId);
+}).addBase('saveCache_has',function(savefileId){
+	return this.saveCache_getCont().has(savefileId);
+}).addBase('saveCache_del',function(savefileId){
+	return this.saveCache_getCont().delete(savefileId);
+}).add('save',function f(savefileId,json){
+	this.saveCache_save.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).add('load',function f(savefileId){
+	if(!this.saveCache_has.apply(this,arguments)) this.saveCache_save(savefileId,f.ori.apply(this,arguments));
+	return this.saveCache_load.apply(this,arguments);
+}).add('exists',function f(savefileId){
+	return this.saveCache_has.apply(this,arguments)||f.ori.apply(this,arguments);
+}).add('remove',function f(savefileId){
+	this.saveCache_del.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).addBase('backup',function(savefileId){
+	if(this.exists(savefileId)) return (this.isLocalMode()?this.backup_fs:this.backup_web).apply(this,arguments);
+}).addBase('backup_fs',function f(savefileId){
+	const fs=require('fs');
+	const dirPath=this.localFileDirectoryPath();
+	const filePath=this.localFilePath(savefileId); // full path
+	try{
+		fs.renameSync(filePath,filePath+".bak");
+		return;
+	}catch(e){
+		const data=this.loadFromLocalFile(savefileId);
+		const compressed=LZString.compressToBase64(data);
+		this.pseudoStorage_save(f.tbl[0]+savefileId,compressed);
+		if(!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
+		fs.writeFileSync(filePath+".bak",compressed);
+		return compressed;
+	}
+},t).addBase('backup_web',function f(savefileId){
+	const data=this.loadFromWebStorage(savefileId);
+	const compressed=LZString.compressToBase64(data);
+	const key=this.webStorageKey(savefileId)+"bak";
+	this.pseudoStorage_save(f.tbl[0]+savefileId,compressed);
+	localStorage.setItem(key,compressed);
+	return compressed;
+},t).add('backup',function f(savefileId){
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+		if(e instanceof DOMException) return;
+		throw e;
+	}
+}).add('cleanBackup',function f(savefileId){
+	this.pseudoStorage_del(f.tbl[0]+savefileId);
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+	}
+},t).addBase('restoreBackup',function f(savefileId){
+	if(this.backupExists(savefileId)) return (this.isLocalMode()?this.restoreBackup_fs:this.restoreBackup_web).apply(this,arguments);
+}).addBase('restoreBackup_fs',function f(savefileId){
+	const fs=require('fs');
+	const dirPath=this.localFileDirectoryPath();
+	const filePath=this.localFilePath(savefileId);
+	if(!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
+	try{
+		fs.renameSync(filePath+".bak",filePath);
+		return;
+	}catch(e){
+		const data=this.loadFromLocalBackupFile(savefileId);
+		const compressed=LZString.compressToBase64(data);
+		fs.writeFileSync(filePath, compressed);
+		fs.unlinkSync(filePath+".bak");
+	}
+}).addBase('restoreBackup_web',function f(savefileId){
+	const data=this.loadFromWebStorageBackup(savefileId);
+	const compressed=LZString.compressToBase64(data);
+	const key=this.webStorageKey(savefileId);
+	localStorage.setItem(key,compressed);
+	localStorage.removeItem(key+"bak");
+}).add('restoreBackup',function f(savefileId){
+	try{
+		return f.ori.apply(this,arguments);
+	}catch(e){
+		if(e instanceof DOMException){
+			const bakKey=f.tbl[0]+savefileId;
+			if(!this.pseudoStorage_has(bakKey)) return;
+			const key=this.webStorageKey(savefileId);
+			return this.pseudoStorage_save(key,this.pseudoStorage_load(bakKey));
+		}
+		throw e;
+	}
+},t);
 
-})(); // pretending localStorage is ok
+})(); // save cache (both local and web) + pretending localStorage is ok
 
 // ---- ---- ---- ---- map evt search table
 
@@ -2866,18 +3197,18 @@ new cfc(Game_Event.prototype).add('moveStraight',function f(d){
 
 (()=>{ let k,r,t;
 
-new cfc(Graphics).add('_forEachCss',function f(item){
+new cfc(Graphics).addBase('_forEachCss',function f(item){
 	// bind 'this' to dom.style
 	// 'item' = [cssKey , the value]
 	this[item[0]]=item[1];
-},undefined,true,true).add('currentLoadErrorDivs_getCont',function f(dontInit){
+}).addBase('currentLoadErrorDivs_getCont',function f(dontInit){
 	let arr=this._currentLoadErrorDivs; if(!arr&&!dontInit) arr=this._currentLoadErrorDivs=[];
 	return arr;
-},undefined,true,true).add('currentLoadErrorDivs_getCnt',function f(){
+}).addBase('currentLoadErrorDivs_getCnt',function f(){
 	return this.currentLoadErrorDivs_getCont().length;
-},undefined,true,true).add('currentLoadErrorDivs_add',function f(div){
+}).addBase('currentLoadErrorDivs_add',function f(div){
 	if(div instanceof HTMLElement) this.currentLoadErrorDivs_getCont().uniquePush(div);
-},undefined,true,true).add('currentLoadErrorDivs_clear',function f(div){
+}).addBase('currentLoadErrorDivs_clear',function f(div){
 	const arr=this.currentLoadErrorDivs_getCont(true); if(!arr) return;
 	if(div!==undefined){
 		f.tbl[0].bind(null)(div);
@@ -2890,7 +3221,7 @@ new cfc(Graphics).add('_forEachCss',function f(item){
 },[
 function(div){ if(this&&this!==window) this.push(div); const p=div.parentNode; if(p) p.removeChild(div); }, // 0:
 function(div){ this.uniquePop(div); }, // 1:
-],true,true).add('_makeErrorHtml',function f(name,message,opt){
+]).addBase('_makeErrorHtml',function f(name,message,opt){
 	const d=document;
 	let main;
 	const rtv=d.ce('div').ac(main=d.ce('div').ac(
@@ -2902,11 +3233,11 @@ function(div){ this.uniquePop(div); }, // 1:
 	return rtv;
 },[
 ['color:yellow;','color:white;','margin:4px;','background-color:rgba(0,0,0,0.25);text-align:left;overflow-x:scroll;',], // 0: css
-],true,true).add('printLoadingError',function f(url,opt){
+]).addBase('printLoadingError',function f(url,opt){
 	if(!this.printLoadingError_can(url,opt)) return false;
 	this.printLoadingError_do(url,opt);
 	return true;
-},undefined,true,true).add('printLoadingError_do',function f(url,opt){
+}).addBase('printLoadingError_do',function f(url,opt){
 	// can continue
 	this._updateErrorPrinter_setShow(true);
 	const div=this._makeErrorHtml('Loading Error', 'Failed to load: ' + url);
@@ -2930,9 +3261,9 @@ function(event){
 	if(!this.currentLoadErrorDivs_getCnt()) this._updateErrorPrinter_setShow(false);
 	this._updateErrorPrinter();
 },
-],true,true).add('printLoadingError_can',function f(){
+]).addBase('printLoadingError_can',function f(){
 	return this._errorPrinter;
-},undefined,true,true).add('printError',function f(name,message,opt){
+}).addBase('printError',function f(name,message,opt){
 	// cannot continue
 	this._updateErrorPrinter_setShow(true);
 	const ep=this._errorPrinter;
@@ -2942,7 +3273,7 @@ function(event){
 	}
 	this._applyCanvasFilter();
 	this._clearUpperCanvas();
-},undefined,true,true).add('_updateErrorPrinter',function f(){
+}).add('_updateErrorPrinter',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	const ep=this._errorPrinter.ra('height').ra('width');
 	f.tbl[0].forEach(this._forEachCss,ep.style);
@@ -2962,12 +3293,12 @@ function(event){
 ['backgroundColor','rgba(0,0,0,0.25)'],
 ['overflow-y','scroll'],
 ], // 0: css
-]).add('_updateErrorPrinter_setShow',function f(isShow){
+]).addBase('_updateErrorPrinter_setShow',function f(isShow){
 	if(isShow!==undefined) this._errorShowed=!!isShow;
 	this._errorPrinter.style.display=f.tbl[0][this._errorShowed|0];
 },[
 ['none','',], // 0: css.display switch by this._errorShowed
-],true,true);
+]);
 
 })(); // refine error html
 
@@ -2998,7 +3329,7 @@ for(let x=96;x<=105;++x) delete Input.keyMapper[x]; // num pad when num lock on
 
 (()=>{ let k,r,t;
 
-new cfc(Window_MenuCommand.prototype).add('needsCommand',function f(name){
+new cfc(Window_MenuCommand.prototype).addBase('needsCommand',function f(name){
 	const flags=$dataSystem.menuCommands;
 	if(flags&&(name in f.tbl[0])) return flags[f.tbl[0][name]];
 	return true;
@@ -3011,7 +3342,7 @@ new cfc(Window_MenuCommand.prototype).add('needsCommand',function f(name){
 'formation':4,
 'save':5,
 }, // 0: name2idx
-],true,true).add('addMainCommands',function f(){
+]).addBase('addMainCommands',function f(){
 	f.tbl[0].forEach(f.tbl[1].bind(this,this.areMainCommandsEnabled()));
 },[
 [
@@ -3023,9 +3354,9 @@ new cfc(Window_MenuCommand.prototype).add('needsCommand',function f(name){
 function f(partyExists,key){
 	if(this.needsCommand(key)) this.addCommand(TextManager[key],key,partyExists&&this.isConfEnabledCommand(key));
 }, // 1: forEach
-],true,true).add('isConfEnabledCommand',function f(name){
+]).addBase('isConfEnabledCommand',function f(name){
 	return true;
-},undefined,true,true);
+});
 
 })(); // Window_MenuCommand.prototype.needsCommand
 
@@ -3033,7 +3364,7 @@ function f(partyExists,key){
 
 (()=>{ let k,r,t;
 
-new cfc(Game_Interpreter).add('requestImages',function f(list,rtv){
+new cfc(Game_Interpreter).addBase('requestImages',function f(list,rtv){
 	if(list) list.forEach(f.tbl[0].bind(rtv=rtv||{}));
 },t=[
 function f(command){
@@ -3107,23 +3438,23 @@ function f(command){
 },
 282:tilesetName=>ImageManager.requestTileset(tilesetName),
 }, // 2: helpers
-],true,true);
+]);
 t[0].tbl=t[1];
 for(let k in t[1]) t[1][k].tbl=t[2];
 t[1][337]=t[1][212];
 
-new cfc(Game_Interpreter.prototype).add('setup',function f(list,eventId,isNoRecurrsiveRequestImages){
+new cfc(Game_Interpreter.prototype).addBase('setup',function f(list,eventId,isNoRecurrsiveRequestImages){
 	this.clear();
 	this._mapId=$gameMap.mapId();
 	this._eventId=eventId||0;
 	this._list=list;
-},undefined,true,true);
+});
 
 new cfc(DataManager).add('onLoad_after_map',function f(obj){
 	const rtv=f.ori&&f.ori.apply(this,arguments);
 	this.onLoad_after_map_requestEventsImages();
 	return rtv;
-}).add('onLoad_after_map_requestEventsImages',function f(obj){
+}).addBase('onLoad_after_map_requestEventsImages',function f(obj){
 	// decided to do it before onLoad is called
 	// leaving this function to be a placeholder
 	//$dataMap.events.forEach(f.tbl[1],{});
@@ -3138,7 +3469,7 @@ function f(evtd){
 	const rtv=f.ori&&f.ori.apply(this,arguments);
 	this.onLoad_before_map_requestEventsImages();
 	return rtv;
-}).add('onLoad_before_map_requestEventsImages',function f(obj){
+}).addBase('onLoad_before_map_requestEventsImages',function f(obj){
 	$dataMap.events.forEach(f.tbl[1],{});
 },t);
 t[1].tbl=t;
@@ -3149,16 +3480,16 @@ t[1].tbl=t;
 
 (()=>{ let k,r,t;
 
-new cfc(Window_Selectable.prototype).add('maxPageRows',function(isReturnReal){
+new cfc(Window_Selectable.prototype).addBase('maxPageRows',function(isReturnReal){
 	const pageHeight=this.height-this.padding*2;
 	return isReturnReal?pageHeight/this.itemHeight():~~(pageHeight/this.itemHeight());
-},undefined,true,true).add('maxPageItems',function f(){
+}).addBase('maxPageItems',function f(){
 	return Math.ceil(this.maxPageRows(true))*this.maxCols();
-},undefined,true,true).add('isCursorVisible',function f(){
+}).addBase('isCursorVisible',function f(){
 	const rect=this.itemRect_curr();
 	const c=this._windowContentsSprite;
 	return c&&rect.overlap(c);
-},undefined,true,true).add('processCursorMove',function f(){
+}).add('processCursorMove',function f(){
 	const idx=this.index();
 	const rtv=f.ori.apply(this,arguments);
 	if(isNaN(this.index())) this.select(idx);
