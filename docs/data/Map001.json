@@ -7084,5 +7084,194 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":2,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":1,"y":4}
+	],"x":1,"y":4},
+	{"id":17,"name":"EV017","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"bouncing"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"material"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"choose img"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"Title",
+					"Elephant",
+					"Title (upside down)",
+					"Elephant (upside down)"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"Title"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._imgUrl='img/titles1/Plain.png';"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"Elephant"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._imgUrl='img/pictures/$elephant.png';"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"Title (upside down)"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._imgUrl='img/titles1/Plain.png?scale=1,-1';"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"Elephant (upside down)"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._imgUrl='img/pictures/$elephant.png?scale=1,-1';"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp.popupMsg(\"\\\\C[6]Cancel\\\\C[0] to exit this mode\");"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._testSp_bm=new Sprite_BouncingMaterial_root(ImageManager.loadNormalBitmap(this.getEvt()._imgUrl),{nw:23,nh:23,maxSpeed:1});"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"{ const sc=SceneManager._scene; sc.addChildAt($gameTemp._testSp_bm,Math.min(sc.getChildIndex(sc._mapNameWindow,true,true),sc.getChildIndex(sc._windowLayer,true,true))); }"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._lastXY="
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._sels="
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"undefined;"
+			]},
+			{"code":112,"indent":0,"parameters":[
+			]},
+			{"code":111,"indent":1,"parameters":[
+				11,
+				"cancel"
+			]},
+			{"code":101,"indent":2,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":2,"parameters":[
+				"exit?"
+			]},
+			{"code":102,"indent":2,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":2,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"if($gameTemp._testSp_bm) SceneManager._scene.removeChild($gameTemp._testSp_bm);"
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":402,"indent":2,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":404,"indent":2,"parameters":[
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":412,"indent":1,"parameters":[
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const TI=TouchInput,ti={x:TI.x,y:TI.y},sp=$gameTemp._testSp_bm,pt=sp.parent.toLocal(ti);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(TI.isTriggered()) ($gameTemp._sels=sp.bouncingMaterial_findNearestPoints_parent(pt.x,pt.y).slice(0,1))._fixedPos=true;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(!TouchInput.isPressed()){ if($gameTemp._sels) $gameTemp._sels[0]._fixedPos=false; $gameTemp._lastXY=$gameTemp._sels=undefined; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"else if($gameTemp._sels){ if(!$gameTemp._lastXY) $gameTemp._lastXY={x:pt.x,y:pt.y}; let lastXY=$gameTemp._lastXY;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"debugger; let dx=pt.x-lastXY.x,dy=pt.y-lastXY.y,ds=Math.sqrt(dx*dx+dy*dy),maxSpeed=sp.bouncingMaterial_getMaxSpeed();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._sels[0][0]+=dx; $gameTemp._sels[0][1]+=dy;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"//if(maxSpeed<ds){ let r=maxSpeed/ds; dx*=r; dy*=r; ti.x=dx+lastXY.x; ti.y=dy+lastXY.y; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"lastXY.x=ti.x; lastXY.y=ti.y;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":230,"indent":1,"parameters":[
+				1
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":413,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":2,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":3,"y":7}
 ]}
