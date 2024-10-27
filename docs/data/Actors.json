@@ -7,5 +7,13 @@
 		3,
 		0
 	],"faceIndex":0,"faceName":"Actor1","traits":[
-	],"initialLevel":1,"maxLevel":99,"name":"超人先生","nickname":"","note":"<skillTree:[\n[3,4,5,[6,\"true\",\"alert('第1行ㄉ')\"]],\n[8,0,[6,\"true\",\"alert('第2行ㄉ')\"]],\n[],\n0,\n[9,10,[6,\"$gamePlayer.x<5\",\"alert('第5行ㄉ')\"],11]\n]>","profile":"第一次參加，好緊張。"}
+	],"initialLevel":1,"maxLevel":99,"name":"超人先生","nickname":"","note":"<skillTree:[\n[3,4,5,[6,\"true\",\"alert('第1行ㄉ')\",26],[0,0,0,24]],\n[0,0,9,[0,0,0,30],[6,\"true\",\"alert('第2行ㄉ')\",30],14],\n[0,0,0,[0,0,0,6],[0,0,0,12]],\n0,\n[13,10,[6,\"$gamePlayer.x<5\",\"alert('第5行ㄉ')\"],11]\n]>","profile":"第一次參加，好緊張。"},
+	{"id":2,"battlerName":"agold404_1","characterIndex":0,"characterName":"agold404_1","classId":1,"equips":[
+		0,
+		0,
+		0,
+		0,
+		0
+	],"faceIndex":1,"faceName":"agold404_1","traits":[
+	],"initialLevel":4,"maxLevel":4,"name":"?_?","nickname":"","note":"","profile":"!_!"}
 ]
