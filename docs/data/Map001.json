@@ -1,4 +1,4 @@
-{"autoplayBgm":false,"autoplayBgs":false,"battleback1Name":"","battleback2Name":"","bgm":{"name":"","pan":0,"pitch":100,"volume":90},"bgs":{"name":"","pan":0,"pitch":100,"volume":90},"disableDashing":false,"displayName":"","encounterList":[
+{"autoplayBgm":false,"autoplayBgs":false,"battleback1Name":"","battleback2Name":"","bgm":{"name":"","pan":0,"pitch":100,"volume":90},"bgs":{"name":"","pan":0,"pitch":100,"volume":90},"disableDashing":false,"displayName":"test map","encounterList":[
 ],"encounterStep":30,"height":32,"note":"","parallaxLoopX":false,"parallaxLoopY":false,"parallaxName":"","parallaxShow":true,"parallaxSx":0,"parallaxSy":0,"scrollType":0,"specifyBattleback":false,"tilesetId":1,"width":32,"data":[
 	2816,
 	2816,
@@ -6342,6 +6342,15 @@
 	],"x":1,"y":1},
 	{"id":7,"name":"EV007","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":2},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"copy"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"self"
+			]},
 			{"code":355,"indent":0,"parameters":[
 				"{ let idx=$gameMap.cpevt(this._eventId,this.getEvt().x,this.getEvt().y);"
 			]},
@@ -6363,7 +6372,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":9,"y":4},
+	],"x":9,"y":6},
 	{"id":8,"name":"EV008","note":"<throughEventsMyTag:a><longDistDetection>","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":1},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -6919,7 +6928,13 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"I can be triggered here."
+				"I can be"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"triggered"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				" here."
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
@@ -6927,7 +6942,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
-	],"x":17,"y":5},
+	],"x":9,"y":5},
 	{"id":14,"name":"EV014","note":"<throughEventsOnlyOnTags:a><longDistDetection>","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -7076,7 +7091,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":1,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":6,"y":3},
+	],"x":5,"y":3},
 	{"id":16,"name":"EV016","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -7413,13 +7428,7 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"==============="
-			]},
-			{"code":408,"indent":0,"parameters":[
 				"Scene_HTML_base"
-			]},
-			{"code":408,"indent":0,"parameters":[
-				"==============="
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"SceneManager.push(Scene_HTML_base,true);"
@@ -7430,5 +7439,6 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":4,"y":2}
+	],"x":4,"y":8},
+	null
 ]}
