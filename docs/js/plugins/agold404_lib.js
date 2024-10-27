@@ -32,6 +32,7 @@ const cf=(p,k,f,tbl,is_putDeepest,is_notUsingOri,moduleName)=>{
 	}
 	if(is_notUsingOri) f.ori=undefined;
 	f.tbl=tbl;
+	//if(f._funcName && f!==none) console.warn("already having '_funcName' proterty for",f);
 	f._funcName=k;
 	f._moduleName=moduleName;
 	return p;
@@ -122,14 +123,14 @@ p.uniqueClear=function(){
 	this._map.clear();
 	this.length=0;
 };
-new cfc(p).add('uniqueSort',function f(cmpFn=undefined){
+new cfc(p).addBase('uniqueSort',function f(cmpFn=undefined){
 	const arr=this.slice();
 	this.uniqueClear();
 	arr.sort.apply(arr,arguments).forEach(f.tbl[0],this);
 	return this;
 },[
 function(x){ this.uniquePush(x); },
-],true,true).add('sort',function f(cmpFn=undefined){
+]).add('sort',function f(cmpFn=undefined){
 	return this._map?this.uniqueSort.apply(this,arguments):f.ori.apply(this,arguments);
 }).add('concat_inplace',function f(...items){
 	if(!this._map) return f.ori.apply(this,arguments);
@@ -140,6 +141,9 @@ function(x){ this.uniquePush(x); },
 	}
 	return this;
 });
+p.kvGetKey=function(idx){
+	return this[idx][1];
+};
 p.kvHas=function(key){
 	if(!this._kvMap) this._kvMap=new Map(this);
 	return this._kvMap.has(key);
@@ -687,6 +691,8 @@ p.rf=function(i){
 p.ra=function(a){ this.removeAttribute(a); return this; };
 p.ga=p.getAttribute;
 p.sa=function(a,v){ this.setAttribute(a,v); return this; };
+p.ae=function(t,f,o){ this.addEventListener.apply(this,arguments); return this; };
+p.re=function(t,f,o){ this.removeEventListener.apply(this,arguments); return this; };
 }
 //
 { const p=HTMLCanvasElement.prototype;
@@ -916,3 +922,23 @@ const getPropertyValue=window.getPropertyValue=function f(obj,key,defaultVal){
 })(); // lib
 
 const undef=undefined,none=()=>{},filterArg0=x=>x,isNum=n=>!isNaN(n),cmpFunc_num=(a,b)=>a-b;
+const PNG_HEADER=new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, ]);
+const PNG_CHUNK_HEADER_IHDR=new Uint8Array([0, 0, 0, 13, 73, 72, 68, 82, ]);
+const PNG_16B_HEADER=new Uint8Array(16);
+PNG_16B_HEADER.set(PNG_HEADER,0);
+PNG_16B_HEADER.set(PNG_CHUNK_HEADER_IHDR,8);
+const OGG_HEADER=new Uint8Array([79, 103, 103, 83, ]);
+const OGG_VERSION_HEADER=new Uint8Array([0, ]);
+const OGG_HEADERTYPE_HEADER=new Uint8Array([2, ]);
+const OGG_GRANULEPOSITION_HEADER=new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, ]);
+const OGG_STREAMSERIAL_HEADER=new Uint8Array([0, 0, 0, 0, ]);
+const OGG_PAGESEQ_HEADER=new Uint8Array([0, 0, 0, 0, ]);
+const OGG_22B_HEADER=new Uint8Array(22);
+OGG_22B_HEADER.set(OGG_HEADER,0);
+OGG_22B_HEADER.set(OGG_VERSION_HEADER,4);
+OGG_22B_HEADER.set(OGG_HEADERTYPE_HEADER,5);
+OGG_22B_HEADER.set(OGG_GRANULEPOSITION_HEADER,6);
+OGG_22B_HEADER.set(OGG_STREAMSERIAL_HEADER,14);
+OGG_22B_HEADER.set(OGG_PAGESEQ_HEADER,18);
+const OGG_16B_HEADER=new Uint8Array(OGG_22B_HEADER.buffer,0,16);
+

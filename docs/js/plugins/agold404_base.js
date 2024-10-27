@@ -22,6 +22,23 @@ window[f.name]=f;
 console.log(getPluginNameViaSrc(document.currentScript.src));
 }
 
+new cfc(Decrypter).addBase('checkImgIgnore',function(url){
+	return this._ignoreList.uniqueHas(url) || ResourceHandler.isDirectPath(url);
+}).add('decryptArrayBuffer',function f(arrayBuffer,refHeader){
+	let rtv=f.ori.apply(this,arguments);
+	if(refHeader && (refHeader.byteLength>=16||refHeader.length>=16)){ const Bv=new Uint8Array(rtv); if(refHeader.toString()!==new Uint8Array(rtv).slice(0,16).toString()){
+		const bak=$dataSystem.encryptionKey;
+		const arr=[]; for(let x=16;x--;) arr[x]=Bv[x]^refHeader[x]^('0x'+this._encryptionKey[x]);
+		$dataSystem.encryptionKey=arr.map(f.tbl[0]).join('');
+		console.log('use key =',$dataSystem.encryptionKey,'\n ref header =',refHeader.slice());
+		rtv=f.ori.apply(this,arguments);
+		$dataSystem.encryptionKey=bak;
+	} }
+	return rtv;
+},[
+c=>c.toString(16), // 0: map
+]);
+
 { const a=Game_Interpreter,p=a.prototype;
 a.NOP={code:0,indent:0,parameters:[],};
 // prevent being slow due to getting non-exists property
@@ -53,14 +70,14 @@ new cfc(Game_System.prototype).add('initialize',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this._rndId=LZString.compressToBase64(''+Date.now()+Math.random()+Math.random()).slice(11);
 	return rtv;
-}).add('saveBgs',function f(){
+}).addBase('saveBgs',function f(){
 	this._savedBgs=AudioManager.saveBgs();
-},undefined,false,true).add('replayBgs',function f(){
+}).addBase('replayBgs',function f(){
 	if(this._savedBgs) AudioManager.replayBgs(this._savedBgs);
-},undefined,false,true).add('saveBg',function f(){
+}).addBase('saveBg',function f(){
 	this.saveBgm();
 	this.saveBgs();
-},undefined,false,true).add('replayBg',function f(immediately){
+}).addBase('replayBg',function f(immediately){
 	const replayFadeTime=AudioManager._replayFadeTime;
 	if(immediately) AudioManager._replayFadeTime=0;
 	this.replayBgm();
@@ -73,7 +90,7 @@ new cfc(Game_Action.prototype).add('applyGlobal',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.applyGlobal_javascript();
 	return rtv;
-}).add('applyGlobal_javascript',function f(){
+}).addBase('applyGlobal_javascript',function f(){
 	const item=this.item();
 	const js=item && item.meta[f.tbl[0]];
 	if(js){
@@ -132,29 +149,37 @@ new cfc(Graphics).add('_updateAllElements',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this._updateAsGameCanvas();
 	return rtv;
-}).add('_updateAsGameCanvas',function f(){
+}).addBase('_updateAsGameCanvas',function f(){
 	const arr=document.querySelectorAll('.AsGameCanvas');
 	for(let x=0,xs=arr.length;x!==xs;++x){
 		this._centerElement(arr[x]);
 		if((typeof f)===(typeof arr[x]._onCenterElement)) arr[x]._onCenterElement();
 	}
-}).add('addAsGameCanvas',function f(dom){
+}).addBase('addAsGameCanvas',function f(dom){
 	if(!dom || !dom.classList) return;
-	dom.classList.add('AsGameCanvas');
+	if(!dom.classList.contains(f.tbl[0])){
+		const c=this._canvas;
+		dom.sa('style',c.ga('style'));
+		dom.width=c.width;
+		dom.height=c.height;
+	}
+	dom.classList.add(f.tbl[0]);
 	this._centerElement(dom);
-});
-new cfc(Graphics).add('refGameSystem_get',function(){
+},[
+'AsGameCanvas', // 0: marker
+]);
+new cfc(Graphics).addBase('refGameSystem_get',function(){
 	return this._refGameSystem;
-}).add('refGameSystem_set',function(ref){
+}).addBase('refGameSystem_set',function(ref){
 	if(ref===undefined) ref=$gameSystem;
 	return this._refGameSystem=ref;
-}).add('refGameSystem_isCurrent',function f(){
+}).addBase('refGameSystem_isCurrent',function f(){
 	return this.refGameSystem_get()===$gameSystem;
 });
 { const p=TilingSprite.prototype;
 p.isInScreen_local=p.isInScreen_local;
 }
-new cfc(Sprite.prototype).add('isInScreen_local',function(){
+new cfc(Sprite.prototype).addBase('isInScreen_local',function(){
 	// calc. local only to reduce calc.
 
 	if(!this.visible || !this.alpha || !this.renderable) return;
@@ -181,17 +206,17 @@ r:0|0,
 u:0|0,
 d:0|0,
 },
-]).addBase('getRect_local',function f(){
+]);
+new cfc(PIXI.DisplayObject.prototype).addBase('getRect_local',function f(){
 	const a=this.anchor;
 	const w=this.width,h=this.height;
 	return new Rectangle(-a.x*w,-a.y*h,w,h);
-}).addBase('containsPoint_global',function f(xy){
-	const pt=this.toLocal(xy);
-	return this.getRect_local().contains(pt.x,pt.y);
 }).addBase('containsPoint_local',function f(xy){
 	return this.getRect_local().contains(xy.x,xy.y);
+}).addBase('containsPoint_global',function f(xy){
+	return this.containsPoint_local(this.toLocal(xy));
 });
-new cfc(Graphics).add('isInScreen_rect',function(rect){
+new cfc(Graphics).addBase('isInScreen_rect',function(rect){
 	return !(rect.x>=this.boxWidth || rect.x+rect.width<0 || rect.y>=this.boxHeight || rect.y+rect.height<0);
 });
 new cfc(Sprite_Character.prototype).add('renderWebGL',function f(){
@@ -319,13 +344,13 @@ t._createAllParts_cursor = function(){
 	//this.addChild(this._windowPauseSignSprite);
 };
 //
-new cfc(Input).add('isTexting_set',function f(){
+new cfc(Input).addBase('isTexting_set',function f(){
 	this._isTexting=true;
-},undefined,false,true).add('isTexting_clear',function f(){
+}).addBase('isTexting_clear',function f(){
 	this._isTexting=false;
-},undefined,false,true).add('isTexting',function f(){
+}).addBase('isTexting',function f(){
 	return this._isTexting;
-},undefined,false,true).add('_shouldPreventDefault',function f(keyCode){
+}).add('_shouldPreventDefault',function f(keyCode){
 	if(this.isTexting()) return false;
 	return f.ori.apply(this,arguments);
 });
@@ -359,14 +384,14 @@ new cfc(TouchInput).addBase('_onTouchStart',function f(event){
 }).add('_onWheel',function f(evt){
 	if(this.bypassPreventDefault_wheel_get(evt)) evt.preventDefault=f.tbl[0];
 	return f.ori.apply(this,arguments);
-},t).add('bypassPreventDefault_wheel_get',function f(){
+},t).addBase('bypassPreventDefault_wheel_get',function f(){
 	return this._bypassPreventDefault_wheel||this._bypassPreventDefault_wheel_stackSize;
-}).add('bypassPreventDefault_wheel_set',function f(rhs){
+}).addBase('bypassPreventDefault_wheel_set',function f(rhs){
 	return this._bypassPreventDefault_wheel=rhs;
-}).add('bypassPreventDefault_wheel_stackPushTrue',function f(){
+}).addBase('bypassPreventDefault_wheel_stackPushTrue',function f(){
 	this._bypassPreventDefault_wheel_stackSize|=0;
 	return ++this._bypassPreventDefault_wheel_stackSize;
-}).add('bypassPreventDefault_wheel_stackPop',function f(){
+}).addBase('bypassPreventDefault_wheel_stackPop',function f(){
 	this._bypassPreventDefault_wheel_stackSize|=0;
 	return --this._bypassPreventDefault_wheel_stackSize;
 }).add('_onTouchStart',function f(evt){
@@ -378,14 +403,14 @@ new cfc(TouchInput).addBase('_onTouchStart',function f(event){
 },t).add('_onTouchEnd',function f(evt){
 	if(this.bypassPreventDefault_touch_get(evt)) evt.preventDefault=f.tbl[0];
 	return f.ori.apply(this,arguments);
-},t).add('bypassPreventDefault_touch_get',function f(){
+},t).addBase('bypassPreventDefault_touch_get',function f(){
 	return this._bypassPreventDefault_touch||this._bypassPreventDefault_touch_stackSize;
-}).add('bypassPreventDefault_touch_set',function f(rhs){
+}).addBase('bypassPreventDefault_touch_set',function f(rhs){
 	return this._bypassPreventDefault_touch=rhs;
-}).add('bypassPreventDefault_touch_stackPushTrue',function f(){
+}).addBase('bypassPreventDefault_touch_stackPushTrue',function f(){
 	this._bypassPreventDefault_touch_stackSize|=0;
 	return ++this._bypassPreventDefault_touch_stackSize;
-}).add('bypassPreventDefault_touch_stackPop',function f(){
+}).addBase('bypassPreventDefault_touch_stackPop',function f(){
 	this._bypassPreventDefault_touch|=0;
 	return --this._bypassPreventDefault_touch_stackSize;
 });
@@ -394,7 +419,7 @@ new cfc(AudioManager).addBase('audioFileExt',function f(){
 	return f.tbl[0];
 },[
 '.ogg',
-]).add('createBuffer',function(folder, name) {
+]).addBase('createBuffer',function(folder, name) {
 	const ext = this.audioFileExt();
 	const url = this._path + folder + '/' + name + ext;
 	return new WebAudio(url);
@@ -405,10 +430,10 @@ new cfc(AudioManager).addBase('audioFileExt',function f(){
 		return Html5Audio;
 	}else return new WebAudio(url);
 */
-},undefined,false,true);
+});
 //
 SceneManager._updateSceneCnt=0|0;
-new cfc(SceneManager).add('isMapOrIsBattle',function f(){
+new cfc(SceneManager).addBase('isMapOrIsBattle',function f(){
 	return this._scene&&f.tbl.has(this._scene.constructor);
 },new Set([Scene_Map,Scene_Battle])).addBase('updateMain',function f(){
 	if(Utils.isMobileSafari()){
@@ -438,7 +463,7 @@ new cfc(SceneManager).add('isMapOrIsBattle',function f(){
 	this.renderScene();
 	this.renderScene_after();
 	this.requestUpdate();
-},[0.25,]).add('additionalUpdate_doArr',function f(arr){
+},[0.25,]).addBase('additionalUpdate_doArr',function f(arr){
 	const rtv=[],popup=[]; // remained funcs
 	const src=arr.slice();
 	arr.length=0;
@@ -449,46 +474,46 @@ new cfc(SceneManager).add('isMapOrIsBattle',function f(){
 	return arr;
 },[
 function(f){ if(!f()) this.push(f); },
-]).add('changeScene_before',function f(){
+]).addBase('changeScene_before',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_changeScene_getBefore());
-}).add('changeScene_after',function f(){
+}).addBase('changeScene_after',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_changeScene_getAfter());
-}).add('additionalUpdate_changeScene_getBefore',function f(){
+}).addBase('additionalUpdate_changeScene_getBefore',function f(){
 	let rtv=this._additionalUpdate_changeScene_before; if(!rtv) rtv=this._additionalUpdate_changeScene_before=[];
 	return rtv;
-}).add('additionalUpdate_changeScene_getAfter',function f(){
+}).addBase('additionalUpdate_changeScene_getAfter',function f(){
 	let rtv=this._additionalUpdate_changeScene_after; if(!rtv) rtv=this._additionalUpdate_changeScene_after=[];
 	return rtv;
-}).add('additionalUpdate_changeScene_add',function f(func,isAfter){
+}).addBase('additionalUpdate_changeScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_changeScene_getAfter():this.additionalUpdate_changeScene_getBefore();
 	arr.push(func);
-}).add('updateScene_before',function f(){
+}).addBase('updateScene_before',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_updateScene_getBefore());
-}).add('updateScene_after',function f(){
+}).addBase('updateScene_after',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_updateScene_getAfter());
-}).add('additionalUpdate_updateScene_getBefore',function f(){
+}).addBase('additionalUpdate_updateScene_getBefore',function f(){
 	let rtv=this._additionalUpdate_updateScene_before; if(!rtv) rtv=this._additionalUpdate_updateScene_before=[];
 	return rtv;
-}).add('additionalUpdate_updateScene_getAfter',function f(){
+}).addBase('additionalUpdate_updateScene_getAfter',function f(){
 	let rtv=this._additionalUpdate_updateScene_after; if(!rtv) rtv=this._additionalUpdate_updateScene_after=[];
 	return rtv;
-}).add('additionalUpdate_updateScene_add',function f(func,isAfter){
+}).addBase('additionalUpdate_updateScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_updateScene_getAfter():this.additionalUpdate_updateScene_getBefore();
 	arr.push(func);
-}).add('renderScene_before',function f(){
+}).addBase('renderScene_before',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_renderScene_getBefore());
-}).add('renderScene_after',function f(){
+}).addBase('renderScene_after',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_renderScene_getAfter());
-}).add('additionalUpdate_renderScene_getBefore',function f(){
+}).addBase('additionalUpdate_renderScene_getBefore',function f(){
 	let rtv=this._additionalUpdate_renderScene_before; if(!rtv) rtv=this._additionalUpdate_renderScene_before=[];
 	return rtv;
-}).add('additionalUpdate_renderScene_getAfter',function f(){
+}).addBase('additionalUpdate_renderScene_getAfter',function f(){
 	let rtv=this._additionalUpdate_renderScene_after; if(!rtv) rtv=this._additionalUpdate_renderScene_after=[];
 	return rtv;
-}).add('additionalUpdate_renderScene_add',function f(func,isAfter){
+}).addBase('additionalUpdate_renderScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_renderScene_getAfter():this.additionalUpdate_renderScene_getBefore();
 	arr.push(func);
-}).add('updateScene',function f(){
+}).addBase('updateScene',function f(){
 	if(this._scene){
 		if(!this._sceneStarted && this._scene.isReady()){
 			this._scene.start_before();
@@ -502,7 +527,7 @@ function(f){ if(!f()) this.push(f); },
 			this._scene.update();
 		}
 	}
-},undefined,false,true);
+});
 // refine Window_Base
 new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const tone=$gameSystem&&$gameSystem.windowTone()||f.tbl[0];
@@ -521,14 +546,14 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	this.resetFontSettings();
 	for(const len=textState.text.length;textState.index<len;) this.processCharacter(textState);
 	return textState.x-x;
-}).add('processNormalCharacter',function f(textState){
+}).addBase('processNormalCharacter',function f(textState){
 	const c=textState.text[textState.index++];
 	const w=this.textWidth(c);
 	if(!textState.isMeasureOnly) this.contents.drawText(c,textState.x,textState.y,w*2,textState.height,undefined,textState);
 	textState.x+=w;
 	textState.right=Math.max(textState.right,textState.x);
 	return w;
-}).add('measure_drawTextEx',function f(text, x, y, _3, _4, out_textState){
+}).addBase('measure_drawTextEx',function f(text, x, y, _3, _4, out_textState){
 	// reserved for auto-line-break or something automatically changed by window size
 	return this.drawTextEx.apply(this,arguments);
 }).add('drawText',function f(text,x,y,maxWidth,align,opt){
@@ -538,7 +563,7 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 //
 new cfc(Window_Base.prototype).addBase('lineHeight',function f(){
 	return 1+~~(this.standardFontSize()*1.25);
-}).add('positioning',function f(setting,ref){
+}).addBase('positioning',function f(setting,ref){
 	setting=setting||f.tbl;
 	let x,y,w,h;
 	if(ref){
@@ -583,16 +608,58 @@ new cfc(Window_Base.prototype).addBase('lineHeight',function f(){
 	}else return f.tbl[0];
 },['']);
 //
-new cfc(Window_Help.prototype).addBase('setText',function f(text,forceUpdate){
-	if(this.setText_condOk(text,forceUpdate)) this.setText_doUpdate(text);
+new cfc(Window_Help.prototype).addBase('setText',function f(text,forceUpdate,out_textState){
+	if(this.setText_condOk(text,forceUpdate)) return this.setText_doUpdate(text,out_textState);
 }).addBase('setText_condOk',function f(text,forceUpdate){
 	return forceUpdate || this._text!==text;
-}).addBase('setText_doUpdate',function f(text){
+}).addBase('setText_doUpdate',function f(text,out_textState){
 	this._text=text;
-	this.refresh();
+	return this.refresh(out_textState);
+}).addBase('refresh',function f(out_textState){
+	this.contents.clear();
+	return this.drawTextEx(this._text, this.textPadding(), 0, undefined,undefined,out_textState);
 });
 //
-new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
+new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
+	const index=this.index();
+	const maxItems=this.maxItems();
+	const maxCols=this.maxCols();
+	const maxRows=this.maxRows();
+	if(maxRows>=2){
+		let nextIndex;
+		if(index+maxCols<maxItems) nextIndex=index+maxCols;
+		else if(this.cursorDown_canLoop(wrap)) nextIndex=index%maxCols;
+		if(nextIndex>=0) this.select(nextIndex);
+	}
+}).addBase('cursorDown_canLoop',t=function f(wrap){
+	return !!wrap;
+}).addBase('cursorUp',function(wrap){
+	const index=this.index();
+	const maxItems=this.maxItems();
+	const maxCols=this.maxCols();
+	const maxRows=this.maxRows();
+	if(maxRows>=2){
+		let nextIndex;
+		if(index>=maxCols) nextIndex=index-maxCols;
+		else if(this.cursorUp_canLoop(wrap)){
+			const c=index%maxCols;
+			const lastC=(maxItems-1)%maxCols;
+			nextIndex=(maxRows-1-(lastC<c))*maxCols+c;
+		}
+		if(nextIndex>=0) this.select(nextIndex);
+	}
+}).addBase('cursorUp_canLoop',t
+).addBase('cursorRight',function(wrap){
+	const index=this.index();
+	const maxItems=this.maxItems();
+	if(this.maxCols()>=2 && (index+1<maxItems||this.cursorRight_canLoop(wrap))) this.select((index+1)%maxItems);
+}).addBase('cursorRight_canLoop',t
+).addBase('cursorLeft',function f(wrap){
+	const index=this.index();
+	const maxItems=this.maxItems();
+	if(this.maxCols()>=2 && (index>=1||this.cursorLeft_canLoop(wrap))) this.select((index-1+maxItems)%maxItems);
+}).addBase('cursorLeft_canLoop',t
+).add('processCursorMove',function f(){
 	const idx=this.index();
 	const rtv=f.ori.apply(this,arguments);
 	if(this.isCursorMovable()){
@@ -634,9 +701,16 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 		if(0<M) this.select(M-1);
 	}
 	return rtv;
-}).add('itemRect_curr',function f(){
+}).add('update',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	if(this.active) this.update_active();
+	if(this.isOpenAndActive()) this.update_openAndActive();
+	return rtv;
+}).addBase('update_active',none
+).addBase('update_openAndActive',none
+).addBase('itemRect_curr',function f(){
 	return this.itemRect(this.index());
-}).add('itemRect_scrollRectInView',function f(rect){
+}).addBase('itemRect_scrollRectInView',function f(rect){
 	let scy=this._scrollY;
 	const maxH=this.contentsHeight(); if(!(0<maxH)) return; // initialize
 	const top=rect.y;
@@ -646,17 +720,17 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	if(top<0) scy+=top;
 	if(scy===this._scrollY) return;
 	this._scrollY=scy;
-}).add('ensureCursorVisible',function f(){
+}).addBase('ensureCursorVisible',function f(){
 	if(!(this.index()>=0)) return;
 	const rect=this.itemRect_curr(); // origin: scrolled origin
 	this.itemRect_scrollRectInView(rect);
 	this.refresh();
 	this.updateCursor();
-}).add('scrollDist',function f(){
+}).addBase('scrollDist',function f(){
 	return f.tbl[0];
 },[
 32,
-]).add('scrollDown',function f(){
+]).addBase('scrollDown',function f(){
 	if(!(this.index()>=0)) return;
 	let scy=this._scrollY;
 	const rectEnd=this.itemRect(this.maxItems());
@@ -668,7 +742,7 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	this._scrollY=scy;
 	this.refresh();
 	this.updateCursor();
-},undefined,false,true).add('scrollUp',function f(){
+}).addBase('scrollUp',function f(){
 	if(!(this.index()>=0)) return;
 	let scy=this._scrollY;
 	const rectBeg=this.itemRect(0);
@@ -679,7 +753,7 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	this._scrollY=scy;
 	this.refresh();
 	this.updateCursor();
-},undefined,false,true).add('itemRect',function f(index){
+}).addBase('itemRect',function f(index){
 	const rect = new Rectangle();
 	const maxCols = this.maxCols();
 	rect.width = this.itemWidth();
@@ -687,15 +761,17 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 	rect.x = index % maxCols * (rect.width + this.spacing()) - this._scrollX;
 	rect.y = ~~(index / maxCols) * (rect.height + this.itemSpacingY()) - this._scrollY; // it's too much if over int32, so let it bug.
 	return rect;
-},undefined,false,true).add('itemSpacingY',function f(){
+}).addBase('itemSpacingY',function f(){
 	return 0;
-},undefined,false,true).add('updateArrows',function f(){
+}).addBase('topRow',function f(){
+	return Math.floor(this._scrollY/(this.itemHeight()+this.itemSpacingY()));
+}).addBase('updateArrows',function f(){
 	let scy=this._scrollY;
 	const rectBeg=this.itemRect(0);
 	const rectBtm=this.itemRect(this.maxItems()-this.maxCols());
 	this.downArrowVisible=this.contentsHeight()<rectBtm.y+rectBtm.height;
 	this.upArrowVisible=rectBeg.y<0;
-},undefined,false,true).add('select',function f(idx){
+}).add('select',function f(idx){
 	const rtv=f.ori.apply(this,arguments);
 	this.onSelect.apply(this,arguments);
 	return rtv;
@@ -703,7 +779,7 @@ new cfc(Window_Selectable.prototype).add('processCursorMove',function f(){
 t[0].forEach(info=>Input.keyMapper[info[0]]=info[1]);
 t=undefined;
 //
-new cfc(Window_SkillList.prototype).add('item',function f(idx){
+new cfc(Window_SkillList.prototype).addBase('item',function f(idx){
 	if(idx===undefined) idx=this.index();
 	return this._data && idx >= 0 ? this._data[idx] : null;
 });
@@ -713,17 +789,16 @@ new cfc(Window_Base.prototype).add('updateClose',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	if(!isClosed && this.isClosed()) this.onclosed();
 	return rtv;
-}).add('onclosed',function f(){
-},undefined,false,true);
-new cfc(Window_Message.prototype).add('onclosed',function f(){
+}).addBase('onclosed',none);
+new cfc(Window_Message.prototype).addBase('onclosed',function f(){
 	Window_Base.prototype.onclosed.apply(this,arguments);
 	if(this._positionType!==2 && this._choiceWindow && this._choiceWindow.updatePlacement){ this.updatePlacement(); this._choiceWindow.updatePlacement(); }
-},undefined,false,true);
+});
 if(Window_Message.prototype.updateClose===Window_Base.prototype.updateClose){
-new cfc(Window_Message.prototype).add('updateClose',function f(){
+new cfc(Window_Message.prototype).addBase('updateClose',function f(){
 	const rtv=Window_Base.prototype.updateClose.apply(this,arguments);
 	return rtv;
-},undefined,false,true);
+});
 }
 //
 new cfc(Scene_Base.prototype).addBase('_prevScene_store',function f(){
@@ -751,13 +826,13 @@ function(){ Scene_Base.prototype.stop.call(this); },
 	if(this._lastBgBm) SceneManager._backgroundBitmap=this._lastBgBm;
 },t);
 //
-new cfc(DataManager).add('isSkill',function f(item){
+new cfc(DataManager).addBase('isSkill',function f(item){
 	return item && $dataSkills.uniqueHas(item);
-}).add('isItem',function f(item){
+}).addBase('isItem',function f(item){
 	return item && $dataItems.uniqueHas(item);
-}).add('isWeapon',function f(item){
+}).addBase('isWeapon',function f(item){
 	return item && $dataWeapons.uniqueHas(item);
-}).add('isArmor',function f(item){
+}).addBase('isArmor',function f(item){
 	return item && $dataArmors.uniqueHas(item);
 }).addBase('loadDataFile',function f(name,src,msg,directSrc,mimeType,method,data){
 	method=method||'GET';
@@ -786,13 +861,13 @@ function(src,e) {
 	const rtv=f.ori.apply(this,arguments);
 	this.onLoad_after.apply(this,arguments);
 	return rtv;
-},undefined,true).add('onLoad_before',function f(obj,name,src,msg){
+},undefined,true).addBase('onLoad_before',function f(obj,name,src,msg){
 	const func=f.tbl.get(name);
 	return func && func.apply(this,arguments);
-},undefined,true).add('onLoad_after',function f(obj,name,src,msg){
+}).addBase('onLoad_after',function f(obj,name,src,msg){
 	const func=f.tbl.get(name);
 	return func && func.apply(this,arguments);
-},undefined,true).addBase('_onLoad_before_map',function f(obj,name,src,msg){
+}).addBase('_onLoad_before_map',function f(obj,name,src,msg){
 	return this.onLoad_before_map.apply(this,arguments);
 }).addBase('_onLoad_after_map',function f(obj,name,src,msg){
 	return this.onLoad_after_map.apply(this,arguments);
@@ -830,11 +905,11 @@ p.onLoad_after.tbl=new Map([
 ]);
 }
 //
-new cfc(WebAudio.prototype).add('_load',function f(url,noerr,putCacheOnly){
+new cfc(WebAudio.prototype).addBase('_load',function f(url,noerr,putCacheOnly){
 	if(!WebAudio._context) return;
 	const xhr=new XMLHttpRequest();
 	xhr._needDecrypt=false;
-	if(Decrypter.hasEncryptedAudio && !ImageManager.isDirectPath(url)){
+	if(Decrypter.hasEncryptedAudio && !ResourceHandler.isDirectPath(url)){
 		url=Decrypter.extToEncryptExt(url);
 		xhr._needDecrypt=true;
 	}
@@ -846,17 +921,23 @@ new cfc(WebAudio.prototype).add('_load',function f(url,noerr,putCacheOnly){
 	xhr.send();
 },[
 function(xhr,url,putCacheOnly){ if(xhr.status<400) this._onXhrLoad(xhr,url,undefined,putCacheOnly); },
-],false,true).add('_onXhrLoad',function f(xhr,url,cache,putCacheOnly){
-	let array=cache&&cache[0]||xhr&&xhr.response;
+]).addBase('_onXhrLoad',function f(xhr,url,cache,putCacheOnly){
+	const src=cache&&cache[0]||xhr&&xhr.response;
+	let array=src;
 	if(!cache){
-		if(xhr._needDecrypt && Decrypter.hasEncryptedAudio && !ImageManager.isDirectPath(url)) array=Decrypter.decryptArrayBuffer(array);
+		if(xhr._needDecrypt && Decrypter.hasEncryptedAudio && !ResourceHandler.isDirectPath(url)) array=Decrypter.decryptArrayBuffer(src);
 		this._setCache(url,cache=[array.slice(),]);
 	}
 	if(putCacheOnly) return;
 	if(cache[1]) return f.tbl[0].call(this,undefined,cache[1]),array;
 	if(array===cache[0]) array=array.slice();
 	this._readLoopComments(new Uint8Array(array));
-	WebAudio._context.decodeAudioData(array,f.tbl[0].bind(this,cache));
+	const func=f.tbl[0].bind(this,cache);
+	WebAudio._context.decodeAudioData(
+		array,
+		func,
+		err=>WebAudio._context.decodeAudioData(cache[0]=Decrypter.decryptArrayBuffer(src,OGG_16B_HEADER),func),
+	);
 	return array;
 },[
 function(cacheObj,buffer){
@@ -872,25 +953,25 @@ function(cacheObj,buffer){
 	}
 	this._onLoad();
 }
-],false,true).add('initialize',function f(url,noerr,putCacheOnly){
+]).add('initialize',function f(url,noerr,putCacheOnly){
 	this._noerr=noerr;
 	this._putCacheOnly=putCacheOnly;
 	return f.ori.apply(this,arguments);
-}).add('_setCache',function f(url,cacheObj){
+}).addBase('_setCache',function f(url,cacheObj){
 	// cacheObj = [arrayBuffer,decodedBuffer]
 	this.getCacheCont().setCache(url,cacheObj,cacheObj[0].byteLength);
-},undefined,false,true).add('_getCache',function f(url){
+}).addBase('_getCache',function f(url){
 	return this.getCacheCont().getCache(url);
-},undefined,false,true).add('getCacheCont',function f(){
+}).addBase('getCacheCont',function f(){
 	//const tw=getTopFrameWindow();
 	//if(!WebAudio._cache) WebAudio._cache=tw._webAudioCache=tw._webAudioCache||new LruCache(f.tbl[0],f.tbl[1]);
 	// do not cache on top for flexibility of file content changes
 	if(!WebAudio._cache) WebAudio._cache=new LruCache(f.tbl[0],f.tbl[1]);
 	return WebAudio._cache;
-},[404,1<<26],false,true);
+},[404,1<<26]);
 //
 Decrypter._notFoundCache=new Set();
-new cfc(Decrypter).add('decryptImg',function f(url,bitmap){
+new cfc(Decrypter).addBase('decryptImg',function f(url,bitmap){
 	url=this.extToEncryptExt(url);
 	const cache=this._getCache(url); if(cache) return this._onXhrLoad(bitmap,cache.slice());
 	
@@ -905,7 +986,7 @@ new cfc(Decrypter).add('decryptImg',function f(url,bitmap){
 },[
 function(bitmap,url){
 	if(this.status<Decrypter._xhrOk){
-		const arrayBuffer=Decrypter.decryptArrayBuffer(this.response);
+		const arrayBuffer=Decrypter.decryptArrayBuffer(this.response,PNG_16B_HEADER);
 		Decrypter._setCache(url,arrayBuffer.slice());
 		Decrypter._onXhrLoad(bitmap,arrayBuffer);
 	}else this.onerror();
@@ -914,11 +995,11 @@ function(bitmap){
 	if(bitmap._loader) bitmap._loader();
 	else bitmap._onError();
 },
-],false,true).add('_onXhrLoad',function f(bitmap,arrayBuffer){
+]).addBase('_onXhrLoad',function f(bitmap,arrayBuffer){
 	bitmap._image.addEventListener('load',bitmap._loadListener=Bitmap.prototype._onLoad.bind(bitmap));
 	bitmap._image.addEventListener('error',bitmap._errorListener=bitmap._loader||Bitmap.prototype._onError.bind(bitmap));
 	bitmap._image.src=Decrypter.createBlobUrl(arrayBuffer);
-},undefined,false,true).add('decryptImg',function f(url,bitmap){
+}).add('decryptImg',function f(url,bitmap){
 	if(Decrypter._notFoundCache.has(url) || getUrlParamVal('disableCustom')) return f.ori.apply(this,arguments);
 	jurl(url,"HEAD",0,0,'arraybuffer',f.tbl[0].bind(this,url,bitmap),f.tbl[1].bind(this,url,bitmap,f.ori,arguments));
 },[
@@ -936,17 +1017,17 @@ function(url,bitmap,ori,argv,xhr){ if(!(xhr.readyState>=4)) return;
 		return ori.apply(this,argv);
 	}
 },
-]).add('_setCache',function f(url,arrayBuffer){
+]).addBase('_setCache',function f(url,arrayBuffer){
 	this.getCacheCont().setCache(url,arrayBuffer,arrayBuffer.byteLength);
-},undefined,false,true).add('_getCache',function f(url){
+}).addBase('_getCache',function f(url){
 	return this.getCacheCont().getCache(url);
-},undefined,false,true).add('getCacheCont',function f(){
+}).addBase('getCacheCont',function f(){
 	const tw=getTopFrameWindow();
 	if(!this._cache) this._cache=tw._decryptImgCache=tw._decryptImgCache||new LruCache(f.tbl[0],f.tbl[1]);
 	return this._cache;
-},[404,1<<28],false,true);
+},[404,1<<28]);
 new cfc(WebAudio.prototype).add('_load',function f(url){
-	if(!Decrypter.hasEncryptedAudio || ImageManager.isDirectPath(url) || Decrypter._notFoundCache.has(url) || getUrlParamVal('disableCustom')) return f.ori.apply(this,arguments);
+	if(!Decrypter.hasEncryptedAudio || ResourceHandler.isDirectPath(url) || Decrypter._notFoundCache.has(url) || getUrlParamVal('disableCustom')) return f.ori.apply(this,arguments);
 	jurl(url,"HEAD",0,0,'arraybuffer',f.tbl[0].bind(this,url,f.ori,arguments),f.tbl[1].bind(this,url,f.ori,arguments));
 },[
 function(url,ori,argv,resp,xhr){ if(xhr.readyState!==4) return;
@@ -967,7 +1048,7 @@ function(url,ori,argv,xhr){ if(!(xhr.readyState>=4)) return;
 },
 ]);
 //
-new cfc(Game_Party.prototype).add('partyAbility_sumAll',function f(dataId){
+new cfc(Game_Party.prototype).addBase('partyAbility_sumAll',function f(dataId){
 	return this.members().reduce(f.tbl[0].bind(dataId),0);
 },[
 function(r,btlr){
@@ -1033,9 +1114,9 @@ new cfc(p).add('_createAllParts',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.windowStyle_adjust();
 	return rtv;
-}).add('windowStyle_adjust',function f(){
+}).addBase('windowStyle_adjust',function f(){
 	return this.windowStyle_setTextOnly();
-}).add('windowStyle_setTextOnly',function f(){
+}).addBase('windowStyle_setTextOnly',function f(){
 	let t,k;
 	for(let x=0,arr=f.tbl[0],xs=arr.length;x!==xs;++x){
 		// not setting following properties to `undefined` for capability
@@ -1047,7 +1128,7 @@ new cfc(p).add('_createAllParts',function f(){
 '_windowFrameSprite',
 '_windowBackSprite',
 ], // 0: keys
-]).add('setText',function f(styledText,isFixedWindowSize,isAppending,isForcedRedraw){
+]).addBase('setText',function f(styledText,isFixedWindowSize,isAppending,isForcedRedraw){
 	// text having something like `\{` , `\}` , ...
 	
 	// skip if same
@@ -1112,7 +1193,9 @@ new cfc(Input).addBase('_getKeyName',function f(event){
 	this._currentState[btnName]=true;
 }).addBase('_onKeyDown_okForRetryResource',function f(buttonName){
 	const rtv=Graphics._errorShowed&&buttonName==='ok';
-	ResourceHandler.retry();
+	if(rtv){ const s=Graphics._retryResourceBtns; if(s){
+		const it0=s.keys().next(); if(!it0.done){ const btn=it0.value; btn.click(); s.delete(btn); }
+	} }
 	return rtv;
 });
 
@@ -1188,17 +1271,125 @@ child=>child.update&&child.update(), // 0: forEach
 
 })(); // refine for future extensions
 
+// ---- ---- ---- ---- Scene_HTML_base
+
+(()=>{ let k,r,t;
+
+const a=class Scene_HTML_base extends Scene_Base{
+};
+window[a.name]=a;
+a.ori=Scene_Base;
+t=[
+a.ori.prototype,
+];
+new cfc(a.prototype).addBase('initialize',function f(){
+	const rtv=f.tbl[0][f._funcName].apply(this,arguments);
+	this._isToExit=false;
+	this.initialize_background();
+	this.initialize_divRoot();
+	return rtv;
+},t).addBase('initialize_background',function f(){
+	const bmp=this._backgroundBmp=SceneManager.snap();
+	bmp.blur();
+}).addBase('initialize_divRoot',function f(){
+	if(this._divRoot) return this._divRoot;
+	const rtv=this._divRoot=document.ce('div');
+	Graphics.addAsGameCanvas(rtv);
+	rtv._main=this._divMain=document.ce('div').sa('style',this.divRootCss());
+	rtv.appendChild(rtv._main);
+	document.body.ac(rtv);
+	return rtv;
+}).addBase('divRootCss',function(){
+	return "width:100%;height:100%;background-color:rgba(0,0,0,0.25);color:#EEEEEE";
+}).addBase('update',function f(){
+	if(this.update_processInput()) return this.popScene();
+	return f.tbl[0][f._funcName].apply(this,arguments);
+},t).addBase('update_processInput',function f(){
+	if(this.update_processInput_isToExit()) return true;
+}).addBase('update_processInput_isToExit',function f(){
+	return this._isToExit;
+}).addBase('create',function f(){
+	this.create_background();
+	this.create_exitEvents();
+	this.create_inputEvents();
+	return f.tbl[0][f._funcName].apply(this,arguments);
+},t).addBase('create_background',function f(){
+	const sp=this._backgroundSprite=new Sprite(this._backgroundBmp);
+	this.addChild(sp);
+}).addBase('create_exitEvents',function f(){
+	// match terminate_removeExitEvents
+	document.body.ae(
+		'keydown',
+		this._exitEventFunction=evt=>{
+			if(evt.keyCode!==27) return;
+			this._isToExit=true;
+		},
+	);
+}).addBase('create_inputEvents',function f(){
+	// terminate_removeInputEvents
+	this._keyboardEventFunction_down=this.keyboardEvent_down.bind(this);
+	this._keyboardEventFunction_up=this.keyboardEvent_up.bind(this);
+	this._keyboardEventFunction_press=this.keyboardEvent_press.bind(this);
+	document.body.ae(
+		'keydown',
+		this._keyboardEventFunction_down,
+		this._keyboardEventOption_down,
+	).ae(
+		'keyup',
+		this._keyboardEventOption_up,
+		this._keyboardEventOption_up,
+	).ae(
+		'keypress',
+		this._keyboardEventFunction_press,
+		this._keyboardEventOption_press,
+	);
+}).addBase('keyboardEvent_down',function f(evt){
+	if(this.constructor===Scene_HTML_base) console.log('kbevt down',evt.keyCode);
+}).addBase('keyboardEvent_up',function f(evt){
+	if(this.constructor===Scene_HTML_base) console.log('kbevt up',evt.keyCode);
+}).addBase('keyboardEvent_press',function f(evt){
+	if(this.constructor===Scene_HTML_base) console.log('kbevt press',evt.keyCode);
+}).addBase('terminate',function f(){
+	this.terminate_removeExitEvents();
+	this.terminate_removeInputEvents();
+	this.terminate_removeDivRoot();
+	return f.tbl[0][f._funcName].apply(this,arguments);
+},t).addBase('terminate_removeExitEvents',function f(){
+	// match create_exitEvents
+	document.body.re('keydown',this._exitEventFunction,);
+}).addBase('terminate_removeInputEvents',function f(){
+	document.body.re(
+		'keydown',
+		this._keyboardEventFunction_down,
+		this._keyboardEventOption_down,
+	).re(
+		'keyup',
+		this._keyboardEventOption_up,
+		this._keyboardEventOption_up,
+	).re(
+		'keypress',
+		this._keyboardEventFunction_press,
+		this._keyboardEventOption_press,
+	);
+}).addBase('terminate_removeDivRoot',function f(){
+	const c=this._divRoot;
+	const p=c&&c.parentNode;
+	if(p) p.removeChild(c);
+});
+
+})(); // Scene_HTML_base
+
 // ---- ---- ---- ---- PluginManager
 
 (()=>{ let k,r,t;
 
-new cfc(PluginManager).add('setParameters',function f(key,params){
+new cfc(PluginManager).addBase('setParameters',function f(key,params){
 	return this._parameters[key]=params;
-},undefined,false,false).add('parameters',function f(key){
+}).addBase('parameters',function f(key){
 	return this._parameters[key] || f.tbl[0][key] || (f.tbl[0][key]={});
 },[
 {}, // 0: common defaults
-],false,false);
+]);
 
 PluginManager._parameters={};
 window.$pluginsMap=$plugins.map(plugin=>[plugin.name,plugin]);
@@ -1208,28 +1399,28 @@ $plugins.forEach(plugin=>plugin.status&&PluginManager.setParameters(plugin.name,
 
 // ---- ---- ---- ---- load other files
 
-new cfc(ImageManager).add('otherFiles_getDataMap',function f(){
+new cfc(ImageManager).addBase('otherFiles_getDataMap',function f(){
 	let m=this._otherFiles; if(!m) m=this._otherFiles=new Map();
 	return m;
-}).add('otherFiles_getPendedSet',function f(){
+}).addBase('otherFiles_getPendedSet',function f(){
 	let s=this._otherFiles_pended; if(!s) s=this._otherFiles_pended=new Set();
 	return s;
-}).add('otherFiles_getData',function f(path){
+}).addBase('otherFiles_getData',function f(path){
 	const m=this.otherFiles_getDataMap();
 	return m.get(path);
-}).add('otherFiles_delData',function f(path){
+}).addBase('otherFiles_delData',function f(path){
 	const m=this.otherFiles_getDataMap(),s=this.otherFiles_getPendedSet();
 	const rtv=m.get(path);
 	m.delete(path);
 	s.delete(path);
 	return rtv;
-}).add('otherFiles_delDataAll',function f(){ // for debug
+}).addBase('otherFiles_delDataAll',function f(){ // for debug
 	const m=this.otherFiles_getDataMap(),s=this.otherFiles_getPendedSet();
 	m.forEach(f.tbl[0].bind(m));
 	s.forEach(f.tbl[0].bind(s));
 },[
 function(v,k){this.delete(k);},
-]).add('otherFiles_addLoad',function f(path){
+]).addBase('otherFiles_addLoad',function f(path){
 	const m=this.otherFiles_getDataMap();
 	if(m.has(path)) return;
 	const s=this.otherFiles_getPendedSet();
@@ -1244,7 +1435,7 @@ function(v,k){this.delete(k);},
 		const stat=xhr.status.toString();
 		if(stat==='0' || (stat.length===3 && stat[0]==='4')) s.delete(path); // nw.js: 0 ; web: 404
 	});
-}).add('otherFiles_isAllLoaded',function f(){
+}).addBase('otherFiles_isAllLoaded',function f(){
 	return !this.otherFiles_getPendedSet().size;
 }).add('isReady',function f(){
 	return this.otherFiles_isAllLoaded()&&f.ori.apply(this,arguments);
@@ -1270,7 +1461,7 @@ TouchInput._setupEventHandlers = function() {
 
 (()=>{ let k,r,t;
 
-new cfc(DataManager).add('getDebugInfo',function f(){
+new cfc(DataManager).addBase('getDebugInfo',function f(){
 	const sc=SceneManager._scene;
 	return ({
 		sc:sc,
@@ -1279,7 +1470,7 @@ new cfc(DataManager).add('getDebugInfo',function f(){
 		xy:$gamePlayer&&({x:$gamePlayer.x,y:$gamePlayer.y}),
 		xyReal:$gamePlayer&&({x:$gamePlayer._realX,y:$gamePlayer._realY}),
 	});
-}).add('getDebugInfoStr',function f(){
+}).addBase('getDebugInfoStr',function f(){
 	const res=[];
 	const info=this.getDebugInfo();
 	const scName=info.scCtor&&info.scCtor.name;
@@ -1317,7 +1508,7 @@ new cfc(Game_Interpreter.prototype).add('command111',function f(){
 '',
 '條件分歧ㄉ條件打錯ㄌ',
 ],
-]).add('command355',function f(){
+]).addBase('command355',function f(){
 	let script=this.currentCommand().parameters[0];
 	while(f.tbl[0].has(this.nextEventCode())){
 		this._index++;
@@ -1397,17 +1588,17 @@ function f(dataobj){
 
 (()=>{ let k,r,t;
 
-new cfc(Game_Actor.prototype).add('getData',function f(){
+new cfc(Game_Actor.prototype).addBase('getData',function f(){
 	return this.actor();
-},undefined,false,true);
+});
 
-new cfc(Game_Enemy.prototype).add('getData',function f(){
+new cfc(Game_Enemy.prototype).addBase('getData',function f(){
 	return this.enemy();
-},undefined,false,true);
+});
 
-new cfc(Game_Unit.prototype).add('allMembers',function(){
+new cfc(Game_Unit.prototype).addBase('allMembers',function(){
 	return this.members();
-},undefined,false,true);
+});
 
 })(); // re-unify
 
@@ -1419,7 +1610,7 @@ new cfc(DataManager).add('onLoad_after_map',function f(obj,name,src,msg){
 	const rtv=f.ori.apply(this,arguments);
 	this.onload_addMapEvtPgNote.apply(this,arguments); // needs to copy event.meta to each page.meta
 	return rtv;
-}).add('onload_addMapEvtPgNote',function f(obj,name,src,msg){
+}).addBase('onload_addMapEvtPgNote',function f(obj,name,src,msg){
 	obj.events.forEach(f.tbl[0]);
 },[
 evtd=>{ if(!evtd) return;
@@ -1438,7 +1629,7 @@ evtd=>{ if(!evtd) return;
 		if(evtd.meta) Object.assign(pg.meta,evtd.meta);
 	}
 },
-],false,true);
+]);
 
 new cfc(Game_Event.prototype).addBase('page',function f(){
 	const evtd=this.event();
@@ -1463,11 +1654,11 @@ new cfc(Sprite_Character.prototype).add('setCharacter',function f(){
 		sc._chr2sp.set(arguments[0],this);
 	} }
 	return f.ori.apply(this,arguments);
-}).add('updatePosition',function f(){
+}).addBase('updatePosition',function f(){
 	const chr=this._character;
 	this.position.set(chr.screenX(),chr.screenY());
 	this.z=chr.screenZ();
-},undefined,false,true);
+});
 
 new cfc(Sprite_Battler.prototype).add('setBattler',function f(){
 	const rtv=f.ori.apply(this,arguments);
@@ -1477,23 +1668,23 @@ new cfc(Sprite_Battler.prototype).add('setBattler',function f(){
 		sc._btlr2sp.set(this._battler,this);
 	}
 	return rtv;
-}).add('updatePosition',function f(){
+}).addBase('updatePosition',function f(){
 	this.position.set( this._homeX+this._offsetX , this._homeY+this._offsetY );
-},undefined,false,true);
+});
 
-new cfc(Game_Character.prototype).add('getSprite',function f(){
+new cfc(Game_Character.prototype).addBase('getSprite',function f(){
 	const sc=SceneManager._scene;
 	const m=sc&&sc._chr2sp;
 	return m&&m.get(this);
-},undefined,false,true);
+});
 
-new cfc(Game_Battler.prototype).add('getSprite',function f(){
+new cfc(Game_Battler.prototype).addBase('getSprite',function f(){
 	const sc=SceneManager._scene;
 	const m=sc&&sc._btlr2sp;
 	return m&&m.get(this);
-},undefined,false,true);
+});
 
-new cfc(SceneManager).add('getSprite',function f(obj){
+new cfc(SceneManager).addBase('getSprite',function f(obj){
 	const sc=this._scene;
 	const func=f.tbl[0].get(sc&&sc.constructor);
 	const m=func&&func(sc);
@@ -1511,12 +1702,18 @@ new Map([
 
 (()=>{ let k,r,t;
 
-if(!window.addEnum) window.addEnum=function(key){
+window.addEnum=window.addEnum||function(key){
 	if(this[key]) return;
 	this._enumMax|=0;
 	this[key]=++this._enumMax;
 	return this;
 };
+const initAddEnum=obj=>{
+	obj._enumMax=obj._enumMax>=404?obj._enumMax:404;
+	obj.addEnum=window.addEnum;
+};
+
+initAddEnum(Game_BattlerBase);
 
 t=[
 ({
@@ -1857,7 +2054,7 @@ new cfc(Window_ItemList.prototype).addBase('drawItemNumber',function f(item, x, 
 	this.changePaintOpacity(1);
 });
 
-new cfc(Game_Battler.prototype).add('getParty',function f(){
+new cfc(Game_Battler.prototype).addBase('getParty',function f(){
 	const func=f.tbl[0].get(this.constructor);
 	return func&&func();
 },[
@@ -1950,17 +2147,17 @@ new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentSc
 
 // ---- ---- ---- ---- scene.start before/after
 
-new cfc(Scene_Base.prototype).add('start_after',function f(){
-}).add('start_before',function f(){
-});
+new cfc(Scene_Base.prototype).addBase('start_after',none,
+).addBase('start_before',none,
+);
 
-new cfc(Scene_Boot.prototype).add('start_after',function f(){
+new cfc(Scene_Boot.prototype).addBase('start_after',function f(){
 	// TBD
 	// next scene might be: test battle, test map
 	// ALL $data* and its elements should not be changed
 	// only creating search tables here
 	return Scene_Base.prototype.start_after.apply(this,arguments);
-}).add('start_before',function f(){
+}).addBase('start_before',function f(){
 	// TBD
 	// change contents of elelments in $data* 
 	// change $data* 
@@ -1968,33 +2165,34 @@ new cfc(Scene_Boot.prototype).add('start_after',function f(){
 	this.modData();
 	this.createSearchTables(true);
 	return rtv;
-}).add('createSearchTables',function f(isRegenAll){
+}).addBase('createSearchTables',function f(isRegenAll){
 	// consider some data is changed after last call
 	// TODO
-}).add('modData',function f(){
+}).addBase('modData',function f(){
+	this.modItems();
 	this.modTraits();
 	this.modEffects(); // consider passive skill traits referrer to a state 
-}).add('modTraits',function f(){
+}).addBase('modTraits',function f(){
 	// order: editor menu
-	$dataActors  .forEach(this.modTrait1);
-	$dataClasses .forEach(this.modTrait1);
-	//$dataSkills  .forEach(this.modTrait1);
-	//$dataItems   .forEach(this.modTrait1);
-	$dataWeapons .forEach(this.modTrait1);
-	$dataArmors  .forEach(this.modTrait1);
-	$dataEnemies .forEach(this.modTrait1);
-	$dataTroops  .forEach(this.modTrait1);
-	$dataStates  .forEach(this.modTrait1);
-}).add('modTrait1',none).add('modEffects',function f(){
+	$dataActors  .forEach(this.modTrait1.bind(this));
+	$dataClasses .forEach(this.modTrait1.bind(this));
+	//$dataSkills  .forEach(this.modTrait1.bind(this));
+	//$dataItems   .forEach(this.modTrait1.bind(this));
+	$dataWeapons .forEach(this.modTrait1.bind(this));
+	$dataArmors  .forEach(this.modTrait1.bind(this));
+	$dataEnemies .forEach(this.modTrait1.bind(this));
+	$dataTroops  .forEach(this.modTrait1.bind(this));
+	$dataStates  .forEach(this.modTrait1.bind(this));
+}).addBase('modTrait1',none).add('modEffects',function f(){
 	// order: editor menu
-	$dataSkills  .forEach(this.modEffect1);
-	$dataItems   .forEach(this.modEffect1);
-}).add('modEffect1',none).add('modItems',function f(){
+	$dataSkills  .forEach(this.modEffect1.bind(this));
+	$dataItems   .forEach(this.modEffect1.bind(this));
+}).addBase('modEffect1',none).add('modItems',function f(){
 	// order: editor menu
-	$dataItems   .forEach(this.modItem1);
-	$dataWeapons .forEach(this.modItem1);
-	$dataArmors  .forEach(this.modItem1);
-}).add('modItem1',none);
+	$dataItems   .forEach(this.modItem1.bind(this));
+	$dataWeapons .forEach(this.modItem1.bind(this));
+	$dataArmors  .forEach(this.modItem1.bind(this));
+}).addBase('modItem1',none);
 
 // ---- ---- ---- ---- scene.terminate before/after + clean scene child
 
@@ -2004,7 +2202,7 @@ new cfc(Sprite.prototype).add('initialize',function f(){
 	return rtv;
 });
 
-new cfc(Scene_Base.prototype).add('terminate_after',function f(){
+new cfc(Scene_Base.prototype).addBase('terminate_after',function f(){
 	if(this.children){ while(this.children.length){
 		const currLen=this.children.length;
 		const sp=this.children.back;
@@ -2013,14 +2211,111 @@ new cfc(Scene_Base.prototype).add('terminate_after',function f(){
 		if(this.children.back===sp) this.removeChildAt(this.children.length-1);
 		else if(this.children.length>=currLen) throw new Error('got new child when terminating');
 	} }
-}).add('terminate_before',function f(){
-});
+}).addBase('terminate_before',none);
 
-new cfc(Scene_Boot.prototype).add('terminate_after',function f(){
+new cfc(Scene_Boot.prototype).addBase('terminate_after',function f(){
 	return Scene_Base.prototype.terminate_after.apply(this,arguments);
-}).add('terminate_before',function f(){
+}).addBase('terminate_before',function f(){
 	return Scene_Base.prototype.terminate_before.apply(this,arguments);
 });
+
+// ---- ---- ---- ---- refine skill cost
+
+(()=>{ let k,r,t;
+
+const gbb=Game_BattlerBase;
+const gbbp=gbb.prototype;
+
+{
+const kwStr='hpCostRate';
+const kwTrait='TRAIT_'+kwStr;
+Game_BattlerBase.addEnum(kwTrait);
+Object.defineProperty(gbbp,'hpcr',{
+get:function f(){
+	return this.traitsPi(kwTrait,0);
+},configurable:true,
+});
+new cfc(Scene_Boot.prototype).add('modTrait1',function f(dataobj,i,arr){
+	this.modTrait1_hpCostRate.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).add('modTrait1_hpCostRate',function f(dataobj,i,arr){
+	const meta=dataobj&&dataobj.meta,ts=dataobj&&dataobj.traits; if(!meta||!ts) return;
+	const n=meta[f.tbl[0]]-0;
+	if(!isNaN(n)&&n!==1) ts.push({code:gbb[f.tbl[1]],dataId:0,value:n,});
+},[
+kwStr,
+kwTrait,
+]);
+}
+
+Object.defineProperty(gbbp,'mpcr',{
+get:function f(){
+	return this.mcr;
+},configurable:true,
+});
+
+{
+const kwStr='tpCostRate';
+const kwTrait='TRAIT_'+kwStr;
+Game_BattlerBase.addEnum(kwTrait);
+Object.defineProperty(gbbp,'tpcr',{
+get:function f(){
+	return this.traitsPi(kwTrait,0);
+},configurable:true,
+});
+new cfc(Scene_Boot.prototype).add('modTrait1',function f(dataobj,i,arr){
+	this.modTrait1_tpCostRate.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).add('modTrait1_tpCostRate',function f(dataobj,i,arr){
+	const meta=dataobj&&dataobj.meta,ts=dataobj&&dataobj.traits; if(!meta||!ts) return;
+	const n=meta[f.tbl[0]]-0;
+	if(!isNaN(n)&&n!==1) ts.push({code:gbb[f.tbl[1]],dataId:0,value:n,});
+},[
+kwStr,
+kwTrait,
+]);
+}
+
+new cfc(Game_BattlerBase.prototype).addBase('skillHpCost',function(skill) {
+	return ~~(skill.hpCost*this.hpcr);
+}).addBase('skillMpCost',function(skill){
+	return ~~(skill.mpCost*this.mpcr);
+}).addBase('skillTpCost',function(skill){
+	return ~~(skill.tpCost*this.tpcr);
+});
+
+new cfc(Window_Base.prototype).addBase('hpCostColor',function f(){
+	return this.textColor(21);
+})
+
+new cfc(Window_SkillList.prototype).addBase('drawSkillCost',function f(skill, x, y, width){
+	const actr=this._actor; if(!actr) return;
+	const hpCost=actr.skillHpCost(skill);
+	const mpCost=actr.skillMpCost(skill);
+	const tpCost=actr.skillTpCost(skill);
+	const fieldNum=!!hpCost+!!mpCost+!!tpCost; if(!fieldNum) return;
+	const sep=Math.ceil(this.textWidth('0'));
+	const digitWidth=sep;
+	const w=~~((width-(fieldNum-1)*sep)/fieldNum+sep);
+	let dx=0;
+	if(hpCost){
+		this.changeTextColor(this.hpCostColor());
+		this.drawText(hpCost, x+dx, y, w-sep, 'right');
+		dx+=w;
+	}
+	if(mpCost){
+		this.changeTextColor(this.mpCostColor());
+		this.drawText(mpCost, x+dx, y, w-sep, 'right');
+		dx+=w;
+	}
+	if(tpCost){
+		this.changeTextColor(this.tpCostColor());
+		this.drawText(tpCost, x+dx, y, w-sep, 'right');
+		dx+=w;
+	}
+});
+
+})(); // refine skill cost
 
 // ---- ---- ---- ---- Game_BattlerBase.traitCode2traitKey
 
@@ -2053,7 +2348,7 @@ new cfc(p).add('renderScene',function f(){
 	return f.ori.apply(this,arguments);
 },[
 // sp=>sp.refresh_do()===SceneManager.NOT_REFRESHED && SceneManager._scene._needRefreshes_notYet, // discard if can't refresh
-sp=>sp.refresh_do(),
+sp=>sp.parent&&sp.refresh_do(),
 ]).addBase('addRefresh',function f(obj,forcePending){
 	if(!obj||(typeof obj.refresh_do!=='function')) return console.warn('got unsupported obj',obj);
 	const sc=this._scene; if(!sc) return;
@@ -2176,7 +2471,7 @@ new cfc(Sprite.prototype).add('update',function f(){
 
 (()=>{ let k,r,t;
 
-new cfc(Tilemap.prototype).add('initialize',function(margin) {
+new cfc(Tilemap.prototype).addBase('initialize',function(margin) {
 	PIXI.Container.call(this);
 	
 	this._tileWidth = $gameMap?$gameMap.tileWidth():48;
@@ -2241,13 +2536,13 @@ new cfc(Tilemap.prototype).add('initialize',function(margin) {
 	
 	this._createLayers();
 	this.refresh();
-},undefined,false,true);
+});
 
 new cfc(Spriteset_Base.prototype).add('updatePosition',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.updatePosition_CanvasToneChanger();
 	return rtv;
-}).add('updatePosition_CanvasToneChanger',function f(){
+}).addBase('updatePosition_CanvasToneChanger',function f(){
 	const sp=this._toneSprite; if(sp) sp.position.set(-this.x,-this.y);
 });
 
@@ -2263,9 +2558,9 @@ new cfc(SceneManager).add('updateScene',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.createdPosition3AnimationInTheFrame_reset();
 	return rtv;
-}).add('createdPosition3AnimationInTheFrame_reset',function f(){
+}).addBase('createdPosition3AnimationInTheFrame_reset',function f(){
 	Sprite_Animation._createdPosition3AnimationsInTheFrame.clear();
-}).add('createdPosition3AnimationInTheFrame_add',function f(dataobj){
+}).addBase('createdPosition3AnimationInTheFrame_add',function f(dataobj){
 	const s=Sprite_Animation._createdPosition3AnimationsInTheFrame;
 	const sz=s.size;
 	if(dataobj&&dataobj.position===3){
@@ -2273,17 +2568,17 @@ new cfc(SceneManager).add('updateScene',function f(){
 		return s.size-sz;
 	}
 	return -1;
-}).add('createdPosition3AnimationInTheFrame_has',function f(dataobj){
+}).addBase('createdPosition3AnimationInTheFrame_has',function f(dataobj){
 	return Sprite_Animation._createdPosition3AnimationsInTheFrame.has(dataobj);
 });
 
-new cfc(Sprite_Animation.prototype).add('update',function f(){
+new cfc(Sprite_Animation.prototype).addBase('update',function f(){
 	Sprite.prototype.update.call(this);
 	this.updateMain();
 	this.updateFlash();
 	this.updateScreenFlash();
 	this.updateHiding();
-},undefined,false,true).add('createSprites',function f(){
+}).addBase('createSprites',function f(){
 	if(SceneManager.createdPosition3AnimationInTheFrame_add(this._animation)){
 		this.createCellSprites(); 
 		this.createScreenFlashSprite();
@@ -2391,7 +2686,7 @@ t.forEach(x=>x&&x.constructor===Function&&(x.tbl=x.ori=t));
 new cfc(Scene_Boot.prototype).add('start_before',function f(){
 	this.start_before_aniNote();
 	return f.ori.apply(this,arguments);
-}).add('start_before_aniNote',function f(idx){
+}).addBase('start_before_aniNote',function f(idx){
 	if(idx===undefined) $dataAnimations.forEach(f.tbl[3]);
 	else if($dataAnimations[idx]) f.tbl[3]($dataAnimations[idx]);
 },t);
@@ -2408,16 +2703,16 @@ new cfc(Sprite_Animation.prototype).add('setup',function f(target,ani,mir,dly,op
 	}
 	this._opt=opt;
 	return f.ori.apply(this,arguments);
-},t).add('setupRate',none);
+},t).addBase('setupRate',none);
 
-new cfc(Game_Character.prototype).add('requestAnimation',function f(aniId,opt){
+new cfc(Game_Character.prototype).addBase('requestAnimation',function f(aniId,opt){
 	const sp=this.getSprite(); if(!sp) return;
 	const ani=$dataAnimations&&$dataAnimations[aniId]; if(!ani) return;
 	this.startAnimation();
 	return sp.startAnimation(ani,false,0,opt);
-},undefined,false,true);
+});
 
-new cfc(Sprite_Base.prototype).add('startAnimation',function f(ani,mir,dly,opt){
+new cfc(Sprite_Base.prototype).addBase('startAnimation',function f(ani,mir,dly,opt){
 	opt=opt||{};
 	$gameSystem.animationOptions_applyTo(opt,true);
 	const sp=new Sprite_Animation();
@@ -2429,7 +2724,7 @@ new cfc(Sprite_Base.prototype).add('startAnimation',function f(ani,mir,dly,opt){
 	this.startAnimation_optOthers(opt,sp);
 	
 	return sp;
-},undefined,false,true).add('startAnimation_optOthers',function f(opt,sp){
+}).addBase('startAnimation_optOthers',function f(opt,sp){
 	let rotate=0;
 	let scalex=1;
 	let scaley=1;
@@ -2489,7 +2784,7 @@ new cfc(Game_CharacterBase.prototype).add('update',function f(){
 	return this._screenDy+f.ori.apply(this,arguments);
 }).add('screenZ',function f(){
 	return this._screenDz+f.ori.apply(this,arguments);
-}).add('setScreenXy',function f(dx,dy,dur,sx,sy,){
+}).addBase('setScreenXy',function f(dx,dy,dur,sx,sy,){
 	if((dur|=0) && 0<dur){ this._screenXyData={
 		src:[
 			sx===undefined?this._screenDx:sx-this.screenX(),
@@ -2504,7 +2799,7 @@ new cfc(Game_CharacterBase.prototype).add('update',function f(){
 		this._screenDy=dy|0;
 	}
 	this.updateScreenXy();
-}).add('updateScreenXy',function f(){
+}).addBase('updateScreenXy',function f(){
 	if(this._screenXyData && this._screenXyData.dur<this._screenXyData.durDst){
 		const r=++this._screenXyData.dur/this._screenXyData.durDst; // dur is casted to int32 in 'setScreenXy' 
 		this._screenDx=r*(this._screenXyData.dst[0]-this._screenXyData.src[0])+this._screenXyData.src[0];
@@ -2586,11 +2881,94 @@ r=p[k]; (p[k]=function f(path){
 }).ori=r;
 }
 
-{ const p=ImageManager;
+{ const p=ResourceHandler;
+p._emptyData={
+'img':'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII=', // blank_1x1
+'audio':'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAIARKwAABCxAgAEABAAZGF0YQAAAAA=', // blank_audio
+};
+p._reloaders=new Set();
+p.exists=function(){ return 0<this._reloaders.size; };
+new cfc(p).addBase('retry',function f(){
+	Graphics.eraseLoadingError();
+	SceneManager.resume();
+	const s=new Set(this._reloaders);
+	this._reloaders.clear();
+	s.forEach(f.tbl[0]);
+},[
+f=>f(), // 0: forEach
+]);
+p.reloader_add=function(f){ this._reloaders.add(f); };
+p.reloader_del=function(f){ this._reloaders.delete(f); };
+p.setLoaderType=function(t){ this._loaderType=t; };
+p.getLoaderType=function(){ return this._loaderType; };
+p.createLoader=function(url, retryMethod, resignMethod, retryInterval){
+	// create re-loader, actually
+	retryInterval=retryInterval||this._defaultRetryInterval;
+	retryMethod._printNoErr=retryMethod._printNoErr||this._printNoErr;
+	retryMethod._loaderType=retryMethod._loaderType||this._loaderType;
+	let retryCount=0;
+	const opt={};
+	const rtv=function loader(){
+		if(retryCount<retryInterval.length){
+			setTimeout(retryMethod, retryInterval[retryCount]);
+			retryCount++;
+		}else{
+			if(resignMethod) resignMethod();
+			if(url){
+				ResourceHandler.reloader_del(opt.reloader);
+				const f=opt.reloader=isGivingUp=>{
+					retryCount=0;
+					retryMethod(isGivingUp&&ResourceHandler._emptyData[retryMethod._loaderType]||url);
+				};
+				if(!loader._div||!loader._div.parentNode){
+					loader._div=undefined;
+					if(!retryMethod._printNoErr) loader._div=Graphics.printLoadingError(url,opt);
+				}
+				SceneManager.stop();
+				ResourceHandler.reloader_add(f);
+			}
+		}
+	};
+	return rtv;
+};
 (t=p.isDirectPath=function f(fname){
 	return fname && fname.constructor===String && f.tbl.some(p=>fname.match(p));
 }).ori=undefined;
 t.tbl=[/^(data:|\.\/\/)/,];
+}
+new cfc(Bitmap).addBase('giveUpUrl_getCont',function f(){
+	let rtv=Bitmap._giveUpUrl; if(!rtv) rtv=Bitmap._giveUpUrl=new Set();
+	return rtv;
+}).addBase('giveUpUrl_add',function f(url){
+	return this.giveUpUrl_getCont().add(url);
+}).addBase('giveUpUrl_del',function f(url){
+	return this.giveUpUrl_getCont().delete(url);
+}).addBase('giveUpUrl_getMod',function f(url){
+	return this.giveUpUrl_getCont().has(url)?ResourceHandler._emptyData.img:url;
+});
+new cfc(Bitmap.prototype).add('_onLoad',function f(){
+	{ const div=this._loader&&this._loader._div; if(div) Graphics.currentLoadErrorDivs_clear(div); }
+	return f.ori.apply(this,arguments);
+}).add('decode',function f(){
+	const bakT=ResourceHandler.getLoaderType();
+	ResourceHandler.setLoaderType('img');
+	const rtv=f.ori.apply(this,arguments);
+	ResourceHandler.setLoaderType(bakT);
+	return rtv;
+}).add('_requestImage',function f(url){
+	const bakT=ResourceHandler.getLoaderType();
+	ResourceHandler.setLoaderType('img');
+	const rtv=f.ori.apply(this,arguments);
+	ResourceHandler.setLoaderType(bakT);
+	return rtv;
+}).add('_requestImage',function f(url,substituteUrl){
+	if(substituteUrl!==undefined) arguments[0]=substituteUrl;
+	arguments[0]=Bitmap.giveUpUrl_getMod(arguments[0]);
+	return f.ori.apply(this,arguments);
+});
+
+{ const p=ImageManager;
+p.isDirectPath=ResourceHandler.isDirectPath;
 p.splitUrlQueryHash=path=>{ if(!path) return ['','',''];
 	const idx_sharp=path.indexOf("#");
 	const rtv=idx_sharp<0?[path,'','',]:[path.slice(0,idx_sharp),'',path.slice(idx_sharp),];
@@ -2629,15 +3007,20 @@ r=p[k]; (p[k]=function(folder, filename, hue, smooth, reservationId){
 k='loadNormalBitmap';
 r=p[k]; (p[k]=function(path, hue){
 	if(!path) return ImageManager.loadEmptyBitmap();
-	const key = this._generateCacheKey(path, hue);
-	let bitmap = this._imageCache.get(key);
+	const key=this._generateCacheKey(path, hue);
+	let bitmap=this._imageCache.get(key);
 	if(!bitmap){
-		this._imageCache.add(key, bitmap = Bitmap.load(path));
+		this._imageCache.add(key,bitmap=Bitmap.load(path));
+		bitmap._cacheKey=key;
 		bitmap.addLoadListener(()=>bitmap.rotateHue(hue));
 	}else if(!bitmap.isReady()) bitmap.decode();
 	return bitmap;
 }).ori=r;
 }
+
+ImageCache.prototype.del=function f(key){
+	delete this._items[key];
+};
 
 })(); // ImageManager._loadBitmap
 
@@ -2680,7 +3063,7 @@ r=p[k]; (p[k]=function f(c,opt){
 p._effectFuncsOnce=p._effectFuncs=undefined; // Array or false-like
 p.renderOtherEffects=none;
 p._tuneOpt=tuneOpt;
-new cfc(p).add('render',function f(stage){
+new cfc(p).addBase('render',function f(stage){
 	if(this._rendered=--this._skipCount<0){
 		const startTime=Date.now();
 		if(stage){
@@ -2701,7 +3084,7 @@ new cfc(p).add('render',function f(stage){
 	this.frameCount+=SceneManager._updateSceneCnt|0; SceneManager._updateSceneCnt=0|0;
 },[
 function(f){ f.call(this); },
-],undefined,false,true).add('_createRenderer',function(){
+]).addBase('_createRenderer',function(){
 	const log=window.console.log; window.console.log=none;
 	
 	const width=this._width , height=this._height;
@@ -2725,9 +3108,9 @@ function(f){ f.call(this); },
 	
 	window.console.log=log;
 	if(!this._renderer) this._createRenderer_onFail();
-},undefined,false,true).add('_createRenderer_onFail',function f(){
+}).addBase('_createRenderer_onFail',function f(){
 	if(this._rendererType==='auto') addUrlParamVal_qs('canvas');
-},undefined,false,true);
+});
 p.getImageData=function f(x,y,w,h){
 	if(x===undefined) x=0;
 	if(y===undefined) y=0;
@@ -2997,21 +3380,21 @@ new cfc(StorageManager).addBase('pseudoStorage_getCont',function f(){
 
 DataManager._def_normalPriority=1;
 
-new cfc(Game_Character.prototype).add('getPosKey',function(dx,dy){
+new cfc(Game_Character.prototype).addBase('getPosKey',function(dx,dy){
 	return $gameMap?$gameMap.getPosKey((dx|0)+(this.x|0),(dy|0)+(this.y|0)):undefined;
-},undefined,false,true).add('isCollidedWithEvents',function f(x,y){
+}).addBase('isCollidedWithEvents',function f(x,y){
 	const arr=$gameMap.eventsXyNtNp(x,y);
 	return !!(arr.uniqueHas(this)?arr.length-1:arr.length);
-},undefined,false,true).add('isNormalPriority',function f(){
+}).addBase('isNormalPriority',function f(){
 	return DataManager._def_normalPriority===this._priorityType;
 });
 
-new cfc(Game_Map.prototype).add('getPosKey',function f(x,y){
+new cfc(Game_Map.prototype).addBase('getPosKey',function f(x,y){
 	return $dataMap&&$gameMap.roundX(0|x)+$dataMap.width*(($gameMap.roundY(0|y)<<2)|2);
 }).add('update',function f(){
 	this.update_locTbl();
 	return f.ori.apply(this,arguments);
-}).add('update_locTbl',function f(){
+}).addBase('update_locTbl',function f(){
 	// called once per frame
 	
 	this._locTbl_updated_fllwrs=false;
@@ -3020,7 +3403,7 @@ new cfc(Game_Map.prototype).add('getPosKey',function f(x,y){
 	this.update_locTbl_fllwrs(true);
 	this.update_locTbl_evts(true);
 	// only call update table when needed. just clean here
-}).add('update_locTbl_fllwrs',function f(clearOnly){
+}).addBase('update_locTbl_fllwrs',function f(clearOnly){
 	if(this._locTbl_updated_fllwrs) return;
 	
 	const followers=$gamePlayer&&$gamePlayer.followers();
@@ -3050,18 +3433,18 @@ function(fllwr,i,a){
 	this.update_locTbl_addFllwr(fllwr,a.coordsNt[-1]);
 	this.update_locTbl_addFllwr(fllwr,a.coordsNt[fllwr._priorityType]);
 },
-]).add('update_locTbl_addFllwr',function f(fllwr,coord){
+]).addBase('update_locTbl_addFllwr',function f(fllwr,coord){
 	if(!coord) return;
 	const key=fllwr.getPosKey();
 	let arr=coord.get(key); if(!arr) coord.set(key,arr=[]);
 	return arr.push(fllwr);
-}).add('update_locTbl_delFllwr',function f(fllwr,coord,x,y){
+}).addBase('update_locTbl_delFllwr',function f(fllwr,coord,x,y){
 	throw new Error('not supported');
-}).add('update_locTbl_chkFllwrErr',function f(fllwr){
+}).addBase('update_locTbl_chkFllwrErr',function f(fllwr){
 	const followers=$gamePlayer&&$gamePlayer.followers();
 	const fllwrs=followers&&followers._data;
 	return !fllwrs||fllwrs._set&&!fllwrs._set.has(fllwr);
-}).add('update_locTbl_evts',function f(clearOnly){
+}).addBase('update_locTbl_evts',function f(clearOnly){
 	if(this._locTbl_updated_evts) return;
 	
 	const evts=this._events; if(!evts) return;
@@ -3100,21 +3483,21 @@ function(evt,i,a){
 		this.update_locTbl_addEvt(evt,a.coordsNt[evt._priorityType]);
 	}
 },
-]).add('update_locTbl_addEvt',function f(evt,coord){
+]).addBase('update_locTbl_addEvt',function f(evt,coord){
 	return this._update_locTbl_addEvt_byKey(evt,coord,evt.getPosKey());
-}).add('_update_locTbl_addEvt_byKey',function f(evt,coord,key){
+}).addBase('_update_locTbl_addEvt_byKey',function f(evt,coord,key){
 	if(!coord) return;
 	let cont=coord.get(key); if(!cont) coord.set(key,cont=[]);
 	return cont.uniquePush(evt);
-}).add('update_locTbl_delEvt',function f(evt,coord,x,y){
+}).addBase('update_locTbl_delEvt',function f(evt,coord,x,y){
 	return this._update_locTbl_delEvt_byKey(evt,coord,this.getPosKey(x,y));
-}).add('_update_locTbl_delEvt_byKey',function f(evt,coord,key){
+}).addBase('_update_locTbl_delEvt_byKey',function f(evt,coord,key){
 	if(!coord) return;
 	const cont=coord.get(key); if(!cont) return;
 	return cont.uniquePop(evt);
-}).add('update_locTbl_chkEvtErr',function f(evt){
+}).addBase('update_locTbl_chkEvtErr',function f(evt){
 	return !this._events||this._events._set&&!this._events._set.has(evt);
-}).add('update_locTbl_addEvt_overall',function f(evt){
+}).addBase('update_locTbl_addEvt_overall',function f(evt){
 	if(this.update_locTbl_chkEvtErr(evt)) return;
 	const coords=this._events.coords; if(!coords) return;
 	this.update_locTbl_addEvt(evt,coords[-1]);
@@ -3124,7 +3507,7 @@ function(evt,i,a){
 		this.update_locTbl_addEvt(evt,coordsNt[-1]);
 		this.update_locTbl_addEvt(evt,coordsNt[evt._priorityType]);
 	}
-}).add('update_locTbl_delEvt_overall',function f(evt,x,y){
+}).addBase('update_locTbl_delEvt_overall',function f(evt,x,y){
 	if(this.update_locTbl_chkEvtErr(evt)) return;
 	const coords=this._events.coords; if(!coords) return;
 	this.update_locTbl_delEvt(evt,coords[-1],x,y);
@@ -3134,19 +3517,19 @@ function(evt,i,a){
 		this.update_locTbl_delEvt(evt,this._events.coordsNt[-1],x,y);
 		this.update_locTbl_delEvt(evt,this._events.coordsNt[evt._priorityType],x,y);
 	}
-}).add('eventsXy',function f(x,y){
+}).addBase('eventsXy',function f(x,y){
 	this.update_locTbl_evts();
 	const coord=this._events&&this._events.coords&&this._events.coords[-1];
 	return coord&&coord.get(this.getPosKey(x,y))||f.tbl[0];
 },[
 [],
-]).add('eventsXyNt',function f(x,y){
+]).addBase('eventsXyNt',function f(x,y){
 	this.update_locTbl_evts();
 	const coord=this._events&&this._events.coordsNt&&this._events.coordsNt[-1];
 	return coord&&coord.get(this.getPosKey(x,y))||f.tbl[0];
 },[
 [],
-]).add('eventsXyNtNp',function f(x,y){ // normal priority
+]).addBase('eventsXyNtNp',function f(x,y){ // normal priority
 	this.update_locTbl_evts();
 	const coord=this._events&&this._events.coordsNt&&this._events.coordsNt[DataManager._def_normalPriority];
 	return coord&&coord.get(this.getPosKey(x,y))||f.tbl[0];
@@ -3154,7 +3537,7 @@ function(evt,i,a){
 [],
 ]);
 
-new cfc(Game_Followers.prototype).add('isSomeoneCollided',function f(x,y){
+new cfc(Game_Followers.prototype).addBase('isSomeoneCollided',function f(x,y){
 	$gameMap.update_locTbl_fllwrs();
 	const key=$gameMap&&$gameMap.getPosKey(x,y);
 	return !!(this._data.coordsNt&&this._data.coordsNt[DataManager._def_normalPriority].get(key)||f.tbl[0]).length;
@@ -3174,8 +3557,8 @@ new cfc(Game_Event.prototype).add('moveStraight',function f(d){
 		this.moveSuccOn(x,y,d);
 	}else this.moveFailOn(x,y,d);
 	return rtv;
-}).add('moveFailOn',function f(lastX,lastY,moveDirection){
-}).add('moveSuccOn',function f(lastX,lastY,moveDirection){
+}).addBase('moveFailOn',function f(lastX,lastY,moveDirection){
+}).addBase('moveSuccOn',function f(lastX,lastY,moveDirection){
 }).add('setPriorityType',function f(pri){
 	const pri0=this._priorityType,x=this.x,y=this.y;
 	const rtv=f.ori.apply(this,arguments);
@@ -3232,35 +3615,123 @@ function(div){ this.uniquePop(div); }, // 1:
 	rtv._main=main;
 	return rtv;
 },[
-['color:yellow;','color:white;','margin:4px;','background-color:rgba(0,0,0,0.25);text-align:left;overflow-x:scroll;',], // 0: css
+['color:yellow;','color:white;','margin:4px;','background-color:rgba(0,0,0,0.25);text-align:left;overflow-x:scroll;font-family:monospace;',], // 0: css
 ]).addBase('printLoadingError',function f(url,opt){
 	if(!this.printLoadingError_can(url,opt)) return false;
-	this.printLoadingError_do(url,opt);
-	return true;
+	return this.printLoadingError_do(url,opt);
 }).addBase('printLoadingError_do',function f(url,opt){
 	// can continue
 	this._updateErrorPrinter_setShow(true);
 	const div=this._makeErrorHtml('Loading Error', 'Failed to load: ' + url);
+	div._opt=opt;
+	div._url=url;
 	this._errorPrinter.ac(div);
 	this.currentLoadErrorDivs_add(div);
 	
-	const btn=document.createElement('button');
-	btn.ac(document.createTextNode('Retry'));
-	btn.sa('style',f.tbl[0][0]);
-	btn._root=div;
-	btn.onmousedown = btn.ontouchstart = f.tbl[1].bind(this);
-	(div._main?div._main:div).ac(btn);
+	const d=document,btns=[];
+	if(!f.tbl[2]) d.head.ac(f.tbl[2]=d.ce('style').atxt(f.tbl[3]));
+	let s=this._retryResourceBtns; if(!s) s=this._retryResourceBtns=new Set();
+	
+	{ const btn=d.createElement('button');
+	btn.ac(d.ce('div').atxt('Retry all'));
+	btn.onclick=f.tbl[1];
+	btns.push(btn);
+	}
+	{ const btn=d.createElement('button');
+	btn.ac(d.ce('div').atxt('Retry this'));
+	btn.onclick=f.tbl[4];
+	s.add(btn);
+	btns.push(btn);
+	}
+	{ const btn=d.createElement('button');
+	btn.ac(d.ce('div').atxt('Give up this')).ac(d.ce('div').atxt('(use 1x1 transparent image)'));
+	btn.onclick=f.tbl[4];
+	btn._isGivingUp=true;
+	btns.push(btn);
+	}
+	{ const btn=d.createElement('button');
+	btn.ac(d.ce('div').atxt('Always give up this'));
+	btn.onclick=f.tbl[5];
+	btn._isGivingUp=true;
+	btns.push(btn);
+	}
+	btns.forEach(f.tbl[0][0],div);
+	btns.forEach(f.tbl[0][1],div);
 	
 	this._loadingCount = -Infinity;
+	
+	return div;
 },[
-['font-size:24px;color:#FFFFFF;background-color:#000000',], // 0: css
+[
+function f(btn){
+	// this=ErrorHtml
+	const div=this;
+	if(!f.tbl) f.tbl=[];
+	if(!f.tbl[0]) f.tbl[0]='btn'; // dom.class
+	btn.classList.add('btn');
+	btn._root=div;
+	(div._main?div._main:div).ac(btn);
+	div._maxBtnWidth=Math.ceil(Math.max(div._maxBtnWidth||0,btn.scrollWidth));
+	div._maxBtnHeight=Math.ceil(Math.max(div._maxBtnHeight||0,btn.scrollHeight));
+}, // 0-0: forEach btn - settings without width
+function f(btn){
+	btn.style.width=this._maxBtnWidth+'px';
+	btn.style.height=this._maxBtnHeight+'px';
+}, // 0-1: forEach btn - set width
+], // 0: forEach btn
 function(event){
 	ResourceHandler.retry();
 	event.stopPropagation();
-	this.currentLoadErrorDivs_clear(event.target._root);
-	if(!this.currentLoadErrorDivs_getCnt()) this._updateErrorPrinter_setShow(false);
-	this._updateErrorPrinter();
-},
+	Graphics.currentLoadErrorDivs_clear();
+	if(!Graphics.currentLoadErrorDivs_getCnt()) Graphics._updateErrorPrinter_setShow(false);
+	Graphics._updateErrorPrinter();
+	Graphics._retryResourceBtns.clear();
+}, // 1: retry all
+undefined, // 2: <style />
+`
+.btn{
+color:#FFFFFF;
+background-color:rgba(0,0,0,0.75);
+float:left;
+text-wrap:nowrap;
+font-size:16px;
+font-family:monospace;
+}
+.btn:hover{
+background-color:rgba(234,234,0,0.25);
+}
+`, // 3: content of above <style />
+function(event){
+	event.stopPropagation();
+	const root=this._root;
+	const opt=root&&root._opt;
+	if(!opt||!opt.reloader) return;
+	opt.reloader(this._isGivingUp);
+	ResourceHandler.reloader_del(opt.reloader);
+	if(root) Graphics.currentLoadErrorDivs_clear(root);
+	if(!Graphics.currentLoadErrorDivs_getCnt()){
+		Graphics._updateErrorPrinter_setShow(false);
+		SceneManager.resume();
+	}
+	Graphics._updateErrorPrinter();
+	if(this._isGivingUp && this._root._url && typeof $gameTemp!=='undefined' && $gameTemp && $gameTemp.popupMsg) $gameTemp.popupMsg("give up: \n"+this._root._url+"\nUTC time:\n"+new Date().toISOString(),{loc:"LU",});
+}, // 4: retry this / give up this
+function(event){
+	Bitmap.giveUpUrl_add(this._url);
+	event.stopPropagation();
+	const root=this._root;
+	const opt=root&&root._opt;
+	if(!opt||!opt.reloader) return;
+	opt.reloader(true);
+	ResourceHandler.reloader_del(opt.reloader);
+	if(root) Graphics.currentLoadErrorDivs_clear(root);
+	if(!Graphics.currentLoadErrorDivs_getCnt()){
+		Graphics._updateErrorPrinter_setShow(false);
+		SceneManager.resume();
+	}
+	Graphics._updateErrorPrinter();
+	if(this._isGivingUp && this._root._url && typeof $gameTemp!=='undefined' && $gameTemp && $gameTemp.popupMsg) $gameTemp.popupMsg("always give up: \n"+this._root._url+"\nUTC time:\n"+new Date().toISOString(),{loc:"LU",});
+}, // 5: always give up this
 ]).addBase('printLoadingError_can',function f(){
 	return this._errorPrinter;
 }).addBase('printError',function f(name,message,opt){
@@ -3306,7 +3777,7 @@ function(event){
 
 (()=>{ let k,r,t;
 
-new cfc(Scene_Load.prototype).add('reloadMapIfUpdated',function f(){
+new cfc(Scene_Load.prototype).addBase('reloadMapIfUpdated',function f(){
 	const verId_saved=$gameSystem.versionId();
 	if(!verId_saved){ // ignore if it is diff from $dataSystem.versionId
 		$gamePlayer.reserveTransfer($gameMap.mapId(), $gamePlayer.x, $gamePlayer.y);
@@ -3384,7 +3855,7 @@ function f(command){
 		}
 	}
 }, // Common Event
-129:param=>{
+129:params=>{
 	const actor=$gameActors.actor(params[0]);
 	if(actor && params[1]===0){
 		const name=actor.characterName();
@@ -3514,3 +3985,4 @@ new cfc(SceneManager).add('run',function f(){
 // ---- ---- ---- ---- 
 
 })();
+
