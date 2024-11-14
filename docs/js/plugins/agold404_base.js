@@ -1945,7 +1945,7 @@ t=new cfc(Game_Event.prototype).addBase('setChrIdxName',function f(chrIdx,chrNam
 	f.ori.apply(this,arguments);
 	return this;
 },undefined,true).getP();
-for(let p=t,arr=['clearPageSettings','clearStartingFlag','erase','refresh','resetPattern','setupPage','start',],x=arr.length;x--;) new cfc(p).add(arr[x],function f(x,y){
+for(let p=t,arr=['clearPageSettings','clearStartingFlag','erase','refresh','resetPattern','setupPage','start',],x=arr.length;x--;) new cfc(p).add(arr[x],function f(){
 	f.ori.apply(this,arguments);
 	return this;
 },undefined,true);
@@ -1956,6 +1956,8 @@ new cfc(Game_Interpreter.prototype).addBase('getEvt',function f(){
 }).addBase('getCmd',function f(offset){
 	offset|=0;
 	return this._list&&this._list[this._index+offset];
+}).addBase('getTriggerer',function f(){
+	return this._triggerer||$gamePlayer;
 });
 
 SceneManager.getTilemap=function(){
