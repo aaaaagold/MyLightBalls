@@ -64,8 +64,17 @@ cancel:()=>TouchInput.isCancelled(),
 },
 ]).add('setupChild',function f(){
 	const rtv=f.ori.apply(this,arguments);
-	if(this._childInterpreter) this._childInterpreter._parentInterpreter=this;
+	if(this._childInterpreter){
+		this._childInterpreter._parentInterpreter=this;
+		this._childInterpreter._rootInterpreter=this._rootInterpreter||this;
+	}
 	return rtv;
+}).addBase('getParentInterpreter',function f(){
+	return this._parentInterpreter;
+}).addBase('getRootInterpreter',function f(){
+	return this._rootInterpreter||this;
+}).addBase('getTriggerer',function f(){
+	return this.getRootInterpreter()._triggerer||$gamePlayer;
 }).addBase('jumpToLabel',function f(label,isRev,start){
 	if(start===undefined) start=this._index;
 	start=start-0||0;
@@ -1128,7 +1137,7 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 	}
 	{
 		const arr=[];
-		arr.push('AudioManager','BattleManager','ConfigManager','DataManager','ImageManager','SceneManager',);
+		arr.push('AudioManager','BattleManager','ConfigManager','DataManager','ImageManager','SceneManager','PluginManager',);
 		arr.push('Input','TouchInput',);
 		arr.push('Graphics','PIXI','Sprite','Bitmap','WebAudio',);
 		arr.push('Game_BattlerBase','Game_Battler','Game_Enemy','Game_Actor','Game_Action',);
@@ -1956,8 +1965,6 @@ new cfc(Game_Interpreter.prototype).addBase('getEvt',function f(){
 }).addBase('getCmd',function f(offset){
 	offset|=0;
 	return this._list&&this._list[this._index+offset];
-}).addBase('getTriggerer',function f(){
-	return this._triggerer||$gamePlayer;
 });
 
 SceneManager.getTilemap=function(){
@@ -2128,6 +2135,11 @@ undefined,
 ]).addBase('itemKeyToDataobj',function f(itemKey){
 	return this.itemKeyInfoToDataobj(itemKey&&itemKey.split(f.tbl[0]));
 },t);
+
+new cfc(Window_Command.prototype).addBase('commandExt',function f(idx){
+	const cmd=this._list&&this._list[idx];
+	return cmd&&cmd.ext;
+});
 
 new cfc(Window_ItemList.prototype).addBase('drawItemNumber',function f(item, x, y, width){
 	if(this.needsNumber()) this.drawItemNumber_num(item,x,y,width,$gameParty.numItems(item));
