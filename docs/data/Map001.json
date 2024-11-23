@@ -7678,5 +7678,181 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":1,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":8,"y":8}
+	],"x":8,"y":8},
+	{"id":25,"name":"EV025","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"choices"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp._c='cancel';"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"several choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"ch 1",
+					"ch 2",
+					"ch 3",
+					"ch 4",
+					"ch 5"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"ch 1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=1;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"ch 2"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=2;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"ch 3"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=3;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"ch 4"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=4;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"ch 5"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=5;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"ch 6",
+					"ch 7",
+					"ch 8",
+					"ch 9",
+					"ch 10",
+					"ch 11"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"ch 6"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=6;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"ch 7"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=7;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"ch 8"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=8;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"ch 9"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=9;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"ch 10"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=10;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"ch 11"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._c=11;"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"you choose \\EVALTOSTR:\"$gameTemp._c\""
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":5,"y":7}
 ]}
