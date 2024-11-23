@@ -14,6 +14,7 @@ var $plugins =
 {"name":"agold404_CanPassInRegions","status":true,"description":"let player or events can in ONLY some regions","parameters":{}},
 {"name":"agold404_ChangeTile","status":true,"description":"online change tile","parameters":{}},
 {"name":"agold404_CharacterPatternRect","status":true,"description":"sprite_chr可設定切掉周圍一些","parameters":{}},
+{"name":"agold404_ConcatChoices","status":true,"description":"concatenate several choices (event) command (Show Choices)","parameters":{}},
 {"name":"agold404_CopyEvent","status":true,"description":"複製事件","parameters":{}},
 {"name":"agold404_Depository","status":true,"description":"depository where one can put thing inside.\r\n\r\n$gameParty.depository_open(depositoryId) // id can only be basic immutable type which can be converted to string type.\r\n\r\n$gameParty.depository_add(depositoryId,itemData,count) // return itemInfo\r\n$gameParty.depository_del(depositoryId,itemData,count) // return -1 if fail\r\n\r\n$gameParty.depository_transIn(depositoryId,itemData,count) // return -1 if fail\r\n$gameParty.depository_transOut(depositoryId,itemData,count) // return -1 if fail\r\n\r\nwrite <disableDepository> for disabling an item being put into depository\r\nuse $gameParty.depository_setItemCanUse(depositoryId,itemData)\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
 {"name":"agold404_EvalToStr","status":true,"description":"eval a piece of js code to string in Window_Base.drawTextEx","parameters":{}},

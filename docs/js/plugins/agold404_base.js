@@ -4142,6 +4142,10 @@ new cfc(Window_Selectable.prototype).addBase('maxPageRows',function(isReturnReal
 	return rtv;
 });
 
+new cfc(Window_ChoiceList.prototype).add('contentsHeight',function f(){
+	return Math.min(f.ori.apply(this,arguments),this.windowHeight())-(this.standardPadding()<<1);
+});
+
 })(); // fix bug
 
 // ---- ---- ---- ---- 
