@@ -318,7 +318,9 @@
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"","switchId":1,"trigger":0},
 	{"id":13,"list":[
-		{"code":355,"indent":0,"parameters":["if($gamePlayer.frontPos){ const fp=$gamePlayer.frontPos_r(); $gameMap._events.forEach(evt=>{ if(!evt) return; const sp=evt.getSprite(); if(sp._textWnd) sp._textWnd.alpha=0.5/((evt.isNormalPriority()?evt.dist2_r(fp):evt.dist2_r($gamePlayer))+1)+0.5; }); }"]},
+		{"code":355,"indent":0,"parameters":["if($gamePlayer.frontPos){ const fp=$gamePlayer.frontPos_r(); $gameMap._events.forEach(evt=>{ if(!evt) return; const sp=evt.getSprite();"]},
+		{"code":655,"indent":0,"parameters":[" if(sp._textWnd) sp._textWnd.alpha=Math.max(0.9375/((evt.isNormalPriority()?evt.dist2_r($gamePlayer.frontPos_r()):evt.dist2_r($gamePlayer))/4.0+1)+0.0625,0.5);"]},
+		{"code":655,"indent":0,"parameters":["}); }"]},
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"evts txt opa. plyrDist","switchId":1,"trigger":0},
 	{"id":14,"list":[
