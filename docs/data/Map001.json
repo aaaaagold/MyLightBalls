@@ -6184,7 +6184,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":2,"y":2},
+	],"x":3,"y":2},
 	{"id":2,"name":"EV002","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":0},"list":[
 			{"code":355,"indent":0,"parameters":[
@@ -6202,7 +6202,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":7,"y":6},
+	],"x":11,"y":6},
 	{"id":3,"name":"EV003","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":true,"image":{"characterIndex":0,"characterName":"","direction":2,"pattern":0,"tileId":0},"list":[
 			{"code":117,"indent":0,"parameters":[
@@ -6384,7 +6384,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":9,"y":6},
+	],"x":9,"y":7},
 	{"id":8,"name":"EV008","note":"<throughEventsMyTag:a><longDistDetection>","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":1},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -7136,6 +7136,30 @@
 			{"code":408,"indent":0,"parameters":[
 				"material"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.getEvt()._test_promptPrefixL2=\"current speed: \";"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this.getEvt()._test_promptPrefixL3=\"updates per frame: \";"
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"if(isNaN(this.getEvt()._test_bmSpd)) this.getEvt()._test_bmSpd=1;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"if(!(this.getEvt()._test_bmSpd-=0)) this.getEvt()._test_bmSpd=0;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"if(!(this.getEvt()._test_bmUpdPerFrm-=0)) this.getEvt()._test_bmUpdPerFrm=1;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this._list[this._index+3].parameters[0]=this.getEvt()._test_promptPrefixL2+this.getEvt()._test_bmSpd;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this._list[this._index+4].parameters[0]=this.getEvt()._test_promptPrefixL3+this.getEvt()._test_bmUpdPerFrm;"
+			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
 				0,
@@ -7144,6 +7168,12 @@
 			]},
 			{"code":401,"indent":0,"parameters":[
 				"choose img"
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"."
 			]},
 			{"code":102,"indent":0,"parameters":[
 				[
@@ -7204,11 +7234,70 @@
 			]},
 			{"code":404,"indent":0,"parameters":[
 			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"[adjust] speed rate",
+					"[adjust] updates per frame"
+				],
+				-1,
+				-1,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"[adjust] speed rate"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameVariables.setValue(7,this.getEvt()._test_bmSpd);"
+			]},
+			{"code":103,"indent":1,"parameters":[
+				7,
+				2
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._test_bmSpd=$gameVariables.value(7);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"this.getEvt()._test_promptPrefixL2=\"speed is set to \";"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__start"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"[adjust] updates per frame"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameVariables.setValue(7,this.getEvt()._test_bmUpdPerFrm);"
+			]},
+			{"code":103,"indent":1,"parameters":[
+				7,
+				1
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"this.getEvt()._test_bmUpdPerFrm=$gameVariables.value(7);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"this.getEvt()._test_promptPrefixL3=\"set updates per frame to \";"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__start"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
 			{"code":355,"indent":0,"parameters":[
 				"$gameTemp.popupMsg(\"\\\\C[6]Cancel\\\\C[0] to exit this mode\");"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"$gameTemp._testSp_bm=new Sprite_BouncingMaterial_root(ImageManager.loadNormalBitmap(this.getEvt()._imgUrl),{nw:23,nh:23,maxSpeed:1});"
+				"$gameTemp._testSp_bm=new Sprite_BouncingMaterial_root(ImageManager.loadNormalBitmap(this.getEvt()._imgUrl),{nw:23,nh:23,maxSpeed:this.getEvt()._test_bmSpd-0||0,});"
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"{ const sc=SceneManager._scene; sc.addChildAt($gameTemp._testSp_bm,Math.min(sc.getChildIndex(sc._mapNameWindow,true,true),sc.getChildIndex(sc._windowLayer,true,true))); }"
@@ -7286,7 +7375,7 @@
 				"let dx=pt.x-lastXY.x,dy=pt.y-lastXY.y,ds=Math.sqrt(dx*dx+dy*dy),maxSpeed=sp.bouncingMaterial_getMaxSpeed();"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"$gameTemp._sels[0][0]+=dx; $gameTemp._sels[0][1]+=dy;"
+				"$gameTemp._sels.forEach((pt,i)=>{ pt[0]+=dx/(i+1); pt[1]+=dy/(i+1); });"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"//if(maxSpeed<ds){ let r=maxSpeed/ds; dx*=r; dy*=r; ti.x=dx+lastXY.x; ti.y=dy+lastXY.y; }"
@@ -7298,7 +7387,7 @@
 				"}"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"}"
+				"for(let _=this.getEvt()._test_bmUpdPerFrm;--_>0;) sp.update(); }"
 			]},
 			{"code":230,"indent":1,"parameters":[
 				1
@@ -7678,7 +7767,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":1,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":8,"y":8},
+	],"x":9,"y":8},
 	{"id":25,"name":"EV025","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
 			{"code":108,"indent":0,"parameters":[
