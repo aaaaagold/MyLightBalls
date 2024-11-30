@@ -12,10 +12,39 @@
  *  ...
  * ]>
  * 
+ * 
+ * @param ShowSkillPoint
+ * @type boolean
+ * @text showing skill point?
+ * @desc Set wheather showing skill point in skill tree window
+ * @default true
+ * 
+ * @param SkillPointEvalText
+ * @type boolean
+ * @text skill point infos
+ * @desc Showing skill points info with eval()
+ * @default "SP: "+a.skillTreePoint_get()
+ * 
+ * @param SkillPointTextX
+ * @type number
+ * @text x offset of skill point infos
+ * @desc x offset of skill point infos
+ * @default 0
+ * 
+ * @param SkillPointTextY
+ * @type number
+ * @text y offset of skill point infos
+ * @desc y offset of skill point infos
+ * @default 0
+ * 
+ * 
  * This plugin can be renamed as you want.
  */
 
-(()=>{
+(()=>{ let k,r,t;
+const pluginName=getPluginNameViaSrc(document.currentScript.getAttribute('src'))||"agold404_SkillTree";
+const params=PluginManager._parameters[pluginName];
+params._showSkillPoint=JSON.parse(params.ShowSkillPoint);
 
 
 const itemAct_use="使用";
@@ -338,6 +367,7 @@ new cfc(Scene_Skill.prototype).add('initialize',function f(){
 	this.create_itemNameWindow();
 	this.create_itemActionWindow();
 	this.create_tuneParams();
+	this.create_addLink();
 	return rtv;
 }).addBase('create_itemNameWindow',function f(){
 	const wnd=this._itemActionWindow=new Window_Help(2);
@@ -357,6 +387,8 @@ new cfc(Scene_Skill.prototype).add('initialize',function f(){
 }).addBase('create_tuneParams',function f(){
 	this._skillTypeWindow._skillTree_skillTreeAtFirst=this._skillTree_skillTreeAtFirst;
 	this._skillTypeWindow._skillTree_noSkillTree=!this._skillTree_showTree;
+}).addBase('create_addLink',function f(){
+	this._itemWindow._statusWindow=this._statusWindow;
 }).add('itemActionWindow_makeCommandList',function f(){
 	for(let x=0,arr=f.tbl[1],xs=arr.length;x!==xs;++x){
 		if(!this._skillTree_bothUseAndLearn){
@@ -444,6 +476,13 @@ new Set([
 	this._itemActionWindow.show();
 	this._itemActionWindow.activate();
 },undefined,false,true);
+
+
+new cfc(Game_Actor.prototype).addBase('skillTreePoint_get',function f(){
+	return this._skillTreePoint;
+}).addBase('skillTreePoint_set',function f(val){
+	return this._skillTreePoint=val;
+});
 
 
 new cfc(Game_Temp.prototype).addBase('openSkillTree',function f(){
