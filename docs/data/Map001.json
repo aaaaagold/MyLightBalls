@@ -7252,14 +7252,14 @@
 				"[adjust] speed rate"
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"$gameVariables.setValue(7,this.getEvt()._test_bmSpd);"
+				"$gameVariables.setValue(16,this.getEvt()._test_bmSpd);"
 			]},
 			{"code":103,"indent":1,"parameters":[
-				7,
+				16,
 				2
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"this.getEvt()._test_bmSpd=$gameVariables.value(7);"
+				"this.getEvt()._test_bmSpd=$gameVariables.value(16);"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"this.getEvt()._test_promptPrefixL2=\"speed is set to \";"
@@ -7274,14 +7274,14 @@
 				"[adjust] updates per frame"
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"$gameVariables.setValue(7,this.getEvt()._test_bmUpdPerFrm);"
+				"$gameVariables.setValue(16,this.getEvt()._test_bmUpdPerFrm);"
 			]},
 			{"code":103,"indent":1,"parameters":[
-				7,
+				16,
 				1
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"this.getEvt()._test_bmUpdPerFrm=$gameVariables.value(7);"
+				"this.getEvt()._test_bmUpdPerFrm=$gameVariables.value(16);"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"this.getEvt()._test_promptPrefixL3=\"set updates per frame to \";"
@@ -7494,7 +7494,7 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"\\EVALTOSTR:\"$dataSystem.terms.commands.skillTree\""
+				"\\EVALTOSTR:\"$dataSystem.terms.evals.skillTree\""
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"$gameTemp.openSkillTree();"
@@ -7512,7 +7512,10 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"scenes"
+				"\\EVALTOSTR:\"$dataSystem.terms.evals.allocAbility\""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__start"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -7521,14 +7524,13 @@
 				2
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"choose constructor"
+				"choose action"
 			]},
 			{"code":102,"indent":0,"parameters":[
 				[
 					"(cancel)",
-					"Scene_HTML_base",
-					"Scene_AllocateAbility",
-					"Scene_HTML_AllocateAbility"
+					"first member point = ",
+					"enter scene Scene_AllocateAbility"
 				],
 				0,
 				0,
@@ -7543,28 +7545,64 @@
 			]},
 			{"code":402,"indent":0,"parameters":[
 				1,
-				"Scene_HTML_base"
+				"first member point = "
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"try{ SceneManager.push(Scene_HTML_base,true); }catch(e){}"
+				"$gameTemp._tmp_allocAbility_actor=$gameParty.members()[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"// change '_allocPointProperty' to your setting for ability points."
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameVariables.setValue(16,$gameParty.members()[0]._allocPointProperty);"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"set first member \\EVALTOSTR:\"$gameTemp._tmp_allocAbility_actor&&$gameTemp._tmp_allocAbility_actor.name();\"'s point = "
+			]},
+			{"code":103,"indent":1,"parameters":[
+				16,
+				4
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"// change '_allocPointProperty' to your setting for ability points."
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(!this._isNumInputCancel) $gameParty.members()[0]._allocPointProperty=$gameVariables.value(16);"
+			]},
+			{"code":111,"indent":1,"parameters":[
+				12,
+				"this._isNumInputCancel"
+			]},
+			{"code":101,"indent":2,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":2,"parameters":[
+				"number input is canceled"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":412,"indent":1,"parameters":[
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__start"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
 			{"code":402,"indent":0,"parameters":[
 				2,
-				"Scene_AllocateAbility"
+				"enter scene Scene_AllocateAbility"
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"try{ SceneManager.push(Scene_AllocateAbility,true); }catch(e){}"
-			]},
-			{"code":0,"indent":1,"parameters":[
-			]},
-			{"code":402,"indent":0,"parameters":[
-				3,
-				"Scene_HTML_AllocateAbility"
-			]},
-			{"code":355,"indent":1,"parameters":[
-				"try{ SceneManager.push(Scene_HTML_AllocateAbility,true); }catch(e){}"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
