@@ -7496,8 +7496,93 @@
 			{"code":408,"indent":0,"parameters":[
 				"\\EVALTOSTR:\"$dataSystem.terms.evals.skillTree\""
 			]},
-			{"code":355,"indent":0,"parameters":[
+			{"code":118,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"choose action"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"adjust points",
+					"open skill tree"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"adjust points"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._tmp_skillTree_actor=$gameParty.members()[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameVariables.setValue(16,$gameTemp._tmp_skillTree_actor.skillTreePoint_get());"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"set first member \\EVALTOSTR:\"$gameTemp._tmp_allocAbility_actor&&$gameTemp._tmp_allocAbility_actor.name();\"'s point = "
+			]},
+			{"code":103,"indent":1,"parameters":[
+				16,
+				4
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"if(!this._isNumInputCancel) $gameTemp._tmp_skillTree_actor.skillTreePoint_set($gameVariables.value(16));"
+			]},
+			{"code":111,"indent":1,"parameters":[
+				12,
+				"this._isNumInputCancel"
+			]},
+			{"code":101,"indent":2,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":2,"parameters":[
+				"number input is canceled"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":412,"indent":1,"parameters":[
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__start"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"open skill tree"
+			]},
+			{"code":355,"indent":1,"parameters":[
 				"$gameTemp.openSkillTree();"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
@@ -7554,7 +7639,7 @@
 				"// change '_allocPointProperty' to your setting for ability points."
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"$gameVariables.setValue(16,$gameParty.members()[0]._allocPointProperty);"
+				"$gameVariables.setValue(16,$gameTemp._tmp_allocAbility_actor._allocPointProperty);"
 			]},
 			{"code":101,"indent":1,"parameters":[
 				"",
@@ -7573,7 +7658,7 @@
 				"// change '_allocPointProperty' to your setting for ability points."
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"if(!this._isNumInputCancel) $gameParty.members()[0]._allocPointProperty=$gameVariables.value(16);"
+				"if(!this._isNumInputCancel) $gameTemp._tmp_allocAbility_actor._allocPointProperty=$gameVariables.value(16);"
 			]},
 			{"code":111,"indent":1,"parameters":[
 				12,
