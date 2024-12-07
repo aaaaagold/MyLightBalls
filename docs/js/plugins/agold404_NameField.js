@@ -4,7 +4,8 @@
  * @author agold404
  * 
  * @help showing name field near by message window
- * \
+ * \NAMEFIELD_INIT:" name "
+ * \NAMEFIELD_SHOW:" name "
  * 
  * 
  * This plugin can be renamed as you want.
@@ -17,7 +18,7 @@ const params=PluginManager.parameters(pluginName);
 t=[
 undefined,
 params, // 1: plugin params
-/\\NAMEFIELD_(INIT|SHOW)((\["((\\\\)*\\"|[^"\\]|\\[^"])*"\])?):("((\\\\)*\\"|[^"\\]|\\[^"])*")/g,
+/\\NAMEFIELD_(INIT|SHOW):("((\\\\)*\\"|[^"\\]|\\[^"])*")/g,
 ];
 
 new cfc(Game_Message.prototype).add('add',function f(){
