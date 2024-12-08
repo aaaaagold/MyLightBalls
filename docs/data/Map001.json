@@ -8110,6 +8110,124 @@
 					0
 				],"indent":null}
 			]},
+			{"code":118,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"choose tests"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"simple",
+					"top/mid/btm",
+					"set on other lines",
+					"top/mid/btm with choices",
+					"top/mid/btm with left choices"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__exit"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"simple"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__simple"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"top/mid/btm"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"set on other lines"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__setOnOtherLines"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"top/mid/btm with choices"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__C_top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"top/mid/btm with left choices"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__left_C_top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"top/mid/btm with long choices text",
+					"top/mid/btm with many left choices"
+				],
+				-1,
+				-1,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"top/mid/btm with long choices text"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__long_text_C_top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"top/mid/btm with many left choices"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__many_left_C_top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__simple"
+			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
 				0,
@@ -8126,7 +8244,7 @@
 				2
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test\"Name Field Test."
+				"\\NAMEFIELD:\"'name field test'\"Name Field Test."
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8135,7 +8253,7 @@
 				2
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test 2\"Name Field Test. changed"
+				"\\NAMEFIELD:\"'name field test\\\\'s 2'\"Name Field Test. changed"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8144,7 +8262,46 @@
 				2
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"\"Name Field Test. empty"
+				"\\NAMEFIELD:\"''\"Name Field Test. empty"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"Name Field Test. multiple."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s a'\""
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\""
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				1,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"Name Field Test. multiple. dim."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s a'\""
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\""
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__top/mid/btm"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8153,7 +8310,7 @@
 				0
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test\"Name Field Test."
+				"\\NAMEFIELD:\"'name field test'\"Name Field Test."
 			]},
 			{"code":401,"indent":0,"parameters":[
 				"message"
@@ -8164,7 +8321,7 @@
 			{"code":101,"indent":0,"parameters":[
 				"",
 				0,
-				1,
+				0,
 				1
 			]},
 			{"code":401,"indent":0,"parameters":[
@@ -8174,7 +8331,7 @@
 				"wait 4 frames \\WAIT[4]"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test 3\"Name Field Test. changed 3"
+				"\\NAMEFIELD:\"'name field test\\\\'s 3'\"Name Field Test. changed 3"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8184,6 +8341,15 @@
 			]},
 			{"code":401,"indent":0,"parameters":[
 				"Name Field Test. no field"
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__setOnOtherLines"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8198,7 +8364,7 @@
 				"wait 16 frames \\WAIT[16]"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test 4\"Name Field Test. changed 4"
+				"\\NAMEFIELD:\"'name field test\\\\'s 4'\"Name Field Test. changed 4"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
@@ -8213,7 +8379,820 @@
 				"wait 64 frames \\WAIT[64]"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"\\NAMEFIELD:\"name field test 5\"Name Field Test. changed 5"
+				"\\NAMEFIELD:\"'name field test\\\\'s 5'\"Name Field Test. changed 5"
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__C_top/mid/btm"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				0
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s t'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"top with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				1
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s m'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"mid with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"btm with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__left_C_top/mid/btm"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				0
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s t'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"top with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				1
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s m'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"mid with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"btm with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"Yes",
+					"No"
+				],
+				1,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"Yes"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__long_text_C_top/mid/btm"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp._tmp_len=$gameTemp._tmp_len||44;"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				0
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s t'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"top with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\"",
+					"No",
+					"3",
+					"4",
+					"5",
+					"6"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\""
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				1
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s m'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"mid with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\"",
+					"No",
+					"3",
+					"4",
+					"5",
+					"6"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\""
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"btm with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\"",
+					"No",
+					"3",
+					"4",
+					"5",
+					"6"
+				],
+				1,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"\\EVALTOSTR:\"'a'.repeat($gameTemp._tmp_len)\""
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"No"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__many_left_C_top/mid/btm"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				0
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s t'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"top with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				1
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s m'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"mid with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'name field test\\\\'s b'\"Name Field Test."
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"btm with choices"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"c1",
+					"c2",
+					"c3",
+					"c4",
+					"c5",
+					"c6"
+				],
+				0,
+				0,
+				0,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"c1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"c2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"c3"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"c4"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"c5"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"c6"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__exit"
 			]},
 			{"code":205,"indent":0,"parameters":[
 				0,
@@ -8285,6 +9264,9 @@
 			]},
 			{"code":408,"indent":0,"parameters":[
 				"sound test"
+			]},
+			{"code":230,"indent":0,"parameters":[
+				1
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"$gameTemp._tmp_localAudio=undefined; { const file=document.ce('input').sa('type','file'); file.onchange=function f(){"
