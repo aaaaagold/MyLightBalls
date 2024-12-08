@@ -9431,6 +9431,9 @@
 				"$gameTemp._tmp_localAudio.play(true);"
 			]},
 			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._tmp_localAudio.volume=0.5;"
+			]},
+			{"code":655,"indent":2,"parameters":[
 				"if($gameTemp.popupMsg){"
 			]},
 			{"code":655,"indent":2,"parameters":[
@@ -9438,6 +9441,33 @@
 			]},
 			{"code":655,"indent":2,"parameters":[
 				"$gameTemp.popupMsg(\"use \"+TextManager.cancel+\" to stop\",{showFrame:444});"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"{ const key='ext snd test vol'; SceneManager.del類比條(key);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const txtW=64,txtH=new Window_Help(1).lineHeight();"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const barW=Graphics.boxWidth,barH=txtH;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"SceneManager.add類比條(key,null,barW>>1,(barH>>1)+2,barW,barH,()=>$gameTemp._tmp_localAudio?$gameTemp._tmp_localAudio.volume:0,['rgba(0,123,0,0.75)','rgba(0,234,0,0.5)','rgba(0,0,0,0.25)'],0);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				""
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const txt=new Window_Text();"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"txt.setText(\"vol. \").position.set(-barW>>1,-barH>>1);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"SceneManager.get類比條(key).addChild(txt);"
 			]},
 			{"code":655,"indent":2,"parameters":[
 				"}"
@@ -9455,16 +9485,23 @@
 			]},
 			{"code":412,"indent":3,"parameters":[
 			]},
-			{"code":111,"indent":3,"parameters":[
-				12,
-				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			{"code":355,"indent":3,"parameters":[
+				"{ let key,val=$gameTemp._tmp_localAudio.volume;"
 			]},
-			{"code":355,"indent":4,"parameters":[
-				"$gameTemp._tmp_localAudio.stop();"
+			{"code":655,"indent":3,"parameters":[
+				"key='left';  if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)-5)/100).clamp(0,1);"
 			]},
-			{"code":0,"indent":4,"parameters":[
+			{"code":655,"indent":3,"parameters":[
+				"key='right'; if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)+5)/100).clamp(0,1);"
 			]},
-			{"code":412,"indent":3,"parameters":[
+			{"code":655,"indent":3,"parameters":[
+				"if(val!==$gameTemp._tmp_localAudio.volume&&$gameTemp.popupMsg) $gameTemp.popupMsg(\"change volume to: \"+$gameTemp._tmp_localAudio.volume,{loc:\"UR\"});"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"if(TouchInput.isCancelled() || Input.isTriggered('cancel')) $gameTemp._tmp_localAudio.stop();"
 			]},
 			{"code":111,"indent":3,"parameters":[
 				12,
@@ -9479,7 +9516,8 @@
 			{"code":401,"indent":4,"parameters":[
 				"audio stopped"
 			]},
-			{"code":115,"indent":4,"parameters":[
+			{"code":119,"indent":4,"parameters":[
+				"__end"
 			]},
 			{"code":0,"indent":4,"parameters":[
 			]},
@@ -9527,6 +9565,12 @@
 			{"code":108,"indent":0,"parameters":[
 				""
 			]},
+			{"code":118,"indent":0,"parameters":[
+				"__end"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"{ const key='ext snd test vol'; SceneManager.del類比條(key); }"
+			]},
 			{"code":115,"indent":0,"parameters":[
 			]},
 			{"code":108,"indent":0,"parameters":[
@@ -9544,7 +9588,8 @@
 			{"code":401,"indent":0,"parameters":[
 				"missing variable"
 			]},
-			{"code":115,"indent":0,"parameters":[
+			{"code":119,"indent":0,"parameters":[
+				"__end"
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
