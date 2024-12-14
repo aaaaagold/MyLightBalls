@@ -72,11 +72,13 @@ TXTAPOS:function(tmpState,textState){
 	const pos=EVAL.call(this,tmpState.text); if(!pos) return;
 	if(!isNaN(pos[0]-=0)) textState.x=pos[0];
 	if(!isNaN(pos[1]-=0)) textState.y=pos[1];
+	textState.index+=tmpState.text.length+1;
 },
 TXTDPOS:function(tmpState,textState){
 	const pos=EVAL.call(this,tmpState.text); if(!pos) return;
 	if(!isNaN(pos[0]-=0)) textState.x+=pos[0];
 	if(!isNaN(pos[1]-=0)) textState.y+=pos[1];
+	textState.index+=tmpState.text.length+1;
 },
 }, // 0: functionalities
 [
