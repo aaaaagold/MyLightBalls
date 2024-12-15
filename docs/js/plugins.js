@@ -33,6 +33,7 @@ var $plugins =
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
 {"name":"agold404_MenuCommandAccess","status":true,"description":"api to switch accessibility of menu commands\r\n\r\n$gameSystem.menuCommand_setOptionsExists(options,isEnabled)\r\n$gameSystem.menuCommand_setOptionsEnabled(options,isEnabled)\r\n\r\noptions: an array of some cases in Window_MenuCommand.prototype.needsCommand\r\nisEnabled: true, false, undefined(=not using this record)\r\n\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
 {"name":"agold404_MessageWithPictureBehind","status":true,"description":"立繪","parameters":{}},
+{"name":"agold404_MsgAutoPad","status":true,"description":"auto padding for Game_Message.prototype.allText","parameters":{}},
 {"name":"agold404_NameField","status":true,"description":"name field","parameters":{}},
 {"name":"agold404_NullEventTrigger","status":true,"description":"can make event not to be triggered: set event data page's 'trigger' to null","parameters":{}},
 {"name":"agold404_NumBoard","status":true,"description":"數字板","parameters":{}},
