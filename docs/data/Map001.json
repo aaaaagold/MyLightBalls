@@ -1066,7 +1066,7 @@
 	0,
 	0,
 	0,
-	0,
+	3966,
 	0,
 	0,
 	0,
@@ -5162,7 +5162,7 @@
 	0,
 	0,
 	0,
-	0,
+	1,
 	0,
 	0,
 	0,
@@ -9643,7 +9643,7 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"vision"
+				"vision - no blocks"
 			]},
 			{"code":118,"indent":0,"parameters":[
 				""
@@ -9655,7 +9655,7 @@
 				"blockedR="
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"selfSwitches="
+				"selfSwitch="
 			]},
 			{"code":108,"indent":0,"parameters":[
 				"<shapeDraw>"
@@ -9673,10 +9673,13 @@
 				"..+"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"++o++"
+				"..+"
 			]},
 			{"code":108,"indent":0,"parameters":[
 				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"++o++"
 			]},
 			{"code":408,"indent":0,"parameters":[
 				"..+"
@@ -9709,5 +9712,108 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":10,"y":2}
+	],"x":10,"y":2},
+	{"id":31,"name":"EV031","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"vision - self A"
+			]},
+			{"code":118,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@inVision"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"blockedR=1"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"selfSwitch=A"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"<shapeDraw>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"++o++"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"..+"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</shapeDraw>"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"<detectedEval>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"this.requestBalloon(4);"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"this._zzzz=Graphics.frameCount;"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</detectedEval>"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":15,"parameters":[
+				233
+			],"indent":null},
+			{"code":20,"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true},
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":true,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":1},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"vision - wait"
+			]},
+			{"code":123,"indent":0,"parameters":[
+				"A",
+				1
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":15,"parameters":[
+				233
+			],"indent":0},
+			{"code":21,"indent":null},
+			{"code":45,"parameters":[
+				"if(1e3<Graphics.frameCount-this._zzzz) this.start();"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":10,"y":3}
 ]}
