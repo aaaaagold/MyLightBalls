@@ -28,6 +28,7 @@ var $plugins =
 {"name":"agold404_FullBfsFindPath","status":true,"description":"走到底的 BFS 尋路。","parameters":{}},
 {"name":"agold404_Gathering","status":true,"description":"SceneManager.gathering_gen / SceneManager.集氣_gen","parameters":{}},
 {"name":"agold404_ImageQueryString","status":true,"description":"runtime 調整圖片","parameters":{}},
+{"name":"agold404_InChrVision","status":true,"description":"set what to do when an event sees player","parameters":{}},
 {"name":"agold404_InNoteTraits_ElementRate","status":true,"description":"setting element rate in note ; thus can be a wierd value","parameters":{}},
 {"name":"agold404_ManualScreenOffset","status":true,"description":"manually set screen offset","parameters":{}},
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
