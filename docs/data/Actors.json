@@ -15,5 +15,5 @@
 		0,
 		0
 	],"faceIndex":1,"faceName":"agold404_1","traits":[
-	],"initialLevel":4,"maxLevel":4,"name":"?_?","nickname":"","note":"","profile":"!_!"}
+	],"initialLevel":4,"maxLevel":4,"name":"?_?","nickname":"","note":"<perFrameEval_map>\n{ const pos=$gamePlayer.frontPos(),last=$gameTemp._perFrameEval_map;\nif(!last||last.x!==pos.x||last.y!==pos.y) console.log($gameTemp._perFrameEval_map=pos);\n}\n</perFrameEval_map>\n\n<perFrameEval_battle>\nconst last=$gameTemp._perFrameEval_battle;\nif(last===undefined||last!==this.hp) console.log(last=this.hp);\n</perFrameEval_battle>","profile":"!_!"}
 ]
