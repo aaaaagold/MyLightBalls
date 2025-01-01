@@ -52,6 +52,7 @@ var $plugins =
 {"name":"agold404_TextPosition","status":true,"description":"text position","parameters":{}},
 {"name":"agold404_ThroughEventsOnly","status":true,"description":"讓事件可以只穿透事件而不穿透玩家、可在note區設定一事件是否不因離畫面太遠而不行動","parameters":{}},
 {"name":"agold404_Timer","status":true,"description":"Much more useful timer","parameters":{}},
+{"name":"agold404_TotalPlayTime","status":true,"description":"recording total play time automatically.","parameters":{"AutoUpdateInterval":"4\r"}},
 {"name":"agold404_TraitPerFrameEval","status":true,"description":"a trait for eval() per frame","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
