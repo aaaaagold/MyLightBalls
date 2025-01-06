@@ -5909,6 +5909,24 @@
 				5
 			]},
 			{"code":355,"indent":0,"parameters":[
+				"// load se to put them in cache"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"if(!$gameTemp._sePutInCache){ $gameTemp._sePutInCache=true;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"["
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"Blow3\",\"Cursor2\",\"Saint5\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"].forEach(n=>new WebAudio('audio/se/'+n+'.ogg',true,true));"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":0,"parameters":[
 				"$gameTemp._trgt=$gameMap._events[4]; $gameTemp._tr=$gameTemp._tr||Math.max($gameMap.tileWidth(),$gameMap.tileHeight());"
 			]},
 			{"code":655,"indent":0,"parameters":[
