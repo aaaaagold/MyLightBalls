@@ -6234,6 +6234,9 @@
 				"let sel=$gameTemp._allDropv.rnd1();"
 			]},
 			{"code":655,"indent":1,"parameters":[
+				"if($gameTemp._elements.has(sel)){ const info=$gameTemp._takesMap.get(sel); if(info&&info[1]>=7&&Math.random()<0.96875) sel=$gameTemp._attackId; } // prevent lag "
+			]},
+			{"code":655,"indent":1,"parameters":[
 				"let rotSpd=Math.random()-0.5; if(rotSpd<0) rotSpd-=1.0/8; else rotSpd+=1.0/8;"
 			]},
 			{"code":655,"indent":1,"parameters":[
