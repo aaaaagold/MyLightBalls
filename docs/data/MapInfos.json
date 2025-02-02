@@ -8,5 +8,7 @@
 	{"id":6,"expanded":false,"name":"MAP006-CrossTheStreet-init","order":5,"parentId":5,"scrollX":1062,"scrollY":531},
 	{"id":7,"expanded":false,"name":"MAP007-MyLightBalls","order":8,"parentId":5,"scrollX":896,"scrollY":531},
 	{"id":8,"expanded":false,"name":"MAP008-作者ㄉ臨時小屋","order":7,"parentId":6,"scrollX":1824,"scrollY":1062},
-	{"id":9,"expanded":false,"name":"MAP009-MyLightArtillery","order":9,"parentId":5,"scrollX":896,"scrollY":531}
+	{"id":9,"expanded":false,"name":"MAP009-MyLightArtillery","order":9,"parentId":5,"scrollX":896,"scrollY":531},
+	{"id":10,"expanded":false,"name":"MAP010-workingExample","order":11,"parentId":0,"scrollX":912,"scrollY":531},
+	{"id":11,"expanded":false,"name":"MAP011-GoAway","order":10,"parentId":5,"scrollX":912,"scrollY":531}
 ]
