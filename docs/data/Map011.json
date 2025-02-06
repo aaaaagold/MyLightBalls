@@ -1951,7 +1951,7 @@
 				"};"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"if(!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia) navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then($gameTemp._tmpFunc_stream).catch(none);"
+				"if(!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia) navigator.mediaDevices.getUserMedia({ video:false, audio:{autoGainControl:false,}, }).then($gameTemp._tmpFunc_stream).catch($gameTemp._streamDbg||none);"
 			]},
 			{"code":230,"indent":0,"parameters":[
 				1
