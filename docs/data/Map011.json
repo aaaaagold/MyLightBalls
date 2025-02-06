@@ -1924,6 +1924,9 @@
 				"if(!($gameTemp._tmpFunc_stream instanceof Function)) $gameTemp._tmpFunc_stream=stream=>{"
 			]},
 			{"code":655,"indent":0,"parameters":[
+				" window._stream_waitForResult=false;"
+			]},
+			{"code":655,"indent":0,"parameters":[
 				" window.localAudio=window.localAudio||document.createElement('audio');"
 			]},
 			{"code":655,"indent":0,"parameters":[
@@ -1950,8 +1953,32 @@
 			{"code":655,"indent":0,"parameters":[
 				"};"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"if(!($gameTemp._tmpFunc_streamErr instanceof Function)) $gameTemp._tmpFunc_streamErr=function f(){"
+			]},
 			{"code":655,"indent":0,"parameters":[
-				"if(!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia) navigator.mediaDevices.getUserMedia({ video:false, audio:{autoGainControl:false,}, }).then($gameTemp._tmpFunc_stream).catch($gameTemp._streamDbg||none);"
+				" window._stream_waitForResult=false;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" if(window._stream_isDbgPrint) console.log(arguments);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"};"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"if(!($gameTemp._tmpFunc_streamRetry instanceof Function)) $gameTemp._tmpFunc_streamRetry=()=>{"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" if(!window._stream_waitForResult&&!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia) navigator.mediaDevices.getUserMedia({ video:false, audio:{autoGainControl:false,}, }).then($gameTemp._tmpFunc_stream).catch($gameTemp._streamDbg||$gameTemp._tmpFunc_streamErr||none);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"};"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"window._stream_waitForResult=false;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._tmpFunc_streamRetry();"
 			]},
 			{"code":230,"indent":0,"parameters":[
 				1
@@ -1987,6 +2014,9 @@
 				"$gameTimer._paused=false;"
 			]},
 			{"code":112,"indent":0,"parameters":[
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"if($gameTemp._tmpFunc_streamRetry instanceof Function) $gameTemp._tmpFunc_streamRetry();"
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"this.getEvt()._shutPower=0;"
