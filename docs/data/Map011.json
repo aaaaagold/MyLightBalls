@@ -2122,8 +2122,20 @@
 			{"code":401,"indent":0,"parameters":[
 				"\\NAMEFIELD:\"$gameParty.members()[0].name()\""
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp._finText_thankList=["
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"午藍的喉嚨\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"];"
+			]},
 			{"code":117,"indent":0,"parameters":[
 				12
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp._finText_thankList=undefined;"
 			]},
 			{"code":101,"indent":0,"parameters":[
 				"agold404_1",
