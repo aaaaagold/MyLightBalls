@@ -5739,7 +5739,7 @@
 			{"code":413,"indent":2,"parameters":[
 			]},
 			{"code":355,"indent":2,"parameters":[
-				"$gameTemp._body._recoverNeeds=240;"
+				"$gameTemp._body._recoverNeeds=32;"
 			]},
 			{"code":655,"indent":2,"parameters":[
 				"$gameSystem._moreNonEleMode=true;"

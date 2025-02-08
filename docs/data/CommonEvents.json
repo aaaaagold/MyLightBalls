@@ -170,7 +170,7 @@
 	{"id":7,"list":[
 		{"code":355,"indent":0,"parameters":["$gameTemp.tmp=\"恢復速度更快且較多\\\\I[42]\\\\I[84]的簡易模式\";"]},
 		{"code":0,"indent":0,"parameters":[]}
-	],"name":"getVal-simpleMode","switchId":1,"trigger":0},
+	],"name":"getVal-simpleMode光球","switchId":1,"trigger":0},
 	{"id":8,"list":[
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"(empty)","switchId":1,"trigger":0},
