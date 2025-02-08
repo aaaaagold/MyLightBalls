@@ -24,6 +24,7 @@ var $plugins =
 {"name":"agold404_ExpandEventRange","status":true,"description":"expand event trigger / collide range","parameters":{}},
 {"name":"agold404_ExternalAnimationSetting","status":true,"description":"動畫接動畫 ; 動畫帶圖 ; 動畫帶音效","parameters":{}},
 {"name":"agold404_F5NotExitFullScreen","status":true,"description":"prevent player exiting full-screen mode when pressing F5","parameters":{}},
+{"name":"agold404_FastForward","status":true,"description":"fast forward","parameters":{"DefaultFastForwardRate":"8\r"}},
 {"name":"agold404_FlashbackText","status":true,"description":"劇情對話文字回顧 flashbackText","parameters":{}},
 {"name":"agold404_FullBfsFindPath","status":true,"description":"走到底的 BFS 尋路。","parameters":{}},
 {"name":"agold404_Gathering","status":true,"description":"SceneManager.gathering_gen / SceneManager.集氣_gen","parameters":{}},
