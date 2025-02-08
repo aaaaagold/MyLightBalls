@@ -286,7 +286,7 @@
 		{"code":355,"indent":0,"parameters":["if($gameTemp._finText_thankList && $gameTemp._finText_thankList.length){"]},
 		{"code":655,"indent":0,"parameters":["this._tmptxt+=\"\\n\\n\\n\\n\\\\{\\\\TXTCENTER:\\\"特別感謝\\\"\\\\}\\n\";"]},
 		{"code":655,"indent":0,"parameters":["for(let x=0,arr=$gameTemp._finText_thankList,xs=arr.length,p=/\"/g,r=\"\\\\\\\"\",p2=/\\\\/g,r2=\"\\\\\\\\\";x<xs;++x){"]},
-		{"code":655,"indent":0,"parameters":[" this._tmptxt+=\"\\n\\\\TXTCENTER:\\\"\"+arr[x].replace(p,r).replace(p2,r2)+\"\\\"\";"]},
+		{"code":655,"indent":0,"parameters":[" this._tmptxt+=\"\\n\\\\TXTCENTER:\\\"\"+arr[x].replace(p,r)+\"\\\"\";"]},
 		{"code":655,"indent":0,"parameters":["}"]},
 		{"code":655,"indent":0,"parameters":["this._tmptxt+=\"\\n\";"]},
 		{"code":655,"indent":0,"parameters":["}"]},
