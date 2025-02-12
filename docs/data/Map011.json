@@ -1969,7 +1969,19 @@
 				"if(!($gameTemp._tmpFunc_streamRetry instanceof Function)) $gameTemp._tmpFunc_streamRetry=()=>{"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				" if(!window._stream_waitForResult&&!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia) navigator.mediaDevices.getUserMedia({ video:false, audio:{autoGainControl:false,}, }).then($gameTemp._tmpFunc_stream).catch($gameTemp._streamDbg||$gameTemp._tmpFunc_streamErr||none);"
+				" if(!window._stream_waitForResult&&!window.localStream&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"  navigator.mediaDevices.getUserMedia({ video:false, audio:{"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"   autoGainControl:false,echoCancellation:false,"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"  },}).then($gameTemp._tmpFunc_stream).catch($gameTemp._streamDbg||$gameTemp._tmpFunc_streamErr||none);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" }"
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"};"
