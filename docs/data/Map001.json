@@ -10110,5 +10110,102 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":7,"y":2}
+	],"x":7,"y":2},
+	{"id":35,"name":"EV035","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"\\EVALTOSTR:\"'anywhereText'\""
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"choose action"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"add text id=1",
+					"add text id=2",
+					"change text id=1",
+					"change text id=2"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"add text id=1"
+			]},
+			{"code":118,"indent":1,"parameters":[
+				"_txt1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp.anywhereText(1,\"text 1: \"+\"\\\\C[6]\"+(this.getEvt()._txtCtr1|=0)+\"\\\\C[0].\",Graphics.boxWidth>>2,Graphics.boxHeight>>1);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"add text id=2"
+			]},
+			{"code":118,"indent":1,"parameters":[
+				"_txt2"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp.anywhereText(2,\"text 2: \"+\"\\\\C[6]\"+(this.getEvt()._txtCtr2|=0)+\"\\\\C[0].\",(Graphics.boxWidth>>2)+(Graphics.boxWidth>>1),Graphics.boxHeight>>1);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"change text id=1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"++this.getEvt()._txtCtr1;"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"_txt1"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"change text id=2"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"++this.getEvt()._txtCtr2;"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"_txt2"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":24,"indent":null},
+			{"code":45,"parameters":[
+				"this._waitCount=~~(Math.random()*64);"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":9,"y":1}
 ]}
