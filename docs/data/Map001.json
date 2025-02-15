@@ -10200,12 +10200,8 @@
 			{"code":0,"indent":0,"parameters":[
 			]}
 		],"moveFrequency":5,"moveRoute":{"list":[
-			{"code":24,"indent":null},
-			{"code":45,"parameters":[
-				"this._waitCount=~~(Math.random()*64);"
-			],"indent":null},
 			{"code":0,"parameters":[
 			]}
-		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
 	],"x":9,"y":1}
 ]}
