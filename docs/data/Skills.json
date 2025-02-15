@@ -28,7 +28,7 @@
 	{"id":10,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal3","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":2,"name":"Heal3","note":"","occasion":0,"repeats":3,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":11,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAll","effects":[
-	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":3,"name":"HealAll","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":3,"name":"HealAll","note":"<evalUseCond>\na.hp<a.mhp\n</evalUseCond>\n\n<evalUseCost>\n++a._paramPlus[0];\n</evalUseCost>","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":12,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAllx2","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":4,"name":"HealAllx2","note":"","occasion":0,"repeats":2,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":13,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal","effects":[
