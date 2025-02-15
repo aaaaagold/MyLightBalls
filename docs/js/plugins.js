@@ -26,6 +26,7 @@ var $plugins =
 {"name":"agold404_EventLongDistDetection","status":true,"description":"<longDistDetection> makes event movable from player locating in the map everywhere","parameters":{}},
 {"name":"agold404_EventText","status":true,"description":"display texts on events","parameters":{}},
 {"name":"agold404_EventTriggerHere","status":true,"description":"get event can be triggered when overlapped with player","parameters":{}},
+{"name":"agold404_EventTriggersEvents","status":true,"description":"let an event can be triggered by another event.","parameters":{}},
 {"name":"agold404_ExpandEventRange","status":true,"description":"expand event trigger / collide range","parameters":{}},
 {"name":"agold404_ExternalAnimationSetting","status":true,"description":"動畫接動畫 ; 動畫帶圖 ; 動畫帶音效","parameters":{}},
 {"name":"agold404_F5NotExitFullScreen","status":true,"description":"prevent player exiting full-screen mode when pressing F5","parameters":{}},
