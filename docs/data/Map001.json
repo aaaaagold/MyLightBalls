@@ -10328,6 +10328,9 @@
 			{"code":408,"indent":0,"parameters":[
 				"showHint=."
 			]},
+			{"code":408,"indent":0,"parameters":[
+				"showHintCond=$gamePlayer.y<1"
+			]},
 			{"code":108,"indent":0,"parameters":[
 				"<shapeDraw>"
 			]},
