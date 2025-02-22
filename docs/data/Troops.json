@@ -5,6 +5,13 @@
 		{"enemyId":1,"x":480,"y":436,"hidden":false}
 	],"name":"Bat*2","pages":[
 		{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":true},"list":[
+			{"code":111,"indent":0,"parameters":[12,"0"]},
+			{"code":108,"indent":1,"parameters":["@PASTECOMMONEVENT"]},
+			{"code":408,"indent":1,"parameters":["19"]},
+			{"code":0,"indent":1,"parameters":[]},
+			{"code":412,"indent":0,"parameters":[]},
+			{"code":108,"indent":0,"parameters":["@PASTECOMMONEVENT"]},
+			{"code":408,"indent":0,"parameters":["19"]},
 			{"code":355,"indent":0,"parameters":["eval($gameTemp._tmp_battleTurn0);"]},
 			{"code":0,"indent":0,"parameters":[]}
 		],"span":0}
