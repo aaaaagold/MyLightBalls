@@ -9715,10 +9715,43 @@
 				"<detectedEval>"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"this.requestBalloon(4);"
+				"if(window._msg_detectedEval) console.log('detectedEval');"
 			]},
 			{"code":408,"indent":0,"parameters":[
 				"</detectedEval>"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"<nondetectedEval>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"if(window._msg_nondetectedEval) console.log('nondetectedEval');"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</nondetectedEval>"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"<onDetectedEval>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"this.requestBalloon(1);"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"console.log('window._msg_detectedEval=true; to show more');"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</onDetectedEval>"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"<onNondetectedEval>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"this.requestBalloon(2);"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"console.log('window._msg_nondetectedEval=true; to show more');"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</onNondetectedEval>"
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
@@ -10203,5 +10236,70 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":9,"y":1}
+	],"x":9,"y":1},
+	{"id":36,"name":"EV036","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":true,"image":{"tileId":0,"characterName":"!Flame","direction":8,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<triggeredByEvents>"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"evtid \\EVALTOSTR:\"this._character._eventId\""
+			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"this.getEvt().isStarting() || this.getEvt()===this.getTriggerer()"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"this.getTriggerer()===-1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let me=this.getEvt(),evt=$gameMap.eventsXy(me.x,me.y).filter(evt=>evt!==me)[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(evt) this.getEvt().start(evt);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.getTriggerer().jumpFront(0);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this.getEvt().locate(-4,-4);"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":45,"parameters":[
+				"{ let d=this._direction; this._direction=$gamePlayer._direction; this.jumpFront(3); this._direction=d; }"
+			],"indent":null},
+			{"code":45,"parameters":[
+				"this.start(-1);"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":false,"skippable":false,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":0,"stepAnime":false,"through":true,"trigger":0,"walkAnime":false}
+	],"x":9,"y":15}
 ]}
