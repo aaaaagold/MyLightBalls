@@ -45,6 +45,7 @@ var $plugins =
 {"name":"agold404_NameField","status":true,"description":"name field","parameters":{}},
 {"name":"agold404_NullEventTrigger","status":true,"description":"can make event not to be triggered: set event data page's 'trigger' to null","parameters":{}},
 {"name":"agold404_NumBoard","status":true,"description":"數字板","parameters":{}},
+{"name":"agold404_PasteCommonEvent","status":true,"description":"paste commands in specified common events in a event page","parameters":{}},
 {"name":"agold404_PopupMsg","status":true,"description":"popup msg","parameters":{}},
 {"name":"agold404_PreloadOnMapload","status":true,"description":"preload images on map load","parameters":{}},
 {"name":"agold404_PressPToPause","status":true,"description":"press P to pause","parameters":{}},
