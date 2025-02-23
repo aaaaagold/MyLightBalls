@@ -62,6 +62,7 @@ var $plugins =
 {"name":"agold404_Timer","status":true,"description":"Much more useful timer","parameters":{}},
 {"name":"agold404_TotalPlayTime","status":true,"description":"recording total play time automatically.","parameters":{"AutoUpdateInterval":"4\r"}},
 {"name":"agold404_TraitPerFrameEval","status":true,"description":"a trait for eval() per frame","parameters":{}},
+{"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
 {"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}}
