@@ -29,6 +29,6 @@
 	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
 	{"id":14,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"test refer","effects":[
 	],"hitType":0,"iconIndex":82,"itypeId":1,"name":"refer item 14","note":"<refer:15>","occasion":0,"price":0,"repeats":1,"scope":2,"speed":0,"successRate":100,"tpGain":0},
-	{"id":15,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"test refer","effects":[
-	],"hitType":0,"iconIndex":97,"itypeId":1,"name":"refer skill 1","note":"<refer:1,s>","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0}
+	{"id":15,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"test refer","effects":[
+	],"hitType":0,"iconIndex":97,"itypeId":1,"name":"refer skill 1","note":"<refer:4,s>","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0}
 ]
