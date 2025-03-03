@@ -22,6 +22,9 @@ window[f.name]=f;
 console.log(getPluginNameViaSrc(document.currentScript.src));
 }
 
+window._isTest=Utils.isOptionValid('test')||Utils.isOptionValid('btest')||Utils.isOptionValid('etest');
+window.isTest=()=>window._isTest;
+
 new cfc(Decrypter).addBase('checkImgIgnore',function(url){
 	return this._ignoreList.uniqueHas(url) || ResourceHandler.isDirectPath(url);
 }).add('decryptArrayBuffer',function f(arrayBuffer,refHeader){
@@ -1798,6 +1801,70 @@ addBase('startAction_updateLogWindow',function f(subject,action,targets){
 getP;
 
 
+new cfc(Game_Action.prototype).
+addBase('itemEffectAddNormalState',function f(target,effect){
+	const chance=this.itemEffectAddNormalState_calChance.apply(this,arguments);
+	if(this.itemEffectAddNormalState_chanceCondOk(chance,arguments)){
+		this.itemEffectAddNormalState_onSuccess.apply(this,arguments);
+	}
+}).
+addBase('itemEffectAddNormalState_calChance',function f(target,effect){
+	let chance=effect.value1;
+	if(!this.isCertainHit()){
+		chance*=target.stateRate(effect.dataId);
+		chance*=this.lukEffectRate(target);
+	}
+	return chance;
+}).
+addBase('itemEffectAddNormalState_chanceCondOk',function f(chance,argv){
+	return Math.random()<chance;
+}).
+addBase('itemEffectAddNormalState_onSuccess',function f(target,effect){
+	target.addState(effect.dataId);
+	this.makeSuccess(target);
+}).
+addBase('itemEffectRemoveState',function f(target,effect){
+	const chance=this.itemEffectRemoveState_calChance.apply(this,arguments);
+	if(this.itemEffectRemoveState_chanceCondOk(chance,arguments)){
+		this.itemEffectRemoveState_onSuccess.apply(this,arguments);
+	}
+}).
+addBase('itemEffectRemoveState_calChance',function f(target,effect){
+	return effect.value1;
+}).
+addBase('itemEffectRemoveState_chanceCondOk',function f(chance,argv){
+	return Math.random()<chance;
+}).
+addBase('itemEffectRemoveState_onSuccess',function f(target,effect){
+	target.removeState(effect.dataId);
+	this.makeSuccess(target);
+}).
+addBase('itemEffectAddAttackState',function f(target,effect){
+	this.subject().attackStates().forEach(this.itemEffectAddAttackState1.bind(this,target,effect));
+}).
+addBase('itemEffectAddAttackState1',function f(target,effect,stateId){
+	const chance=this.itemEffectAddAttackState1_calChance.apply(this,arguments);
+	if(this.itemEffectAddAttackState1_chanceCondOk(chance,arguments)){
+		this.itemEffectAddAttackState1_onSuccess.apply(this,arguments);
+	}
+}).
+addBase('itemEffectAddAttackState1_chanceCondOk',function f(chance,argv){
+	return Math.random()<chance;
+}).
+addBase('itemEffectAddAttackState1_calChance',function f(target,effect,stateId){
+	let chance=effect.value1;
+	chance*=target.stateRate(stateId);
+	chance*=this.subject().attackStatesRate(stateId);
+	chance*=this.lukEffectRate(target);
+	return chance;
+}).
+addBase('itemEffectAddAttackState1_onSuccess',function f(target,effect,stateId){
+	target.addState(stateId);
+	this.makeSuccess(target);
+}).
+getP;
+
+
 })(); // refine for future extensions
 
 // ---- ---- ---- ---- Scene_HTML_base
@@ -2267,7 +2334,7 @@ new Map([
 
 // ---- ---- ---- ---- performance
 
-(()=>{ let k,r,t; return;
+(()=>{ let k,r,t;
 
 if(0){
 // since 'this._loadListeners' will not be long enough to reduce performance consumption by this, not using this.
@@ -2284,10 +2351,78 @@ new cfc(Bitmap.prototype).add('initialize',function f(w,h){
 }).addBase('_callLoadListeners',function f(){
 	while(this._loadListeners_strt<this._loadListeners.length){
 		const listener=this._loadListeners[this._loadListeners_strt++];
+		// for handling while{try..catch}, strt must ++.
 		listener(this);
 	}
 	this._loadListeners.length=this._loadListeners_strt=0;
 });
+}
+
+
+{ const p=Game_Action.prototype;
+new cfc(p).
+addBase('_itemEffectRecoverHp',function f(target,effect){
+	return this.itemEffectRecoverHp.apply(this,arguments);
+}).
+addBase('_itemEffectRecoverMp',function f(target,effect){
+	return this.itemEffectRecoverMp.apply(this,arguments);
+}).
+addBase('_itemEffectGainTp',function f(target,effect){
+	return this.itemEffectGainTp.apply(this,arguments);
+}).
+addBase('_itemEffectAddState',function f(target,effect){
+	return this.itemEffectAddState.apply(this,arguments);
+}).
+addBase('_itemEffectRemoveState',function f(target,effect){
+	return this.itemEffectRemoveState.apply(this,arguments);
+}).
+addBase('_itemEffectAddBuff',function f(target,effect){
+	return this.itemEffectAddBuff.apply(this,arguments);
+}).
+addBase('_itemEffectAddDebuff',function f(target,effect){
+	return this.itemEffectAddDebuff.apply(this,arguments);
+}).
+addBase('_itemEffectRemoveBuff',function f(target,effect){
+	return this.itemEffectRemoveBuff.apply(this,arguments);
+}).
+addBase('_itemEffectRemoveDebuff',function f(target,effect){
+	return this.itemEffectRemoveDebuff.apply(this,arguments);
+}).
+addBase('_itemEffectSpecial',function f(target,effect){
+	return this.itemEffectSpecial.apply(this,arguments);
+}).
+addBase('_itemEffectGrow',function f(target,effect){
+	return this.itemEffectGrow.apply(this,arguments);
+}).
+addBase('_itemEffectLearnSkill',function f(target,effect){
+	return this.itemEffectLearnSkill.apply(this,arguments);
+}).
+addBase('_itemEffectCommonEvent',function f(target,effect){
+	return this.itemEffectCommonEvent.apply(this,arguments);
+}).
+addBase('applyItemEffect',function f(target,effect){
+	const func=f.tbl[0].get(effect.code);
+	if(func) func.apply(this,arguments);
+	else if(f.tbl[1]) console.warn("[WARNING] Game_Action.prototype.applyItemEffect: using un-handled effect code");
+},t=[
+new Map([
+	[Game_Action.EFFECT_RECOVER_HP,p._itemEffectRecoverHp],
+	[Game_Action.EFFECT_RECOVER_MP,p._itemEffectRecoverMp],
+	[Game_Action.EFFECT_GAIN_TP   ,p._itemEffectGainTp   ],
+	[Game_Action.EFFECT_ADD_STATE   ,p._itemEffectAddState   ],
+	[Game_Action.EFFECT_REMOVE_STATE,p._itemEffectRemoveState],
+	[Game_Action.EFFECT_ADD_BUFF     ,p._itemEffectAddBuff     ],
+	[Game_Action.EFFECT_ADD_DEBUFF   ,p._itemEffectAddDebuff   ],
+	[Game_Action.EFFECT_REMOVE_BUFF  ,p._itemEffectRemoveBuff  ],
+	[Game_Action.EFFECT_REMOVE_DEBUFF,p._itemEffectRemoveDebuff],
+	[Game_Action.EFFECT_SPECIAL,p._itemEffectSpecial],
+	[Game_Action.EFFECT_GROW       ,p._itemEffectGrow      ],
+	[Game_Action.EFFECT_LEARN_SKILL,p._itemEffectLearnSkill],
+	[Game_Action.EFFECT_COMMON_EVENT,p._itemEffectCommonEvent],
+]), // 0: tbl
+window.isTest(), // 1: isTest
+]).
+getP;
 }
 
 })(); // performance
