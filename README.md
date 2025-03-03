@@ -5,7 +5,7 @@ a game
 
 [or access to dev mode](https://aaaaagold.github.io/MyLightBalls/#entry=ALL)
 
-[DEMO gameplay video](https://www.youtube.com/watch?v=XMyQ_hGhkP8)
+[![DEMO gameplay video](https://img.youtube.com/vi/XMyQ_hGhkP8/0.jpg)](https://www.youtube.com/watch?v=XMyQ_hGhkP8)
 
 ### for detailed plugins commits, see:
 
