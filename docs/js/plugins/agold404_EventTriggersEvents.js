@@ -21,7 +21,7 @@ t=[
 undefined,
 params, // 1: plugin params
 function(evt){
-	if(!evt.isStarting()&&evt.getMeta().triggeredByEvents) evt.start(this);
+	if(this!==evt&&!evt.isStarting()&&evt.getMeta().triggeredByEvents) evt.start(this);
 }, // 2: forEach events start
 ];
 
@@ -73,7 +73,8 @@ addBase('eventTriggersEvents_initiativeTrigger',function f(x,y){
 		x=this.x;
 		y=this.y;
 	}
-	const evt=$gameMap.eventsXy(x,y)[0];
+	const arr=$gameMap.eventsXy(x,y);
+	const evt=arr[0]===this?arr[1]:arr[0];
 	if(evt) this.start(evt);
 }).
 getP;
