@@ -10673,8 +10673,17 @@
 			{"code":408,"indent":0,"parameters":[
 				"<triggeredByEvents>"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
 			{"code":408,"indent":0,"parameters":[
-				"<dontLock>"
+				" test erased"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"evt trig evts"
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"this.setOptionPlayerAsTriggerer();"
@@ -10693,7 +10702,15 @@
 				false
 			]},
 			{"code":355,"indent":0,"parameters":[
-				"this.getEvt().jumpFront(2);"
+				"//this.getEvt().jumpFront(2);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this.getEvt().jump(0,0);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"this.getEvt()._moveType=0;"
+			]},
+			{"code":214,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
