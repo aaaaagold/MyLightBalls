@@ -10664,5 +10664,43 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":1,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":2,"walkAnime":true}
-	],"x":10,"y":0}
+	],"x":10,"y":0},
+	{"id":44,"name":"EV044","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"!Flame","direction":4,"pattern":1,"characterIndex":3},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<triggeredByEvents>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<dontLock>"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.setOptionPlayerAsTriggerer();"
+			]},
+			{"code":213,"indent":0,"parameters":[
+				-1,
+				1,
+				false
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.clearOptionPlayerAsTriggerer();"
+			]},
+			{"code":213,"indent":0,"parameters":[
+				0,
+				4,
+				false
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.getEvt().jumpFront(2);"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":1,"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":2,"moveType":3,"priorityType":2,"stepAnime":false,"through":true,"trigger":2,"walkAnime":true}
+	],"x":11,"y":0}
 ]}
