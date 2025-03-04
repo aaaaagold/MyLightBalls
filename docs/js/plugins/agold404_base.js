@@ -1751,7 +1751,7 @@ addBase('scrollUp',function f(distance){
 addBase('scrollUp_getNewDisplayY',function(distance){
 	let rtv=this._displayY;
 	if(this.isLoopVertical()){
-        	rtv+=$dataMap.height-distance;
+		rtv+=$dataMap.height-distance;
 		rtv%=$dataMap.height;
 	}else if(this.height()>=this.screenTileY()) rtv=Math.max(rtv-distance,0);
 	return rtv;
@@ -1765,7 +1765,7 @@ addBase('scrollDown',function f(distance){
 addBase('scrollDown_getNewDisplayY',function(distance){
 	let rtv=this._displayY;
 	if(this.isLoopVertical()){
-        	rtv+=distance;
+		rtv+=distance;
 		rtv%=$dataMap.height;
 	}else if(this.height()>=this.screenTileY()) rtv=Math.min(rtv+distance,this.height()-this.screenTileY());
 	return rtv;
