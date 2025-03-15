@@ -13,6 +13,7 @@ var $plugins =
 {"name":"agold404_BlackHoles","status":true,"description":"black holes visual effect api","parameters":{}},
 {"name":"agold404_BlackholesV2","status":true,"description":"黑洞v2","parameters":{}},
 {"name":"agold404_BouncingMaterial","status":true,"description":"make a Sprite with a single bitmap bouncing","parameters":{}},
+{"name":"agold404_CameraChasing","status":true,"description":"set camera chasing","parameters":{}},
 {"name":"agold404_CanPassInRegions","status":true,"description":"let player or events can in ONLY some regions","parameters":{}},
 {"name":"agold404_ChangeTile","status":true,"description":"online change tile","parameters":{}},
 {"name":"agold404_CharacterPatternRect","status":true,"description":"sprite_chr可設定切掉周圍一些","parameters":{}},
@@ -68,5 +69,6 @@ var $plugins =
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
-{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}}
+{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}},
+{"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}}
 ];
