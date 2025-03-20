@@ -10,7 +10,7 @@
 		{"code":22,"dataId":0,"value":0.95},
 		{"code":22,"dataId":1,"value":0.05},
 		{"code":31,"dataId":1,"value":0}
-	],"gold":0,"name":"Bat","note":"","params":[
+	],"gold":0,"name":"Bat","note":"<dropItemsEval>\n$gameTemp._dropItemsEval;\n</dropItemsEval>","params":[
 		200,
 		0,
 		30,
