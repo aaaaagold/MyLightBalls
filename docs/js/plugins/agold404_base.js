@@ -22,7 +22,7 @@ window[f.name]=f;
 console.log(getPluginNameViaSrc(document.currentScript.src));
 }
 
-window._isTest=Utils.isOptionValid('test')||Utils.isOptionValid('btest')||Utils.isOptionValid('etest');
+window._isTest=getUrlParamVal('test')||Utils.isOptionValid('test')||Utils.isOptionValid('btest')||Utils.isOptionValid('etest');
 window.isTest=()=>window._isTest;
 
 new cfc(Decrypter).addBase('checkImgIgnore',function(url){
@@ -481,7 +481,14 @@ new cfc(TouchInput).addBase('_onTouchStart',function f(event){
 }).addBase('bypassPreventDefault_touch_stackPop',function f(){
 	this._bypassPreventDefault_touch|=0;
 	return --this._bypassPreventDefault_touch_stackSize;
-});
+}).
+addBase('_onMouseMove',function(event) {
+	this._onMove(
+		Graphics.pageToCanvasX(event.pageX),
+		Graphics.pageToCanvasY(event.pageY),
+	);
+}).
+getP;
 //
 new cfc(AudioManager).addBase('audioFileExt',function f(){
 	return f.tbl[0];
@@ -1023,7 +1030,8 @@ function(src,e) {
 }).addBase('onLoad_after',function f(obj,name,src,msg){
 	const func=f.tbl.get(name);
 	return func && func.apply(this,arguments);
-}).addBase('_onLoad_before_map',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_map',function f(obj,name,src,msg){
 	const evtds=obj&&obj.events; if(evtds) evtds._template=evtds[0]=JSON.parse(JSON.stringify(f.tbl[0])); // 'evtds[0]' is restored to 'null' after onLoad
 	return this.onLoad_before_map.apply(this,arguments);
 },[
@@ -1036,7 +1044,8 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_map',function f(obj,name,src,msg){
 	// dummy
-}).addBase('_onLoad_before_skill',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_skill',function f(obj,name,src,msg){
 	return this.onLoad_before_skill.apply(this,arguments);
 }).addBase('_onLoad_after_skill',function f(obj,name,src,msg){
 	return this.onLoad_after_skill.apply(this,arguments);
@@ -1044,7 +1053,17 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_skill',function f(obj,name,src,msg){
 	// dummy
-}).addBase('_onLoad_before_troop',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_enemy',function f(obj,name,src,msg){
+	return this.onLoad_before_enemy.apply(this,arguments);
+}).addBase('_onLoad_after_enemy',function f(obj,name,src,msg){
+	return this.onLoad_after_enemy.apply(this,arguments);
+}).addBase('onLoad_before_enemy',function f(obj,name,src,msg){
+	// dummy
+}).addBase('onLoad_after_enemy',function f(obj,name,src,msg){
+	// dummy
+}).
+addBase('_onLoad_before_troop',function f(obj,name,src,msg){
 	return this.onLoad_before_troop.apply(this,arguments);
 }).addBase('_onLoad_after_troop',function f(obj,name,src,msg){
 	return this.onLoad_after_troop.apply(this,arguments);
@@ -1052,7 +1071,8 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_troop',function f(obj,name,src,msg){
 	// dummy
-}).addBase('_onLoad_before_tileset',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_tileset',function f(obj,name,src,msg){
 	return this.onLoad_before_tileset.apply(this,arguments);
 }).addBase('_onLoad_after_tileset',function f(obj,name,src,msg){
 	return this.onLoad_after_tileset.apply(this,arguments);
@@ -1060,7 +1080,8 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_tileset',function f(obj,name,src,msg){
 	// dummy
-}).addBase('_onLoad_before_commonEvent',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_commonEvent',function f(obj,name,src,msg){
 	return this.onLoad_before_commonEvent.apply(this,arguments);
 }).addBase('_onLoad_after_commonEvent',function f(obj,name,src,msg){
 	return this.onLoad_after_commonEvent.apply(this,arguments);
@@ -1068,7 +1089,8 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_commonEvent',function f(obj,name,src,msg){
 	// dummy
-}).addBase('_onLoad_before_system',function f(obj,name,src,msg){
+}).
+addBase('_onLoad_before_system',function f(obj,name,src,msg){
 	return this.onLoad_before_system.apply(this,arguments);
 }).addBase('_onLoad_after_system',function f(obj,name,src,msg){
 	return this.onLoad_after_system.apply(this,arguments);
@@ -1076,11 +1098,13 @@ function(src,e) {
 	// dummy
 }).addBase('onLoad_after_system',function f(obj,name,src,msg){
 	// dummy
-});
+}).
+getP;
 { const p=DataManager;
 p.onLoad_before.tbl=new Map([
 	['$dataMap',	p._onLoad_before_map],
 	['$dataSkills',	p._onLoad_before_skill],
+	['$dataEnemies',	p._onLoad_before_enemy],
 	['$dataTroops',	p._onLoad_before_troop],
 	['$dataTilesets',	p._onLoad_before_tileset],
 	['$dataCommonEvents',	p._onLoad_before_commonEvent],
@@ -1089,6 +1113,7 @@ p.onLoad_before.tbl=new Map([
 p.onLoad_after.tbl=new Map([
 	['$dataMap',	p._onLoad_after_map],
 	['$dataSkills',	p._onLoad_after_skill],
+	['$dataEnemies',	p._onLoad_after_enemy],
 	['$dataTroops',	p._onLoad_after_troop],
 	['$dataTilesets',	p._onLoad_after_tileset],
 	['$dataCommonEvents',	p._onLoad_after_commonEvent],
@@ -2245,6 +2270,7 @@ new cfc(DataManager).addBase('getDebugInfo',function f(){
 		mapId:$gameMap&&$gameMap._mapId,
 		xy:$gamePlayer&&({x:$gamePlayer.x,y:$gamePlayer.y}),
 		xyReal:$gamePlayer&&({x:$gamePlayer._realX,y:$gamePlayer._realY}),
+		troopId:$gameTroop&&$gameTroop._troopId,
 	});
 }).addBase('getDebugInfoStr',function f(){
 	const res=[];
@@ -2254,6 +2280,7 @@ new cfc(DataManager).addBase('getDebugInfo',function f(){
 	res.push("mapId: "+info.mapId);
 	res.push("xy: "+JSON.stringify(info.xy||null));
 	res.push("xyReal: "+JSON.stringify(info.xyReal||null));
+	res.push("troopId: "+info.troopId);
 	return res.join(' ; ');
 });
 
@@ -3879,8 +3906,8 @@ new cfc(Bitmap.prototype).add('_onLoad',function f(){
 { const p=ImageManager;
 p.isDirectPath=ResourceHandler.isDirectPath;
 p.splitUrlQueryHash=window.splitUrlQueryHash;
-k='_loadBitmap';
-r=p[k]; (p[k]=function(isReserve, folder, filename, hue, smooth, reservationId){
+new cfc(p).
+addBase('_loadBitmap',function(isReserve, folder, filename, hue, smooth, reservationId){
 	if(filename){
 		let path;
 		if(this.isDirectPath(filename)) path=filename;
@@ -3895,27 +3922,31 @@ r=p[k]; (p[k]=function(isReserve, folder, filename, hue, smooth, reservationId){
 		bitmap.smooth = smooth;
 		return bitmap;
 	}else return this.loadEmptyBitmap();
-}).ori=r;
-k='loadBitmap';
-r=p[k]; (p[k]=function(folder, filename, hue, smooth){
+}).
+addBase('loadBitmap',function(folder, filename, hue, smooth){
 	return this._loadBitmap(false, folder, filename, hue, smooth);
-}).ori=r;
-k='reserveBitmap';
-r=p[k]; (p[k]=function(folder, filename, hue, smooth, reservationId){
+}).
+addBase('reserveBitmap',function(folder, filename, hue, smooth, reservationId){
 	return this._loadBitmap(true , folder, filename, hue, smooth, reservationId);
-}).ori=r;
-k='loadNormalBitmap';
-r=p[k]; (p[k]=function(path, hue){
+}).
+addBase('loadNormalBitmap',function f(path, hue){
 	if(!path) return ImageManager.loadEmptyBitmap();
 	const key=this._generateCacheKey(path, hue);
 	let bitmap=this._imageCache.get(key);
 	if(!bitmap){
 		this._imageCache.add(key,bitmap=Bitmap.load(path));
 		bitmap._cacheKey=key;
-		bitmap.addLoadListener(()=>bitmap.rotateHue(hue));
+		bitmap._hue=hue;
+		bitmap.addLoadListener(f.tbl[0]);
 	}else if(!bitmap.isReady()) bitmap.decode();
 	return bitmap;
-}).ori=r;
+},[
+bmp=>bmp.rotateHue(bmp._hue), // 0: bmp onload
+]).
+addBase('_generateCacheKey',function f(path,hue){
+	return hue?path+':'+hue:path;
+}).
+getP;
 }
 
 ImageCache.prototype.del=function f(key){
