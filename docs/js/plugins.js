@@ -51,6 +51,7 @@ var $plugins =
 {"name":"agold404_NumBoard","status":true,"description":"數字板","parameters":{}},
 {"name":"agold404_PasteCommonEvent","status":true,"description":"paste commands in specified common events in a event page","parameters":{}},
 {"name":"agold404_PopupMsg","status":true,"description":"popup msg","parameters":{}},
+{"name":"agold404_PreloadBitmapsCache","status":true,"description":"Preload Bitmap to implement cache, by putting sprites out of the screen at every scene from the game start","parameters":{"BitmapPaths":"[\"img/characters/$elephant.png\"]"}},
 {"name":"agold404_PreloadOnMapload","status":true,"description":"preload images on map load","parameters":{}},
 {"name":"agold404_PressPToPause","status":true,"description":"press P to pause","parameters":{}},
 {"name":"agold404_SaveManager","status":true,"description":"edit save name ; load from file ; export a save to a file","parameters":{"DisplayedTexts":"","renameSaveTag":"Rename Save's Tag","loadSaveFromFile":"Load Save from File","exportSaveToFile":"Export Save to File","locales":"[\"\\\"zh-TW\\\\n修改存檔標記\\\\n讀取檔案\\\\n匯出存檔\\\"\"]\r"}},
