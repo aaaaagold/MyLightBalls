@@ -10053,7 +10053,7 @@
 				"{ const tpt=DataManager.loadGlobalInfo()[0].totalPlayTime||{};"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"this._list[this._index+2].parameters[0]=\"from save, in miliseconds ( Date.now() )\"+"
+				"this._list[this._index+2].parameters[0]=\"in miliseconds ( Date.now() )\"+"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"'\\n'+\"inMap: \"+(tpt.inMap||0)+"
