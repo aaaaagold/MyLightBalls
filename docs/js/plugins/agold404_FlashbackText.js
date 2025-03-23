@@ -58,9 +58,19 @@ new cfc(p).add('updateActor',function f(){
 	wt.y=this._commandWindow.height;
 	this.addWindow(wt);
 }).add('start',function f(){
+	this._seEchoBack=$gameSystem&&$gameSystem.seEcho_opt_get&&$gameSystem.seEcho_opt_get();
 	const rtv=f.ori.apply(this,arguments);
 	this._flashbackTextWindow.scrollBottom().open();
 	return rtv;
+}).
+add('terminate',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.terminate_restoreSeEcho();
+	return rtv;
+}).addBase('terminate_restoreSeEcho',function f(){
+	if(!$gameSystem||!$gameSystem.seEcho_opt_set) return;
+	if(this._seEchoBack) $gameSystem.seEcho_opt_set(this._seEchoBack);
+	else $gameSystem.seEcho_opt_clear();
 }).add('loadImgs',function f(){
 	$gameTemp.flashbackText_getCont().forEach(f.tbl[0]);
 },[
@@ -227,14 +237,38 @@ undefined,
 	const rtv=this._redrawtxt(arr);
 	if(this._scrollTxtY_max===undefined) this._scrollTxtY_max=Math.max(rtv-this.contentsHeight(),0);
 	return rtv;
+}).
+addBase('setScrollSound',function f(newY,lastY){
+	const delta=newY-lastY;
+	if($gameSystem&&$gameSystem.seEcho_opt_set&&$gameSystem.seEcho_echos_clear){
+		if(delta){
+			if(!this._isSePlayedLastFrame){
+				this._isSePlayedLastFrame=true;
+				$gameSystem.seEcho_opt_set({delayFrame:f.tbl[0][0],nextVolRate:f.tbl[0][1],affectStaticSe:f.tbl[0][2],});
+				SoundManager.playCursor();
+			}
+		}else{
+			$gameSystem.seEcho_echos_clear();
+			this._isSePlayedLastFrame=false;
+		}
+	}else{
+		if(delta) SoundManager.playCursor();
+	}
+},[
+[4,0.875,true,], // 0: $gameSystem.seEcho_opt_set
+]).
+addBase('setScrollBar',function f(y){
+	
 }).add('setScrollTxtY',function f(val){
-	if(val<0) val=0;
+	if(val<0) val=0; // not using !(val>=0) for debug
 	if(this._scrollTxtY_max<val) val=this._scrollTxtY_max;
+	this.setScrollSound(val,this._scrollTxtY);
 	if(this._scrollTxtY!==val){
 		this._scrollTxtY=val;
 		this._shouldRedraw=true;
-		if(!val) this.upArrowVisible=false;
-		if(val===this._scrollTxtY_max) this.downArrowVisible=false;
+		this.upArrowVisible=!!val;
+		this.downArrowVisible=val!==this._scrollTxtY_max;
+		this.setScrollBar(this._scrollTxtY);
 	}
 }).add('scrollBottom',function f(){
 	if(!$gameTemp) return;
@@ -267,7 +301,6 @@ undefined,
 		if(Input.isTriggered('home')) delta=-this._scrollTxtY;
 		else delta=this._scrollTxtY_max-this._scrollTxtY||0;
 	}
-	if(delta) SoundManager.playCursor();
 	this.setScrollTxtY(this._scrollTxtY+delta);
 },[16,]).add('processEscapeCharacter',function f(){
 	let tmp;
@@ -350,21 +383,28 @@ new cfc(Window_Message.prototype).add('startMessage',function f(){
 },t);
 
 if(!enableShortcutScenes.size) return;
-const key='r';
+const key='r',keyName='openFlashback';
 const f=function(){
 	const sc=SceneManager._scene;
 	if(sc && sc.isActive() && $gameTemp && Input.isPressed(f.tbl[0]) && f.tbl[1].has(sc.constructor)) $gameTemp.flashbackText_show();
 };
 f.ori=undefined;
 f.tbl=[
-key,
+keyName,
 enableShortcutScenes,
 ];
-Input.keyMapper[key.toUpperCase().charCodeAt()]=key;
-new cfc(Scene_Boot.prototype).add('start',function f(){
+Input.addKeyName(key.toUpperCase().charCodeAt(),keyName);
+new cfc(Scene_Boot.prototype).
+add('terminate_after',function f(){
 	const rtv=f.ori.apply(this,arguments);
-	if(SceneManager.additionalUpdate_renderScene_add) SceneManager.additionalUpdate_renderScene_add(f.tbl[0],true);
+	this.flashbackText_addKeySensor();
 	return rtv;
-},[f]);
+}).
+addBase('flashbackText_addKeySensor',function f(){
+	if(f._called) return;
+	if(SceneManager.additionalUpdate_renderScene_add) SceneManager.additionalUpdate_renderScene_add(f.tbl[0],true);
+	f._called=true;
+},[f]).
+getP;
 
 })();
