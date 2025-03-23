@@ -311,7 +311,11 @@
 	],"name":"END(show plugins)","switchId":1,"trigger":0},
 	{"id":13,"list":[
 		{"code":355,"indent":0,"parameters":["if($gamePlayer.frontPos){ const fp=$gamePlayer.frontPos_r(); $gameMap._events.forEach(evt=>{ if(!evt) return; const sp=evt.getSprite();"]},
-		{"code":655,"indent":0,"parameters":[" if(sp._textWnd) sp._textWnd.alpha=Math.max(0.9375/((evt.isNormalPriority()?evt.dist2_r($gamePlayer.frontPos_r()):evt.dist2_r($gamePlayer))/4.0+1)+0.0625,0.5);"]},
+		{"code":655,"indent":0,"parameters":[" if(!sp._textWnd) return;"]},
+		{"code":655,"indent":0,"parameters":[" const ti=TouchInput; if(window._dbg) debugger;"]},
+		{"code":655,"indent":0,"parameters":[" const tiMapXy=$gameMap?{_realX:$gameMap.canvasToMapX(ti.x),_realY:$gameMap.canvasToMapY(ti.y),}:ti;"]},
+		{"code":655,"indent":0,"parameters":[" const dist2=Math.min(evt.isNormalPriority()?evt.dist2_r($gamePlayer.frontPos_r()):evt.dist2_r($gamePlayer),evt.dist2_r(tiMapXy))||0;"]},
+		{"code":655,"indent":0,"parameters":[" sp._textWnd.alpha=Math.max(0.9375/(dist2/4.0+1)+0.0625,0.5);"]},
 		{"code":655,"indent":0,"parameters":["}); }"]},
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"evts txt opa. plyrDist","switchId":1,"trigger":0},
