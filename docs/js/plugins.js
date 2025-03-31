@@ -41,6 +41,7 @@ var $plugins =
 {"name":"agold404_ImageQueryString","status":true,"description":"runtime 調整圖片","parameters":{}},
 {"name":"agold404_InChrVision","status":true,"description":"set what to do when an event sees player","parameters":{}},
 {"name":"agold404_InNoteTraits_ElementRate","status":true,"description":"setting element rate in note ; thus can be a wierd value","parameters":{}},
+{"name":"agold404_ItemOrder","status":true,"description":"Customize item sorting order","parameters":{"ItemToCmpValFunc":"\"(function(item){\\n\\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \\n})\"","LogItemGainOrder":"true","ReordModeBtn":"81"}},
 {"name":"agold404_ManualScreenOffset","status":true,"description":"manually set screen offset","parameters":{}},
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
 {"name":"agold404_MenuCommandAccess","status":true,"description":"api to switch accessibility of menu commands\r\n\r\n$gameSystem.menuCommand_setOptionsExists(options,isEnabled)\r\n$gameSystem.menuCommand_setOptionsEnabled(options,isEnabled)\r\n\r\noptions: an array of some cases in Window_MenuCommand.prototype.needsCommand\r\nisEnabled: true, false, undefined(=not using this record)\r\n\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
@@ -72,6 +73,5 @@ var $plugins =
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
 {"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}},
-{"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}},
-{"name":"agold404_ItemOrder","status":true,"description":"Customize item sorting order","parameters":{"ItemToCmpValFunc":"\"(function(item){\\n\\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \\n})\"","LogItemGainOrder":"true","ReordModeBtn":"81"}}
+{"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}}
 ];
