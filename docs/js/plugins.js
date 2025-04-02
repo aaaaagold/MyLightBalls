@@ -72,6 +72,7 @@ var $plugins =
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
-{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}},
-{"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}}
+{"name":"agold404_WindowHelpDefaultNumLines","status":true,"description":"Customize item sorting order","parameters":{"Lines":"3\r"}},
+{"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}},
+{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}}
 ];
