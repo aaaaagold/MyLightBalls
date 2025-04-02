@@ -1,13 +1,13 @@
 ﻿"use strict";
 /*:
- * @plugindesc Customize item sorting order
+ * @plugindesc Customize default line number for Window_Help
  * @author agold404
  * 
  * 
  * @param Lines
  * @type number
  * @text default line number of Window_Help
- * @desc a number over 2^31 or under -2^31 will be buggy. fractions will be truncated. numbers <= 0 has no effects.
+ * @desc a number >= 2^31 or <= -2^31 will be buggy. fractions will be truncated. numbers <= 0 has no effects.
  * @default 3
  * 
  * 
