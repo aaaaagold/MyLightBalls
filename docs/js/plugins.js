@@ -28,6 +28,7 @@ var $plugins =
 {"name":"agold404_EvalToStr","status":true,"description":"eval a piece of js code to string in Window_Base.drawTextEx","parameters":{}},
 {"name":"agold404_EventItemListLimit","status":true,"description":"limit what item id can be displayed on Window_EventItem","parameters":{}},
 {"name":"agold404_EventLongDistDetection","status":true,"description":"<longDistDetection> makes event movable from player locating in the map everywhere","parameters":{}},
+{"name":"agold404_EventOpacity","status":true,"description":"Sets opacity for an event at start","parameters":{}},
 {"name":"agold404_EventText","status":true,"description":"display texts on events","parameters":{}},
 {"name":"agold404_EventTriggerHere","status":true,"description":"get event can be triggered when overlapped with player","parameters":{}},
 {"name":"agold404_EventTriggersEvents","status":true,"description":"let an event can be triggered by another event.","parameters":{}},
