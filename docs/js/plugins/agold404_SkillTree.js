@@ -229,7 +229,7 @@ arr=>arr&&arr.length||0,
 		id=info[0];
 		cond=(info[1] instanceof Array)?info[1][0]:info[1];
 		consume=info[2];
-		connect=(info[3] instanceof String)?eval(info[3]):info[3];
+		connect=(typeof info[3]==='string')?EVAL.call(this,info[3]):info[3];
 		condFailMsg=(info[1] instanceof Array)?info[1][1]:info[4];
 	}
 	return {id:id,cond:cond,consume:consume,connect:connect,condFailMsg:condFailMsg,};
