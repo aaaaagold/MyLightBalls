@@ -6516,6 +6516,12 @@
 				"D",
 				1
 			]},
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<opacity:127>"
+			]},
 			{"code":123,"indent":0,"parameters":[
 				"A",
 				0
@@ -6566,6 +6572,12 @@
 			{"code":123,"indent":0,"parameters":[
 				"A",
 				1
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<opacity:255>"
 			]},
 			{"code":123,"indent":0,"parameters":[
 				"B",
