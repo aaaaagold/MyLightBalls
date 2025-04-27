@@ -34,6 +34,7 @@ var $plugins =
 {"name":"agold404_EventTriggersEvents","status":true,"description":"let an event can be triggered by another event.","parameters":{}},
 {"name":"agold404_ExpandEventRange","status":true,"description":"expand event trigger / collide range","parameters":{}},
 {"name":"agold404_ExternalAnimationSetting","status":true,"description":"動畫接動畫 ; 動畫帶圖 ; 動畫帶音效","parameters":{}},
+{"name":"agold404_ExternalDamageFormula","status":true,"description":"Write damage formula outside of the RMMV editor.","parameters":{}},
 {"name":"agold404_F5NotExitFullScreen","status":true,"description":"prevent player exiting full-screen mode when pressing F5","parameters":{}},
 {"name":"agold404_FastForward","status":true,"description":"fast forward","parameters":{"DefaultFastForwardRate":"8\r"}},
 {"name":"agold404_FlashbackText","status":true,"description":"劇情對話文字回顧 flashbackText","parameters":{}},
