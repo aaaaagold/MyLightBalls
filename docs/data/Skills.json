@@ -24,7 +24,7 @@
 	{"id":8,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
 	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"(empty)","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":0,"speed":0,"stypeId":0,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":9,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal2","effects":[
-	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":1,"name":"Heal2","note":"","occasion":0,"repeats":2,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":1,"name":"Heal2","note":"<extDmgFormula:ext/formula/heal2.txt>","occasion":0,"repeats":2,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":10,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal3","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":2,"name":"Heal3","note":"","occasion":0,"repeats":3,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":11,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAll","effects":[
