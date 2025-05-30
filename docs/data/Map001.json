@@ -9346,331 +9346,683 @@
 			{"code":408,"indent":0,"parameters":[
 				"sound test"
 			]},
-			{"code":230,"indent":0,"parameters":[
+			{"code":408,"indent":0,"parameters":[
+				"/ img test"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"cancel",
+					"snd",
+					"img"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"cancel"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"snd"
+			]},
+			{"code":230,"indent":1,"parameters":[
 				1
 			]},
-			{"code":355,"indent":0,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				"$gameTemp._tmp_localAudio=undefined; { const file=document.ce('input').sa('type','file'); file.onchange=function f(){"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"$gameTemp._tmp_localAudio=0;"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"if(!this.files.length) return $gameTemp._tmp_localAudio=-1;"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"const file=this.files[0],reader=new FileReader(); reader.onload=e=>{"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"const b=new Blob([e.target.result,]),url=URL.createObjectURL(b),a=$gameTemp._tmp_localAudio=new WebAudio(url);"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"a.addStopListener(()=>URL.revokeObjectURL(url));"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"$gameTemp._tmp_localAudio._fileName=file.name;"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"}; reader.onerror=()=>$gameTemp._tmp_localAudio=-2;"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"reader.readAsArrayBuffer(file);"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"}; file.oncancel=()=>$gameTemp._tmp_localAudio=-1; file.click(); }"
 			]},
-			{"code":112,"indent":0,"parameters":[
+			{"code":230,"indent":1,"parameters":[
+				1
 			]},
-			{"code":111,"indent":1,"parameters":[
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
 				12,
 				"$gameTemp._tmp_localAudio===0"
 			]},
-			{"code":355,"indent":2,"parameters":[
+			{"code":355,"indent":3,"parameters":[
 				"$gameTemp._tmp_localAudio=undefined;"
 			]},
-			{"code":655,"indent":2,"parameters":[
+			{"code":655,"indent":3,"parameters":[
 				"if($gameTemp.popupMsg) $gameTemp.popupMsg(\"file loading ... \");"
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"$gameTemp._tmp_localAudio===-1"
-			]},
-			{"code":101,"indent":2,"parameters":[
-				"",
-				0,
-				0,
-				2
-			]},
-			{"code":401,"indent":2,"parameters":[
-				"cancel file selection"
-			]},
-			{"code":115,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"$gameTemp._tmp_localAudio===-2"
-			]},
-			{"code":101,"indent":2,"parameters":[
-				"",
-				0,
-				0,
-				2
-			]},
-			{"code":401,"indent":2,"parameters":[
-				"load file error"
-			]},
-			{"code":115,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"$gameTemp._tmp_localAudio"
-			]},
-			{"code":113,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
-			]},
-			{"code":101,"indent":2,"parameters":[
-				"",
-				0,
-				0,
-				2
-			]},
-			{"code":401,"indent":2,"parameters":[
-				"load file aborted"
-			]},
-			{"code":115,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":230,"indent":1,"parameters":[
-				1
-			]},
-			{"code":0,"indent":1,"parameters":[
-			]},
-			{"code":413,"indent":0,"parameters":[
-			]},
-			{"code":108,"indent":0,"parameters":[
-				""
-			]},
-			{"code":112,"indent":0,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"!$gameTemp._tmp_localAudio"
-			]},
-			{"code":119,"indent":2,"parameters":[
-				"_missingVar"
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"$gameTemp._tmp_localAudio.isError()"
-			]},
-			{"code":101,"indent":2,"parameters":[
-				"",
-				0,
-				0,
-				2
-			]},
-			{"code":401,"indent":2,"parameters":[
-				"parse data error"
-			]},
-			{"code":115,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
-				12,
-				"$gameTemp._tmp_localAudio.isReady()"
-			]},
-			{"code":355,"indent":2,"parameters":[
-				"$gameTemp._tmp_localAudio.play(true);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"$gameTemp._tmp_localAudio.volume=0.5;"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"if($gameTemp.popupMsg){"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"$gameTemp.popupMsg(\"now playing:\\n\"+$gameTemp._tmp_localAudio._fileName);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"$gameTemp.popupMsg(\"use \"+TextManager.cancel+\" to stop\",{showFrame:444});"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"}"
-			]},
-			{"code":355,"indent":2,"parameters":[
-				"{ const key='ext snd test vol'; SceneManager.del類比條(key);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"const txtW=64,txtH=new Window_Help(1).lineHeight();"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"const barW=Graphics.boxWidth,barH=txtH;"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"SceneManager.add類比條(key,null,barW>>1,(barH>>1)+2,barW,barH,()=>$gameTemp._tmp_localAudio?$gameTemp._tmp_localAudio.volume:0,['rgba(0,123,0,0.75)','rgba(0,234,0,0.5)','rgba(0,0,0,0.25)'],0);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				""
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"const txt=new Window_Text();"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"txt.setText(\"vol. \").position.set(-barW>>1,-barH>>1);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"SceneManager.get類比條(key).addChild(txt);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"}"
-			]},
-			{"code":112,"indent":2,"parameters":[
-			]},
-			{"code":111,"indent":3,"parameters":[
-				12,
-				"!$gameTemp._tmp_localAudio"
-			]},
-			{"code":119,"indent":4,"parameters":[
-				"_missingVar"
-			]},
-			{"code":0,"indent":4,"parameters":[
-			]},
-			{"code":412,"indent":3,"parameters":[
-			]},
-			{"code":355,"indent":3,"parameters":[
-				"{ let key,val=$gameTemp._tmp_localAudio.volume;"
-			]},
-			{"code":655,"indent":3,"parameters":[
-				"key='left';  if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)-5)/100).clamp(0,1);"
-			]},
-			{"code":655,"indent":3,"parameters":[
-				"key='right'; if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)+5)/100).clamp(0,1);"
-			]},
-			{"code":655,"indent":3,"parameters":[
-				"if(val!==$gameTemp._tmp_localAudio.volume&&$gameTemp.popupMsg) $gameTemp.popupMsg(\"change volume to: \"+$gameTemp._tmp_localAudio.volume,{loc:\"UR\"});"
-			]},
-			{"code":655,"indent":3,"parameters":[
-				"}"
-			]},
-			{"code":355,"indent":3,"parameters":[
-				"if(TouchInput.isCancelled() || Input.isTriggered('cancel')) $gameTemp._tmp_localAudio.stop();"
-			]},
-			{"code":111,"indent":3,"parameters":[
-				12,
-				"!$gameTemp._tmp_localAudio.isPlaying()"
-			]},
-			{"code":101,"indent":4,"parameters":[
-				"",
-				0,
-				0,
-				2
-			]},
-			{"code":401,"indent":4,"parameters":[
-				"audio stopped"
-			]},
-			{"code":119,"indent":4,"parameters":[
-				"__end"
-			]},
-			{"code":0,"indent":4,"parameters":[
-			]},
-			{"code":412,"indent":3,"parameters":[
-			]},
-			{"code":230,"indent":3,"parameters":[
-				1
 			]},
 			{"code":0,"indent":3,"parameters":[
 			]},
-			{"code":413,"indent":2,"parameters":[
+			{"code":412,"indent":2,"parameters":[
 			]},
-			{"code":115,"indent":2,"parameters":[
-			]},
-			{"code":0,"indent":2,"parameters":[
-			]},
-			{"code":412,"indent":1,"parameters":[
-			]},
-			{"code":111,"indent":1,"parameters":[
+			{"code":111,"indent":2,"parameters":[
 				12,
-				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+				"$gameTemp._tmp_localAudio===-1"
 			]},
-			{"code":101,"indent":2,"parameters":[
+			{"code":101,"indent":3,"parameters":[
 				"",
 				0,
 				0,
 				2
 			]},
-			{"code":401,"indent":2,"parameters":[
-				"parse data aborted"
+			{"code":401,"indent":3,"parameters":[
+				"cancel file selection"
 			]},
-			{"code":115,"indent":2,"parameters":[
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localAudio===-2"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"load file error"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localAudio"
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"load file aborted"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
 			]},
 			{"code":0,"indent":2,"parameters":[
 			]},
-			{"code":412,"indent":1,"parameters":[
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":108,"indent":1,"parameters":[
+				""
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"!$gameTemp._tmp_localAudio"
+			]},
+			{"code":119,"indent":3,"parameters":[
+				"_missingVar"
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localAudio.isError()"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"parse data error"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localAudio.isReady()"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"$gameTemp._tmp_localAudio.play(true);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp._tmp_localAudio.volume=0.5;"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"if($gameTemp.popupMsg){"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp.popupMsg(\"now playing:\\n\"+$gameTemp._tmp_localAudio._fileName);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp.popupMsg(\"use \"+TextManager.cancel+\" to stop\",{showFrame:444});"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"{ const key='ext snd test vol'; SceneManager.del類比條(key);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"const txtW=64,txtH=new Window_Help(1).lineHeight();"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"const barW=Graphics.boxWidth,barH=txtH;"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"SceneManager.add類比條(key,null,barW>>1,(barH>>1)+2,barW,barH,()=>$gameTemp._tmp_localAudio?$gameTemp._tmp_localAudio.volume:0,['rgba(0,123,0,0.75)','rgba(0,234,0,0.5)','rgba(0,0,0,0.25)'],0);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				""
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"const txt=new Window_Text();"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"txt.setText(\"vol. \").position.set(-barW>>1,-barH>>1);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"SceneManager.get類比條(key).addChild(txt);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"}"
+			]},
+			{"code":112,"indent":3,"parameters":[
+			]},
+			{"code":111,"indent":4,"parameters":[
+				12,
+				"!$gameTemp._tmp_localAudio"
+			]},
+			{"code":119,"indent":5,"parameters":[
+				"_missingVar"
+			]},
+			{"code":0,"indent":5,"parameters":[
+			]},
+			{"code":412,"indent":4,"parameters":[
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"{ let key,val=$gameTemp._tmp_localAudio.volume;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='left';  if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)-5)/100).clamp(0,1);"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='right'; if(Input.isTriggered(key) || Input.isLongPressed(key)) $gameTemp._tmp_localAudio.volume=((Math.round($gameTemp._tmp_localAudio.volume*100)+5)/100).clamp(0,1);"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"if(val!==$gameTemp._tmp_localAudio.volume&&$gameTemp.popupMsg) $gameTemp.popupMsg(\"change volume to: \"+$gameTemp._tmp_localAudio.volume,{loc:\"UR\"});"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"if(TouchInput.isCancelled() || Input.isTriggered('cancel')) $gameTemp._tmp_localAudio.stop();"
+			]},
+			{"code":111,"indent":4,"parameters":[
+				12,
+				"!$gameTemp._tmp_localAudio.isPlaying()"
+			]},
+			{"code":101,"indent":5,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":5,"parameters":[
+				"audio stopped"
+			]},
+			{"code":119,"indent":5,"parameters":[
+				"__end"
+			]},
+			{"code":0,"indent":5,"parameters":[
+			]},
+			{"code":412,"indent":4,"parameters":[
+			]},
+			{"code":230,"indent":4,"parameters":[
+				1
+			]},
+			{"code":0,"indent":4,"parameters":[
+			]},
+			{"code":413,"indent":3,"parameters":[
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"parse data aborted"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":108,"indent":1,"parameters":[
+				""
+			]},
+			{"code":118,"indent":1,"parameters":[
+				"__end"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const key='ext snd test vol'; SceneManager.del類比條(key); }"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":108,"indent":1,"parameters":[
+				""
+			]},
+			{"code":118,"indent":1,"parameters":[
+				"_missingVar"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"missing variable"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__end"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"img"
 			]},
 			{"code":230,"indent":1,"parameters":[
 				1
 			]},
-			{"code":0,"indent":1,"parameters":[
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._tmp_localImage=undefined; { const file=document.ce('input').sa('type','file'); file.onchange=function f(){"
 			]},
-			{"code":413,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._tmp_localImage=0; if(!this.files.length) return $gameTemp._tmp_localImage=-1;"
 			]},
-			{"code":108,"indent":0,"parameters":[
-				""
+			{"code":655,"indent":1,"parameters":[
+				"const file=this.files[0],reader=new FileReader(); reader.onload=e=>{"
 			]},
-			{"code":118,"indent":0,"parameters":[
-				"__end"
+			{"code":655,"indent":1,"parameters":[
+				"if(window._tmp_localImageUrl){ try{ URL.revokeObjectURL(window._tmp_localImageUrl); }catch(e){} }"
 			]},
-			{"code":355,"indent":0,"parameters":[
-				"{ const key='ext snd test vol'; SceneManager.del類比條(key); }"
+			{"code":655,"indent":1,"parameters":[
+				"const b=new Blob([e.target.result,]),url=window._tmp_localImageUrl=URL.createObjectURL(b),bmp=$gameTemp._tmp_localImage=new Bitmap(1,1); bmp._loadingState='loading';"
 			]},
-			{"code":115,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
+				"jurl(url,'GET',0,0,'arraybuffer',(resp,xhr)=>{ URL.revokeObjectURL(url); const D=Decrypter,decryptedUrl=D.createBlobUrl(D.decryptArrayBuffer(resp,PNG_16B_HEADER));"
 			]},
-			{"code":108,"indent":0,"parameters":[
-				""
+			{"code":655,"indent":1,"parameters":[
+				"bmp._decodeAfterRequest=true; bmp._requestImage(decryptedUrl); bmp.addLoadListener(()=>URL.revokeObjectURL(decryptedUrl));"
 			]},
-			{"code":118,"indent":0,"parameters":[
-				"_missingVar"
+			{"code":655,"indent":1,"parameters":[
+				"}); bmp._fileName=file.name;"
 			]},
-			{"code":101,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
+				"}; reader.onerror=()=>$gameTemp._tmp_localImage=-2;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"reader.readAsArrayBuffer(file);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; file.oncancel=()=>$gameTemp._tmp_localImage=-1; file.click(); }"
+			]},
+			{"code":230,"indent":1,"parameters":[
+				1
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage===0"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"$gameTemp._tmp_localImage=undefined;"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"if($gameTemp.popupMsg) $gameTemp.popupMsg(\"file loading ... \");"
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage===-1"
+			]},
+			{"code":101,"indent":3,"parameters":[
 				"",
 				0,
 				0,
 				2
 			]},
-			{"code":401,"indent":0,"parameters":[
-				"missing variable"
+			{"code":401,"indent":3,"parameters":[
+				"cancel file selection"
 			]},
-			{"code":119,"indent":0,"parameters":[
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage===-2"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"load file error"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage"
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"load file aborted"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":108,"indent":1,"parameters":[
+				""
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"!$gameTemp._tmp_localImage"
+			]},
+			{"code":119,"indent":3,"parameters":[
+				"_missingVar"
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage.isError()"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"parse data error"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._tmp_localImage.isReady()"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"SceneManager._scene.addChild($gameTemp._tmp_localImage._sp=new Sprite($gameTemp._tmp_localImage));"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"if($gameTemp.popupMsg){"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp.popupMsg(\"show image:\\n\"+$gameTemp._tmp_localImage._fileName);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp.popupMsg(\"use \"+TextManager.cancel+\" to clear\",{showFrame:444});"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"}"
+			]},
+			{"code":112,"indent":3,"parameters":[
+			]},
+			{"code":111,"indent":4,"parameters":[
+				12,
+				"!$gameTemp._tmp_localImage"
+			]},
+			{"code":119,"indent":5,"parameters":[
+				"_missingVar"
+			]},
+			{"code":0,"indent":5,"parameters":[
+			]},
+			{"code":412,"indent":4,"parameters":[
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"if($gameTemp._tmp_localImage._sp.parent!==SceneManager._scene) SceneManager._scene.addChild($gameTemp._tmp_localImage._sp);"
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"{ let large=8,p1=4,key,sp=$gameTemp._tmp_localImage._sp,x=sp.x,y=sp.y;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='left';  if(Input.isPressed(key)) x-=(Input.isPressed('shift')?large:1)*p1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='right'; if(Input.isPressed(key)) x+=(Input.isPressed('shift')?large:1)*p1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='up';    if(Input.isPressed(key)) y-=(Input.isPressed('shift')?large:1)*p1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='down';  if(Input.isPressed(key)) y+=(Input.isPressed('shift')?large:1)*p1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"if(sp.x!==x||sp.y!==y) sp.position.set(x,y);"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"{ let large=8,r1=Math.PI/256,key,sp=$gameTemp._tmp_localImage._sp,x=sp.x,y=sp.y,r=sp.rotation;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"if($gameTemp._tmp_localImage._sp.parent!==SceneManager._scene) SceneManager._scene.addChild($gameTemp._tmp_localImage._sp);"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='188'; /* , */ if(Input.isPressed(key)) r-=(Input.isPressed('shift')?large:1)*r1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='190'; /* , */ if(Input.isPressed(key)) r+=(Input.isPressed('shift')?large:1)*r1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"if(sp.rotation!==r) sp.rotation=r;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":4,"parameters":[
+				"{ let large=8,s1=1.0/64,key,sp=$gameTemp._tmp_localImage._sp,x=sp.x,y=sp.y,s=sp.scale.x;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='189'; /* - */ if(Input.isPressed(key)) s-=(Input.isPressed('shift')?large:1)*s1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"key='187'; /* = */ if(Input.isPressed(key)) s+=(Input.isPressed('shift')?large:1)*s1;"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"if(sp.scale.x!==s) sp.scale.set(s);"
+			]},
+			{"code":655,"indent":4,"parameters":[
+				"}"
+			]},
+			{"code":111,"indent":4,"parameters":[
+				12,
+				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			]},
+			{"code":355,"indent":5,"parameters":[
+				"$gameTemp._tmp_localImage&&$gameTemp._tmp_localImage._sp&&$gameTemp._tmp_localImage._sp.parent&&$gameTemp._tmp_localImage._sp.parent.removeChild($gameTemp._tmp_localImage._sp);"
+			]},
+			{"code":101,"indent":5,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":5,"parameters":[
+				"image cleared"
+			]},
+			{"code":119,"indent":5,"parameters":[
 				"__end"
+			]},
+			{"code":0,"indent":5,"parameters":[
+			]},
+			{"code":412,"indent":4,"parameters":[
+			]},
+			{"code":230,"indent":4,"parameters":[
+				1
+			]},
+			{"code":0,"indent":4,"parameters":[
+			]},
+			{"code":413,"indent":3,"parameters":[
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"TouchInput.isCancelled() || Input.isTriggered('cancel')"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"parse data aborted"
+			]},
+			{"code":115,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
