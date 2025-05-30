@@ -9877,6 +9877,12 @@
 				"SceneManager._scene.addChild($gameTemp._tmp_localImage._sp=new Sprite($gameTemp._tmp_localImage));"
 			]},
 			{"code":655,"indent":3,"parameters":[
+				"$gameTemp._tmp_localImage._sp.position.set(Graphics.boxWidth>>1,Graphics.boxHeight>>1);"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp._tmp_localImage._sp.anchor.set(0.5);"
+			]},
+			{"code":655,"indent":3,"parameters":[
 				"if($gameTemp.popupMsg){"
 			]},
 			{"code":655,"indent":3,"parameters":[
