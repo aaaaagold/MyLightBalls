@@ -57,6 +57,7 @@ var $plugins =
 {"name":"agold404_PreloadBitmapsCache","status":true,"description":"Preload Bitmap to implement cache, by putting sprites out of the screen at every scene from the game start","parameters":{"BitmapPaths":"[\"img/characters/$elephant.png\"]"}},
 {"name":"agold404_PreloadOnMapload","status":true,"description":"preload images on map load","parameters":{}},
 {"name":"agold404_PressPToPause","status":true,"description":"press P to pause","parameters":{}},
+{"name":"agold404_RemoveRateBoost","status":true,"description":"adjust (state or buff or debuff) removal rate in a trait-available way","parameters":{}},
 {"name":"agold404_SaveManager","status":true,"description":"edit save name ; load from file ; export a save to a file","parameters":{"DisplayedTexts":"","renameSaveTag":"Rename Save's Tag","loadSaveFromFile":"Load Save from File","exportSaveToFile":"Export Save to File","locales":"[\"\\\"zh-TW\\\\n修改存檔標記\\\\n讀取檔案\\\\n匯出存檔\\\"\"]\r"}},
 {"name":"agold404_ScanlineSwitchBmp","status":true,"description":"掃描線換圖","parameters":{}},
 {"name":"agold404_Se","status":true,"description":"overwrite AudioManager.playSe, stopSe, StaticSe","parameters":{}},
