@@ -33,5 +33,135 @@
 	{"id":14,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"test refer","effects":[
 	],"hitType":0,"iconIndex":82,"itypeId":1,"name":"refer item 14","note":"<refer:15>","occasion":0,"price":0,"repeats":1,"scope":2,"speed":0,"successRate":100,"tpGain":0},
 	{"id":15,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"test refer","effects":[
-	],"hitType":0,"iconIndex":97,"itypeId":1,"name":"refer skill 1","note":"<refer:4,s>","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0}
+	],"hitType":0,"iconIndex":97,"itypeId":1,"name":"refer skill 1","note":"<refer:4,s>","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":16,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":17,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add removeRateBoost state","effects":[
+		{"code":21,"dataId":12,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":242,"itypeId":1,"name":"removeRateBoost-add","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":18,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove removeRateBoost state","effects":[
+		{"code":22,"dataId":12,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":242,"itypeId":1,"name":"removeRateBoost-remove","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":19,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":20,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[0]","effects":[
+		{"code":31,"dataId":0,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":40,"itypeId":1,"name":"+buff-0","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":21,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[1]","effects":[
+		{"code":31,"dataId":1,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":41,"itypeId":1,"name":"+buff-1","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":22,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[2]","effects":[
+		{"code":31,"dataId":2,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":42,"itypeId":1,"name":"+buff-2","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":23,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[3]","effects":[
+		{"code":31,"dataId":3,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":43,"itypeId":1,"name":"+buff-3","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":24,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[4]","effects":[
+		{"code":31,"dataId":4,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":44,"itypeId":1,"name":"+buff-4","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":25,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[5]","effects":[
+		{"code":31,"dataId":5,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":45,"itypeId":1,"name":"+buff-5","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":26,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[6]","effects":[
+		{"code":31,"dataId":6,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":46,"itypeId":1,"name":"+buff-6","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":27,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add buff[7]","effects":[
+		{"code":31,"dataId":7,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":47,"itypeId":1,"name":"+buff-7","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":28,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":29,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":30,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[0]","effects":[
+		{"code":33,"dataId":0,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":32,"itypeId":1,"name":"-buff-0","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":31,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[1]","effects":[
+		{"code":33,"dataId":1,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":33,"itypeId":1,"name":"-buff-1","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":32,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[2]","effects":[
+		{"code":33,"dataId":2,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":34,"itypeId":1,"name":"-buff-2","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":33,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[3]","effects":[
+		{"code":33,"dataId":3,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":35,"itypeId":1,"name":"-buff-3","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":34,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[4]","effects":[
+		{"code":33,"dataId":4,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":36,"itypeId":1,"name":"-buff-4","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":35,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[5]","effects":[
+		{"code":33,"dataId":5,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":37,"itypeId":1,"name":"-buff-5","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":36,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[6]","effects":[
+		{"code":33,"dataId":6,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":38,"itypeId":1,"name":"-buff-6","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":37,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove buff[7]","effects":[
+		{"code":33,"dataId":7,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":39,"itypeId":1,"name":"-buff-7","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":38,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":39,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":40,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[0]","effects":[
+		{"code":32,"dataId":0,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":56,"itypeId":1,"name":"+debuff-0","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":41,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[1]","effects":[
+		{"code":32,"dataId":1,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":57,"itypeId":1,"name":"+debuff-1","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":42,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[2]","effects":[
+		{"code":32,"dataId":2,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":58,"itypeId":1,"name":"+debuff-2","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":43,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[3]","effects":[
+		{"code":32,"dataId":3,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":59,"itypeId":1,"name":"+debuff-3","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":44,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[4]","effects":[
+		{"code":32,"dataId":4,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":60,"itypeId":1,"name":"+debuff-4","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":45,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[5]","effects":[
+		{"code":32,"dataId":5,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":61,"itypeId":1,"name":"+debuff-5","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":46,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[6]","effects":[
+		{"code":32,"dataId":6,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":62,"itypeId":1,"name":"+debuff-6","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":47,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"add debuff[7]","effects":[
+		{"code":32,"dataId":7,"value1":4,"value2":0}
+	],"hitType":0,"iconIndex":63,"itypeId":1,"name":"+debuff-7","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":48,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":49,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":50,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[0]","effects":[
+		{"code":34,"dataId":0,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":48,"itypeId":1,"name":"-debuff-0","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":51,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[1]","effects":[
+		{"code":34,"dataId":1,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":49,"itypeId":1,"name":"-debuff-1","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":52,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[2]","effects":[
+		{"code":34,"dataId":2,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":50,"itypeId":1,"name":"-debuff-2","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":53,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[3]","effects":[
+		{"code":34,"dataId":3,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":51,"itypeId":1,"name":"-debuff-3","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":54,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[4]","effects":[
+		{"code":34,"dataId":4,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":52,"itypeId":1,"name":"-debuff-4","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":55,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[5]","effects":[
+		{"code":34,"dataId":5,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":53,"itypeId":1,"name":"-debuff-5","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":56,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[6]","effects":[
+		{"code":34,"dataId":6,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":54,"itypeId":1,"name":"-debuff-6","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":57,"animationId":0,"consumable":false,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"remove debuff[7]","effects":[
+		{"code":34,"dataId":7,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":55,"itypeId":1,"name":"-debuff-7","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":58,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":59,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":60,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":61,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":62,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0},
+	{"id":63,"animationId":0,"consumable":true,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"itypeId":1,"name":"","note":"","occasion":0,"price":0,"repeats":1,"scope":7,"speed":0,"successRate":100,"tpGain":0}
 ]
