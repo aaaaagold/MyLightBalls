@@ -857,7 +857,8 @@ new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
 ]).addBase('scrollDown',function f(){
 	if(!(this.index()>=0)) return;
 	let scy=this._scrollY;
-	const rectEnd=this.itemRect(this.maxItems());
+	const maxCols=this.maxCols();
+	const rectEnd=this.itemRect((1+~~(this.maxItems()/maxCols))*maxCols); // align to next row
 	rectEnd.y+=scy;
 	scy+=this.scrollDist();
 	const overflowY=this.contentsHeight()-(rectEnd.y-scy);
@@ -3042,6 +3043,7 @@ addBase('_itemEffectCommonEvent',function f(target,effect){
 	return this.itemEffectCommonEvent.apply(this,arguments);
 }).
 addBase('applyItemEffect',function f(target,effect){
+	if(!effect) return;
 	const func=f.tbl[0].get(effect.code);
 	if(func) func.apply(this,arguments);
 	else if(f.tbl[1]) console.warn("[WARNING] Game_Action.prototype.applyItemEffect: using un-handled effect code");
