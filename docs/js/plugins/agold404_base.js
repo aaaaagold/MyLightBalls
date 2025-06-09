@@ -858,7 +858,7 @@ new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
 	if(!(this.index()>=0)) return;
 	let scy=this._scrollY;
 	const maxCols=this.maxCols();
-	const rectEnd=this.itemRect((1+~~(this.maxItems()/maxCols))*maxCols); // align to next row
+	const rectEnd=this.itemRect(maxCols*~~((this.maxItems()+maxCols-1)/maxCols)); // align to next row
 	rectEnd.y+=scy;
 	scy+=this.scrollDist();
 	const overflowY=this.contentsHeight()-(rectEnd.y-scy);
@@ -893,7 +893,8 @@ new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
 }).addBase('updateArrows',function f(){
 	let scy=this._scrollY;
 	const rectBeg=this.itemRect(0);
-	const rectBtm=this.itemRect(this.maxItems()-this.maxCols());
+	const maxCols=this.maxCols();
+	const rectBtm=this.itemRect(maxCols*~~((this.maxItems()+maxCols-1)/maxCols)-maxCols);
 	this.downArrowVisible=this.contentsHeight()<rectBtm.y+rectBtm.height;
 	this.upArrowVisible=rectBeg.y<0;
 }).add('select',function f(idx){
@@ -2313,6 +2314,58 @@ addBase('itemEffectAddAttackState1_onSuccess',function f(target,effect,stateId){
 getP;
 
 
+new cfc(Game_Action.prototype).
+addBase('apply',function f(target){
+	const result=target.result();
+	this.subject().clearResult();
+	result.clear();
+	
+	result.used=this.testApply(target);
+	if(!result.used) this.apply_onNotApplied.apply(this,arguments);
+	result.missed=(result.used&&this.apply_calRnd_missed.apply(this,arguments));
+	if(result.missed) this.apply_onMiss.apply(this,arguments);
+	result.evaded=(result.used&&!result.missed&&this.apply_calRnd_evaded.apply(this,arguments));
+	if(result.evaded) this.apply_onEvaded.apply(this,arguments);
+	
+	result.physical = this.isPhysical();
+	result.drain = this.isDrain();
+	
+	if(result.isHit()) this.apply_onHit.apply(this,arguments);
+	else this.apply_onNoHit.apply(this,arguments);
+}).
+addBase('apply_calRnd_missed',function f(target){
+	return Math.random()>=this.itemHit(target);
+}).
+addBase('apply_calRnd_evaded',function f(target){
+	return Math.random()<this.itemEva(target);
+}).
+addBase('apply_onNotApplied',none).
+addBase('apply_onMiss',none).
+addBase('apply_onEvaded',none).
+addBase('apply_onNoHit',none).
+addBase('apply_onHit',function f(target){
+	if(0<this.item().damage.type){
+		const result=target.result();
+		result.critical=(Math.random()<this.itemCri(target));
+		if(result.critical) this.apply_onCritical.apply(this,arguments);
+		const value=this.makeDamageValue(target,result.critical);
+		this.executeDamage(target,value);
+	}
+	this._effectsOnTarget=target;
+	this.item().effects.forEach(f.tbl[0],this);
+	this._effectsOnTarget=undefined;
+	this.apply_onEffects.apply(this,arguments);
+	this.applyItemUserEffect(target);
+},[
+function f(effect){
+	this.applyItemEffect(this._effectsOnTarget,effect);
+}, // 0: forEach Effects
+]).
+addBase('apply_onCritical',none).
+addBase('apply_onEffects',none).
+getP;
+
+
 new cfc(Game_BattlerBase.prototype).
 addBase('getKeepWhenDeadStates',function f(){
 	const rtv=[],src=this._stateTurns&&this._states;
@@ -2334,6 +2387,23 @@ function(stateInfo){
 	this._stateTurns[stateInfo[0]]=stateInfo[1];
 }, // 0: put back
 ]).
+getP;
+
+
+new cfc(Game_Actor.prototype).
+addBase('paramPlus',function f(paramId){
+	let rtv=Game_Battler.prototype.paramPlus.call(this, paramId);
+	rtv+=this.paramPlus_equips(paramId);
+	return rtv;
+}).
+addBase('paramPlus_equips',function f(paramId){
+	let rtv=0;
+	const arr=this.equips();
+	for(let x=0,xs=arr.length;x<xs;++x){ const item=arr[x]; if(item){
+		rtv+=item.params[paramId];
+	} }
+	return rtv;
+}).
 getP;
 
 
