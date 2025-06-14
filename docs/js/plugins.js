@@ -13,6 +13,7 @@ var $plugins =
 {"name":"agold404_BlackHoles","status":true,"description":"black holes visual effect api","parameters":{}},
 {"name":"agold404_BlackholesV2","status":true,"description":"黑洞v2","parameters":{}},
 {"name":"agold404_BouncingMaterial","status":true,"description":"make a Sprite with a single bitmap bouncing","parameters":{}},
+{"name":"agold404_CacheParamPlusEquips","status":true,"description":"cache param plus value of equipments","parameters":{}},
 {"name":"agold404_CameraChasing","status":true,"description":"set camera chasing","parameters":{}},
 {"name":"agold404_CanPassInRegions","status":true,"description":"let player or events can in ONLY some regions","parameters":{}},
 {"name":"agold404_ChangeTile","status":true,"description":"online change tile","parameters":{}},
