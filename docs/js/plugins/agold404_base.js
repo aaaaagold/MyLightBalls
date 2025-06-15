@@ -2470,6 +2470,11 @@ addBase('changeEquip_do',function f(slotId,item){
 	this._setEquip(slotId,item);
 	this.refresh();
 }).
+addBase('changeEquipById',function f(etypeId,itemId){
+	const slotId=etypeId-1;
+	const dataarr=this._getEquipSlot(slotId)===1?$dataWeapons:$dataArmors;
+	this.changeEquip(slotId, dataarr[itemId]);
+}).
 addBase('forceChangeEquip',function f(slotId,item){
 	this._setEquip(slotId,item);
 	this.releaseUnequippableItems(true);
@@ -2483,6 +2488,7 @@ addBase('discardEquip',function f(item){
 }).
 addBase('releaseUnequippableItems',function(forcing){
 	for(;;){
+		this.releaseUnequippableItems_roundStart.apply(this,arguments);
 		const slots=this.equipSlots();
 		const equips=this.equips();
 		let changed=false;
@@ -2500,6 +2506,10 @@ addBase('releaseUnequippableItems',function(forcing){
 			break;
 		}
 	}
+}).
+addBase('releaseUnequippableItems_roundStart',none).
+addBase('isEquipChangeOk',function(slotId){
+	return !this.isEquipTypeLocked(this._getEquipSlot(slotId)) && !this.isEquipTypeSealed(this._getEquipSlot(slotId)) ;
 }).
 getP;
 
