@@ -211,6 +211,69 @@ p.kvPop=function(k){
 	}
 	return rtv;
 };
+p.multisetGetIdxv=function(obj){
+	if(!this._msMap){
+		this._msMap=new Map();
+		for(let x=0,xs=this.length;x!==xs;++x){
+			let arr=this._msMap.get(this[x]);
+			if(!arr) this._msMap.set(this[x],arr=[]);
+			arr.uniquePush(x);
+		}
+	}
+	return this._msMap.get(obj);
+};
+p.multisetGetCnt=function(obj){
+	const arr=this.multisetGetIdxv(obj);
+	return arr?arr.length:0;
+};
+p.multisetHas=function(obj){
+	return this.multisetGetCnt(obj)!==0; // always >=0
+};
+p.multisetPush=function( /* obj , ... */ ){
+	this.multisetHas(); // create map
+	for(let x=0;x!==arguments.length;++x){
+		const obj=arguments[x];
+		let arr=this._msMap.get(obj);
+		if(!arr) this._msMap.set(obj,arr=[]);
+		arr.uniquePush(this.length);
+		Array.prototype.push.call(this,obj);
+	}
+	return this.length;
+};
+p.multisetPushContainer=function(cont){
+	// push all cont's elements
+	for(let x=0,xs=cont.length;x!==xs;++x) this.multisetPush(cont.getObjAt(x));
+	return this;
+};
+p.multisetPop=function(obj){
+	const arr=this.multisetGetIdxv(obj);
+	if(!arr||!arr.length) return;
+	const res=arr.back;
+	arr.uniquePop(res);
+	const contLen=this.length;
+	if(res+1!==contLen){
+		const obj2=this.back;
+		const arr2=this.multisetGetIdxv(obj2);
+		arr2.uniquePop(contLen-1);
+		arr2.uniquePush(res);
+		this[res]=obj2;
+	}
+	if(!arr.length) this._msMap.delete(obj);
+	return Array.prototype.pop.call(this)?obj:undefined;
+};
+p.multisetClear=function(){
+	if(!this._msMap) this._msMap=new Map();
+	this._msMap.clear();
+	this.length=0;
+};
+(p.multisetUniques=function f(){
+	const rtv=[];
+	this.multisetHas(); // create map
+	this._msMap.forEach(f._forEach.bind(rtv));
+	return rtv;
+})._forEach=function(v,k){
+	this.uniquePush(k);
+};
 })();
 
 
@@ -691,6 +754,70 @@ delete(obj){
 window[a.name]=a;
 
 })(); // OccupiedTable
+
+
+// FenwickTree
+(()=>{
+
+const a=class FenwickTree{
+// [0] + (0,idx]
+constructor(rawData_or_size){
+	this._tree=[];
+	if(isNaN(rawData_or_size)){
+		this._rawData=rawData_or_size||[];
+	}else{
+		(this._rawData=[]).length=rawData_or_size;
+	}
+	const sz=this._rawData.length;
+	if(sz) this._tree[0]=this._rawData[0];
+	for(let idx=1;idx<sz;++idx){
+		this._tree[idx]=(this._tree[idx]-0||0)+(this._rawData[idx]-0||0);
+		const idx2=idx+(idx&-idx);
+		if(idx2<sz) this._tree[idx2]=(this._tree[idx2]-0||0)+this._tree[idx];
+	}
+}
+_update(idx,val){
+	idx-=0; if(isNaN(idx)) return;
+	if(idx===0){
+		this._tree[0]=val;
+		return;
+	}
+	const sz=this._tree.length;
+	for(;idx<sz;idx+=idx&-idx){
+		this._tree[idx]=(this._tree[idx]-0||0)+val;
+	}
+}
+update(idx,val){
+	const raw=this._rawData;
+	if(!(idx<raw.length)) return;
+	this._update(idx,-raw[idx]||0);
+	val-=0; if(isNaN(val)) val=0;
+	this._update(idx,raw[idx]=val);
+}
+_query(idx){
+	let rtv=this._tree[0]-0||0;
+	while(idx){
+		rtv+=this._tree[idx]-0||0;
+		idx-=idx&-idx;
+	}
+	return rtv;
+}
+query(idx,arg2){
+	// [0]+(0,idx] or (idx,arg2]
+	// when idx>=arg2, return 0
+	idx-=0; if(isNaN(idx)) idx=0;
+	const hasArg2=arguments.length>=2;
+	if(hasArg2){
+		arg2-=0; if(isNaN(arg2)) arg2=0;
+		if(idx>=arg2) return 0;
+	}
+	const seg1=this._query(idx);
+	return hasArg2?this._query(arg2)-seg1:seg1;
+}
+};
+window[a.name]=a;
+
+})(); // fenwick tree
 
 
 // extend Set

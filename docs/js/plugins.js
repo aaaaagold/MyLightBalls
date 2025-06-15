@@ -77,6 +77,7 @@ var $plugins =
 {"name":"agold404_TotalPlayTime","status":true,"description":"recording total play time automatically.","parameters":{"AutoUpdateInterval":"4\r"}},
 {"name":"agold404_TraitEval_toExecuteDamage","status":true,"description":"add what to do right before executeDamage, executeHpDamage, executeMpDamage","parameters":{}},
 {"name":"agold404_TraitPerFrameEval","status":true,"description":"a trait for eval() per frame","parameters":{}},
+{"name":"agold404_Trait_adjustEquipSlots","status":true,"description":"adjust nums of equip slots for each type","parameters":{"GlobalChanges":"\"{\\n\\\"1\\\":0,\\n\\\"_dummy\\\":\\\"\\\"\\n}\"\r"}},
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},

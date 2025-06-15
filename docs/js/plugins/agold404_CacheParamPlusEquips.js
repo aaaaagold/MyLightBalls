@@ -15,10 +15,12 @@ const params=PluginManager.parameters(pluginName)||{};
 
 new cfc(Game_Actor.prototype).
 addBase('cacheParamPlusEquips_clearCache',function f(){
-	return this._cache_paramPlusEquips={};
+	if(!this._equips) return {};
+	return this._equips._cache_paramPlusEquips={};
 }).
 addBase('cacheParamPlusEquips_getCont',function f(){
-	let rtv=this._cache_paramPlusEquips; if(!rtv) rtv=this.cacheParamPlusEquips_clearCache();
+	if(!this._equips) return {};
+	let rtv=this._equips._cache_paramPlusEquips; if(!rtv) rtv=this.cacheParamPlusEquips_clearCache();
 	return rtv;
 }).
 addBase('cacheParamPlusEquips_addKey',function f(paramId){
@@ -71,8 +73,8 @@ add('paramPlus_equips',function f(paramId){
 	}
 	return rtv;
 }).
-add('_setEquip',function f(slotId,item){
-	const itemPre=this._getEquip(slotId);
+add('setEquip',function f(slotId,item){
+	const itemPre=this.getEquip(slotId);
 	this.cacheParamPlusEquips_updateFromItemChange(itemPre,item);
 	return f.ori.apply(this,arguments);
 }).
