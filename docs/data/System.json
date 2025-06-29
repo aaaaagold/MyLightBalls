@@ -64,7 +64,7 @@
 	{"name":"Battle1","pan":0,"pitch":100,"volume":90},
 	{"name":"Run","pan":0,"pitch":100,"volume":90},
 	{"name":"Attack3","pan":0,"pitch":100,"volume":90},
-	{"name":"Damage4","pan":0,"pitch":100,"volume":90},
+	{"name":"Damage1","pan":0,"pitch":100,"volume":75},
 	{"name":"Collapse1","pan":0,"pitch":100,"volume":90},
 	{"name":"Collapse2","pan":0,"pitch":100,"volume":90},
 	{"name":"Collapse3","pan":0,"pitch":100,"volume":90},
