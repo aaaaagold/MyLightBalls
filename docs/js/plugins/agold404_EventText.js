@@ -63,12 +63,12 @@ getP;
 new cfc(Game_Character.prototype).
 addBase('getTextv',function f(){
 	const rtv=this._textv;
-	rtv._txtalign=this._texta; // consider saves
+	if(rtv) rtv._txtalign=this._texta; // consider saves
 	return rtv;
 }).
 addBase('setTextv',function f(arr,isAutoUpdateSprite){
 	this._textv=arr;
-	this._texta=arr._txtalign;
+	this._texta=arr&&arr._txtalign;
 	if(isAutoUpdateSprite){
 		const sp=SceneManager.getSprite(this);
 		if(sp) sp.setChrTextv(this.getTextv()); // event._erased
