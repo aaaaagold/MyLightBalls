@@ -13,6 +13,7 @@ var $plugins =
 {"name":"agold404_BlackHoles","status":true,"description":"black holes visual effect api","parameters":{}},
 {"name":"agold404_BlackholesV2","status":true,"description":"黑洞v2","parameters":{}},
 {"name":"agold404_BouncingMaterial","status":true,"description":"make a Sprite with a single bitmap bouncing","parameters":{}},
+{"name":"agold404_BringSkills","status":true,"description":"make an actor only be able to use skills that are brought","parameters":{"GlobalChanges":"Infinity","BroughtSkillTextOpt":"\"DataManager.getLocale()==='zh-TW'?\\\"攜帶技能\\\":\\\"Brought Skills\\\"\"","BroughtSkillTextCap":"\"let rtv=\\\"\\\";\\nif(total<current+1) rtv+=\\\"\\\\\\\\C[10]\\\";\\nif(Window_Base.prototype.processEscapeCharacter_textPosition) rtv+=\\\" \\\\\\\\TXTRIGHT:\\\"+JSON.stringify(current+' / '+total);\\nelse rtv+=current+' / '+total;\\nrtv;\"\r","BroughtSkillTextSwitchType":"\"DataManager.getLocale()==='zh-TW'?\\\"按 shift 或點擊右方的 \\\\\\\"ALL\\\\\\\" 來切換技能類別\\\":\\\"press shift or tap text \\\\\\\"ALL\\\\\\\" on the right to change skill type\\\"\"\r"}},
 {"name":"agold404_CacheParamPlusEquips","status":true,"description":"cache param plus value of equipments","parameters":{}},
 {"name":"agold404_CameraChasing","status":true,"description":"set camera chasing","parameters":{}},
 {"name":"agold404_CanPassInRegions","status":true,"description":"let player or events can in ONLY some regions","parameters":{}},
