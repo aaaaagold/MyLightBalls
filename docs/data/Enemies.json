@@ -10,7 +10,7 @@
 		{"code":22,"dataId":0,"value":0.95},
 		{"code":22,"dataId":1,"value":0.05},
 		{"code":31,"dataId":1,"value":0}
-	],"gold":0,"name":"Bat","note":"<dropItemsEval>\n$gameTemp._dropItemsEval;\n</dropItemsEval>","params":[
+	],"gold":0,"name":"Bat","note":"<dropItemsEval>\n$gameTemp._dropItemsEval;\n</dropItemsEval>\n\n<traitEval_gotExecuteDamage>\n//#order 4\nconsole.log('traitEval_gotExecuteDamage','order 4');\nvalue+=512;\n</traitEval_gotExecuteDamage>\n\n<traitEval_gotExecuteDamage>\nconsole.log('traitEval_gotExecuteDamage','order None');\nvalue+=512;\n</traitEval_gotExecuteDamage>\n","params":[
 		200,
 		0,
 		30,
