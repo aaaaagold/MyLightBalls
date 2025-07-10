@@ -10726,10 +10726,10 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"    vision -"
+				"vision hint showCond -        |"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"test map bounds"
+				" && test map bounds           |"
 			]},
 			{"code":118,"indent":0,"parameters":[
 				""
