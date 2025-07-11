@@ -2522,6 +2522,7 @@ addBase('isStateAffected',function f(stateId){
 	return this.statesContainer_hasStateId(stateId);
 }).
 addBase('sortStates_cmpFunc',(a,b)=>DataManager.arrSortFunc_mostImportantStateAtFirst(a,b)).
+addBase('sortStates_cmpFunc_rev',function(a,b){ return -this.sortStates_cmpFunc(a,b); }).
 addBase('states',function f(){
 	return this._states.slice().sort(this.sortStates_cmpFunc,this).map(DataManager.arrMapFunc_idToDataobj_state);
 }).
@@ -6550,6 +6551,51 @@ addBase('traitsMaxId',function f(code){
 	}
 	return this.traitsOpCache_getCacheVal_MId(code)-0||0;
 }).
+// stateIds with icon
+addBase('stateIdsWithIcon_init',function f(){
+	// initializing here
+	const code=f.tbl[0].code;
+	if(!this.traitsOpCache_hasUsedOp(code,'','set')){
+		this.traitsOpCache_addUsedOp(code,'','set');
+		if(this._states) for(let i=this._states.length;i--;) this.stateIdsWithIcon_add(this._states[i]);
+	}
+},t=[
+{code:"stateIdsWithIconValue",dataId:0,}, // dummy obj for chanceByDamage info
+]).
+addBase('stateIdsWithIcon_isTargetStateId',function f(stateId){
+	// return the state's dataobj if stateId is (one of) the target(s)
+	const dataobj=$dataStates[stateId];
+	return dataobj&&0<dataobj.iconIndex?dataobj:undefined;
+},t).
+addBase('stateIdsWithIcon_add',function f(stateId){
+	const dataobj=this.stateIdsWithIcon_isTargetStateId(stateId); if(!dataobj) return;
+	this.stateIdsWithIcon_init();
+	const trait=f.tbl[0];
+	trait.dataId=stateId;
+	this.traitsOpCache_updateVal_set_add(trait);
+},t).
+addBase('stateIdsWithIcon_del',function f(stateId){
+	const dataobj=this.stateIdsWithIcon_isTargetStateId(stateId); if(!dataobj) return;
+	this.stateIdsWithIcon_init();
+	const trait=f.tbl[0];
+	trait.dataId=stateId;
+	this.traitsOpCache_updateVal_set_del(trait);
+},t).
+addBase('_stateIdsWithIcon_get',function f(){
+	this.stateIdsWithIcon_init();
+	return this.traitsOpCache_getCacheVal_set(f.tbl[0].code);
+},t).
+addBase('stateIdsWithIcon_getUniques',function f(){
+	return this._stateIdsWithIcon_get().multisetUniques();
+}).
+addBase('stateIdsWithIcon_getAll',function f(){
+	return this._stateIdsWithIcon_get().slice();
+}).
+addBase('stateIcons',function f(){
+	return this.stateIdsWithIcon_getUniques().sort(this.sortStates_cmpFunc,this).map(f.tbl[0]);
+},[
+stateId=>$dataStates[stateId].iconIndex, // 0: map stateId to iconIndex
+]).
 // restriction
 addBase('restriction_init',function f(){
 	// initializing here
@@ -6582,8 +6628,7 @@ addBase('restriction',function f(){
 },t).
 // cmp3 for heap: most important state on top
 addBase('_get_cmp3ForHeap_mostImportantStateOnTop',function f(){
-	if(!f.tbl[0]) f.tbl[0]=((a,b)=>-Game_BattlerBase.prototype.sortStates_cmpFunc(a,b));
-	return f.tbl[0];
+	return this.sortStates_cmpFunc_rev.bind(this);
 },[
 undefined, // 0: placeholder for Heap cmp3 func
 ]).
@@ -6687,6 +6732,7 @@ addBase('traitsOpCache_addTraitObj_state',function f(stateId){
 	const dataobj=$dataStates[stateId]; if(!dataobj) return;
 	this.traitsOpCache_addTraitObj(dataobj);
 	
+	this.stateIdsWithIcon_add(stateId);
 	this.restriction_add(stateId);
 	this.mostImportantStateText_add(stateId);
 	this.firstSortedState_add(stateId);
@@ -6702,6 +6748,7 @@ addBase('traitsOpCache_delTraitObj_state',function f(stateId){
 	if(!this.isStateAffected(stateId)) return;
 	this.traitsOpCache_delTraitObj(dataobj);
 	
+	this.stateIdsWithIcon_del(stateId);
 	this.restriction_del(stateId);
 	this.mostImportantStateText_del(stateId);
 	this.firstSortedState_del(stateId);
@@ -6790,7 +6837,7 @@ addBase('removeStatesByTiming_del',function f(stateId){
 },t).
 addBase('removeStatesByTiming_getStateIdsToBeRemoved',function f(timing){
 	this.removeStatesByTiming_init();
-	return this.traitsOpCache_getCacheVal_vls(f.tbl[0].code,timing).slice();
+	return this.traitsOpCache_getCacheVal_vls(f.tbl[0].code,timing).multisetUniques();
 },t).
 addBase('removeStatesAuto',function f(timing){
 	const arr=this.removeStatesByTiming_getStateIdsToBeRemoved(timing);
@@ -6830,10 +6877,11 @@ addBase('removeStatesByDamage_getStateIdsToBeRemoved',function f(){
 	// result may differ in each call due to the use of `Math.random()`.
 	this.removeStatesByDamage_init();
 	const valObj=this.traitsOpCache_getCacheVal_set(f.tbl[0].code);
+	const arr=valObj.multisetUniques();
 	const rtv=[];
-	for(let x=valObj.length;x--;){
-		const state=$dataStates[valObj[x]];
-		if(Math.random()*100<state.chanceByDamage) rtv.push(valObj[x]);
+	for(let x=arr.length;x--;){
+		const state=$dataStates[arr[x]];
+		if(Math.random()*100<state.chanceByDamage) rtv.push(arr[x]);
 	}
 	return rtv;
 },t).
@@ -7118,7 +7166,7 @@ undefined, // 0-1:
 undefined, // 0-2: 
 undefined, // 0-3: 
 undefined, // 0-4: 
-[new Set('left','center','right',),'left'], // 0-5: valid align values
+[new Set(['left','center','right',]),'left'], // 0-5: valid align values
 ], // 0: valid values
 ]).
 getP;
