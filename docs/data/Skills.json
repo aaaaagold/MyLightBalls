@@ -27,12 +27,47 @@
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":1,"name":"Heal2","note":"<extDmgFormula:ext/formula/heal2.txt>","occasion":0,"repeats":2,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":10,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal3","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":2,"name":"Heal3","note":"","occasion":0,"repeats":3,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
-	{"id":11,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAll","effects":[
-	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":3,"name":"HealAll","note":"<evalUseCond>\na.hp<a.mhp\n</evalUseCond>\n\n<evalUseCost>\n++a._paramPlus[0];\n</evalUseCost>","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":11,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"(empty)","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":0,"speed":0,"stypeId":0,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":12,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAllx2","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":4,"name":"HealAllx2","note":"","occasion":0,"repeats":2,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":13,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: Heal","effects":[
 	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":0,"name":"Heal","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":7,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
 	{"id":14,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"dcsr: provocative","effects":[
-	],"hitType":0,"iconIndex":5,"message1":"","message2":"","mpCost":0,"name":"provocative","note":"","occasion":1,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":2,"successRate":100,"tpCost":0,"tpGain":0}
+	],"hitType":0,"iconIndex":5,"message1":"","message2":"","mpCost":0,"name":"provocative","note":"","occasion":1,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":2,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":15,"animationId":41,"damage":{"critical":false,"elementId":0,"formula":"b.hp","type":3,"variance":0},"description":"dscr: HealAll","effects":[
+	],"hitType":0,"iconIndex":72,"message1":"","message2":"","mpCost":3,"name":"HealAll","note":"<evalUseCond>\na.hp<a.mhp\n</evalUseCond>\n\n<evalUseCost>\n++a._paramPlus[0];\n</evalUseCost>","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":8,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":16,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"dscr: revive","effects":[
+		{"code":22,"dataId":1,"value1":1,"value2":0}
+	],"hitType":0,"iconIndex":221,"message1":"","message2":"","mpCost":4,"name":"revive","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":9,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":17,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":18,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":19,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":20,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":21,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":22,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":23,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":24,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":25,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":26,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":27,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":28,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":29,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":30,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0},
+	{"id":31,"animationId":0,"damage":{"critical":false,"elementId":0,"formula":"0","type":0,"variance":20},"description":"","effects":[
+	],"hitType":0,"iconIndex":0,"message1":"","message2":"","mpCost":0,"name":"","note":"","occasion":0,"repeats":1,"requiredWtypeId1":0,"requiredWtypeId2":0,"scope":1,"speed":0,"stypeId":1,"successRate":100,"tpCost":0,"tpGain":0}
 ]
