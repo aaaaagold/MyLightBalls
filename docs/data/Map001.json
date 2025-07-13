@@ -7142,41 +7142,81 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"gain"
+				"gain items"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"items"
+				" / strip"
 			]},
-			{"code":355,"indent":0,"parameters":[
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"gain items",
+					"strip"
+				],
+				0,
+				1,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"gain items"
+			]},
+			{"code":355,"indent":1,"parameters":[
 				"[$dataItems,$dataWeapons,$dataArmors,].forEach(arr=>{"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"for(let x=1,xs=arr.length;x<xs;++x) if(arr[x].name&&arr[x].description) $gameParty.gainItem(arr[x],x*100+1);"
 			]},
-			{"code":655,"indent":0,"parameters":[
+			{"code":655,"indent":1,"parameters":[
 				"});"
 			]},
-			{"code":108,"indent":0,"parameters":[
+			{"code":108,"indent":1,"parameters":[
 				""
 			]},
-			{"code":355,"indent":0,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				"if($gameSystem.EventItemList_setBlack) $gameSystem.EventItemList_setBlack([1]);"
 			]},
-			{"code":104,"indent":0,"parameters":[
+			{"code":104,"indent":1,"parameters":[
 				16,
 				1
 			]},
-			{"code":101,"indent":0,"parameters":[
+			{"code":101,"indent":1,"parameters":[
 				"",
 				0,
 				0,
 				2
 			]},
-			{"code":401,"indent":0,"parameters":[
+			{"code":401,"indent":1,"parameters":[
 				"\\V[16]"
 			]},
-			{"code":355,"indent":0,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				"if($gameSystem.EventItemList_clear) $gameSystem.EventItemList_clear();"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"strip"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const actr=$gameParty.members()[0]; if(actr){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"for(let x=actr.equipSlots().length;x--;) actr.changeEquip(x,null);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"} }"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
