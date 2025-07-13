@@ -1043,15 +1043,57 @@ function(){ Scene_Base.prototype.stop.call(this); },
 	if(this._lastBgBm) SceneManager._backgroundBitmap=this._lastBgBm;
 },t);
 //
+// ==== dataArr mgr ====
+new cfc(DataManager).
+addBase('dataarr_resetTable',function f(dataarr){
+	dataarr[f.tbl[0]]=dataarr[f.tbl[0]]||new Map();
+	dataarr[f.tbl[0]].clear();
+	dataarr.forEach(f.tbl[1],dataarr[f.tbl[0]]);
+	return dataarr[f.tbl[0]];
+},t=[
+'_tbl_hasDataobj', // 0: tblKey for hasDataobj
+function f(dataobj,i,arr){
+	if(dataobj) this.set(dataobj,i);
+}, // 0: forEach:rebuild hasDataobj tbl
+]).
+addBase('dataarr_ensureTableInited',function f(dataarr){
+	return dataarr[f.tbl[0]]||this.dataarr_resetTable(dataarr);
+},t).
+addBase('dataarr_resetLength',function f(dataarr){
+	const baseLength=useDefaultIfIsNaN(dataarr.baseLength,dataarr.length);
+	dataarr.length=dataarr.baseLength=baseLength;
+	this.dataarr_resetTable(dataarr);
+},t).
+addBase('dataarr_reset',function f(dataarr){
+	this.dataarr_resetLength(dataarr);
+},t).
+addBase('dataarr_addDataobj',function f(dataarr,dataobj,putToIdx){
+	if(!dataobj) return;
+	const m=this.dataarr_ensureTableInited(dataarr);
+	const newId=useDefaultIfIsNaN(putToIdx,dataarr.length);
+	const oldObj=dataarr[newId];
+	if(oldObj===dataobj) return;
+	m.delete(oldObj);
+	m.set(dataarr[newId]=dataobj,dataobj.id=newId);
+	return oldObj;
+}).
+addBase('dataarr_hasDataobj',function f(dataarr,dataobj){
+	return this.dataarr_ensureTableInited(dataarr).has(dataobj);
+}).
+addBase('dataarr_getIdxOfDataobj',function f(dataarr,dataobj){
+	return this.dataarr_ensureTableInited(dataarr).get(dataobj);
+}).
+getP;
+//
 // DO NOT change _onLoad* which are starting with a '_'
 new cfc(DataManager).addBase('isSkill',function f(item){
-	return item && $dataSkills.uniqueHas(item);
+	return item && this.dataarr_hasDataobj($dataSkills,item);
 }).addBase('isItem',function f(item){
-	return item && $dataItems.uniqueHas(item);
+	return item && this.dataarr_hasDataobj($dataItems,item);
 }).addBase('isWeapon',function f(item){
-	return item && $dataWeapons.uniqueHas(item);
+	return item && this.dataarr_hasDataobj($dataWeapons,item);
 }).addBase('isArmor',function f(item){
-	return item && $dataArmors.uniqueHas(item);
+	return item && this.dataarr_hasDataobj($dataArmors,item);
 }).
 addBase('arrMapFunc_idToDataobj_skill',  i=>$dataSkills[i]).
 addBase('arrMapFunc_idToDataobj_item',   i=>$dataItems[i]).
@@ -1650,6 +1692,11 @@ addBase('setLastGainedItem',function(item,amount){
 addBase('allItems',function f(){
 	return [].concat_inplace(this.items(),this.weapons(),this.armors());
 }).
+addBase('isAnyMemberEquipped',function f(item){
+	const arr=this.members();
+	for(let x=arr.length;x--;) if(arr[x].isEquipped(item)) return true;
+	return false;
+}).
 getP;
 
 
@@ -1877,6 +1924,30 @@ new cfc(Window.prototype).addBase('_updateCursor',function f(){
 },[
 0.5,
 ]);
+
+
+new cfc(Window_Selectable.prototype).
+addBase('hitTest_condOk',function(x,y){
+	return this.isContentsArea(x,y);
+}).
+addBase('hitTest_do',function(x,y){
+	const cx=x-this.padding;
+	const cy=y-this.padding;
+	const topIndex=this.topIndex();
+	const maxPageItems=this.maxPageItems();
+	const idxEnd=this.maxItems();
+	for(var i=0;i<=this.maxPageItems();i++){
+		const idx=topIndex+i; if(idx>=idxEnd) break;
+		if(this.itemRect(idx).contains(cx,cy)) return idx;
+	}
+	return -1;
+}).
+addBase('hitTest',function(x, y){
+	let rtv=-1;
+	if(this.hitTest_condOk.apply(this,arguments)) rtv=this.hitTest_do.apply(this,arguments);
+	return rtv;
+}).
+getP;
 
 
 new cfc(Window_SkillStatus.prototype).addBase('refresh',function f(){
@@ -2480,6 +2551,9 @@ addBase('statesContainer_addStateId',function f(stateId){
 addBase('statesContainer_delStateId',function f(stateId){
 	this._states.multisetPop(stateId);
 }).
+addBase('statesContainer_cntStateId',function f(stateId){
+	return this._states.multisetGetCnt(stateId);
+}).
 addBase('statesContainer_hasStateId',function f(stateId){
 	return this._states.multisetHas(stateId);
 }).
@@ -2549,6 +2623,56 @@ function(stateInfo){
 ]).
 getP;
 
+new cfc(Game_Battler.prototype).
+addBase('addState',function(stateId) {
+	if(this.isStateAddable(stateId)){
+		// state can be added to refresh stateCounts
+		if(this.addNewState_condOk(stateId)){
+			this.addNewState(stateId);
+			if(this._result) this._result.pushAddedState(stateId);
+			this.refresh();
+		}
+		this.resetStateCounts(stateId);
+	}
+}).
+addBase('addNewState_condOk',function f(stateId){
+	return !this.isStateAffected(stateId);
+}).
+getP;
+
+new cfc(Game_ActionResult.prototype).
+addBase('isStateAdded',function f(stateId){
+	return this.addedStates.multisetHas(stateId);
+}).
+addBase('pushAddedState',function f(stateId){
+	this.addedStates.multisetPush(stateId);
+}).
+addBase('isStateRemoved',function f(stateId){
+	return this.removedStates.multisetHas(stateId);
+}).
+addBase('pushRemovedState',function f(stateId){
+	this.removedStates.multisetPush(stateId);
+}).
+addBase('isBuffAdded',function f(stateId){
+	return this.addedBuffs.multisetHas(stateId);
+}).
+addBase('pushAddedBuff',function f(stateId){
+	this.addedBuffs.multisetPush(stateId);
+}).
+addBase('isDebuffAdded',function f(stateId){
+	return this.addedDebuffs.multisetHas(stateId);
+}).
+addBase('pushAddedDebuff',function f(stateId){
+	this.addedDebuffs.multisetPush(stateId);
+}).
+addBase('isBuffRemoved',function f(stateId){
+	return this.removedBuffs.multisetHas(stateId);
+}).
+addBase('pushRemovedBuff',function f(stateId){
+	this.removedBuffs.multisetPush(stateId);
+}).
+getP;
+
 
 new cfc(Game_Actor.prototype).
 addBase('onPlayerWalk_updateStatesSteps',function f(){
@@ -2593,6 +2717,31 @@ addBase('paramPlus_equips',function f(paramId){
 getP;
 
 new cfc(Game_Actor.prototype).
+addBase('_equipsTbl_normalizeItem',function f(item){
+	return item==null?null:item; // undefined->null
+}).
+addBase('_equipsTbl_getCont',function f(){
+	const arr=this._equips;
+	if(!arr) return [];
+	let rtv=arr._equippedTbl;
+	if(!rtv){
+		rtv=arr._equippedTbl=[];
+		for(let x=arr.length;x--;) rtv.multisetPush(this._equipsTbl_normalizeItem(arr[x]&&arr[x].object()));
+	}
+	return rtv;
+}).
+addBase('_equipsTbl_add',function f(item){
+	return this._equipsTbl_getCont().multisetPush(this._equipsTbl_normalizeItem(item));
+}).
+addBase('_equipsTbl_del',function f(item){
+	return this._equipsTbl_getCont().multisetPop(this._equipsTbl_normalizeItem(item));
+}).
+addBase('_equipsTbl_has',function f(item){
+	return this._equipsTbl_getCont().multisetHas(this._equipsTbl_normalizeItem(item));
+}).
+addBase('_equipsTbl_cnt',function f(item){
+	return this._equipsTbl_getCont().multisetGetCnt(this._equipsTbl_normalizeItem(item));
+}).
 addBase('_setEquip_getDataarr',function f(slotId,slots){
 	return slots[slotId]===1?$dataWeapons:$dataArmors;
 }).
@@ -2600,8 +2749,16 @@ addBase('_setEquip',function f(slotId,item){
 	// internal api
 	const arr=this._equips;
 	const gameItem=arr&&arr[slotId];
-	if(gameItem) gameItem.setObject(item);
-	else if(arr) (arr[slotId]=new Game_Item()).setObject(item);
+	if(gameItem){
+		const oldItem=gameItem.object();
+		this._equipsTbl_del(oldItem);
+		this._equipsTbl_add(item);
+		gameItem.setObject(item);
+	}else if(arr){
+		for(let x=arr.length;x<slotId;++x) this._equipsTbl_add(arr[x]&&arr[x].object());
+		this._equipsTbl_add(item);
+		(arr[slotId]=new Game_Item()).setObject(item);
+	}
 }).
 addBase('_getEquip',function f(slotId){
 	// internal api
@@ -2673,17 +2830,18 @@ addBase('forceChangeEquip',function f(slotId,item){
 	this.refresh();
 }).
 addBase('discardEquip',function f(item){
+	if(!this.isEquipped(item)) return;
 	const slotId=this.equips().indexOf(item);
-	if(slotId>=0){
-		this.setEquip(slotId,null);
-	}
+	this.setEquip(slotId,null);
+	return true;
 }).
 addBase('releaseUnequippableItems',function(forcing){
-	for(;;){
+	let changed=false;
+	do{
 		this.releaseUnequippableItems_roundStart.apply(this,arguments);
 		const slots=this.equipSlots();
 		const equips=this.equips();
-		let changed=false;
+		changed=false;
 		for(let i=0,sz=equips.length;i<sz;++i){
 			const item=equips[i];
 			if(item && (!this.canEquip(item)||item.etypeId!==slots[i])){
@@ -2694,14 +2852,42 @@ addBase('releaseUnequippableItems',function(forcing){
 				changed=true;
 			}
 		}
-		if(!changed){
-			break;
-		}
-	}
+	}while(changed);
 }).
 addBase('releaseUnequippableItems_roundStart',none).
 addBase('isEquipChangeOk',function(slotId){
 	return !this.isEquipTypeLocked(this._getEquipSlot(slotId)) && !this.isEquipTypeSealed(this._getEquipSlot(slotId)) ;
+}).
+addBase('equipSlotsLength',function f(){
+	return this.equipSlots().length;
+}).
+addBase('clearEquipments',function f(){
+	for(let slotId=this.equipSlotsLength();slotId--;) if(this.isEquipChangeOk(slotId)) this.changeEquip(slotId,null);
+}).
+addBase('optimizeEquipments',function(){
+	this.clearEquipments();
+	const slots=this.equipSlots();
+	const slotIdEnd=slots.length;
+	for(let slotId=slotIdEnd;slotId--;){
+		if(this.isEquipChangeOk(slotId)){
+			this.changeEquip(slotId,this.bestEquipItem(slots[slotId]));
+		}
+	}
+}).
+addBase('bestEquipItem',function f(etypeId){
+	const items=$gameParty.equipItems().filter(function(item){
+		return item.etypeId===etypeId&&this.canEquip(item);
+	},this);
+	let bestItem=null;
+	let bestPerformance=-1e9;
+	for(let i=items.length;i--;){
+		const performance=this.calcEquipItemPerformance(items[i]);
+		if(performance>bestPerformance){
+			bestPerformance=performance;
+			bestItem=items[i];
+		}
+	}
+	return bestItem;
 }).
 getP;
 
@@ -2711,7 +2897,7 @@ addBase('item',function f(){
 }).
 addBase('drawItem',function f(index){
 	if(!this._actor) return;
-	const rect = this.itemRectForText(index);
+	const rect=this.itemRectForText(index);
 	this.changeTextColor(this.systemColor());
 	this.changePaintOpacity(this.isEnabled(index));
 	this.drawText(this.slotName(index), rect.x, rect.y, 138, this.lineHeight());
@@ -2892,6 +3078,94 @@ addBase('skills',function f(){
 	return skillIds.map(DataManager.arrMapFunc_idToDataobj_skill);
 }).
 getP;
+
+
+new cfc(Game_Party.prototype).
+addBase('_actorsTbl_getCont',function f(){
+	const actors=this._actors; if(!actors){ return new Map(); }
+	let rtv=actors._actorIdCntTbl; if(!rtv) rtv=actors._actorIdCntTbl=new Map();
+	return rtv;
+}).
+addBase('_actorsTbl_add',function f(actorId){
+	const cont=this._actorsTbl_getCont();
+	const newVal=(cont.get(actorId)|0)+1;
+	cont.set(actorId,newVal);
+	return newVal;
+}).
+addBase('_actorsTbl_del',function f(actorId){
+	const cont=this._actorsTbl_getCont();
+	const oldVal=(cont.get(actorId)|0);
+	if(!oldVal) return oldVal;
+	const newVal=oldVal-1;
+	cont.set(actorId,newVal-1);
+	return newVal;
+}).
+addBase('_actorsTbl_cnt',function f(actorId){
+	const cont=this._actorsTbl_getCont();
+	return cont.get(actorId)|0;
+}).
+addBase('onActorsChanged_enable',function(){
+	this._isDisablingOnActorsChanged=undefined;
+}).
+addBase('onActorsChanged_disable',function(){
+	this._isDisablingOnActorsChanged=true;
+}).
+addBase('onActorsChanged_isDisabled',function(){
+	return this._isDisablingOnActorsChanged;
+}).
+addBase('onActorsChanged',function f(actorId){
+	if(this.onActorsChanged_isDisabled()) return;
+	$gamePlayer.refresh();
+	$gameMap.requestRefresh();
+}).
+addBase('addActor_condOk',function f(actorId){
+	return this._actorsTbl_cnt(actorId)===0;
+}).
+addBase('addActor_do',function f(actorId){
+	this._actorsTbl_add(actorId);
+	this._actors.push(actorId);
+}).
+addBase('addActor',function f(actorId){
+	if(this.addActor_condOk(actorId)){
+		this.addActor_do(actorId);
+		this.onAddActor(actorId);
+	}
+}).
+addBase('onAddActor',function f(actorId){
+	this.onActorsChanged(actorId);
+}).
+addBase('removeActor_condOk',function(actorId){
+	return 0<this._actorsTbl_cnt(actorId);
+}).
+addBase('removeActor_do',function(actorId){
+	this._actorsTbl_del(actorId);
+	this._actors.splice(this._actors.indexOf(actorId),1);
+}).
+addBase('removeActor',function(actorId){
+	if(this.removeActor_condOk(actorId)){
+		this.removeActor_do(actorId);
+		this.onRemoveActor(actorId);
+	}
+}).
+addBase('onRemoveActor',function f(actorId){
+	this.onActorsChanged(actorId);
+}).
+getP;
+
+
+{ const p=Game_System.prototype;
+new cfc(p).
+addBase('onAfterLoad_main',p.onAfterLoad).
+addBase('onAfterLoad_before',none).
+addBase('onAfterLoad_after',none).
+addBase('onAfterLoad',function f(){
+	this.onAfterLoad_before();
+	const rtv=this.onAfterLoad_main();
+	this.onAfterLoad_after();
+	return rtv;
+}).
+getP;
+}
 
 
 })(); // refine for future extensions
@@ -3419,7 +3693,7 @@ addBase('_refreshCursor',function f(useThisSprite){
 	}else{
 	}
 	useThisSprite.setFrame(0, 0, w2, h2);
-	useThisSprite.move(x2,y2);
+	useThisSprite.move(x,y);
 	
 	return;
 
@@ -3626,6 +3900,14 @@ getP;
 }
 
 
+new cfc(Game_Action.prototype).
+addBase('isMagicSkill',function() {
+	const item=this.item();
+	return $dataSystem.magicSkills.uniqueHas(item&&item.stypeId);
+}).
+getP;
+
+
 new cfc(Game_Enemy.prototype).
 addBase('makeDropItems',function f(){
 	return this.enemy().dropItems.reduce(f.tbl[0].bind(this),[]);
@@ -3635,6 +3917,14 @@ function(r,di){
 	return r;
 }, // 0: reduce
 ]);
+
+
+new cfc(Game_Actor.prototype).
+addBase('isEquipped',function f(item){
+	return this._equipsTbl_has(item);
+}).
+getP;
+
 
 })(); // performance
 
@@ -7113,7 +7403,10 @@ new cfc(Window_Selectable.prototype).addBase('maxPageRows',function(isReturnReal
 }).addBase('isCursorVisible',function f(){
 	const rect=this.itemRect_curr();
 	const c=this._windowContentsSprite;
-	return c&&rect.overlap(c);
+	if(!c) return false;
+	rect.x+=c.x;
+	rect.y+=c.y;
+	return rect.overlap(c);
 }).add('processCursorMove',function f(){
 	const idx=this.index();
 	const rtv=f.ori.apply(this,arguments);
@@ -7176,6 +7469,23 @@ undefined, // 0-4:
 [new Set(['left','center','right',]),'left'], // 0-5: valid align values
 ], // 0: valid values
 ]).
+getP;
+
+
+new cfc(Game_Party.prototype).
+addBase('battleMembers',function() {
+	const maxBattleMembers=this.maxBattleMembers();
+	const allMembers=this.allMembers();
+	const rtv=[];
+	if(rtv.length<allMembers.length){ for(let x=0,xs=allMembers.length;x<xs;++x){
+		const actor=allMembers[x];
+		if(actor.isAppeared()){
+			rtv.push(actor);
+			if(rtv.length>=maxBattleMembers) break;
+		}
+	} }
+	return rtv;
+}).
 getP;
 
 
