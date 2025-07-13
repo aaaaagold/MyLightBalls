@@ -36,5 +36,38 @@
 	{"id":14,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
 	],"iconIndex":88,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"test-state-3-equipSlotsNumMod","note":"<adjustEquipSlots>\n{\n\"2\":2,\n\"3\":\"window._test_input_adjustEquipSlots||0\",\n\"_dummy\":0\n}\n</adjustEquipSlots>","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":true,"restriction":0,"stepsToRemove":16},
 	{"id":15,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
-	],"iconIndex":89,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"test-state-4-equipParamMod","note":"<adjustEquipsParams_mul>\n{\n \"0\":11,\n \"1\":5,\n \"2\":7,\n \"3\":3,\n\"_dummy\":\"\"}\n</adjustEquipsParams_mul>\n<adjustEquipsParams_add>\n{\n \"2\":29,\n \"3\":31,\n \"4\":37,\n \"5\":41,\n\"_dummy\":\"\"}\n</adjustEquipsParams_add>","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":true,"restriction":0,"stepsToRemove":11}
+	],"iconIndex":89,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"test-state-4-equipParamMod","note":"<adjustEquipsParams_mul>\n{\n \"0\":11,\n \"1\":5,\n \"2\":7,\n \"3\":3,\n\"_dummy\":\"\"}\n</adjustEquipsParams_mul>\n<adjustEquipsParams_add>\n{\n \"2\":29,\n \"3\":31,\n \"4\":37,\n \"5\":41,\n\"_dummy\":\"\"}\n</adjustEquipsParams_add>","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":true,"restriction":0,"stepsToRemove":11},
+	{"id":16,"autoRemovalTiming":0,"chanceByDamage":100,"iconIndex":2,"maxTurns":1,"message1":" is (multi) poisoned!","message2":" is (multi) poisoned!","message3":"","message4":" is no longer (multi) poisoned!","minTurns":1,"motion":1,"overlay":1,"name":"test-state-5-MultiPoison","note":"<initStackTimesAdd:2>\n<changeStatesStackTimesAdd>\n{\"4\":1,\"16\":1}\n</changeStatesStackTimesAdd>\n","priority":51,"releaseByDamage":false,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100,"traits":[
+		{"code":22,"dataId":7,"value":-0.01}
+	]},
+	{"id":17,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":18,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":19,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":20,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":21,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":22,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":23,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":24,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":25,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":26,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":27,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":28,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":29,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":30,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100},
+	{"id":31,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
+	],"iconIndex":0,"maxTurns":1,"message1":"","message2":"","message3":"","message4":"","minTurns":1,"motion":0,"name":"","note":"","overlay":0,"priority":50,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100}
 ]
