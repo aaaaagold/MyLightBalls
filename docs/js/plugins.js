@@ -80,6 +80,7 @@ var $plugins =
 {"name":"agold404_TraitPerFrameEval","status":true,"description":"a trait for eval() per frame","parameters":{}},
 {"name":"agold404_Trait_adjustEquipSlots","status":true,"description":"adjust nums of equip slots for each type","parameters":{"GlobalChanges":"\"{\\n\\\"1\\\":0,\\n\\\"_dummy\\\":\\\"\\\"\\n}\"\r"}},
 {"name":"agold404_Trait_adjustEquipsParams","status":true,"description":"adjust some params of worn equipments","parameters":{}},
+{"name":"agold404_Trait_duplicatedStates","status":true,"description":"specifying a state can be stacked multiple times","parameters":{"GlobalChanges":"\"0\"\r"}},
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
