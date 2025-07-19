@@ -7903,28 +7903,92 @@
 			{"code":408,"indent":0,"parameters":[
 				"add actor 2"
 			]},
-			{"code":129,"indent":0,"parameters":[
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"add direct",
+					"add another"
+				],
+				0,
+				1,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"add direct"
+			]},
+			{"code":129,"indent":1,"parameters":[
 				2,
 				0,
 				false
 			]},
-			{"code":101,"indent":0,"parameters":[
+			{"code":101,"indent":1,"parameters":[
 				"",
 				0,
 				0,
 				2
 			]},
-			{"code":401,"indent":0,"parameters":[
+			{"code":401,"indent":1,"parameters":[
 				"\\N[2] is added"
 			]},
-			{"code":401,"indent":0,"parameters":[
+			{"code":401,"indent":1,"parameters":[
 				"\\TXTCENTER:\"\\N[2] is added\""
 			]},
-			{"code":401,"indent":0,"parameters":[
+			{"code":401,"indent":1,"parameters":[
 				"\\N[2] is added"
 			]},
-			{"code":401,"indent":0,"parameters":[
+			{"code":401,"indent":1,"parameters":[
 				"It's important, so said 3 times."
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"add another"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const baseName=$dataActors[2].name+'-';"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let s=baseName; for(let x=4,b=\"a\".charCodeAt();x--;) s+=String.fromCharCode(~~(Math.random()*26)+b);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._tmp_actor=$gameActors.actor(2,{name:s});"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const actorId=$gameTemp._tmp_actorId=$gameTemp._tmp_actor.actorId();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const actor=$gameActors.actor(actorId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"actor.setName(actor.name()+'-!');"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameParty.addActor(actorId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"\\EVALTOSTR:\"'\\\\\\\\N['+$gameTemp._tmp_actorId+']'\" is added"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
