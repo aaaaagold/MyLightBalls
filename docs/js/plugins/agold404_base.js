@@ -181,6 +181,24 @@ p.isScene_map    =function(){ const sc=this._scene; return sc && sc.constructor=
 //
 SceneManager.getScConstructor=function(){ return this._scene && this._scene.constructor; };
 // { const p=Window_BattleLog.prototype,k='displayAffectedStatus'; const r=p[k]; (p[k]=function(){}).ori=r; }
+new cfc(Graphics).
+addBase('_upperCanvas_hide',function f(){
+	this._upperCanvas.style.display='none';
+}).
+addBase('_upperCanvas_show',function f(){
+	this._upperCanvas.style.display='';
+}).
+add('endLoading',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._upperCanvas_hide();
+	return rtv;
+}).
+add('startLoading',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._upperCanvas_show();
+	return rtv;
+}).
+getP;
 new cfc(Graphics).addBase('_requestFullScreen',function(){
 	const element = getTopFrameWindow().document.body;
 	if(element.requestFullScreen) element.requestFullScreen();
@@ -1067,10 +1085,11 @@ addBase('dataarr_resetLength',function f(dataarr){
 addBase('dataarr_reset',function f(dataarr){
 	this.dataarr_resetLength(dataarr);
 },t).
-addBase('dataarr_addDataobj',function f(dataarr,dataobj,putToIdx){
+addBase('dataarr_addDataobj',function f(dataarr,dataobj,newIdxMin,putToIdx){
 	if(!dataobj) return;
 	const m=this.dataarr_ensureTableInited(dataarr);
-	const newId=useDefaultIfIsNaN(putToIdx,dataarr.length);
+	newIdxMin-=0; if(!(newIdxMin>=dataarr.length)) newIdxMin=dataarr.length;
+	const newId=useDefaultIfIsNaN(putToIdx,newIdxMin);
 	const oldObj=dataarr[newId];
 	if(oldObj===dataobj) return;
 	m.delete(oldObj);
@@ -7444,7 +7463,7 @@ new cfc(Bitmap.prototype).add('_callLoadListeners',function f(){
 
 
 new cfc(Game_BattlerBase.prototype).
-addBase('attackStatesRate',function f(){
+addBase('attackStates',function f(){
 	return this.traitsUniqueIds(Game_BattlerBase.TRAIT_ATTACK_STATE);
 }).
 getP;
