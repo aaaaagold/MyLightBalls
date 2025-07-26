@@ -10,6 +10,8 @@ var $plugins =
 {"name":"agold404_AnalogBar","status":true,"description":"類比條","parameters":{}},
 {"name":"agold404_AnywhereText","status":true,"description":"text anywhere api","parameters":{}},
 {"name":"agold404_Api_duplicatedActors","status":true,"description":"providing js api to duplicate an actor when added to party","parameters":{"DefaultMinGeneratedId":"4040"}},
+{"name":"agold404_Api_duplicatedArmors","status":true,"description":"providing js api to creating a duplicated armor in database during (game) runtime.","parameters":{"DefaultMinGeneratedId":"4040"}},
+{"name":"agold404_Api_duplicatedWeapons","status":true,"description":"providing js api to creating a duplicated weapon in database during (game) runtime.","parameters":{"DefaultMinGeneratedId":"4040"}},
 {"name":"agold404_AutoUpdatePlugins","status":false,"description":"auto update agold404_* plugins","parameters":{"Js_Plugins_js_Path":"https://raw.githubusercontent.com/aaaaagold/MyLightBalls/refs/heads/main/docs/js/plugins.js\r"}},
 {"name":"agold404_BlackHoles","status":true,"description":"black holes visual effect api","parameters":{}},
 {"name":"agold404_BlackholesV2","status":true,"description":"黑洞v2","parameters":{}},
