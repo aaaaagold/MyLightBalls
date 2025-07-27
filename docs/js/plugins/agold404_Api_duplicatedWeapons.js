@@ -32,12 +32,29 @@ window.isTest(),
 ];
 
 
+new cfc(DataManager).
+add('duplicatedDataobj_getSrc',function f(dataobj){
+	const obj=$dataWeapons[dataobj&&dataobj[f.tbl[4]]];
+	return obj||f.ori.apply(this,arguments);
+},t).
+getP;
+
 new cfc(Game_System.prototype).
 addBase('_duplicatedWeapons_getCont',function f(){
 	let cont=this._duplicatedWeapons_createdRecords; if(!cont) cont=this._duplicatedWeapons_createdRecords=[];
 	let m=cont._map_dstWeaponId_to_info; if(!m){
 		m=cont._map_dstWeaponId_to_info=new Map();
 		for(let x=cont.length;x--;) m.set(cont[x].dstWeaponId,cont[x]);
+	}
+	m=cont._map_src_to_dsts; if(!m){
+		m=cont._map_src_to_dsts=new Map();
+		for(let x=cont.length;x--;){
+			const src=$dataWeapons[cont[x].srcWeaponId];
+			const dst=$dataWeapons[cont[x].dstWeaponId];
+			if(!src||!dst) continue;
+			if(!m.has(src)) m.set(src,[]);
+			m.get(src).push(dst);
+		}
 	}
 	return cont;
 },t).
@@ -48,6 +65,7 @@ addBase('_duplicatedWeapons_clearCont',function f(){
 	const cont=this._duplicatedWeapons_getCont();
 	cont.length=0;
 	cont._map_dstWeaponId_to_info.clear();
+	cont._map_src_to_dsts.clear();
 	return this;
 },t).
 addBase('_duplicatedWeapons_addCreatedRecords',function f(info){
@@ -58,10 +76,26 @@ addBase('_duplicatedWeapons_addCreatedRecords',function f(info){
 	else if(f.tbl[2]){ throw new Error(f.tbl[3]+' '+info.dstWeaponId); }
 	m.set(info.dstWeaponId,idx);
 	cont[idx]=info;
+	{
+		const src=$dataWeapons[info.srcWeaponId];
+		const dst=$dataWeapons[info.dstWeaponId];
+		if(src&&dst){
+			const m=cont._map_src_to_dsts;
+			if(!m.has(src)) m.set(src,[]);
+			m.get(src).push(dst);
+		}
+	}
 },t).
 addBase('_duplicatedWeapons_getCreatedRecords',function f(dstWeaponId){
 	return this._duplicatedWeapons_getCont()._map_dstWeaponId_to_info.get(dstWeaponId);
 },t).
+addBase('_duplicatedWeapons_getSrcClonedToDstsList',function f(srcDataobj){
+	return this._duplicatedWeapons_getCont()._map_src_to_dsts.get(srcDataobj);
+}).
+addBase('duplicatedWeapons_getSrcClonedToDstsList',function f(srcDataobj){
+	const rtv=this._duplicatedWeapons_getSrcClonedToDstsList.apply(this,arguments);
+	return rtv?rtv.slice():[];
+}).
 addBase('duplicatedWeapons_createNew',function f(srcWeaponId,variationsInfo,newId){
 	// return newly created dataobj id
 	// if variationsInfo is not true-like, return srcWeaponId
@@ -87,7 +121,7 @@ addBase('duplicatedWeapons_createNew',function f(srcWeaponId,variationsInfo,newI
 	return newId;
 },t).
 addBase('duplicatedWeapons_onAfterLoad',function f(){
-	DataManager.dataarr_reset($dataWeapons);
+	//DataManager.dataarr_reset($dataWeapons); // moved to Game_System.prototype.onAfterLoad_before in base
 	const data=$gameSystem._duplicatedWeapons_getClonedCont();
 	$gameSystem._duplicatedWeapons_clearCont();
 	for(let x=0,xs=data.length;x<xs;++x){
@@ -106,14 +140,16 @@ add('onAfterLoad_main',function f(){
 }).
 getP;
 
-new cfc(Scene_Boot.prototype).
-addBase('duplicatedWeapons_init',function f(){
-	DataManager.dataarr_ensureTableInited($dataWeapons);
-}).
-add('terminate',function f(){
-	this.duplicatedWeapons_init();
-	return f.ori.apply(this,arguments);
-}).
+
+// glue
+new cfc(Game_System.prototype).
+add('duplicatedDataobj_getSrcClonedToDstsList',function f(srcDataobj){
+	const rtv=f.ori.apply(this,arguments);
+	const res=this._duplicatedWeapons_getSrcClonedToDstsList.apply(this,arguments);
+	if(!rtv||!rtv.length) return res&&res.slice();
+	if(res) rtv.concat_inplace(res);
+	return rtv;
+},t).
 getP;
 
 

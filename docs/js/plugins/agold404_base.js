@@ -182,6 +182,19 @@ p.isScene_map    =function(){ const sc=this._scene; return sc && sc.constructor=
 SceneManager.getScConstructor=function(){ return this._scene && this._scene.constructor; };
 // { const p=Window_BattleLog.prototype,k='displayAffectedStatus'; const r=p[k]; (p[k]=function(){}).ori=r; }
 new cfc(Graphics).
+/*
+add('_updateVisibility',function f(videoVisible){
+	this._video.style.display=f.tbl[0][1-!videoVisible];
+	return f.ori.apply(this,arguments);
+},[
+["none",""], // 0: [inv,vis]
+]).
+add('_createVideo',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._updateVisibility(false);
+	return rtv;
+}).
+*/
 addBase('_upperCanvas_hide',function f(){
 	this._upperCanvas.style.display='none';
 }).
@@ -320,6 +333,10 @@ new cfc(Sprite_Character.prototype).add('renderWebGL',function f(){
 	return this.isInScreen_local()&&f.ori.apply(this,arguments);
 });
 //
+const _getNumOrEval=window.getNumOrEval=function(input){
+	return ((typeof input==='string')?EVAL.call(this,input):input)-0||0;
+};
+//
 let t;
 if(Utils.isOptionValid('test')){
 const _getUsrname=window.getUsrname=Utils.isOptionValid('test')?(()=>{
@@ -452,7 +469,26 @@ new cfc(Input).addBase('isTexting_set',function f(){
 t=[
 none,
 ];
-new cfc(TouchInput).addBase('_onTouchStart',function f(event){
+new cfc(TouchInput).
+/*
+addBase('_onMouseDown_preventDefault_condOk',function f(event){
+	const x=Graphics.pageToCanvasX(event.pageX);
+	const y=Graphics.pageToCanvasY(event.pageY);
+	return Graphics.isInsideCanvas(x,y);
+}).
+addBase('_onMouseDown_preventDefault_do',function f(event){
+	event.preventDefault();
+}).
+addBase('_onMouseDown_preventDefault',function f(event){
+	if(this._onMouseDown_preventDefault_condOk.apply(this,arguments)) this._onMouseDown_preventDefault_do.apply(this,arguments);
+}).
+add('_onMouseDown',function f(event){
+	const rtv=f.ori.apply(this,arguments);
+	this._onMouseDown_preventDefault.apply(this,arguments);
+	return rtv;
+}).
+*/
+addBase('_onTouchStart',function f(event){
 	this._touched=true;
 	let preventDefaulted=false;
 	for(let i=0;i<event.changedTouches.length;++i){
@@ -648,7 +684,8 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	if(!text) return 0;
 	textState.text=this.convertEscapeCharacters(text);
 	textState.height=this.calcTextHeight(textState,false);
-	if(!textState.isMeasureOnly) this.resetFontSettings();
+	textState.outOfBound_x=false;
+	if(!textState.isMeasureOnly) this.resetFontSettings(); // it should be called before calling this func. thus it is internal testing and the settings should not be changed.
 	for(const len=textState.text.length;textState.index<len;) this.processCharacter(textState);
 	return textState.x-x;
 }).addBase('processNormalCharacter',function f(textState){
@@ -657,6 +694,7 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const w=wRaw;
 	if(!textState.isMeasureOnly) this.contents.drawText(c,textState.x,textState.y,w*2,textState.height,undefined,textState);
 	textState.x+=w;
+	if(textState.x>=this.contents.width) textState.outOfBound_x=true; // == for some chars might be widen.
 	textState.right=Math.max(textState.right,textState.x);
 	return w;
 }).addBase('measure_drawTextEx',function f(text, x, y, _3, _4, out_textState){
@@ -919,10 +957,15 @@ new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
 	this.downArrowVisible=this.contentsHeight()<rectBtm.y+rectBtm.height;
 	this.upArrowVisible=rectBeg.y<0;
 }).add('select',function f(idx){
+	const oldIdx=this._indexOld=this._index;
 	const rtv=f.ori.apply(this,arguments);
 	this.onSelect.apply(this,arguments);
+	if(oldIdx!==this._index) this.onNewSelect.apply(this,arguments);
 	return rtv;
-}).add('onSelect',none);
+}).
+addBase('onSelect',none).
+addBase('onNewSelect',none).
+getP;
 t[0].forEach(info=>Input.keyMapper[info[0]]=info[1]);
 t=undefined;
 //
@@ -1101,6 +1144,18 @@ addBase('dataarr_hasDataobj',function f(dataarr,dataobj){
 }).
 addBase('dataarr_getIdxOfDataobj',function f(dataarr,dataobj){
 	return this.dataarr_ensureTableInited(dataarr).get(dataobj);
+}).
+addBase('resetDataarrs',function(){
+	this.dataarr_reset($dataActors);
+	this.dataarr_reset($dataArmors);
+	this.dataarr_reset($dataWeapons);
+}).
+getP;
+// Scene_Boot.prototype.terminate_after is defined later
+new cfc(Scene_Title.prototype).
+add('commandNewGame',function f(){
+	DataManager.resetDataarrs();
+	return f.ori.apply(this,arguments);
 }).
 getP;
 //
@@ -1627,6 +1682,53 @@ new cfc(p).add('_createAllParts',function f(){
 (()=>{ let k,r,t;
 
 
+new cfc(DataManager).
+addBase('duplicatedDataobj_getSrc',none).
+getP;
+
+new cfc(Game_System.prototype).
+addBase('duplicatedDataobj_getSrcClonedToDstsList',function f(srcDataobj){
+}).
+getP;
+
+new cfc(Game_Party.prototype).
+addBase('duplicatedDataobj_numItems',function f(item){
+	const arr=$gameSystem&&$gameSystem.duplicatedDataobj_getSrcClonedToDstsList(item);
+	if(!arr) return 0;
+	let rtv=0;
+	for(let x=0,xs=arr.length;x<xs;++x) rtv+=this.numItems(arr[x]);
+	return rtv;
+}).
+add('numItems',function f(item){
+	return this.duplicatedDataobj_numItems.apply(this,arguments)+f.ori.apply(this,arguments);
+}).
+getP;
+
+
+new cfc(Window_EquipCommand.prototype).
+addBase('makeCommandList_optimizingEnabled',function f(){
+	return false;
+}).
+addBase('makeCommandList',function f(){
+	this.addCommand(TextManager.equip2,   'equip');
+	if(this.makeCommandList_optimizingEnabled()) this.addCommand(TextManager.optimize, 'optimize');
+	this.addCommand(TextManager.clear,    'clear');
+}).
+getP;
+
+new cfc(Window_EquipItem.prototype).
+addBase('makeItemList',function f(){
+	return f._super[f._funcName].apply(this,arguments);
+}).
+addBase('drawItemNumber_num',function f(item,x,y,width,num){
+	return f._super[f._funcName].apply(this,arguments);
+}).
+addBase('onNewSelect',function f(){
+	return f._super[f._funcName].apply(this,arguments);
+}).
+getP;
+
+
 new cfc(Game_Party.prototype).
 add('initAllItems',function f(){
 	const rtv=f.ori.apply(this,arguments);
@@ -1910,6 +2012,30 @@ addBase('processHandling_do',function f(){
 	} else if (this.isHandled('pageup') && Input.isTriggered('pageup')) {
 		this.processPageup();
 	} else return true;
+}).
+addBase('processTouch_condOk',function f(){
+	return this.isOpenAndActive();
+}).
+addBase('processTouch_do',function f(){
+	let rtv=TouchInput.isTriggered();
+	if(rtv && this.isTouchedInsideFrame()){
+		this._touching=true;
+		this.onTouch(true);
+	}else if(TouchInput.isCancelled()){
+		if(this.isCancelEnabled()){
+			rtv=false;
+			this.processCancel();
+		}
+	}
+	if(this._touching){
+		if(TouchInput.isPressed()) this.onTouch(false);
+		else this._touching=false;
+	}
+	return rtv;
+}).
+addBase('processTouch',function f(){
+	if(this.processTouch_condOk.apply(this,arguments)) return this.processTouch_do.apply(this,arguments);
+	else this._touching=false;
 }).
 getP;
 
@@ -2717,6 +2843,20 @@ addBase('getItem_paramPlus',function f(item,paramId){
 	const params=item&&item.params;
 	return params&&params[paramId];
 }).
+addBase('paramShortNameToId',function f(shortName){
+	return (shortName in f.tbl[0])?f.tbl[0][shortName]:undefined;
+},[
+{
+"mhp":0,
+"mmp":0,
+"atk":2,
+"def":3,
+"mat":4,
+"mdf":5,
+"agi":6,
+"luk":7,
+}, // 0: mapping table for basic params names
+]).
 getP;
 
 new cfc(Game_Actor.prototype).
@@ -2922,6 +3062,9 @@ addBase('drawItem',function f(index){
 	this.drawText(this.slotName(index), rect.x, rect.y, 138, this.lineHeight());
 	this.drawItemName(this._actor.getEquip(index), rect.x + 138, rect.y);
 	this.changePaintOpacity(true);
+}).
+addBase('maxItems',function(){
+	return this._actor?this._actor.equipSlotsLength():0;
 }).
 addBase('slotName',function f(index){
 	if(!this._actor) return '';
@@ -3175,7 +3318,9 @@ getP;
 { const p=Game_System.prototype;
 new cfc(p).
 addBase('onAfterLoad_main',p.onAfterLoad).
-addBase('onAfterLoad_before',none).
+addBase('onAfterLoad_before',function f(){
+	DataManager.resetDataarrs();
+}).
 addBase('onAfterLoad_after',none).
 addBase('onAfterLoad',function f(){
 	this.onAfterLoad_before();
@@ -3662,89 +3807,119 @@ new Map([
 
 
 new cfc(Window.prototype).
+addBase('_refreshCursor_borderSize',function f(d){
+	return 4;
+}).
 addBase('_refreshCursor',function f(useThisSprite){
 	useThisSprite=useThisSprite||this._windowCursorSprite;
-	const pad = this._padding;
-	const x = this._cursorRect.x + pad - this.origin.x;
-	const y = this._cursorRect.y + pad - this.origin.y;
-	const w = this._cursorRect.width;
-	const h = this._cursorRect.height;
-	const m = 4;
-	const x2 = Math.max(x, pad);
-	const y2 = Math.max(y, pad);
-	const ox = x - x2;
-	const oy = y - y2;
-	const w2 = Math.min(w, this._width - pad - x2);
-	const h2 = Math.min(h, this._height - pad - y2);
-	if(0<w&&0<h) useThisSprite.scale.set(1);
+	const pad=this._padding;
+	// setting
+	const sx=this._cursorRect.x+pad-this.origin.x;
+	const sy=this._cursorRect.y+pad-this.origin.y;
+	const sw=this._cursorRect.width;
+	const sh=this._cursorRect.height;
+	const m=this._refreshCursor_borderSize();
+	// crop
+	const x0=Math.max(sx,pad);
+	const y0=Math.max(sy,pad);
+	const x1=Math.min(sx+sw,this._width  -pad);
+	const y1=Math.min(sy+sh,this._height -pad);
+	if(0<sw&&0<sh) useThisSprite.scale.set(1);
 	else{
 		useThisSprite.scale.set(0);
 		return;
 	}
-	//const bitmap = new Bitmap(w2, h2);
+	//const bitmap=new Bitmap(sw,sh);
 	this._refreshCursor_createBmpIfNotExists(useThisSprite);
 	
 	const edgeW=useThisSprite._cursorEdgeSizes.left + useThisSprite._cursorEdgeSizes.right;
 	const edgeH=useThisSprite._cursorEdgeSizes.top  + useThisSprite._cursorEdgeSizes.bottom;
 	const midSprite=useThisSprite._cursorSprites[0];
-	if(true||w>=edgeW){
-		const _w=Math.max(w-edgeW,0)||0;
+	if(true||sw>=edgeW){
+		const _w=Math.max(sw-edgeW,0)||0;
 		const r=_w/midSprite.bitmap.width;
 		midSprite.scale.x=r;
 		useThisSprite._cursorSprites[4].scale.x=r;
 		useThisSprite._cursorSprites[8].scale.x=r;
 		
-		//for(let i=4;--i;) useThisSprite._cursorSprites[i].x=0;
+		for(let i=4;--i;) useThisSprite._cursorSprites[i].x=0;
 		for(let i=8;i>=0;i-=4) useThisSprite._cursorSprites[i].x=useThisSprite._cursorEdgeSizes.left;
 		for(let i=8;--i>=5;) useThisSprite._cursorSprites[i].x=useThisSprite._cursorEdgeSizes.left+_w;
 	}else{
+		// TODO
 	}
-	if(true||h>=edgeH){
-		const _h=Math.max(h-edgeH,0)||0;
+	if(true||sh>=edgeH){
+		const _h=Math.max(sh-edgeH,0)||0;
 		const r=_h/midSprite.bitmap.height;
 		midSprite.scale.y=r;
 		useThisSprite._cursorSprites[2].scale.y=r;
 		useThisSprite._cursorSprites[6].scale.y=r;
 		
-		//for(let i=4,arr=[1,7,8];--i;) useThisSprite._cursorSprites[arr[i]].y=0;
-		for(let arr=[2,0,6],i=arr.length;i--;) useThisSprite._cursorSprites[arr[i]].y=useThisSprite._cursorEdgeSizes.top;
+		for(let arr=f.tbl[0],i=arr.length;i--;) useThisSprite._cursorSprites[arr[i]].y=0;
+		for(let arr=f.tbl[1],i=arr.length;i--;) useThisSprite._cursorSprites[arr[i]].y=useThisSprite._cursorEdgeSizes.top;
 		for(let i=6;--i>=3;) useThisSprite._cursorSprites[i].y=useThisSprite._cursorEdgeSizes.top+_h;
 	}else{
+		// TODO
 	}
-	useThisSprite.setFrame(0, 0, w2, h2);
-	useThisSprite.move(x,y);
-	
-	return;
-
-	useThisSprite.bitmap = bitmap;
-	//useThisSprite.setFrame(0, 0, w2, h2);
-	useThisSprite.setFrame(0, 0, 1, 1); useThisSprite.scale.set(w2,h2);
-	useThisSprite.move(x2, y2);
-
-	if (w > 0 && h > 0 && this._windowskin) {
-		const skin=this._windowskin;
-		const p=96;
-		const q=48;
-		bitmap.blt(skin, p+m, p+m, q-m*2, q-m*2, ox+m, oy+m, w-m*2, h-m*2);
-		bitmap.blt(skin, p+m, p+0, q-m*2, m, ox+m, oy+0, w-m*2, m);
-		bitmap.blt(skin, p+m, p+q-m, q-m*2, m, ox+m, oy+h-m, w-m*2, m);
-		bitmap.blt(skin, p+0, p+m, m, q-m*2, ox+0, oy+m, m, h-m*2);
-		bitmap.blt(skin, p+q-m, p+m, m, q-m*2, ox+w-m, oy+m, m, h-m*2);
-		bitmap.blt(skin, p+0, p+0, m, m, ox+0, oy+0, m, m);
-		bitmap.blt(skin, p+q-m, p+0, m, m, ox+w-m, oy+0, m, m);
-		bitmap.blt(skin, p+0, p+q-m, m, m, ox+0, oy+h-m, m, m);
-		bitmap.blt(skin, p+q-m, p+q-m, m, m, ox+w-m, oy+h-m, m, m);
+	useThisSprite.setFrame(0,0,sw,sh);
+	useThisSprite.move(sx,sy);
+	//return;
+	const fx1=sx<x0,fx2=x1<sx+sw;
+	const fy1=sy<y0,fy2=y1<sy+sh;
+	for(let i=9;i--;){
+		const sp=useThisSprite._cursorSprites[i];
+		sp._x0=sp.x;
+		sp._y0=sp.y;
 	}
-}).
+	if(fx1||fx2||fy1||fy2){
+		for(let i=9;i--;){
+			const sp=useThisSprite._cursorSprites[i];
+			const s=sp.scale;
+			const bmp=sp.bitmap;
+			const x0i=sp._x0+sx,x1i=x0i+Math.round(bmp.width*s.x);
+			const y0i=sp._y0+sy,y1i=y0i+Math.round(bmp.height*s.y);
+			//let fx=0,fw=bmp.width;
+			//let fy=0,fh=bmp.height;
+			if(x0i>=x1||x0>=x1i){
+				sp.setFrame(0,0,0,bmp.height);
+				sp.refresh_do();
+				continue;
+			}
+			if(y0i>=y1||y0>=y1i){
+				sp.setFrame(0,0,bmp.width,0);
+				sp.refresh_do();
+				continue;
+			}
+			const fx=Math.max(x0-x0i,0);
+			const fy=Math.max(y0-y0i,0);
+			const dw=(-Math.max(x1i-x1,0)-fx)/s.x;
+			const dh=(-Math.max(y1i-y1,0)-fy)/s.y;
+			const fw=bmp.width  +Math.round(dw); // seems good
+			const fh=bmp.height +Math.round(dh); // seems good
+			sp.setFrame(fx,fy,fw,fh);
+			sp.move(x0i-sx+fx,y0i-sy+fy);
+		}
+	}else{
+		for(let i=9;i--;){
+			const sp=useThisSprite._cursorSprites[i];
+			const bmp=sp.bitmap;
+			sp.setFrame(0,0,bmp.width,bmp.height);
+			sp.move(sp._x0,sp._y0);
+		}
+	}
+},[
+[1,7,8], // 0: sh>=edgeH row 0
+[2,0,6], // 1: sh>=edgeH row 1
+]).
 addBase('_refreshCursor_createBmpIfNotExists',function f(cursorSprite){
 	const skin=this._windowskin;
 	if(cursorSprite._cursorSprites||!skin) return;
 	const arr=cursorSprite._cursorSprites=[];
 	const edgeSizes=cursorSprite._cursorEdgeSizes={
-		top:4,
-		left:4,
-		right:4,
-		bottom:4,
+		top:this._refreshCursor_borderSize('u'),
+		left:this._refreshCursor_borderSize('l'),
+		right:this._refreshCursor_borderSize('r'),
+		bottom:this._refreshCursor_borderSize('d'),
 		all:[48,48], // referenced image region size
 		offset:[96,96], // referenced image region x,y
 	};
@@ -3849,6 +4024,17 @@ new cfc(Bitmap.prototype).add('initialize',function f(w,h){
 	this._loadListeners.length=this._loadListeners_strt=0;
 });
 }
+
+
+new cfc(Window_EquipItem.prototype).
+add('updateHelp',function f(){
+	return f.ori.apply(this,arguments);
+	if(this._lastUpdateHelpInfo_select===this._index&&this._lastUpdateHelpInfo_actor===this._actor) return;
+	this._lastUpdateHelpInfo_select=this._index;
+	this._lastUpdateHelpInfo_actor=this._actor;
+	return f.ori.apply(this,arguments);
+}).
+getP;
 
 
 { const p=Game_Action.prototype;
@@ -4310,13 +4496,23 @@ new cfc(Window_ItemList.prototype).addBase('drawItemNumber',function f(item, x, 
 	return f.tbl[0];
 },[
 4,
-]).addBase('drawItem',function f(idx){
+]).
+addBase('numberMaxWidth_getSampleText',function f(){
+	if(!f.tbl[0]) f.tbl[0]=":"+'0'.repeat(this.drawItemNumber_getReservedDigitsCnt());
+	return f.tbl[0];
+},[
+undefined, // 0: reserved for text
+]).
+addBase('numberMaxWidth',function f(item,rect){
+	return this.textWidth(this.numberMaxWidth_getSampleText());
+}).
+addBase('drawItem',function f(idx){
 	this.drawItemByIndex(idx);
 }).addBase('drawItemByIndex',function f(idx){
 	const item=this._data[idx];
 	if(item) this.drawItemByItemAndRect(item,this.itemRect(idx));
 }).addBase('drawItemByItemAndRect',function f(item,rect){
-	const numberWidth=this.numberWidth();
+	const numberWidth=this.numberMaxWidth(item,rect);
 	rect.width-=this.textPadding();
 	this.changePaintOpacity(this.isEnabled(item));
 	this.drawItemName(item, rect.x, rect.y, rect.width - numberWidth);
@@ -4532,11 +4728,18 @@ new cfc(Scene_Base.prototype).addBase('terminate_after',function f(){
 	} }
 }).addBase('terminate_before',none);
 
-new cfc(Scene_Boot.prototype).addBase('terminate_after',function f(){
+new cfc(Scene_Boot.prototype).
+addBase('terminate_after',function f(){
 	return Scene_Base.prototype.terminate_after.apply(this,arguments);
-}).addBase('terminate_before',function f(){
+}).
+addBase('terminate_before',function f(){
 	return Scene_Base.prototype.terminate_before.apply(this,arguments);
-});
+}).
+add('terminate_after',function f(){
+	DataManager.resetDataarrs();
+	return f.ori.apply(this,arguments);
+}).
+getP;
 
 // ---- ---- ---- ---- refine skill cost
 
