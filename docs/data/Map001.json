@@ -7169,13 +7169,13 @@
 				"gain items"
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"[$dataItems,$dataWeapons,$dataArmors,].forEach(arr=>{"
+				"[$dataItems,$dataWeapons,$dataArmors,].forEach(arr=>(arr.forEach((dataobj,i,arr)=>{"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"for(let x=1,xs=arr.length;x<xs;++x) if(arr[x].name&&arr[x].description) $gameParty.gainItem(arr[x],x*100+1);"
+				" if(dataobj&&dataobj.name&&dataobj.description) $gameParty.gainItem(dataobj,i*100+1);"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"});"
+				"})));"
 			]},
 			{"code":108,"indent":1,"parameters":[
 				""
