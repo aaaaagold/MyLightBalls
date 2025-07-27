@@ -87,10 +87,11 @@ addBase('randomEquipParams_createNew_format1',function f(item){
 	let rtv;
 	const paramVals=item.params.slice();
 	const info=item.params.randomEquipParams_format1;
-	const d=info.total[1]-info.total[0]+1;
-	const rndPt=Math.random()*d+info.total[0];
-	const randResInfo={pt:rndPt};
+	const base=getNumOrEval(info.total[0]);
+	const d=getNumOrEval(info.total[1])-base+1;
+	const rndPt=Math.random()*d+base;
 	let pt=~~rndPt;
+	const randResInfo={pt:pt};
 	const paramDsts=info.params;
 	if(pt<0){ while(pt++){
 		const sel=paramDsts.rnd1();
