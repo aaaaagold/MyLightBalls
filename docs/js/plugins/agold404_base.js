@@ -684,7 +684,8 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	if(!text) return 0;
 	textState.text=this.convertEscapeCharacters(text);
 	textState.height=this.calcTextHeight(textState,false);
-	if(!textState.isMeasureOnly) this.resetFontSettings();
+	textState.outOfBound_x=false;
+	if(!textState.isMeasureOnly) this.resetFontSettings(); // it should be called before calling this func. thus it is internal testing and the settings should not be changed.
 	for(const len=textState.text.length;textState.index<len;) this.processCharacter(textState);
 	return textState.x-x;
 }).addBase('processNormalCharacter',function f(textState){
@@ -693,6 +694,7 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const w=wRaw;
 	if(!textState.isMeasureOnly) this.contents.drawText(c,textState.x,textState.y,w*2,textState.height,undefined,textState);
 	textState.x+=w;
+	if(textState.x>=this.contents.width) textState.outOfBound_x=true; // == for some chars might be widen.
 	textState.right=Math.max(textState.right,textState.x);
 	return w;
 }).addBase('measure_drawTextEx',function f(text, x, y, _3, _4, out_textState){
@@ -2010,6 +2012,30 @@ addBase('processHandling_do',function f(){
 	} else if (this.isHandled('pageup') && Input.isTriggered('pageup')) {
 		this.processPageup();
 	} else return true;
+}).
+addBase('processTouch_condOk',function f(){
+	return this.isOpenAndActive();
+}).
+addBase('processTouch_do',function f(){
+	let rtv=TouchInput.isTriggered();
+	if(rtv && this.isTouchedInsideFrame()){
+		this._touching=true;
+		this.onTouch(true);
+	}else if(TouchInput.isCancelled()){
+		if(this.isCancelEnabled()){
+			rtv=false;
+			this.processCancel();
+		}
+	}
+	if(this._touching){
+		if(TouchInput.isPressed()) this.onTouch(false);
+		else this._touching=false;
+	}
+	return rtv;
+}).
+addBase('processTouch',function f(){
+	if(this.processTouch_condOk.apply(this,arguments)) return this.processTouch_do.apply(this,arguments);
+	else this._touching=false;
 }).
 getP;
 
