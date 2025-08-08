@@ -21,6 +21,13 @@
 			{"code":655,"indent":0,"parameters":["console.log('troop id',$gameTroop._troopId);"]},
 			{"code":655,"indent":0,"parameters":["debugger;"]},
 			{"code":0,"indent":0,"parameters":[]}
+		],"span":0},
+		{"conditions":{"actorHp":50,"actorId":1,"actorValid":false,"enemyHp":50,"enemyIndex":0,"enemyValid":false,"switchId":1,"switchValid":false,"turnA":0,"turnB":0,"turnEnding":false,"turnValid":false},"list":[
+			{"code":108,"indent":0,"parameters":["@ONSETUP"]},
+			{"code":355,"indent":0,"parameters":["console.log('on setup script');"]},
+			{"code":655,"indent":0,"parameters":["console.log('troop id',$gameTroop._troopId);"]},
+			{"code":655,"indent":0,"parameters":["debugger;"]},
+			{"code":0,"indent":0,"parameters":[]}
 		],"span":0}
 	]}
 ]
