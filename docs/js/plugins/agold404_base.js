@@ -903,11 +903,12 @@ new cfc(Window_Selectable.prototype).addBase('cursorDown',function(wrap){
 	if(top<0) scy+=top;
 	if(scy===this._scrollY) return;
 	this._scrollY=scy;
+	this.refresh(); // scrolled, refresh
 }).addBase('ensureCursorVisible',function f(){
 	if(!(this.index()>=0)) return;
 	const rect=this.itemRect_curr(); // origin: scrolled origin
 	this.itemRect_scrollRectInView(rect);
-	this.refresh();
+	//this.refresh(); // this will call `makeItemList`
 	this.updateCursor();
 }).addBase('scrollDist',function f(){
 	return f.tbl[0];
@@ -1704,6 +1705,141 @@ add('numItems',function f(item){
 }).
 getP;
 
+
+new cfc(Window_Selectable.prototype).
+addBase('makeItemList',function f(){
+	if(this.makeItemList_condOk()){
+		this.makeItemList_before.apply(this,arguments);
+		this.makeItemList_do.apply(this,arguments);
+		this.makeItemList_after.apply(this,arguments);
+	}
+}).
+addBase('makeItemList_condOk',function f(){
+	return true;
+}).
+addBase('makeItemList_before',none).
+addBase('makeItemList_do',none).
+addBase('makeItemList_after',function f(){
+	this.onNewSelect(this._indexOld=undefined);
+}).
+getP;
+
+for(let cv=[Window_ShopBuy,Window_SkillList,Window_ItemList],x=cv.length;x--;){
+const p=cv[x].prototype;
+new cfc(p).
+addBase('makeItemList_do',p.makeItemList).
+add('makeItemList_do',function f(){
+	Window_Selectable.prototype[f._funcName].apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).
+getP;
+delete p.makeItemList;
+}
+
+
+new cfc(Scene_Equip.prototype).
+addBase('setUiState',function f(val){
+	return this._uiState=val;
+}).
+addBase('getUiState',function f(){
+	return this._uiState;
+}).
+addBase('changeUiState_focusOnSlotWnd',function f(){
+	this.setUiState(f.tbl[0]);
+	if(!(this._slotWindow.index()>=0)) this._slotWindow.select(0);
+	this._commandWindow.deactivate();
+	this._itemWindow.deselect();
+	this._itemWindow.deactivate();
+	this._slotWindow.activate();
+},[
+'focusOnSlotWnd',
+]).
+addBase('commandEquip',function f(){
+	this.changeUiState_focusOnSlotWnd();
+}).
+addBase('changeUiState_focusOnCmdWnd',function f(){
+	this.setUiState(f.tbl[0]);
+	this._slotWindow.activate(); // for updating help window => updating status window
+	this._slotWindow.deselect();
+	this._slotWindow.deactivate();
+	this._itemWindow.deactivate(); // prevent updating help window again => prevent updating status window
+	this._itemWindow.deselect();
+	this._commandWindow.activate();
+},[
+'focusOnCmdWnd',
+]).
+addBase('onSlotCancel',function f(){
+	this.changeUiState_focusOnCmdWnd();
+}).
+addBase('changeUiState_focusOnItemWnd',function f(){
+	this.setUiState(f.tbl[0]);
+	const sw=this._slotWindow;
+	{
+		sw.deactivate();
+	}
+	const cw=this._commandWindow;
+	{
+		cw.deactivate();
+	}
+	const iw=this._itemWindow;
+	{
+		iw.activate();
+		const M=iw.maxItems();
+		let currIdx=iw.index();
+		if(!(currIdx>=0)) iw.select(currIdx=0);
+		else if(!(currIdx<M)) iw.select(currIdx=M-1);
+		iw.activate();
+	}
+},[
+'focusOnItemWnd',
+]).
+addBase('onSlotOk',function f(){
+	this.changeUiState_focusOnItemWnd();
+}).
+addBase('onItemCancel',function f(){
+	this.changeUiState_focusOnSlotWnd();
+}).
+addBase('onItemOk',function f(){
+	SoundManager.playEquip();
+	this.actor().changeEquip(this._slotWindow.index(), this._itemWindow.item());
+	this.changeUiState_focusOnSlotWnd();
+	this._slotWindow.refresh();
+	this._itemWindow.refresh();
+	this._statusWindow.refresh();
+}).
+add('start',function f(){
+	this.changeUiState_focusOnCmdWnd();
+	return f.ori.apply(this,arguments);
+}).
+add('update_focusWndFromTouch_condOk',function f(){
+	return TouchInput.isTriggered();
+}).
+add('update_focusWndFromTouch_do',function f(){
+	const cw=this._commandWindow;
+	{ const wnd=cw; if(wnd.isOpen()&&wnd.containsPoint_global(TouchInput)){
+		this.changeUiState_focusOnCmdWnd();
+		return;
+	} }
+	const sw=this._slotWindow;
+	{ const wnd=sw; if(wnd.isOpen()&&wnd.containsPoint_global(TouchInput)){
+		this.changeUiState_focusOnSlotWnd();
+		return;
+	} }
+	const iw=this._itemWindow;
+	{ const wnd=iw; if(sw.index()>=0&&wnd.isOpen()&&wnd.containsPoint_global(TouchInput)){
+		this.changeUiState_focusOnItemWnd();
+		return;
+	} }
+}).
+add('update_focusWndFromTouch',function f(){
+	if(this.update_focusWndFromTouch_condOk()) this.update_focusWndFromTouch_do();
+}).
+add('update',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.update_focusWndFromTouch();
+	return rtv;
+}).
+getP;
 
 new cfc(Window_EquipCommand.prototype).
 addBase('makeCommandList_optimizingEnabled',function f(){
@@ -2630,6 +2766,7 @@ addBase('apply',function f(target){
 	const result=target.result();
 	this.subject().clearResult();
 	result.clear();
+	this.apply_onBeforeApplying.apply(this,arguments);
 	
 	result.used=this.testApply(target);
 	if(!result.used) this.apply_onNotApplied.apply(this,arguments);
@@ -2650,6 +2787,7 @@ addBase('apply_calRnd_missed',function f(target){
 addBase('apply_calRnd_evaded',function f(target){
 	return Math.random()<this.itemEva(target);
 }).
+addBase('apply_onBeforeApplying',none).
 addBase('apply_onNotApplied',none).
 addBase('apply_onMiss',none).
 addBase('apply_onEvaded',none).
@@ -3245,7 +3383,7 @@ getP;
 new cfc(Game_Party.prototype).
 addBase('_actorsTbl_getCont',function f(){
 	const actors=this._actors; if(!actors){ return new Map(); }
-	let rtv=actors._actorIdCntTbl; if(!rtv) rtv=actors._actorIdCntTbl=new Map();
+	let rtv=actors._actorIdCntTbl; if(!rtv){ rtv=actors._actorIdCntTbl=new Map(); for(let x=actors.length;x--;) rtv.set(actors[x],(rtv.get(actors[x])|0)+1); }
 	return rtv;
 }).
 addBase('_actorsTbl_add',function f(actorId){
@@ -3259,7 +3397,8 @@ addBase('_actorsTbl_del',function f(actorId){
 	const oldVal=(cont.get(actorId)|0);
 	if(!oldVal) return oldVal;
 	const newVal=oldVal-1;
-	cont.set(actorId,newVal-1);
+	if(!newVal) cont.delete(actorId);
+	else cont.set(actorId,newVal);
 	return newVal;
 }).
 addBase('_actorsTbl_cnt',function f(actorId){
@@ -7717,12 +7856,40 @@ getP;
 
 (()=>{ let k,r,t;
 
+
 new cfc(SceneManager).add('run',function f(){
 	setTimeout(exposeToTopFrame,f.tbl[0]);
 	return f.ori.apply(this,arguments);
 },[
 1024,
 ]);
+
+
+new cfc(Graphics).
+addBase('showLatencyMeter',function f(){
+	// ref: Graphics._switchFPSMeter
+	this.showFps();
+	this._fpsMeter.showDuration();
+	this._fpsMeterToggled=true;
+}).
+getP;
+
+new cfc(Scene_Boot.prototype).
+add('terminate_showDebugInfo_condOk',function f(){
+	return window.isTest();
+}).
+add('terminate_showDebugInfo_do',function f(){
+	Graphics.showLatencyMeter();
+}).
+add('terminate_showDebugInfo',function f(){
+	if(this.terminate_showDebugInfo_condOk.apply(this,arguments)) this.terminate_showDebugInfo_do.apply(this,arguments);
+}).
+add('terminate',function f(){
+	this.terminate_showDebugInfo.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).
+getP;
+
 
 })();
 
