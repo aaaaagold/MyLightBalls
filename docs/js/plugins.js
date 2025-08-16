@@ -53,6 +53,7 @@ var $plugins =
 {"name":"agold404_InfinitySaveFileSlots","status":true,"description":"make number of save files be infinity","parameters":{"InitSaveFileSlots":"20","ExtNumSaveFileSlots":"4"}},
 {"name":"agold404_ItemEffectJavascript","status":true,"description":"add skill or item effect of a piece of js code","parameters":{}},
 {"name":"agold404_ItemOrder","status":true,"description":"Customize item sorting order","parameters":{"ItemToCmpValFunc":"\"(function(item){\\n\\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \\n})\"","LogItemGainOrder":"true","ReordModeBtn":"81"}},
+{"name":"agold404_MakeStyledText","status":true,"description":"make drawText to use drawTextEx when specified prefix is given","parameters":{"ThePrefix":"\"\\\\STYLEDTEXT.\""}},
 {"name":"agold404_ManualScreenOffset","status":true,"description":"manually set screen offset","parameters":{}},
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
 {"name":"agold404_MenuCommandAccess","status":true,"description":"api to switch accessibility of menu commands\r\n\r\n$gameSystem.menuCommand_setOptionsExists(options,isEnabled)\r\n$gameSystem.menuCommand_setOptionsEnabled(options,isEnabled)\r\n\r\noptions: an array of some cases in Window_MenuCommand.prototype.needsCommand\r\nisEnabled: true, false, undefined(=not using this record)\r\n\r\n\r\nThis plugin can be renamed as you want.","parameters":{}},
