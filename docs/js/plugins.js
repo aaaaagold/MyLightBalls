@@ -71,6 +71,7 @@ var $plugins =
 {"name":"agold404_SaveManager","status":true,"description":"edit save name ; load from file ; export a save to a file","parameters":{"DisplayedTexts":"","renameSaveTag":"Rename Save's Tag","loadSaveFromFile":"Load Save from File","exportSaveToFile":"Export Save to File","locales":"[\"\\\"zh-TW\\\\n修改存檔標記\\\\n讀取檔案\\\\n匯出存檔\\\"\"]\r"}},
 {"name":"agold404_ScanlineSwitchBmp","status":true,"description":"掃描線換圖","parameters":{}},
 {"name":"agold404_Se","status":true,"description":"overwrite AudioManager.playSe, stopSe, StaticSe","parameters":{}},
+{"name":"agold404_SelfLockedEquipment","status":true,"description":"self locked equipment that will not disturb other same slots","parameters":{}},
 {"name":"agold404_ShakeScreenY","status":true,"description":"上下搖","parameters":{}},
 {"name":"agold404_SkillReference","status":true,"description":"let skill effects reference an item or another skill","parameters":{}},
 {"name":"agold404_SkillTree","status":true,"description":"技能樹","parameters":{"ShowSkillPoint":"true","SkillPointEvalText":"\"SP: \"+a.skillTreePoint_get()","SkillPointTextX":"168","SkillPointTextY":"100","SkillPointTotalWidth":"128\r","SkillTreeIconSpacingX":"36","SkillTreeIconSpacingY":"36\r"}},
