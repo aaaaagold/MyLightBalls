@@ -531,9 +531,9 @@
 		0,
 		0
 	],"price":0},
-	{"id":45,"atypeId":1,"description":"dscr: locked-shield","etypeId":2,"traits":[
+	{"id":45,"atypeId":1,"description":"dscr: locked-shield-ring","etypeId":5,"traits":[
 		{"code":53,"dataId":2,"value":1}
-	],"iconIndex":128,"name":"locked-shield","note":"","params":[
+	],"iconIndex":128,"name":"locked-shield-ring","note":"","params":[
 		0,
 		0,
 		0,
@@ -543,9 +543,9 @@
 		0,
 		0
 	],"price":0},
-	{"id":46,"atypeId":1,"description":"dscr: locked-hat","etypeId":3,"traits":[
+	{"id":46,"atypeId":1,"description":"dscr: locked-hat-ring","etypeId":5,"traits":[
 		{"code":53,"dataId":3,"value":1}
-	],"iconIndex":130,"name":"locked-hat","note":"","params":[
+	],"iconIndex":130,"name":"locked-hat-ring","note":"","params":[
 		0,
 		0,
 		0,
@@ -555,9 +555,9 @@
 		0,
 		0
 	],"price":0},
-	{"id":47,"atypeId":1,"description":"dscr: locked-body","etypeId":4,"traits":[
+	{"id":47,"atypeId":1,"description":"dscr: locked-body-ring","etypeId":5,"traits":[
 		{"code":53,"dataId":4,"value":1}
-	],"iconIndex":135,"name":"locked-body","note":"","params":[
+	],"iconIndex":135,"name":"locked-body-ring","note":"","params":[
 		0,
 		0,
 		0,
@@ -567,9 +567,22 @@
 		0,
 		0
 	],"price":0},
-	{"id":48,"atypeId":1,"description":"dscr: locked-ring","etypeId":5,"traits":[
-		{"code":53,"dataId":5,"value":1}
-	],"iconIndex":145,"name":"locked-ring","note":"","params":[
+	{"id":48,"atypeId":1,"description":"dscr: selfLocked-ring","etypeId":5,"traits":[
+	],"iconIndex":145,"name":"selfLocked-ring","note":"<isSelfLocked>","params":[
+		3,
+		3,
+		3,
+		3,
+		3,
+		3,
+		3,
+		3
+	],"price":0},
+	{"id":49,"atypeId":1,"description":"dscr: selfLocked-ring-dup","etypeId":5,"traits":[
+		{"code":22,"dataId":7,"value":0.25},
+		{"code":22,"dataId":8,"value":0.25},
+		{"code":22,"dataId":9,"value":0.25}
+	],"iconIndex":145,"name":"selfLocked-ring-dup","note":"<isSelfLocked>\n<RandomTotalPointsOnSomeParams>\n{\n \"total\":[44,444],\n \"params\":[\"mhp\",\"mmp\",\"atk\",\"mat\",\"def\",\"mdf\",\"agi\",\"luk\"]\n}\n</RandomTotalPointsOnSomeParams>","params":[
 		0,
 		0,
 		0,
@@ -579,9 +592,8 @@
 		0,
 		0
 	],"price":0},
-	{"id":49,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+	{"id":50,"atypeId":1,"description":"dscr: unlock-selfLocked-rings","etypeId":5,"traits":[
+	],"iconIndex":145,"name":"unlock-selfLocked-rings","note":"<unlockSelfLocked:[[],[\"a\",48],[\"a\",49]]>","params":[
 		0,
 		0,
 		0,
@@ -591,21 +603,8 @@
 		0,
 		0
 	],"price":0},
-	{"id":50,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0
-	],"price":0},
-	{"id":51,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+	{"id":51,"atypeId":1,"description":"dscr: lock-locked-*-rings","etypeId":5,"traits":[
+	],"iconIndex":145,"name":"lock-locked-*-rings","note":"<makeSelfLocked:[[],[\"a\",45],[\"a\",46],[\"a\",47]]>","params":[
 		0,
 		0,
 		0,
