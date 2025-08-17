@@ -6166,6 +6166,36 @@
 			]},
 			{"code":602,"indent":0,"parameters":[
 			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const dur=256,aniStart=8,aniId=41,scalex=0.25,scaley=0.125;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const evt=this.getEvt(),mapId=$gameMap.mapId();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let cnt=dur,animaited=false; evt.setThrough(true); evt.setOpacity(255,dur,127);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.additionalUpdate_updateScene_add(()=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(!SceneManager._scene||SceneManager._scene.constructor!==Scene_Map) return;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(mapId!==$gameMap.mapId()) return true;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(aniStart<--cnt) return;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(!animaited){ animaited=true; evt.requestAnimation(aniId,{scalex:scalex,scaley:scaley}); }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(!(0<cnt)){ evt.setThrough(false); return true; } },true);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
 			{"code":603,"indent":0,"parameters":[
