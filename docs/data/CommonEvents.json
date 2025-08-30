@@ -52,13 +52,22 @@
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"控制說明","switchId":1,"trigger":0},
 	{"id":5,"list":[
-		{"code":355,"indent":0,"parameters":["if(!Tilemap._modAddAni){ Tilemap._modAddAni=true;"]},
-		{"code":655,"indent":0,"parameters":["new cfc(Tilemap.prototype).add('addChild',function f(c){"]},
+		{"code":355,"indent":0,"parameters":["{ let tm=SceneManager.getTilemap(); if(tm){"]},
+		{"code":655,"indent":0,"parameters":["if(!tm._modAddAni){ tm._modAddAni=true;"]},
+		{"code":655,"indent":0,"parameters":["new cfc(tm).add('addChild',function f(c){"]},
 		{"code":655,"indent":0,"parameters":[" let root=this._aniRoot; if(!root){ this.addChild(root=this._aniRoot=new Sprite_UnorderedChildren()); root.z=8; }"]},
 		{"code":655,"indent":0,"parameters":[" if(arguments.length===1 && c && c.constructor===Sprite_Animation) return root.addChild.apply(root,arguments);"]},
 		{"code":655,"indent":0,"parameters":[" else return f.ori.apply(this,arguments);"]},
 		{"code":655,"indent":0,"parameters":["});"]},
 		{"code":655,"indent":0,"parameters":["}"]},
+		{"code":655,"indent":0,"parameters":["} }"]},
+		{"code":355,"indent":0,"parameters":["if(0){if(!Tilemap._modAddAni){ Tilemap._modAddAni=true;"]},
+		{"code":655,"indent":0,"parameters":["new cfc(Tilemap.prototype).add('addChild',function f(c){"]},
+		{"code":655,"indent":0,"parameters":[" let root=this._aniRoot; if(!root){ this.addChild(root=this._aniRoot=new Sprite_UnorderedChildren()); root.z=8; }"]},
+		{"code":655,"indent":0,"parameters":[" if(arguments.length===1 && c && c.constructor===Sprite_Animation) return root.addChild.apply(root,arguments);"]},
+		{"code":655,"indent":0,"parameters":[" else return f.ori.apply(this,arguments);"]},
+		{"code":655,"indent":0,"parameters":["});"]},
+		{"code":655,"indent":0,"parameters":["}}"]},
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"Tilemap.addChild","switchId":1,"trigger":0},
 	{"id":6,"list":[
@@ -366,6 +375,31 @@
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"","switchId":1,"trigger":0},
 	{"id":24,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":25,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":26,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":27,"list":[
+		{"code":355,"indent":0,"parameters":["// plugin options"]},
+		{"code":655,"indent":0,"parameters":["$gameSystem.tileHinter_setIsEnabled(false);"]},
+		{"code":108,"indent":0,"parameters":["@PASTECOMMONEVENT"]},
+		{"code":408,"indent":0,"parameters":["5"]},
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"setEnv-我ㄉ光球ㄉㄉㄉ","switchId":1,"trigger":0},
+	{"id":28,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":29,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":30,"list":[
+		{"code":0,"indent":0,"parameters":[]}
+	],"name":"","switchId":1,"trigger":0},
+	{"id":31,"list":[
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"","switchId":1,"trigger":0}
 ]
