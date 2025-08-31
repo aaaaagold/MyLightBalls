@@ -669,6 +669,72 @@ function(f){ if(!f()) this.push(f); },
 		}
 	}
 });
+// refine Window tone
+new cfc(Window.prototype).
+addBase('_refreshBack',function f(){
+	const m=this._margin;
+	const w=this._width-m*2;
+	const h=this._height-m*2;
+	const bitmap=new Bitmap(w,h);
+
+	this._windowBackSprite.bitmap=bitmap;
+	this._windowBackSprite.setFrame(0,0,w,h);
+	this._windowBackSprite.move(m,m);
+
+	if(w>0&&h>0&&this._windowskin){
+		const p=96;
+		bitmap.blt(this._windowskin,0,0,p,p,0,0,w,h);
+		for(let y=0;y<h;y+=p){
+			for(let x=0;x<w;x+=p){
+				bitmap.blt(this._windowskin,0,p,p,p,x,y,p,p);
+			}
+		}
+		this._refreshBack_adjustBmpTone(bitmap);
+	}
+}).
+addBase('_refreshBack_adjustBmpTone',function f(bitmap){
+	const tone=this._colorTone;
+	bitmap.adjustTone(tone[0],tone[1],tone[2]);
+}).
+getP;
+new cfc(Window_Base.prototype).
+add('initialize',function f(x,y,w,h){
+	const rtv=f.ori.apply(this,arguments);
+	this.selfTone_init.apply(this,arguments);
+	return rtv;
+}).
+addBase('selfTone_init',function f(x,y,w,h,opt){
+	this.selfTone_set(opt&&opt.colorTone);
+}).
+addBase('selfTone_set',function f(toneColorTriple){
+	const tone=toneColorTriple;
+	if(!this._colorTone_self||!this._colorTone_self.equals(tone)){
+		this._colorTone_self=tone&&[tone[0],tone[1],tone[2]];
+		this._refreshBack();
+	}
+	return this._colorTone_self;
+}).
+addBase('_selfTone_get',function f(){
+	return this._colorTone_self||f.tbl[0];
+},[0,0,0,0]).
+addBase('selfTone_get',function f(){
+	return this._selfTone_get().slice();
+}).
+addBase('_refreshBack_adjustBmpTone',function f(bitmap){
+	let r=0,g=0,b=0;
+	{ const tone=this._colorTone; if(tone){
+		r+=tone[0];
+		g+=tone[1];
+		b+=tone[2];
+	} }
+	{ const tone=this._selfTone_get(); if(tone){
+		r+=tone[0];
+		g+=tone[1];
+		b+=tone[2];
+	} }
+	bitmap.adjustTone(r,g,b);
+}).
+getP;
 // refine Window_Base
 new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const tone=$gameSystem&&$gameSystem.windowTone()||f.tbl[0];
@@ -1317,6 +1383,15 @@ addBase('_onLoad_before_troop',function f(obj,name,src,msg){
 }).addBase('onLoad_after_troop',function f(obj,name,src,msg){
 	// dummy
 }).
+addBase('_onLoad_before_animation',function f(obj,name,src,msg){
+	return this.onLoad_before_animation.apply(this,arguments);
+}).addBase('_onLoad_after_animation',function f(obj,name,src,msg){
+	return this.onLoad_after_animation.apply(this,arguments);
+}).addBase('onLoad_before_animation',function f(obj,name,src,msg){
+	// dummy
+}).addBase('onLoad_after_animation',function f(obj,name,src,msg){
+	// dummy
+}).
 addBase('_onLoad_before_tileset',function f(obj,name,src,msg){
 	return this.onLoad_before_tileset.apply(this,arguments);
 }).addBase('_onLoad_after_tileset',function f(obj,name,src,msg){
@@ -1351,6 +1426,7 @@ p.onLoad_before.tbl=new Map([
 	['$dataSkills',	p._onLoad_before_skill],
 	['$dataEnemies',	p._onLoad_before_enemy],
 	['$dataTroops',	p._onLoad_before_troop],
+	['$dataAnimations',	p._onLoad_before_animation],
 	['$dataTilesets',	p._onLoad_before_tileset],
 	['$dataCommonEvents',	p._onLoad_before_commonEvent],
 	['$dataSystem',	p._onLoad_before_system],
@@ -1360,6 +1436,7 @@ p.onLoad_after.tbl=new Map([
 	['$dataSkills',	p._onLoad_after_skill],
 	['$dataEnemies',	p._onLoad_after_enemy],
 	['$dataTroops',	p._onLoad_after_troop],
+	['$dataAnimations',	p._onLoad_after_animation],
 	['$dataTilesets',	p._onLoad_after_tileset],
 	['$dataCommonEvents',	p._onLoad_after_commonEvent],
 	['$dataSystem',	p._onLoad_after_system],
@@ -4003,6 +4080,67 @@ new Map([
 // ---- ---- ---- ---- performance
 
 (()=>{ let k,r,t;
+
+
+new cfc(DataManager).
+addRoof('onLoad_after_animation',function f(obj,name,src,msg){
+	const rtv=f.ori.apply(this,arguments);
+	this.onLoad_trimUnusedAnimationFrames.apply(this,arguments);
+	return rtv;
+}).
+addBase('onLoad_trimUnusedAnimationFrames',function f(obj,name,src,msg){
+	obj.forEach(this.onLoad_trimUnusedAnimationFrames1,this);
+}).
+addBase('onLoad_trimUnusedAnimationFrames1',function f(dataobj,idx,a){
+	const frames=dataobj&&dataobj.frames; if(!frames) return;
+	let maxAnimationCellsCnt=0;
+	for(let x=0,xs=frames.length;x<xs;++x){
+		const frame=frames[x];
+		const ende=frame.length;
+		// trim !(cell[0]>=0)
+		let i=0;
+		for(let j=0;j<ende;++j){
+			if(!(frame[j][0]>=0)) continue;
+			frame[i++]=frame[j];
+		}
+		frame.length=i;
+		if(!(maxAnimationCellsCnt>=i)) maxAnimationCellsCnt=i;
+	}
+	dataobj._maxAnimationCellsCnt=maxAnimationCellsCnt;
+	if(!(this._maxAnimationCellsCnt>=maxAnimationCellsCnt)) this._maxAnimationCellsCnt=maxAnimationCellsCnt;
+}).
+getP;
+
+new cfc(Sprite_Animation.prototype).
+addBase('initCellsCnt',function f(){
+	// not used
+	return DataManager._maxAnimationCellsCnt;
+}).
+addBase('createCellSprites',function f(cellsCnt){
+	const arr=this._cellSprites||(this._cellSprites=[]);
+	cellsCnt|=0;
+	for(let xs=cellsCnt,x=this._lastUpdatedCellIdxEnd=arr.length;x<xs;++x){
+		const sp=new Sprite();
+		sp.visible=false;
+		sp.anchor.set(0.5);
+		arr.push(sp);
+		this.addChild(sp);
+	}
+}).
+add('setup',function f(target,ani,mir,dly,opt){
+	this.createCellSprites(ani._maxAnimationCellsCnt);
+	return f.ori.apply(this,arguments);
+}).
+addBase('updateAllCellSprites',function f(frame){
+	const newIdxEnd=frame.length;
+	for(let spv=this._cellSprites,x=Math.max(newIdxEnd,this._lastUpdatedCellIdxEnd);x--;){
+		const sp=spv[x];
+		if(x<newIdxEnd) this.updateCellSprite(sp, frame[x]);
+		else sp.visible=false;
+	}
+	this._lastUpdatedCellIdxEnd=newIdxEnd;
+}).
+getP;
 
 
 new cfc(Window.prototype).
