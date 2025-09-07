@@ -97,5 +97,6 @@ var $plugins =
 {"name":"agold404_WindowHelpDefaultNumLines","status":true,"description":"Customize default line number for Window_Help","parameters":{"Lines":"3\r"}},
 {"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}},
 {"name":"agold404_WindowInputText","status":true,"description":"Window_InputText: text input using textarea","parameters":{}},
-{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}}
+{"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}},
+{"name":"agold404_Trait_levelUpEval","status":true,"description":"make number of save files be infinity","parameters":{"GlobalEvalBefore":"\"\"","GlobalEvalAfter":"\"\""}}
 ];
