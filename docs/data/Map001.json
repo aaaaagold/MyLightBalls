@@ -8410,7 +8410,8 @@
 			{"code":102,"indent":0,"parameters":[
 				[
 					"top/mid/btm with long choices text",
-					"top/mid/btm with many left choices"
+					"top/mid/btm with many left choices",
+					"using \\\\NF[x]"
 				],
 				-1,
 				-1,
@@ -8432,6 +8433,15 @@
 			]},
 			{"code":119,"indent":1,"parameters":[
 				"__many_left_C_top/mid/btm"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"using \\\\NF[x]"
+			]},
+			{"code":119,"indent":1,"parameters":[
+				"__\\NF[x]"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
@@ -9396,6 +9406,27 @@
 			{"code":0,"indent":1,"parameters":[
 			]},
 			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":119,"indent":0,"parameters":[
+				"__start"
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
+			{"code":118,"indent":0,"parameters":[
+				"__\\NF[x]"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\\\NF[1] \\NF[1]"
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\\\NF[2] \\NF[2]"
 			]},
 			{"code":119,"indent":0,"parameters":[
 				"__start"
