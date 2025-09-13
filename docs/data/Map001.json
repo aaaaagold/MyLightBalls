@@ -10492,6 +10492,15 @@
 				"</shapeDraw>"
 			]},
 			{"code":108,"indent":0,"parameters":[
+				"<blockedByEventEval>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"evt=>evt.getMeta().expandRange;"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"</blockedByEventEval>"
+			]},
+			{"code":108,"indent":0,"parameters":[
 				"<detectedEval>"
 			]},
 			{"code":408,"indent":0,"parameters":[
