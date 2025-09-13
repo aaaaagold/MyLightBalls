@@ -347,7 +347,7 @@ new cfc(p).add('isTree',function f(){
 		this.changePaintOpacity(true);
 	}
 	return skill;
-},t,true,false).
+},undefined,true,false).
 addBase('skillTree_isHidden',function f(idx){
 	if(!this.isTree()) return false;
 	const info=this._skillTree_learnMeta[idx]; if(!info||!$dataSkills[info.id]) return true;
@@ -367,7 +367,7 @@ addBase('skillTree_isHidden',function f(idx){
 function(skillId){ return !this.hasSkill(skillId); }, // 0: some pre-skills not learnt
 ]).
 addBase('skillTree_getHiddenSkillReplacement',function f(idx){
-	const skill=this._data&&this._data[idx];
+	const skill=this.skillTree_item_bypassHiddenSkillReplacement(idx);
 	if(!skill||!this.skillTree_isHidden(idx)) return skill;
 	let rtv=$dataSkills[f.tbl[1]._unlearnableSkillReplace]; if(rtv) return rtv;
 	const sc=SceneManager._scene||{};
@@ -483,7 +483,7 @@ add('costHeight',function f(){
 		ctx.lineWidth=linkWidth;
 		ctx.strokeStyle=linkColor;
 	for(let idx=this._data.length;idx-->0;){
-		const item=this.item(idx);
+		const item=this.skillTree_item_bypassHiddenSkillReplacement(idx);
 		const info=this._skillTree_learnMeta[idx]; if(!info||!info.connect) continue;
 		const infoU=this._skillTree_learnMeta[idx-maxCols];
 		const infoD=this._skillTree_learnMeta[idx+maxCols];
@@ -578,7 +578,7 @@ if(0){
 		}
 	}
 if(0)	for(let idx=this._data.length;idx--;){
-		const item=this.item(idx); if(!item) continue;
+		const item=this.skillTree_item_bypassHiddenSkillReplacement(idx); if(!item) continue;
 		const prevIdx=this.skillTree_getPrevSkillIdx(idx);
 		if(!(prevIdx>=0)) continue;
 		const rect=this.itemRect(idx);
@@ -622,8 +622,16 @@ if(0)	for(let idx=this._data.length;idx--;){
 	this.refreshItemNameWindow();
 	return rtv;
 })),ttt).
-add('item',function f(){
+addRoof('item',function f(idx){
+	if(this._skillTree_isBypassHiddenSkillReplacement) return f.ori.apply(this,arguments);
 	return this.skillTree_getHiddenSkillReplacement(this.index());
+}).
+addBase('skillTree_item_bypassHiddenSkillReplacement',function f(idx){
+	const bak=this._skillTree_isBypassHiddenSkillReplacement;
+	this._skillTree_isBypassHiddenSkillReplacement=true;
+	const rtv=this.item.apply(this,arguments);
+	this._skillTree_isBypassHiddenSkillReplacement=bak;
+	return rtv;
 }).
 addBase('refreshItemNameWindow',function f(){
 	const wnd=this._itemNameWindow,item=this.item(); if(!wnd) return;
@@ -728,7 +736,7 @@ addBase('itemActionWindow_hasSkill',function f(item,isIncludingTraits){
 }).
 addBase('itemActionWindow_canUse',function f(idx){
 	const w=this._itemWindow;
-	const item=w.item(idx);
+	const item=w.skillTree_item_bypassHiddenSkillReplacement(idx);
 	return this.itemActionWindow_hasSkill(item) && w._actor.canUse(item);
 }).
 addBase('itemActionWindow_canLearn',function f(idx,ignoreIsTree){
@@ -737,7 +745,7 @@ addBase('itemActionWindow_canLearn',function f(idx,ignoreIsTree){
 	if(!ignoreIsTree && !w.isTree()) return false;
 	if(idx===undefined) idx=w.index();
 	const prevIdx=w.skillTree_getPrevSkillIdx(idx);
-	const item=w.item(idx); if(!item) return false;
+	const item=w.skillTree_item_bypassHiddenSkillReplacement(idx); if(!item) return false;
 	const cond=w._skillTree_learnMeta[idx].cond;
 	let condOk=true;
 	const a=w._actor; if(!a) return false;
@@ -750,7 +758,11 @@ addBase('itemActionWindow_canLearn',function f(idx,ignoreIsTree){
 	} }
 	return w._actor && (
 		condOk ||
-		(condOk==null&&( prevIdx===undefined || !w.item(prevIdx) || this.itemActionWindow_hasSkill(w.item(prevIdx)) ))
+		(condOk==null&&(
+			prevIdx===undefined || 
+			!w.skillTree_item_bypassHiddenSkillReplacement(prevIdx) || 
+			this.itemActionWindow_hasSkill(w.skillTree_item_bypassHiddenSkillReplacement(prevIdx)) 
+		))
 	) && !this.itemActionWindow_hasSkill(item);
 }).
 addBase('itemActionWindow_canShow',function f(idx,ignoreIsTree){
@@ -760,13 +772,13 @@ addBase('itemActionWindow_canShow',function f(idx,ignoreIsTree){
 	return !w.skillTree_isHidden(idx);
 }).
 addBase('itemActionWindow_ok',function f(){
-	this.actor().setLastMenuSkill(this.item());
+	this.actor().setLastMenuSkill(this.skillTree_item_bypassHiddenSkillReplacement());
 	this.determineItem();
 }).
 addBase('itemActionWindow_learn',function f(idx){
 	const w=this._itemWindow;
 	if(idx===undefined) idx=w.index();
-	const item=w.item(idx);
+	const item=w.skillTree_item_bypassHiddenSkillReplacement(idx);
 	const a=w._actor;
 	const self=a;
 	const actor=a;
