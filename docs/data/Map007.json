@@ -5754,6 +5754,18 @@
 				7
 			]},
 			{"code":355,"indent":2,"parameters":[
+				"if(Window_Base.prototype.processEscapeCharacter_textPosition){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const msg=JSON.stringify(\"已開啟\"+$gameTemp.tmp+\"。\");"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"this._list[this._index+2].parameters[0]=\"\\n\\\\TXTCENTER:\"+msg;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}else"
+			]},
+			{"code":655,"indent":2,"parameters":[
 				"this._list[this._index+2].parameters[0]=\"\\n　已開啟\"+$gameTemp.tmp+\"。\";"
 			]},
 			{"code":101,"indent":2,"parameters":[
@@ -5838,7 +5850,7 @@
 				""
 			]},
 			{"code":401,"indent":2,"parameters":[
-				"　已開啟超多體力模式。"
+				"\\TXTCENTER:\"已開啟超多體力模式。\""
 			]},
 			{"code":0,"indent":2,"parameters":[
 			]},
@@ -5854,6 +5866,24 @@
 			]},
 			{"code":412,"indent":0,"parameters":[
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"{ const msgw=SceneManager._scene._messageWindow;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.numVisibleRows=()=>5;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.height=msgw.windowHeight();"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.createContents();"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"}"
+			]},
+			{"code":230,"indent":0,"parameters":[
+				1
+			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
 				0,
@@ -5867,10 +5897,28 @@
 				"　\\I[64]\\I[65]\\I[66]\\I[42]\\I[84]不是障礙物，請撞上他們。"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"　請使用 \\C[4]Z鍵\\C[0] 發射光球擊毀。"
+				"　請使用 \\C[4]Z鍵\\C[0] \\C[6]按著\\C[0]發射光球擊毀障礙物。\\n　請使用 \\C[4]方向鍵\\C[0] 控制角色移動方向。"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"　請使用 \\C[4]方向鍵\\C[0] 控制方向\\|。"
+				"\\}　\\TXTCENTER:\"使用 \\\\C[4]`\\\\C[0] (在 ESC 下面的那顆鍵) 可以啟動特殊遊戲加速\\\\|。\""
+			]},
+			{"code":230,"indent":0,"parameters":[
+				1
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"{ const msgw=SceneManager._scene._messageWindow;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"delete msgw.numVisibleRows;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.height=msgw.windowHeight();"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.createContents();"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"}"
 			]},
 			{"code":122,"indent":0,"parameters":[
 				1,
@@ -5892,6 +5940,9 @@
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":0,"stepAnime":false,"through":true,"trigger":3,"walkAnime":false},
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":true,"variableValue":3},"directionFix":true,"image":{"characterIndex":0,"characterName":"","direction":2,"pattern":0,"tileId":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NULLTRIGGER"
+			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
 		],"moveFrequency":3,"moveRoute":{"list":[
