@@ -6522,7 +6522,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
-	],"x":13,"y":5},
+	],"x":13,"y":14},
 	{"id":10,"name":"EV010","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"D","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":6},"list":[
 			{"code":123,"indent":0,"parameters":[
@@ -10744,7 +10744,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":7,"y":2},
+	],"x":12,"y":3},
 	{"id":35,"name":"EV035","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -11942,5 +11942,164 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":18,"y":13}
+	],"x":18,"y":13},
+	{"id":52,"name":"EV052","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"\\\\BAR"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"\"\" (game error)",
+					"\"{}\"",
+					"example bar",
+					"show hp, mp, tp"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"\"\" (game error)"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"-|\\BAR:\"\"|-"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"\"{}\""
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"-|\\BAR:\"{}\"|-"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"example bar"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"-|\\BAR:\"{width:123,gaugeColor1:'rgba(123,123,0,0.75)',gaugeColor2:'rgba(234,234,0,0.75)',barRate:0.625,sepChr:'',}\"|-"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"show hp, mp, tp"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._tmp_drawBarInfo={"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"_btlr:$gameParty.members()[0],"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"_width:256,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"};"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let btlr=$gameTemp._tmp_drawBarInfo._btlr; if(btlr){ $gameTemp._tmp_drawBarInfo.hp={"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"width:$gameTemp._tmp_drawBarInfo._width,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"gaugeColor1:'rgba(123,0,0,0.75)',gaugeColor2:'rgba(234,123,0,0.75)',"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"barRate:btlr.hpRate(),valCurr:btlr.hp,valMax:btlr.mhp,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; } }"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let btlr=$gameTemp._tmp_drawBarInfo._btlr; if(btlr){ $gameTemp._tmp_drawBarInfo.mp={"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"width:$gameTemp._tmp_drawBarInfo._width,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"gaugeColor1:'rgba(0,0,123,0.75)',gaugeColor2:'rgba(0,123,234,0.75)',"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"barRate:btlr.mpRate(),valCurr:btlr.mp,valMax:btlr.mmp,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; } }"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let btlr=$gameTemp._tmp_drawBarInfo._btlr; if(btlr){ $gameTemp._tmp_drawBarInfo.tp={"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"width:$gameTemp._tmp_drawBarInfo._width,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"gaugeColor1:'rgba(0,123,0,0.75)',gaugeColor2:'rgba(0,234,0,0.75)',"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"barRate:btlr.tpRate(),valCurr:btlr.tp,valMax:btlr.mtp,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; } }"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"hp: \\BAR:\"$gameTemp._tmp_drawBarInfo.hp\""
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"mp: \\BAR:\"$gameTemp._tmp_drawBarInfo.mp\""
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"tp: \\BAR:\"$gameTemp._tmp_drawBarInfo.tp\""
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":7,"y":2}
 ]}
