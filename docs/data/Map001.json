@@ -12038,6 +12038,12 @@
 				"width:$gameTemp._tmp_drawBarInfo._width,"
 			]},
 			{"code":655,"indent":1,"parameters":[
+				"height:14,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"align:'btm',"
+			]},
+			{"code":655,"indent":1,"parameters":[
 				"gaugeColor1:'rgba(123,0,0,0.75)',gaugeColor2:'rgba(234,123,0,0.75)',"
 			]},
 			{"code":655,"indent":1,"parameters":[
@@ -12051,6 +12057,12 @@
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"width:$gameTemp._tmp_drawBarInfo._width,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"height:6,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"align:'top',"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"gaugeColor1:'rgba(0,0,123,0.75)',gaugeColor2:'rgba(0,123,234,0.75)',"
