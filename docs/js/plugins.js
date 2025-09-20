@@ -92,12 +92,14 @@ var $plugins =
 {"name":"agold404_Trait_adjustEquipSlots","status":true,"description":"adjust nums of equip slots for each type","parameters":{"GlobalChanges":"\"{\\n\\\"1\\\":0,\\n\\\"_dummy\\\":\\\"\\\"\\n}\"\r"}},
 {"name":"agold404_Trait_adjustEquipsParams","status":true,"description":"adjust some params of worn equipments","parameters":{}},
 {"name":"agold404_Trait_duplicatedStates","status":true,"description":"specifying a state can be stacked multiple times","parameters":{"GlobalChanges":"\"0\"\r"}},
+{"name":"agold404_Trait_levelUpEval","status":true,"description":"make number of save files be infinity","parameters":{"GlobalEvalBefore":"\"\"","GlobalEvalAfter":"\"\""}},
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
+{"name":"agold404_Ui_synthesis","status":true,"description":"UI for synthesis","parameters":{"TemplatePath":"data/synthesis.json","ItemPropertyStringName":"name","ItemPropertyStringDescription":"description","ItemPropertyStringMaterials":"materials","ItemPropertyStringGains":"gains"}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
 {"name":"agold404_WindowHelpDefaultNumLines","status":true,"description":"Customize default line number for Window_Help","parameters":{"Lines":"3\r"}},
 {"name":"agold404_WindowHelpFontSize","status":true,"description":"set Window_help's font size","parameters":{"FontSizeWindowHelp":"\"20\""}},
 {"name":"agold404_WindowInputText","status":true,"description":"Window_InputText: text input using textarea","parameters":{}},
 {"name":"agold404_WindowOptions_volumeOffset","status":true,"description":"adjust steps of setting volumes","parameters":{"steps_normal":"5","steps_shift":"25"}},
-{"name":"agold404_Trait_levelUpEval","status":true,"description":"make number of save files be infinity","parameters":{"GlobalEvalBefore":"\"\"","GlobalEvalAfter":"\"\""}}
+{"name":"_dummy","status":false,"description":"","parameters":{}}
 ];
