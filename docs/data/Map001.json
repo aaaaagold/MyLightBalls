@@ -12113,5 +12113,149 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":7,"y":5},
+	{"id":53,"name":"EV053","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":2,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"synthesis"
+			]},
+			{"code":112,"indent":0,"parameters":[
+			]},
+			{"code":102,"indent":1,"parameters":[
+				[
+					"(cancel)",
+					"clear list",
+					"open",
+					"open with list",
+					"simple test",
+					"add with list"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":1,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":115,"indent":2,"parameters":[
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				1,
+				"clear list"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"$gameSystem.synthesis_clearAll();"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				2,
+				"open"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"$gameTemp.synthesis_open();"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				3,
+				"open with list"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"{ const arr=[];"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"for(let x=0;++x<123;) arr.push(({"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"key:\"key-i-\"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"display:\"synth. item \"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"description:\"this is synthesis item \"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"gains:[['i',x,1],],"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"materials_block_title:\"\","
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"head:\"this gains item \"+x+\"\\nwhich is \\\\II[\"+x+\"]\\\\IN[\"+x+\"]\","
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}));"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp.synthesis_openWithList(arr); }"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				4,
+				"simple test"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"$gameTemp.synthesis_simpleTest();"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				5,
+				"add with list"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"{ const arr=[];"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"for(let x=0;++x<123;) arr.push(({"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"key:\"key-a-\"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"display:\"synthesis armor \"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"description:\"this is synthesis armor \"+x,"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"gains:[['a',x,1],],"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"materials_block_title:\"\","
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"head:\"this gains weapon \"+x+\"\\nwhich is \\\\AI[\"+x+\"]\\\\AN[\"+x+\"]\","
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}));"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp.synthesis_addWithList(arr); }"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":404,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":413,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
 	],"x":7,"y":2}
 ]}
