@@ -1,0 +1,181 @@
+﻿[
+
+{
+"key":"--key--",
+"display":"--display--",
+"description":"--description--",
+"gains":[
+	["j","js gggg js","console.log(2)"],
+	["g",2000],
+	["i",2,1],
+	["i",3,2],
+	["w",2,5],
+	["w",3,6],
+	["a",2,3],
+	["a",3,4],
+	["a",5,5],
+	["a",6,6],
+	["a",7,7],
+	["a",8,8],
+	["a",9,9],
+	["a",10,10],
+	[]
+],
+"materials":[
+	["j","js $gamePlayer.y<3 js","console.log(1)","$gamePlayer.y<3"],
+	["g",1000],
+	["i",2,11],
+	["i",3,12],
+	["w",2,15],
+	["w",3,16],
+	["a",2,13],
+	["a",3,14],
+	[]
+],
+"_dummy":0
+},
+
+{
+"key":"--key2--",
+"display":"--display2--",
+"description":"--description2--",
+"gains":[
+	["j","js gggg js","console.log(3)"],
+	[]
+],
+"materials":[
+	["j","js mmmm js","console.log(4)"],
+	[]
+],
+"_dummy":0
+},
+
+{
+"key":"--key3--",
+"display":"--display3--",
+"display_block_title":"-- TITLE --",
+"display_block_text":"--3-3-3-3--",
+"description":"--description3--",
+"gains":[
+	["j","js gggg js","console.log(5)"],
+	[]
+],
+"gains_block_title":"= ^_^ =",
+"materials":[
+	["j","js mmmm js","console.log(6)"],
+	[]
+],
+"materials_block_title":"= OoO =",
+"head":"A_A",
+"tail":"V_V",
+"_dummy":0
+},
+
+{
+"key":"--key5--",
+"display":"--display5--",
+"display_block_title":"-- TITLE --",
+"description":"--description5--",
+"gains":[
+	["j","js gggg js","console.log(9)"],
+	[]
+],
+"gains_block_title":"",
+"materials":[
+	["j","js mmmm js","console.log(10)"],
+	[]
+],
+"materials_block_title":"= OoO =",
+"head":"A_A\\C[5]\n5",
+"tail":"V_V\n5",
+"_dummy":0
+},
+
+{
+"key":"--key6--",
+"display":"--display6--",
+"display_block_title":"-- TITLE --",
+"description":"--description6--",
+"gains":[
+	["j","js gggg js","console.log(11)"],
+	[]
+],
+"gains_block_title":"= ^_^ =",
+"materials":[
+	["j","js mmmm js","console.log(12)"],
+	[]
+],
+"materials_block_title":"",
+"head":"A_A\\C[6]\n6",
+"tail":"V_V\n6",
+"_dummy":0
+},
+
+{
+"key":"--key8--",
+"display":"msg. changed",
+"display_block_title":"make one to see success msg.",
+"display_block_text":"",
+"description":"--description8--",
+"success_msg_prefix":"msg. changed: ",
+"gains":[
+	["j","js gggg js","console.log(15)"],
+	[]
+],
+"gains_block_hide":true,
+"materials":[
+	["j","js mmmm js","console.log(16)"],
+	[]
+],
+"materials_block_hide":true,
+"head":"A_A\\C[8]\n8",
+"tail":"V_V\n8",
+"_dummy":0
+},
+
+{
+"key":"--key7--",
+"display":"--display7--",
+"display_block_title":"-- TITLE --",
+"description":"--description7--",
+"gains":[
+	["j","js gggg js","console.log(13)"],
+	[]
+],
+"gains_block_title":"",
+"materials":[
+	["j","js mmmm js","console.log(14)"],
+	[]
+],
+"materials_block_title":"",
+"head":"A_A\\C[7]\n7",
+"tail":"V_V\n7",
+"_dummy":0
+},
+
+{
+"key":"--key4--",
+"display":"--display4--",
+"description":"--description4--",
+"description_window_hide":true,
+"display_block_title":"-- TITLE --",
+"display_block_hide":true,
+"gains":[
+	["j","js gggg js","console.log(7)"],
+	[]
+],
+"gains_block_title":"= ^_^ =",
+"gains_block_hide":true,
+"materials":[
+	["j","js mmmm js","console.log(8)"],
+	[]
+],
+"materials_block_title":"= OoO =",
+"materials_block_hide":true,
+"head":"A_A",
+"tail":"V_V",
+"_dummy":0
+},
+
+{}
+]
