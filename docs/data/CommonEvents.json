@@ -388,6 +388,7 @@
 		{"code":655,"indent":0,"parameters":["$gameSystem.tileHinter_setIsEnabled(false);"]},
 		{"code":108,"indent":0,"parameters":["@PASTECOMMONEVENT"]},
 		{"code":408,"indent":0,"parameters":["5"]},
+		{"code":355,"indent":0,"parameters":["if($gameVariables._data[1]>=3) $gameMap.setupStartingMapEvent=none;"]},
 		{"code":0,"indent":0,"parameters":[]}
 	],"name":"setEnv-我ㄉ光球ㄉㄉㄉ","switchId":1,"trigger":0},
 	{"id":28,"list":[
