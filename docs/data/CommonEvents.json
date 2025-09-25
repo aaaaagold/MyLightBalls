@@ -289,7 +289,7 @@
 		{"code":655,"indent":0,"parameters":["\"作者：agold404\\n\\n\"+"]},
 		{"code":655,"indent":0,"parameters":["\"使用 RPG Maker MV 製作。\\n\\n\"+ "]},
 		{"code":655,"indent":0,"parameters":["\"圖片： RPG Maker MV 內建 + Javascript 改色、大小。\\n\\n\"+ "]},
-		{"code":655,"indent":0,"parameters":["\"聲音： RPG Maker MV 內建 + Javascript&&ffmpeg 改速度。\\n\\n\"+ "]},
+		{"code":655,"indent":0,"parameters":["\"聲音： RPG Maker MV 內建 + Javascript&&ffmpeg&&Audacity 。\\n\\n\"+ "]},
 		{"code":655,"indent":0,"parameters":["\"使用的插件：\\n\"+"]},
 		{"code":655,"indent":0,"parameters":["$plugins.filter(p=>p.status).map(p=>p.name).join('\\n');"]},
 		{"code":355,"indent":0,"parameters":["if($gameTemp._finText_thankList && $gameTemp._finText_thankList.length){"]},
