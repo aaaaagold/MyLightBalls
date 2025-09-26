@@ -2603,13 +2603,34 @@ Game_Interpreter.cmd101Peek_set(102,function f(argv){
 	this.setupItemChoice(this.currentCommand().parameters);
 });
 
-new cfc(Game_Interpreter.prototype).add('setupChoices',function f(params){
-	const rtv=f.ori.apply(this,arguments);
+new cfc(Game_Interpreter.prototype).
+addBase('setupChoices',function f(params){
+	const choices=params[0].slice();
+	const cancelChoiceN=params[1]>=choices.length?-2:params[1]; // -1: cancel disabled  ;  others: as the n of the choice callback
+	const defaultChoiceN=useDefaultIfIsNaN(params[2],0); // <0: not chosen
+	const positionType=useDefaultIfIsNaN(params[3],2);
+	const background=useDefaultIfIsNaN(params[4],0);
+	
+	$gameMessage.setChoices(choices, defaultChoiceN, cancelChoiceN);
+	$gameMessage.setChoiceBackground(background);
+	$gameMessage.setChoicePositionType(positionType);
+	
 	$gameMessage.setChoiceCallback(this.setupChoices_callback.bind(this));
-	return rtv;
-}).addBase('setupChoices_callback',function f(n){
+}).
+addBase('setupChoices_callback',function f(n){
 	this._branch[this._indent]=n;
 });
+if(0){
+// direct call test example 1
+$gameMessage.setChoices(['a','b'],-1,-2);
+$gameMessage.setChoiceCallback(n=>console.log(n));
+// direct call test example 2
+$gameMessage.setChoices(['a','b'],1,-1);
+$gameMessage.setChoiceCallback(n=>console.log(n));
+// direct call test example 3
+$gameMessage.setChoices(['a','b'],-12,'a');
+$gameMessage.setChoiceCallback(n=>console.log(n));
+}
 
 
 new cfc(Window_Selectable.prototype).
@@ -4480,6 +4501,22 @@ new Map([
 (()=>{ let k,r,t;
 
 
+new cfc(WebAudio.prototype).
+addBase('stop',function f(){
+	this._autoPlay=false;
+	this._removeEndTimer();
+	this._removeNodes();
+	const arr=this._stopListeners;
+	if(arr){
+		for(let x=0,xs=arr.length;x<xs;++x){
+			const listner=arr[x];
+			listner();
+		}
+		arr.length=0;
+	}
+});
+
+
 new cfc(Sprite.prototype).
 addBase('_executeTint',function f(x, y, w, h){
 	const context=this._context;
@@ -5093,6 +5130,28 @@ addBase('updateSelfMovement',function f(){
 	if(!func||!this.isNearTheScreen()||!this.checkStop(this.stopCountThreshold())) return;
 	return func.apply(this,arguments);
 }).
+getP;
+
+
+new cfc(Game_Followers.prototype).
+addBase('refresh',function f(){
+	this.forEach(f.tbl[0],this);
+},[
+follower=>follower.refresh(), // 0: forEach
+]).
+addBase('update',function f(){
+	if(this.areGathering()){
+		if(!this.areMoving()){
+			this.updateMove();
+		}
+		if(this.areGathered()){
+			this._gathering=false;
+		}
+	}
+	this.forEach(f.tbl[0],this);
+},[
+follower=>follower.update(), // 0: forEach
+]).
 getP;
 
 
@@ -8571,7 +8630,7 @@ addBase('processCharacter',function f(textState){
 '\f':(self,textState)=>self.processNewPage(textState),
 '\\':(self,textState)=>{
 	if(textState.text[textState.index+1]==='\\'){ ++textState.index; return self.processNormalCharacter(textState); }
-	self.processEscapeCharacter(self.obtainEscapeCode(textState),textState);
+	return self.processEscapeCharacter(self.obtainEscapeCode(textState),textState);
 },
 _default:(self,textState)=>self.processNormalCharacter(textState),
 }, // 0: func tbl
