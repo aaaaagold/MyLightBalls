@@ -6411,10 +6411,10 @@
 				"// ==== make bullets ===="
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"if(!(this._bullets._nextMakeFrame>=Graphics.frameCount)&&Input.isPressed('ok')){"
+				"{ const fc=Graphics.getSceneFrameCnt(); if(!(this._bullets._nextMakeFrame>=fc)&&Input.isPressed('ok')){"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"this._bullets._nextMakeFrame=Graphics.frameCount+4;"
+				"this._bullets._nextMakeFrame=fc+4;"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"this._bullets._data.uniquePush($gameTemp._createBulletInfo($gameTemp._body.getSprite(),0,-5-this._bullets.speedBoost,undefined,0,0,128));"
@@ -6441,7 +6441,7 @@
 				"AudioManager.playSe({name:'Cursor2',volume:25,pitch:100,pan:0});"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"}"
+				"} }"
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"// ==== move bullets ===="
