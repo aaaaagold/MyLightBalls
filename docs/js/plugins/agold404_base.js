@@ -476,6 +476,14 @@ t=[
 none,
 ];
 new cfc(TouchInput).
+addBase('toMapXyReal',function f(overwriteTouchXy,overwriteMapXy){
+	overwriteTouchXy=overwriteTouchXy||this;
+	overwriteMapXy=overwriteMapXy||$gameMap;
+	return $gameMap?({
+		x:$gameMap.roundX(overwriteMapXy._displayX+overwriteTouchXy.x/$gameMap.tileWidth  ()),
+		y:$gameMap.roundY(overwriteMapXy._displayY+overwriteTouchXy.y/$gameMap.tileHeight ()),
+	}):({});
+}).
 /*
 addBase('_onMouseDown_preventDefault_condOk',function f(event){
 	const x=Graphics.pageToCanvasX(event.pageX);
@@ -3623,9 +3631,10 @@ addBase('changeEquip_do',function f(slotId,item){
 	this.refresh();
 }).
 addBase('changeEquipById',function f(etypeId,itemId){
-	const slotId=etypeId-1;
-	const dataarr=this._getEquipSlot(slotId)===1?$dataWeapons:$dataArmors;
-	this.changeEquip(slotId, dataarr[itemId]);
+	const slots=this.equipSlots();
+	const slotId=slots.indexOf(etypeId); // might not having this slot
+	const dataarr=etypeId===1?$dataWeapons:$dataArmors;
+	this.changeEquip(slotId<0?slots.length:slotId,dataarr[itemId]);
 }).
 addBase('forceChangeEquip',function f(slotId,item){
 	this.setEquip(slotId,item);
