@@ -5870,7 +5870,7 @@
 				"{ const msgw=SceneManager._scene._messageWindow;"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"msgw.numVisibleRows=()=>5;"
+				"msgw.numVisibleRows=()=>6;"
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"msgw.height=msgw.windowHeight();"
@@ -5897,7 +5897,7 @@
 				"　\\I[64]\\I[65]\\I[66]\\I[42]\\I[84]不是障礙物，請撞上他們。"
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"　請使用 \\C[4]Z鍵\\C[0] \\C[6]按著\\C[0]發射光球擊毀障礙物。\\n　請使用 \\C[4]方向鍵\\C[0] 控制角色移動方向。"
+				"　請使用 \\C[4]Z鍵\\C[0] \\C[6]按著\\C[0]發射光球擊毀障礙物。\\n　請使用 \\C[4]方向鍵\\C[0] 控制角色移動方向。\\n　\\TXTCENTER:\"或使用\\\\C[4]滑鼠左鍵\\\\C[0]發射光球及定位。\""
 			]},
 			{"code":401,"indent":0,"parameters":[
 				"\\}　\\TXTCENTER:\"使用 \\\\C[4]`\\\\C[0] (在 ESC 下面的那顆鍵) 可以啟動特殊遊戲加速\\\\|。\""
@@ -6243,6 +6243,30 @@
 				0
 			]},
 			{"code":355,"indent":1,"parameters":[
+				"{ const touchXy=TouchInput.isPressed()&&TouchInput.toMapXyReal(); if(touchXy){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" let dx=touchXy.x-($gamePlayer._realX+0.5);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" let dy=touchXy.y-($gamePlayer._realY+0.5);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if($gameMap.isLoopHorizontal ()){ const absdx=Math.abs(dx); if(absdx>=$dataMap.width  ) dx%=$dataMap.width  ; else if($dataMap.width  -absdx<absdx) dx=dx<0?dx+$dataMap.width  :dx-$dataMap.width  ; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if($gameMap.isLoopVertical   ()){ const absdy=Math.abs(dy); if(absdy>=$dataMap.height ) dy%=$dataMap.height ; else if($dataMap.height -absdy<absdy) dy=dy<0?dy+$dataMap.height :dy-$dataMap.height ; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" this._dx=dx;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" this._dy=dy;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"} }"
+			]},
+			{"code":355,"indent":1,"parameters":[
 				"{"
 			]},
 			{"code":655,"indent":1,"parameters":[
@@ -6411,7 +6435,7 @@
 				"// ==== make bullets ===="
 			]},
 			{"code":355,"indent":1,"parameters":[
-				"{ const fc=Graphics.getSceneFrameCnt(); if(!(this._bullets._nextMakeFrame>=fc)&&Input.isPressed('ok')){"
+				"{ const fc=Graphics.getSceneFrameCnt(); if(!(this._bullets._nextMakeFrame>=fc)&&(TouchInput.isPressed()||Input.isPressed('ok'))){"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"this._bullets._nextMakeFrame=fc+4;"
