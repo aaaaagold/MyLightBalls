@@ -638,9 +638,8 @@
 		0,
 		0
 	],"price":0},
-	{"id":54,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+	{"id":54,"atypeId":1,"description":"headphone","etypeId":5,"traits":[
+	],"iconIndex":0,"name":"🎧","note":"","params":[
 		0,
 		0,
 		0,
@@ -650,9 +649,8 @@
 		0,
 		0
 	],"price":0},
-	{"id":55,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+	{"id":55,"atypeId":1,"description":"cam.","etypeId":3,"traits":[
+	],"iconIndex":0,"name":"📹","note":"","params":[
 		0,
 		0,
 		0,
@@ -662,9 +660,8 @@
 		0,
 		0
 	],"price":0},
-	{"id":56,"atypeId":0,"description":"","etypeId":2,"traits":[
-		{"code":22,"dataId":1,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+	{"id":56,"atypeId":1,"description":"superman","etypeId":4,"traits":[
+	],"iconIndex":0,"name":"🦸","note":"","params":[
 		0,
 		0,
 		0,
