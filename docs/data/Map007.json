@@ -5374,6 +5374,36 @@
 			{"code":655,"indent":0,"parameters":[
 				"}"
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"{ const actr=$gameParty.members()[0],slots=actr&&actr.equipSlots(); if(slots){"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"for(let x=slots.length;x--;) actr.changeEquip(x,null);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"const lastIdx={}; ["
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"54,55,56,"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"].forEach(armorId=>{ const item=$dataArmors[armorId]; if(!item) return;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" const idx=(item.etypeId in lastIdx)?lastIdx[item.etypeId]+1:slots.indexOf(item.etypeId);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" lastIdx[item.etypeId]=idx; if(!(lastIdx[item.etypeId]>=0)) lastIdx[item.etypeId]=slots.length;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" if(slots[idx]===item.etypeId) actr.forceChangeEquip(idx,item);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"});"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"} }"
+			]},
 			{"code":112,"indent":0,"parameters":[
 			]},
 			{"code":111,"indent":1,"parameters":[
