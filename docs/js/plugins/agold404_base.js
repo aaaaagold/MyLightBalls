@@ -333,9 +333,21 @@ new cfc(PIXI.DisplayObject.prototype).addBase('getRect_local',function f(){
 new cfc(Graphics).addBase('isInScreen_rect',function(rect){
 	return !(rect.x>=this.boxWidth || rect.x+rect.width<0 || rect.y>=this.boxHeight || rect.y+rect.height<0);
 });
-new cfc(Sprite_Character.prototype).add('renderWebGL',function f(){
+new cfc(Sprite_Character.prototype).
+addBase('isInScreen_local_getExt',function f(){
+	return f.tbl[0];
+},[
+{
+l:0|4|0,
+r:0|4|0,
+u:0|64|0,
+d:0|9|0,
+},
+]).
+add('renderWebGL',function f(){
 	return this.isInScreen_local()&&f.ori.apply(this,arguments);
-}).add('renderCanvas',function f(){
+}).
+add('renderCanvas',function f(){
 	return this.isInScreen_local()&&f.ori.apply(this,arguments);
 });
 //
@@ -1308,7 +1320,10 @@ escapeFunction_set('TXTFONTSIZE',function f(code,textState){
 	const strPos=getCStyleStringStartAndEndFromString(textState.text,strt);
 	if(!(strPos.start>=strt)) return window.isTest()&&console.warn("expected a c-style string after '\\TXTFONTSIZE:'");
 	textState.index=strPos.end;
-	return this.changeFontSize(EVAL.call(this,JSON.parse(textState.text.slice(strPos.start,strPos.end))));
+	const fs=EVAL.call(this,JSON.parse(textState.text.slice(strPos.start,strPos.end)));
+	// this.changeFontSize(fs);
+	// return "\\TXTFONTSIZE:\""+(isNaN(fs)?"NaN":fs?"this.standardPadding()/"+fs/this.standardPadding():0)+"\""; // relative size
+	return "\\TXTFONTSIZE:\""+this.changeFontSize(fs)+"\""; // absolute size
 }).
 escapeFunction_set('TXTCOLOR',function f(code,textState){
 	if(textState.text[textState.index]!==":") return window.isTest()&&console.warn("expected a ':' immediately after '\\TXTFONTSIZE'");
@@ -4665,6 +4680,8 @@ add('setup',function f(target,ani,mir,dly,opt){
 	this._hasFlashSprite=false;
 	{ const c=this._screenFlashSprite,p=c&&c.parent; if(p) p.removeChild(c); }
 	this.createCellSprites(ani._maxAnimationCellsCnt);
+	this._disableScreenFlash=opt&&opt.disableScreenFlash;
+	this._seAudioVolumeRate=opt&&opt.seAudioVolumeRate;
 	return f.ori.apply(this,arguments);
 }).
 addBase('updateAllCellSprites',function f(frame){
@@ -4677,6 +4694,7 @@ addBase('updateAllCellSprites',function f(frame){
 	this._lastUpdatedCellIdxEnd=newIdxEnd;
 }).
 addBase('createScreenFlashSprite',function f(){
+	if(this._disableScreenFlash) return;
 	this._hasFlashSprite=true;
 }).
 addBase('startScreenFlash',function f(color,duration){
@@ -4688,7 +4706,13 @@ addBase('startScreenFlash',function f(color,duration){
 }).
 addBase('processTimingData',function f(timing){
 	const func=f.tbl[0][timing.flashScope]; if(func) func.apply(this,arguments);
-	if(timing.se) AudioManager.playSe(timing.se);
+	if(timing.se){
+		const isChanged=!isNaN(this._seAudioVolumeRate);
+		const ori=isChanged&&timing.se.volume;
+		if(isChanged) timing.se.volume*=this._seAudioVolumeRate;
+		AudioManager.playSe(timing.se);
+		if(isChanged) timing.se.volume=ori;
+	}
 },[
 [
 undefined, // 0-0
