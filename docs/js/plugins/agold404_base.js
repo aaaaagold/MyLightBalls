@@ -1308,7 +1308,10 @@ escapeFunction_set('TXTFONTSIZE',function f(code,textState){
 	const strPos=getCStyleStringStartAndEndFromString(textState.text,strt);
 	if(!(strPos.start>=strt)) return window.isTest()&&console.warn("expected a c-style string after '\\TXTFONTSIZE:'");
 	textState.index=strPos.end;
-	return this.changeFontSize(EVAL.call(this,JSON.parse(textState.text.slice(strPos.start,strPos.end))));
+	const fs=EVAL.call(this,JSON.parse(textState.text.slice(strPos.start,strPos.end)));
+	// this.changeFontSize(fs);
+	// return "\\TXTFONTSIZE:\""+(isNaN(fs)?"NaN":fs?"this.standardPadding()/"+fs/this.standardPadding():0)+"\""; // relative size
+	return "\\TXTFONTSIZE:\""+this.changeFontSize(fs)+"\""; // absolute size
 }).
 escapeFunction_set('TXTCOLOR',function f(code,textState){
 	if(textState.text[textState.index]!==":") return window.isTest()&&console.warn("expected a ':' immediately after '\\TXTFONTSIZE'");
@@ -4665,6 +4668,7 @@ add('setup',function f(target,ani,mir,dly,opt){
 	this._hasFlashSprite=false;
 	{ const c=this._screenFlashSprite,p=c&&c.parent; if(p) p.removeChild(c); }
 	this.createCellSprites(ani._maxAnimationCellsCnt);
+	this._disableScreenFlash=opt&&opt.disableScreenFlash;
 	return f.ori.apply(this,arguments);
 }).
 addBase('updateAllCellSprites',function f(frame){
@@ -4677,6 +4681,7 @@ addBase('updateAllCellSprites',function f(frame){
 	this._lastUpdatedCellIdxEnd=newIdxEnd;
 }).
 addBase('createScreenFlashSprite',function f(){
+	if(this._disableScreenFlash) return;
 	this._hasFlashSprite=true;
 }).
 addBase('startScreenFlash',function f(color,duration){
