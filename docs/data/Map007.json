@@ -5821,9 +5821,18 @@
 			]},
 			{"code":412,"indent":0,"parameters":[
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameSystem._isAKEnabled=undefined;"
+			]},
 			{"code":111,"indent":0,"parameters":[
 				12,
 				"ConfigManager.others.hyper"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameSystem._isAKEnabled=true;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameMap._events[2]._interpreter._waveCnt=99;"
 			]},
 			{"code":101,"indent":1,"parameters":[
 				"",
@@ -5896,11 +5905,37 @@
 			]},
 			{"code":412,"indent":0,"parameters":[
 			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"$gameSystem._isAKEnabled"
+			]},
+			{"code":230,"indent":1,"parameters":[
+				1
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"",
+				0,
+				1,
+				1
+			]},
+			{"code":401,"indent":1,"parameters":[
+				""
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"\\TXTCENTER:\"因曾經\\\\{\\\\{加班\\\\}\\\\}，已啟用\\\\C[6]全畫面大招\\\\C[0]。\""
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
 			{"code":355,"indent":0,"parameters":[
 				"{ const msgw=SceneManager._scene._messageWindow;"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"msgw.numVisibleRows=()=>6;"
+				"const n=6+!!$gameSystem._isAKEnabled;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"msgw.numVisibleRows=()=>n;"
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"msgw.height=msgw.windowHeight();"
@@ -5914,6 +5949,30 @@
 			{"code":230,"indent":0,"parameters":[
 				1
 			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameTemp._tmp_txtv=["
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"　即將使用高速飛行，請閃避障礙物，碰撞判定在黃圈處。\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"　\\\\I[64]\\\\I[65]\\\\I[66]\\\\I[42]\\\\I[84]不是障礙物，請撞上他們。\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"　請使用 \\\\C[4]方向鍵\\\\C[0] 控制角色移動方向。\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"　請使用 \\\\C[4]Z鍵\\\\C[0] \\\\C[6]按著\\\\C[0]發射光球擊毀障礙物。\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"\"\\\\TXTFONTSIZE:\\\"(this.standardFontSize()>>1)+(this.standardFontSize()>>2)\\\"　\\\\TXTCENTER:\\\"或使用 \\\\\\\\C[4]滑鼠左鍵\\\\\\\\C[0] 發射光球及定位。\\\"\\\\TXTFONTSIZE:\\\"NaN\\\"\","
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"]; if($gameSystem._isAKEnabled) $gameTemp._tmp_txtv.push(\"\\\\TXTLEFT:\"+JSON.stringify(\"　請使用 \\\\C[4]C鍵\\\\C[0] 發動\\\\C[6]全畫面大招\\\\C[0]。　\"));"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._tmp_txtv.push(\"\\\\}　\\\\TXTCENTER:\\\"使用 \\\\\\\\C[4]`\\\\\\\\C[0] (在 ESC 下面的那顆鍵) 可以啟動特殊遊戲加速\\\\\\\\|。\\\"\");"
+			]},
 			{"code":101,"indent":0,"parameters":[
 				"",
 				0,
@@ -5921,16 +5980,7 @@
 				1
 			]},
 			{"code":401,"indent":0,"parameters":[
-				"　即將使用高速飛行，請閃避障礙物，碰撞判定在黃圈處。"
-			]},
-			{"code":401,"indent":0,"parameters":[
-				"　\\I[64]\\I[65]\\I[66]\\I[42]\\I[84]不是障礙物，請撞上他們。"
-			]},
-			{"code":401,"indent":0,"parameters":[
-				"　請使用 \\C[4]Z鍵\\C[0] \\C[6]按著\\C[0]發射光球擊毀障礙物。\\n　請使用 \\C[4]方向鍵\\C[0] 控制角色移動方向。\\n　\\TXTCENTER:\"或使用\\\\C[4]滑鼠左鍵\\\\C[0]發射光球及定位。\""
-			]},
-			{"code":401,"indent":0,"parameters":[
-				"\\}　\\TXTCENTER:\"使用 \\\\C[4]`\\\\C[0] (在 ESC 下面的那顆鍵) 可以啟動特殊遊戲加速\\\\|。\""
+				"\\EVALTOSTR:\"$gameTemp._tmp_txtv.join('\\\\n')\""
 			]},
 			{"code":230,"indent":0,"parameters":[
 				1
@@ -6012,6 +6062,36 @@
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"}"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"if(!$gameTemp._configs_AK){ $gameTemp._configs_AK=({"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" aniId:107, scale:0.5,"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" processingTime:256,"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" nextTriggerTime:2,"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"}); }"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._isCurrentAKEnabled="
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" $gameSystem._isAKEnabled &&"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" this._waveCnt &&"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" !(Graphics.getSceneFrameCnt()<this._nextAKTriggerTime) &&"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" true;"
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"$gameTemp._trgt=$gameMap._events[4]; $gameTemp._tr=$gameTemp._tr||Math.max($gameMap.tileWidth(),$gameMap.tileHeight());"
@@ -6279,7 +6359,7 @@
 				" let dx=touchXy.x-($gamePlayer._realX+0.5);"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				" let dy=touchXy.y-($gamePlayer._realY+0.5);"
+				" let dy=touchXy.y-($gamePlayer._realY+1);"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				" if($gameMap.isLoopHorizontal ()){ const absdx=Math.abs(dx); if(absdx>=$dataMap.width  ) dx%=$dataMap.width  ; else if($dataMap.width  -absdx<absdx) dx=dx<0?dx+$dataMap.width  :dx-$dataMap.width  ; }"
@@ -6321,9 +6401,42 @@
 				"$gamePlayer.center($gamePlayer.x,$gamePlayer.y);"
 			]},
 			{"code":355,"indent":1,"parameters":[
+				"{ let sp=SceneManager._scene._sprite_AKHint; if(!sp){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let actr=$gameParty.members()[0]; const bmp=ImageManager.loadFace(actr.faceName()),idx=actr.faceIndex(); actr=undefined;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"sp=SceneManager._scene._sprite_AKHint=new Sprite(bmp); sp.position.set(Graphics.width>>1,Graphics.height>>1); sp.alpha=0;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"bmp.addLoadListener(bmp=>{ sp.anchor.set(0.5); sp.setFrame(Window_Base._faceWidth*(idx&3),Window_Base._faceHeight*(idx>>2),Window_Base._faceWidth,Window_Base._faceHeight,); });"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"} if(!sp.parent){ const tm=SceneManager.getTilemap(); tm&&tm._aniRoot&&tm._aniRoot.addChild(sp); } }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if($gameTemp._isCurrentAKEnabled&&Input.isTriggered(\"67\")){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(this._waveCnt) --this._waveCnt; const fc=Graphics.getSceneFrameCnt();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"this._nextAKTriggerTime=fc+$gameTemp._configs_AK.nextTriggerTime;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"this._remainedAKProcessingTime|=0; this._remainedAKProcessingTime+=$gameTemp._configs_AK.processingTime;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{ const sp=SceneManager._scene._sprite_AKHint; sp._rotDir=1-2*~~(Math.random()*2); sp._aniCtr=0; sp._aniMax=this._remainedAKProcessingTime; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":1,"parameters":[
 				"$gamePlayer._y=$gamePlayer._realY=($gamePlayer._realY+$dataMap.height-0.5)%$dataMap.height;"
 			]},
-			{"code":108,"indent":1,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				""
 			]},
 			{"code":355,"indent":1,"parameters":[
@@ -6336,10 +6449,10 @@
 				"if(!this._drops._data) this._drops._data=[];"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"if(!(this._drops._nextDropFrame>=Graphics.frameCount)){"
+				"{ const fc=Graphics.getSceneFrameCnt(); if(!(this._drops._nextDropFrame>=fc)){"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"this._drops._nextDropFrame=Graphics.frameCount+$gameTemp._dropItvlBase+~~(Math.random()*64);"
+				"this._drops._nextDropFrame=fc+$gameTemp._dropItvlBase+~~(Math.random()*64);"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"let sel=$gameTemp._allDropv.rnd1();"
@@ -6357,7 +6470,7 @@
 				"this._drops._data.uniquePush({x:Math.random()*Graphics.width,y:-Window_Base._iconHeight,sel:sel,rotSpd:rotSpd});"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"}"
+				"} }"
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"// ==== take drops ===="
@@ -6458,7 +6571,7 @@
 			{"code":655,"indent":1,"parameters":[
 				"} }"
 			]},
-			{"code":108,"indent":1,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				""
 			]},
 			{"code":355,"indent":1,"parameters":[
@@ -6539,7 +6652,7 @@
 			{"code":655,"indent":1,"parameters":[
 				"});"
 			]},
-			{"code":108,"indent":1,"parameters":[
+			{"code":355,"indent":1,"parameters":[
 				""
 			]},
 			{"code":355,"indent":1,"parameters":[
@@ -6568,6 +6681,39 @@
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"$gameTemp._enemySetChrIdxName(info,evt);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"// ==== update AK ===="
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"if(this._remainedAKProcessingTime){ --this._remainedAKProcessingTime;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let atk=0; for(let arr=$gameTemp._elementv,x=arr.length;x--;){ const p=$gameTemp._takesMap.get(arr[x]); if(p) atk+=p[1]; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"atk+=this._bullets.atk; for(let arr=this._enemies._data,x=arr.length;x--;) arr[x].hp-=atk;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{ const info=this._enemies._data.rnd1(); const sp=info&&SceneManager.getSprite($gameMap.event(info._refEvtId));"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(sp) sp.startAnimation($dataAnimations[$gameTemp._configs_AK.aniId],false,0,({scalex:$gameTemp._configs_AK.scale,scaley:$gameTemp._configs_AK.scale,disableScreenFlash:true,seAudioVolumeRate:0.25,})); }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{ const sp=SceneManager._scene._sprite_AKHint;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(isNaN(sp._aniMax)){ sp._aniCtr=(sp._aniMax=Math.max(this._remainedAKProcessingTime,$gameTemp._configs_AK&&$gameTemp._configs_AK.processingTime||0))-this._remainedAKProcessingTime; sp._rotDir=1-2*~~(Math.random()*2); }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(sp._aniCtr++<sp._aniMax){ const r=sp._aniCtr/sp._aniMax; sp.scale.set(r*4); sp.alpha=(1.0-r)/2; sp.rotation=sp._rotDir*Math.PI*sp._aniCtr/16; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"}"
@@ -6692,10 +6838,10 @@
 				"}"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"if(this._waveCnt&&(need||$gameTemp._lastWaveCnt!==this._waveCnt)){ $gameTemp._lastWaveCnt=this._waveCnt;"
+				"if((this._waveCnt||$gameSystem._isAKEnabled)&&(need||$gameTemp._lastWaveCnt!==this._waveCnt)){ $gameTemp._lastWaveCnt=this._waveCnt;"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"SceneManager.showNumBoard('wave',this._waveCnt,{title:\"(?/5)\",width:256,height:72,loc:\"DL\",});"
+				"SceneManager.showNumBoard('wave',this._waveCnt,{title:$gameSystem._isAKEnabled?\"全畫面大招剩餘次數\":\"(?/5)\",width:$gameSystem._isAKEnabled?384:256,height:72,loc:\"DL\",});"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"}"
