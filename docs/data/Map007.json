@@ -6121,7 +6121,7 @@
 				"$gameTemp._nextPhaseThreshold=1024;"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"$gameTemp._fcMax=0xFFFFFFF; $gameTemp._hpMax=0x10000000;"
+				"$gameTemp._fcMax=1<<14; $gameTemp._hpRateMax=0x80000;"
 			]},
 			{"code":655,"indent":0,"parameters":[
 				"$gameTemp._barColor=$gameTemp._barColor||['rgba(123,23,0,0.75)','rgba(123,234,0,0.875)','rgba(0,0,0,0.25)'];"
@@ -6223,7 +6223,7 @@
 				"this._fc|=0;"
 			]},
 			{"code":655,"indent":0,"parameters":[
-				"this._hpRate=1;"
+				"if(!(0<this._hpRate)) this._hpRate=useDefaultIfIsNaN(window._debug_hpRate,1);"
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"$gameTemp._xyDist2=$gameTemp._xyDist2||((a,b)=>{"
@@ -6773,7 +6773,7 @@
 				"this._fc+=this._fc<$gameTemp._fcMax;"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				"this._hpRate+=this._hpRate<$gameTemp._hpMax&&(this._fc>=$gameTemp._fcMax)/$gameTemp._fcMax;"
+				"this._hpRate+=this._hpRate<$gameTemp._hpRateMax&&(this._fc>=$gameTemp._fcMax)/8.0/$gameTemp._fcMax;"
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"if(!$gameTimer._isInc && !$gameTimer._frames) $gameTimer.setInc();"
