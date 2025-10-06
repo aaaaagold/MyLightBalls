@@ -7624,6 +7624,9 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
+				"bring"
+			]},
+			{"code":408,"indent":0,"parameters":[
 				"\\EVALTOSTR:\"$dataSystem.terms.evals.skillTree\""
 			]},
 			{"code":118,"indent":0,"parameters":[
@@ -7642,7 +7645,9 @@
 				[
 					"(cancel)",
 					"adjust points",
-					"open skill tree"
+					"open skill tree",
+					"bring skill enable",
+					"bring skill disable"
 				],
 				0,
 				0,
@@ -7709,6 +7714,30 @@
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"$gameTemp.openSkillTree();"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"bring skill enable"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameSystem.bringSkills_setEnableState(true);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.push(Scene_Skill,true);"
+			]},
+			{"code":230,"indent":1,"parameters":[
+				1
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"bring skill disable"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameSystem.bringSkills_setEnableState();"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
@@ -7969,10 +7998,10 @@
 				"\\N[2] is added"
 			]},
 			{"code":401,"indent":1,"parameters":[
-				"\\TXTCENTER:\"\\N[2] is added\""
+				"\\TXTCENTER:\"\\\\N[2] is added\""
 			]},
 			{"code":401,"indent":1,"parameters":[
-				"\\N[2] is added"
+				"\\TXTRIGHT:\"\\\\N[2] is added\""
 			]},
 			{"code":401,"indent":1,"parameters":[
 				"It's important, so said 3 times."
