@@ -1816,13 +1816,14 @@ p.onLoad_after.tbl=new Map([
 //
 new cfc(WebAudio.prototype).addBase('_load',function f(url,noerr,putCacheOnly){
 	if(!WebAudio._context) return;
-	const xhr=new XMLHttpRequest();
-	xhr._needDecrypt=false;
+	let needDecrypt=false;
 	if(Decrypter.hasEncryptedAudio && !ResourceHandler.isDirectPath(url)){
 		url=Decrypter.extToEncryptExt(url);
-		xhr._needDecrypt=true;
+		needDecrypt=true;
 	}
 	const cache=this._getCache(url); if(cache) return !(this._putCacheOnly||putCacheOnly)&&this._onXhrLoad(undefined,url,cache);
+	const xhr=new XMLHttpRequest();
+	xhr._needDecrypt=needDecrypt;
 	xhr.open('GET',url);
 	xhr.responseType='arraybuffer';
 	xhr.onload=f.tbl[0].bind(this,xhr,url,this._putCacheOnly||putCacheOnly);
@@ -2017,6 +2018,9 @@ function(r,btlr){
 ]);
 // expose to topFrame
 const exposeToTopFrame=window.exposeToTopFrame=function f(){
+	if(!f._reParsers){ f._reParsers={
+		ctors:/^(Game|Scene|Sprite)_[A-Z]/,
+	}; }
 	const w=getTopFrameWindow(); if(w===window) return;
 	w._w=window;
 	// dynamicData
@@ -2041,12 +2045,13 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 		arr.push('Game_Interpreter','Game_Picture','Game_System','Game_Screen','Game_Map','Game_Party',);
 		arr.push('Window_Base','Window_Message',);
 		arr.push('Scene_Base','Scene_Map','Scene_Menu','Scene_Item','Scene_Skill','Scene_Options',);
-		arr.push('useDefaultIfIsNaN',);
+		arr.push('useDefaultIfIsNaN','useDefaultIfIsNone',);
 		arr.push('getCStyleStringStartAndEndFromString',);
 		arr.push('getPrefixPropertyNames',);
 		arr.push('getTopFrameWindow','chTitle',);
 		arr.push('copyToClipboard','pasteCanvas',);
 		arr.push('listMapParents',);
+		for(let names=Object.getOwnPropertyNames(w._w).filter(x=>x.match(f._reParsers.ctors)),x=names.length;x--;) arr.uniquePush(names[x]);
 		for(let x=0,xs=arr.length;x!==xs;++x) w[arr[x]]=w._w[arr[x]];
 	}
 	for(let x=0,arr=arguments,xs=arr.length;x!==xs;++x) w[arr[x]]=w._w[arr[x]];
@@ -5640,7 +5645,7 @@ new cfc(Window_Base.prototype).addBase('duplicateTextState',function(textState,a
 new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentScene){
 	this._stack.push(this._scene.constructor);
 	this.goto(sceneClass,shouldRecordCurrentScene);
-	if(shouldRecordCurrentScene && this._nextScene) this._nextScene._prevScene=this._scene;
+	if(this._scene._prevScene || shouldRecordCurrentScene && this._nextScene) this._nextScene._prevScene=this._scene;
 	return this._nextScene && this._nextScene._prevScene;
 }).addBase('changeScene',function f(){
 	if(this.changeScene_condOk()){
@@ -8835,6 +8840,21 @@ add('terminate_showDebugInfo',function f(){
 add('terminate',function f(){
 	this.terminate_showDebugInfo.apply(this,arguments);
 	return f.ori.apply(this,arguments);
+}).
+getP;
+
+
+new cfc(DataManager).
+addBase('getEvtCmdListScripts',function f(cmdList){
+	const rtv=[];
+	for(let x=0,xs=cmdList&&cmdList.length;x<xs;++x){
+		const cmd=cmdList[x];
+		if(cmd.code===655) rtv.back.push(cmd.parameters[0]);
+		else if(cmd.code===355) rtv.push([cmd.parameters[0]]);
+	}
+	for(let x=0,xs=rtv.length;x<xs;++x) rtv[x]=rtv[x].join('\n');
+	rtv._overAll=rtv.join('\n// ==== next cmd ==== \n');
+	return rtv;
 }).
 getP;
 
