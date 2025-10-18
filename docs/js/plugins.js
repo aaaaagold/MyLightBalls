@@ -49,6 +49,7 @@ var $plugins =
 {"name":"agold404_FullBfsFindPath","status":true,"description":"走到底的 BFS 尋路。","parameters":{}},
 {"name":"agold404_Gathering","status":true,"description":"SceneManager.gathering_gen / SceneManager.集氣_gen","parameters":{}},
 {"name":"agold404_ImageQueryString","status":true,"description":"runtime 調整圖片","parameters":{}},
+{"name":"agold404_ImgAutoAni","status":true,"description":"play an animation pictures specifying only img,wait_frames,row_num,column_num","parameters":{}},
 {"name":"agold404_InChrVision","status":true,"description":"set what to do when an event sees player","parameters":{}},
 {"name":"agold404_InNoteTraits_ElementRate","status":true,"description":"setting element rate in note ; thus can be a wierd value","parameters":{}},
 {"name":"agold404_InfinitySaveFileSlots","status":true,"description":"make number of save files be infinity","parameters":{"InitSaveFileSlots":"20","ExtNumSaveFileSlots":"4"}},
