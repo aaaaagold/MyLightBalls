@@ -1,0 +1,17 @@
+﻿
+
+<setupEval>
+
+target.addImgAutoAni('img/characters/Actor1.png',60,{ // 每格等 60 幀
+delayStartFrames:3, // 3 幀後再開始 // 預設 0
+frameIdxFirst:12*4+2, // 從 50 開始
+frameIdxLast:12*4, // 播放到 48 
+mirror:true, // 鏡像 // 預設 false
+row:8,col:12, // 8列12行 // col 預設 5 ， row 用其他方式看
+dx:12,dy:-24, // 顯示在玩家座標參考點(腳下)的: 往右12像素,往上24像素。因為鏡像所以往右變成往左 // 預設都是 0
+scalex:2,scaley:2, // x,y 都變成原本的 2 倍。 // 預設都是 1
+alpha:0.875,blendMode:2, // 0.875 的不透明度 ; blendMode 用 2 。 // 預設 alpha=1 ; blendMode=0
+rotate:90,}); // 右轉 90 度。因為鏡像所以右轉變成左轉 // 預設 0
+
+</setupEval>
+
