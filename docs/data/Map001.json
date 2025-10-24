@@ -10773,7 +10773,7 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":12,"y":3},
+	],"x":12,"y":2},
 	{"id":35,"name":"EV035","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
 			{"code":108,"indent":0,"parameters":[
@@ -12329,5 +12329,115 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":14,"y":1}
+	],"x":14,"y":1},
+	{"id":55,"name":"EV055","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_maid","direction":2,"pattern":1,"characterIndex":1},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"dup state"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"add 1",
+					"add 2",
+					"remove 1",
+					"remove 2",
+					"remove all"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"add 1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].addState(17);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"add 2"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let stateId=17,btlr=$gameParty.members()[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"btlr.addState(stateId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"btlr.addState(stateId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"remove 1"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].removeState(17);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"remove 2"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let stateId=17,btlr=$gameParty.members()[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"btlr.removeState(stateId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"btlr.removeState(stateId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"remove all"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ let stateId=17,btlr=$gameParty.members()[0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"for(let x=btlr._states.length;x--&&btlr.isStateAffected(stateId);) btlr.removeState(stateId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":24,"indent":null},
+			{"code":45,"parameters":[
+				"this._waitCount=~~(Math.random()*64);"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":12,"y":4}
 ]}
