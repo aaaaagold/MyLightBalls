@@ -281,6 +281,10 @@ p.multisetClear=function(){
 })._forEach=function(v,k){
 	this.uniquePush(k);
 };
+p.multisetUniquesCnt=function(){
+	this.multisetHas(); // create map
+	return this._msMap.size;
+};
 })();
 
 
@@ -972,6 +976,7 @@ const useDefaultIfIsNone=window.useDefaultIfIsNone=(n,d)=>{
 	// none: null or undefined
 	return n==null?d:n;
 };
+const isArray=window.isArray=obj=>Object.prototype.toString.call(obj)==='[object Array]'; // considering different window-frame
 const getWiderPoints=window.getWiderPoints=(pt3,width,isNormalToCoordinates,dim)=>{
 	// currently only support dim===2
 	width=width-0||0;
