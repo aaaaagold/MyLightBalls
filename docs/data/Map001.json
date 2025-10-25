@@ -12429,6 +12429,42 @@
 			]},
 			{"code":404,"indent":0,"parameters":[
 			]},
+			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"add resist",
+					"remove resist"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"add resist"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].addState(18);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"remove resist"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].removeState(18);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
+				""
+			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
 		],"moveFrequency":5,"moveRoute":{"list":[
