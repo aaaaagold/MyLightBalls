@@ -790,11 +790,21 @@ new cfc(Window_Base.prototype).addBase('updateTone',function f(){
 	const tone=$gameSystem&&$gameSystem.windowTone()||f.tbl[0];
 	this.setTone(tone[0], tone[1], tone[2]);
 },[0,0,0,0]).
-addBase('clear_recreateContentsIfSmaller',function f(newContentsWidth,newContentsHeight){
+addBase('clear_recreateContentsIfOriginallySmaller',function f(newContentsWidth,newContentsHeight){
+	let rtv=false;
+	if(isNaN(newContentsWidth)) newContentsWidth=this.contentsWidth();
+	if(isNaN(newContentsHeight)) newContentsHeight=this.contentsHeight();
 	let cc=this.contents;
-	if(!cc||cc.width<newContentsWidth||cc.height<newContentsHeight) cc=this.contents=new Bitmap(newContentsWidth,newContentsHeight);
-	else cc.clearRect(0,0,newContentsWidth,newContentsHeight);
+	if(!cc||cc.width<newContentsWidth||cc.height<newContentsHeight){
+		if(cc){
+			newContentsWidth=Math.max(newContentsWidth,cc.width);
+			newContentsHeight=Math.max(newContentsHeight,cc.height);
+		}
+		cc=this.contents=new Bitmap(newContentsWidth,newContentsHeight);
+		rtv=true;
+	}else cc.clearRect(0,0,newContentsWidth,newContentsHeight);
 	this.resetFontSettings();
+	return rtv;
 }).
 addBase('drawTextEx',function f(text, x, y, _3, _4, out_textState){
 	// return dx
@@ -2406,7 +2416,7 @@ addBase('updateFrame_textInfos',function f(){
 	const margin2=margin<<1;
 	textInfos.changeFontSize(fontSize);
 	const lineHeight=textInfos.lineHeight();
-	textInfos.clear_recreateContentsIfSmaller(this.width+margin2,this.height+(lineHeight<<1)+margin2);
+	textInfos.clear_recreateContentsIfOriginallySmaller(this.width+margin2,this.height+(lineHeight<<1)+margin2);
 	textInfos.changeFontSize(fontSize);
 	if(!this._iconIndex) return;
 	{ const anchor=this.anchor;
@@ -8425,6 +8435,9 @@ addBase('traitsUniqueIds',function f(code){
 	// ONLY used to iterate all unique id once. time overhead of `multisetUniques` is amortized.
 	return this._traitsSet(code).multisetUniques();
 }).
+addBase('traitsUniqueIdsCnt',function f(code){
+	return this._traitsSet(code).multisetUniquesCnt();
+}).
 addBase('_traitsWithId',function f(code,id){
 	if(!this.traitsOpCache_hasUsedOp(code,id,'wId')){
 		this.traitsOpCache_addUsedOp(code,id,'wId');
@@ -8722,6 +8735,29 @@ addBase('_attackElements',function(){
 }).
 addBase('attackElements',function(){
 	return this._attackElements.apply(this,arguments).slice();
+}).
+addBase('statesContainer_uniqueStateIds',function f(){
+	return this._states.multisetUniques();
+}).
+addBase('statesContainer_uniqueStateIdsCnt',function f(){
+	return this._states.multisetUniquesCnt();
+}).
+addBase('stateResistSetUniqueCnt',function f(){
+	return this.traitsUniqueIdsCnt(Game_BattlerBase.TRAIT_STATE_RESIST);
+}).
+addBase('refresh_resistStates',function f(){
+	const stateSetCnt=this.statesContainer_uniqueStateIdsCnt();
+	const resistSetCnt=this.stateResistSetUniqueCnt();
+	const isArrAllStateIds=window._dbg_resistStates==null?stateSetCnt<resistSetCnt:window._dbg_resistStates;
+	const arr=isArrAllStateIds?this.statesContainer_uniqueStateIds():this.stateResistSet();
+	for(let x=arr.length;x--;){
+		if(isArrAllStateIds && !this.isStateResist(arr[x])) continue;
+		for(let p,n=this.statesContainer_cntStateId(arr[x]);n&&n!==p;){
+			this.eraseState(arr[x]);
+			p=n;
+			n=this.statesContainer_cntStateId(arr[x]);
+		}
+	}
 }).
 getP;
 
