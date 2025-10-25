@@ -12475,5 +12475,287 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
-	],"x":12,"y":4}
+	],"x":12,"y":4},
+	{"id":56,"name":"EV056","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":8,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"Pointer Lock"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"pointer lock test"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"move camera",
+					"show picture"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"move camera"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._isPointerLockEnd=false;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._pointerLock_mouseMove=({x:0,y:0,});"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const trgt=document.body; window._mm=function(e){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if(!$gameTemp._pointerLock_mouseMove) $gameTemp._pointerLock_mouseMove=({x:0,y:0,});"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" $gameTemp._pointerLock_mouseMove.x+=e.movementX; $gameTemp._pointerLock_mouseMove.y+=e.movementY; // console.log(e.movementX,e.movementY);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; const onmousemove=function(e){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if(window._mm instanceof Function) window._mm.apply(this,arguments);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; trgt.ae('mousemove',onmousemove);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const onpointerlockchange=function f(){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"if(document.pointerLockElement!==trgt){ trgt.removeEventListener('mousemove',onmousemove); $gameTemp._isPointerLockEnd=true; document.removeEventListener('pointerlockchange',onpointerlockchange); }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}; document.addEventListener(\"pointerlockchange\",onpointerlockchange);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"trgt.requestPointerLock().then(function(){ console.log('ok',arguments); }).catch(function(){ console.log('err',arguments); $gameTemp._isPointerLockEnd=true; }); } //"
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._isPointerLockEnd // !document.pointerLockElement // not yet"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"pointer lock lost"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"$gameMap.cameraChasing_set($gamePlayer,0,32);"
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"{ const info=$gameTemp._pointerLock_mouseMove; if(info){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameMap._displayX=($gameMap._displayX+info.x/64).clamp(0,$gameMap.width  ()-$gameMap.screenTileX());"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameMap._displayY=($gameMap._displayY+info.y/64).clamp(0,$gameMap.height ()-$gameMap.screenTileY());"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._pointerLock_mouseMove_dbg=$gameTemp._pointerLock_mouseMove;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._pointerLock_mouseMove=undefined;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"} }"
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"show picture"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._isPointerLockEnd=false;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._pointerLock_mouseMove=undefined;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{ let sp=$gameTemp._pointerLock_sp=new Sprite(ImageManager.loadNormalBitmap('img/pictures/$elephant.png'));"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"sp.anchor.set(0.5);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let root=$gameTemp._pointerLock_spRoot=new Sprite();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"root.position.set(Graphics.boxWidth>>1,Graphics.boxHeight>>1);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"root.addChild(sp); SceneManager._scene.addChild(root); }"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"window._mm=function(e){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if(!$gameTemp._pointerLock_mouseMove) $gameTemp._pointerLock_mouseMove=({x:0,y:0,});"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" $gameTemp._pointerLock_mouseMove.x+=e.movementX;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" $gameTemp._pointerLock_mouseMove.y+=e.movementY;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" // console.log(e);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"};"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const trgt=document.body,onmousemove=function(e){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" if(window._mm instanceof Function) window._mm.apply(this,arguments);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"},onpointerlockchange=function f(){ if(document.pointerLockElement!==trgt){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" trgt.removeEventListener('mousemove',onmousemove);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" $gameTemp._isPointerLockEnd=true;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" document.removeEventListener('pointerlockchange',onpointerlockchange);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"} }; trgt.ae('mousemove',onmousemove);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"document.addEventListener(\"pointerlockchange\",onpointerlockchange);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"trgt.requestPointerLock().then(function(){ console.log('ok',arguments);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}).catch(function(){ console.log('err',arguments);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" $gameTemp._isPointerLockEnd=true; }); } //"
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"$gameTemp._isPointerLockEnd // !document.pointerLockElement // not yet"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"$gameTemp._pointerLock_spRoot&&$gameTemp._pointerLock_spRoot.parent&&$gameTemp._pointerLock_spRoot.parent.removeChild($gameTemp._pointerLock_spRoot);"
+			]},
+			{"code":101,"indent":3,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":3,"parameters":[
+				"pointer lock lost"
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"if(TouchInput.wheelY){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const scale=$gameTemp._pointerLock_spRoot.scale;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"scale.set(scale.x-TouchInput.wheelY/4096);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"{ const info=$gameTemp._pointerLock_mouseMove; if(info){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const xy0=$gameTemp._pointerLock_sp.position;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const scale=$gameTemp._pointerLock_spRoot.scale.x;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"xy0.set(xy0.x+info.x/scale,xy0.y+info.y/scale);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._pointerLock_mouseMove_dbg=$gameTemp._pointerLock_mouseMove;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._pointerLock_mouseMove=undefined;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"} }"
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":24,"indent":null},
+			{"code":45,"parameters":[
+				"this._waitCount=~~(Math.random()*64);"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":17,"y":18}
 ]}
