@@ -11685,6 +11685,7 @@
 			{"code":102,"indent":0,"parameters":[
 				[
 					"(cancel)",
+					"get money",
 					"basic",
 					"extended"
 				],
@@ -11701,6 +11702,15 @@
 			]},
 			{"code":402,"indent":0,"parameters":[
 				1,
+				"get money"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.gainGold(1e11);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
 				"basic"
 			]},
 			{"code":302,"indent":1,"parameters":[
@@ -11722,18 +11732,47 @@
 				0,
 				0
 			]},
+			{"code":605,"indent":1,"parameters":[
+				1,
+				2,
+				0,
+				0
+			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
 			{"code":402,"indent":0,"parameters":[
-				2,
+				3,
 				"extended"
 			]},
-			{"code":302,"indent":1,"parameters":[
-				0,
-				0,
-				0,
-				0,
-				false
+			{"code":355,"indent":1,"parameters":[
+				"SceneManager.push(Scene_Shop);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{ let filterFunc=dataobj=>dataobj&&dataobj.name,arr=["
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"].concat_inplace($dataItems.filter(filterFunc).map(dataobj=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" return [0,dataobj.id,0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"})).concat_inplace($dataWeapons.filter(filterFunc).map(dataobj=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" return [1,dataobj.id,0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"})).concat_inplace($dataArmors.filter(filterFunc).map(dataobj=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" return [2,dataobj.id,0];"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}));"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.prepareNextScene(arr,false); }"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
