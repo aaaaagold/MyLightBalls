@@ -4,6 +4,13 @@
  * @author agold404
  * 
  * 
+ * @param DefaultExtInfoText
+ * @type note
+ * @text default eval()-ed text
+ * @desc a text to be eval()-ed and then be <extInfoText> ... </extInfoText>
+ * @default ""
+ * 
+ * 
  * @help <extInfoText> ... </extInfoText>
  * 
  * 
@@ -13,6 +20,9 @@
 (()=>{ let k,r,t;
 const pluginName=getPluginNameViaSrc(document.currentScript.getAttribute('src'))||"agold404_Note_dataobjExtInfo";
 const params=PluginManager.parameters(pluginName)||{};
+params._defaultExtInfoText=JSON.parse(params.DefaultExtInfoText||'""').replace(re_allR,'');
+params._windowOpenKey='shift';
+params._windowFloatKey='70'; // F
 
 
 t=[
@@ -45,6 +55,28 @@ addBase('dataobjExtInfo_evalSetting',function f(dataobj,i,arr){
 	}
 	
 	return;
+},t).
+getP;
+
+new cfc(DataManager).
+addBase('dataobjExtInfo_getDefaultExtInfo',function f(item,self){
+	let rtv;
+	{ const isTest=f.tbl[2],s=f.tbl[1]._defaultExtInfoText;
+	if(s){ let f,k,r,t; {
+		let tmp;
+		if(isTest){
+			try{
+				tmp=eval(s);
+			}catch(e){
+				console.log(s);
+				console.warn(e);
+				tmp=undefined;
+			}
+		}else{ tmp=eval(s); }
+		rtv=tmp;
+	} }
+	}
+	return rtv;
 },t).
 getP;
 
@@ -107,29 +139,41 @@ addBase('dataobjExtInfo_adjustSubWindows',function f(){
 }).
 addBase('dataobjExtInfo_adjustSubWindowNote',function f(){
 	if(!this.item) return; // not usable
-	if(Input.isTriggered('shift')) this._dataobjExtInfo_showNote^=1;
+	if(Input.isTriggered(f.tbl[1]._windowOpenKey)) this._dataobjExtInfo_showNote^=1;
 	const item=this.item();
-	if(this._dataobjExtInfo_showNote&&item&&item[f.tbl[4][0]]){
+	let extInfoText;
+	if(this._dataobjExtInfo_showNote){
+		extInfoText=item&&item[f.tbl[4][0]];
+		if(!extInfoText) extInfoText=DataManager.dataobjExtInfo_getDefaultExtInfo(item,this);
+	}
+	if(extInfoText){
 		const wnd=this.dataobjExtInfo_getSubWindow_note();
 		if(!wnd.isOpen()&&!wnd.isOpening()) wnd.open();
 		if(this._lastDraw!==item){
 			this._lastDraw=item;
-			if(!this.dataobjExtInfo_adjustWindowSize(wnd,item[f.tbl[4][0]])){
+			wnd.drawTextExInfo_setItem(item);
+			if(!this.dataobjExtInfo_adjustWindowSize(wnd,extInfoText)){
 				wnd.contents.clearRect(0,0,wnd.contentsWidth(),wnd.contentsHeight());
 				wnd.resetFontSettings();
 			}
-			wnd.drawTextEx(item[f.tbl[4][0]],0,0);
+			wnd.drawTextEx(extInfoText,0,0);
 		}
 			const pad=this.standardPadding();
 			const rect=this.itemRect_curr();
 			wnd.x=rect.x+rect.width+pad-wnd.width;
 			wnd.y=rect.y+rect.height+pad;
 			const gp=wnd.getGlobalPosition();
+if(!Input.isPressed(f.tbl[1]._windowFloatKey)){
+			if(gp.y<0){
+				wnd.y-=gp.y;
+				gp.y=0;
+			}
 			const overY=gp.y+wnd.height-Graphics.height;
 			if(0<overY){
 				wnd.y-=Math.min(gp.y,overY);
 			}
 			if(gp.x<0) wnd.x-=gp.x;
+}
 	}else{
 		this.dataobjExtInfo_getSubWindow_note().close();
 	}
@@ -143,6 +187,12 @@ addBase('dataobjExtInfo_hasFunc',function f(){
 getP;
 
 new cfc(Window_ItemList.prototype).
+addBase('dataobjExtInfo_hasFunc',function f(){
+	return true;
+}).
+getP;
+
+new cfc(Window_ShopBuy.prototype).
 addBase('dataobjExtInfo_hasFunc',function f(){
 	return true;
 }).
