@@ -63,7 +63,7 @@ var $plugins =
 {"name":"agold404_MessageWithPictureBehind","status":true,"description":"立繪","parameters":{}},
 {"name":"agold404_MsgAutoPad","status":true,"description":"auto padding for Game_Message.prototype.allText","parameters":{}},
 {"name":"agold404_NameField","status":true,"description":"name field","parameters":{}},
-{"name":"agold404_Note_dataobjExtInfo","status":true,"description":"extend info displayed in a window","parameters":{}},
+{"name":"agold404_Note_dataobjExtInfo","status":true,"description":"extend info displayed in a window","parameters":{"DefaultExtInfoText":"\"(()=>{ const res=item&&item.params?(\\n(\\nitem.params.randomEquipParams_format1?\\nDataManager.randomEquipParams_getParamsRange(item).map((info,i)=>[info,i]).filter(x=>((x[0][0]||x[0][1])&&(x[0]=x[0][0]+'~'+x[0][1]))):\\nitem.params.map((info,i)=>[info,i]).filter(x=>x[0])\\n).map(x=>$dataSystem.terms.params[x[1]]+\\\"\\\\\\\\TXTRIGHT:\\\"+JSON.stringify(\\\"\\\"+x[0])).join('\\\\n')\\n):\\\"\\\";\\nreturn res?\\\" \\\".repeat(16)+\\\"\\\\\\\\TXTLEFT:\\\\\\\"\\\\\\\"\\\"+res:res;\\n})();\""}},
 {"name":"agold404_NullEventTrigger","status":true,"description":"can make event not to be triggered: set event data page's 'trigger' to null","parameters":{}},
 {"name":"agold404_NumBoard","status":true,"description":"數字板","parameters":{}},
 {"name":"agold404_PasteCommonEvent","status":true,"description":"paste commands in specified common events in a event page","parameters":{}},
