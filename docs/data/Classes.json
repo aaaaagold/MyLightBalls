@@ -15,7 +15,8 @@
 		{"code":51,"dataId":2,"value":0},
 		{"code":52,"dataId":1,"value":0},
 		{"code":52,"dataId":3,"value":0},
-		{"code":52,"dataId":5,"value":0}
+		{"code":52,"dataId":5,"value":0},
+		{"code":43,"dataId":17,"value":1}
 	],"learnings":[
 		{"level":1,"note":"","skillId":3},
 		{"level":2,"note":"","skillId":9},
