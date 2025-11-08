@@ -73,6 +73,7 @@ var $plugins =
 {"name":"agold404_PressPToPause","status":true,"description":"press P to pause","parameters":{}},
 {"name":"agold404_QuestAPI","status":true,"description":"api for quests","parameters":{}},
 {"name":"agold404_QuestAPI_exampleQuest","status":true,"description":"example quests","parameters":{}},
+{"name":"agold404_QuizAPI","status":true,"description":"easy APIs to show a multiple-choices quiz from a pre-defined quizzes set","parameters":{"QuizzesSetJsonGetter":"\"[\\n {\\n  id:'unique id',\\n  description:'quiz description',\\n  answer:'the answer',\\n  otherChoices:['other choice 1','other choice 2','other choice 3',],\\n },\\n]\""}},
 {"name":"agold404_RandomEquipParams","status":true,"description":"set params of equipments to be randomized when the party gains them.","parameters":{"LayeredEquipList":"true"}},
 {"name":"agold404_RemoveRateBoost","status":true,"description":"adjust (state or buff or debuff) removal rate in a trait-available way","parameters":{}},
 {"name":"agold404_SaveManager","status":true,"description":"edit save name ; load from file ; export a save to a file","parameters":{"DisplayedTexts":"","renameSaveTag":"Rename Save's Tag","loadSaveFromFile":"Load Save from File","exportSaveToFile":"Export Save to File","locales":"[\"\\\"zh-TW\\\\n修改存檔標記\\\\n讀取檔案\\\\n匯出存檔\\\"\"]\r"}},
