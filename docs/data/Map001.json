@@ -8144,6 +8144,9 @@
 				"choices"
 			]},
 			{"code":355,"indent":0,"parameters":[
+				"this.randomOrderChoices_setNextChiocesRandomOrder(this.getEvt()._tmp_trackingChoice^=1);"
+			]},
+			{"code":355,"indent":0,"parameters":[
 				"$gameTemp._c='cancel';"
 			]},
 			{"code":101,"indent":0,"parameters":[
