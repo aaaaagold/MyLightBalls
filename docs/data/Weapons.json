@@ -65,20 +65,21 @@
 		0,
 		0,
 		0
-	],"price":500,"wtypeId":2},
-	{"id":6,"animationId":0,"description":"","etypeId":1,"traits":[
+	],"price":1000,"wtypeId":2},
+	{"id":6,"animationId":6,"description":"dscr: Sword6","etypeId":1,"traits":[
 		{"code":31,"dataId":1,"value":0},
-		{"code":22,"dataId":0,"value":0}
-	],"iconIndex":0,"name":"","note":"","params":[
+		{"code":22,"dataId":0,"value":1},
+		{"code":22,"dataId":2,"value":1}
+	],"iconIndex":97,"name":"Sword6","note":"<RandomTotalPointsOnSomeParams>\n{\n \"total\":[4,4],\n  \"ratio\":{\"atk\":44,\"mat\":44},\n \"params\":[\"atk\",\"atk\",\"atk\",\"mat\"]\n}\n</RandomTotalPointsOnSomeParams>\n\n<RandomSelectTotalPointsOnSomeParams>\n{\n \"total\":[4,4],\n  \"ratio\":{\"atk\":404,\"mat\":404},\n \"params\":[\"atk\",\"mat\"]\n}\n</RandomSelectTotalPointsOnSomeParams>\n\n<RandomSelectTotalPointsOnSomeParams>\n[\n{\n \"total\":[44,44],\n \"params\":[\"def\",\"mdf\"]\n},\n{\n \"total\":[44,44],\n \"params\":[\"agi\",\"luk\"]\n},\nnull\n]\n</RandomSelectTotalPointsOnSomeParams>\n","params":[
 		0,
 		0,
-		0,
+		10,
 		0,
 		0,
 		0,
 		0,
 		0
-	],"price":0,"wtypeId":0},
+	],"price":1000,"wtypeId":2},
 	{"id":7,"animationId":0,"description":"","etypeId":1,"traits":[
 		{"code":31,"dataId":1,"value":0},
 		{"code":22,"dataId":0,"value":0}
