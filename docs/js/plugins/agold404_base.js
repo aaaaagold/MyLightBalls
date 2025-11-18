@@ -1642,10 +1642,20 @@ addBase('_prevScene_restore',function f(){
 	if(this._lastBgBm) SceneManager._backgroundBitmap=this._lastBgBm;
 },t).
 addBase('popScene',function f(){
-	const oriVal=this._gotoViaPop;
+	const sm=SceneManager;
+	const oriVal=sm._gotoViaPopScene;
+	sm._gotoViaPopScene=true;
+	sm.pop();
+	sm._gotoViaPopScene=oriVal;
+}).
+getP;
+new cfc(SceneManager).
+add('pop',function f(){
+	const oriVal=this._gotoViaPopScene;
 	this._gotoViaPop=true;
-	SceneManager.pop();
+	const rtv=f.ori.apply(this,arguments);
 	this._gotoViaPop=oriVal;
+	return rtv;
 }).
 getP;
 //
@@ -5265,6 +5275,159 @@ new Map([
 (()=>{ let k,r,t;
 
 
+new cfc(Bitmap.prototype).addBase('isRequestReady',function f(){
+	return !f.tbl[0].has(this._loadingState);
+},[
+new Set([
+'pending',
+'requesting',
+'decrypting',
+]), // 0: not request ready states
+]).getP;
+
+new cfc(RequestQueue.prototype).
+addBase('_getCont_resetExtInfo',function f(){
+	const cont=this._queue; if(!cont) return;
+	const len=cont.length;
+	let ext=cont._extInfo;
+	if(!ext){ ext=cont._extInfo=({
+		pushSerial:0|0,
+		raiseSerial:0|0,
+		key2idx:new Map(),
+	}); }
+	ext.pushSerial&=0;
+	ext.raiseSerial&=0;
+	ext.key2idx.clear();
+	for(let x=0;x<len;++x){
+		ext.key2idx.set(cont[x].key,x);
+		if(0<cont[x].cmpVal) continue;
+		cont[x].cmpVal=--ext.pushSerial;
+	}
+	for(let x=len;x--;){ if(0<cont[x].cmpVal){
+		cont[x].cmpVal=++ext.raiseSerial;
+	} }
+}).
+addBase('_getCont',function f(){
+	// expected as Array
+	let rtv=this._queue;
+	if(!(rtv instanceof Array)) rtv=this._queue=[];
+	if(!rtv._extInfo) this._getCont_resetExtInfo();
+	return rtv;
+}).
+addBase('_cmpLt',function(idx1,idx2){
+	const cont=this._getCont();
+	return cont[idx1].cmpVal<cont[idx2].cmpVal;
+}).
+addBase('_float',function(idx){
+	const cont=this._getCont();
+	const m=cont._extInfo.key2idx;
+	while(idx){
+		const pIdx=(idx-1)>>1;
+		if(this._cmpLt(pIdx,idx)){
+			const tmp=cont[pIdx];
+			cont[pIdx]=cont[idx];
+			cont[idx]=tmp;
+			m.set(cont[idx].key,idx);
+			m.set(cont[pIdx].key,pIdx);
+			idx=pIdx;
+		}else break;
+	}
+}).
+addBase('_sink',function(idx){
+	const cont=this._getCont();
+	const len=cont.length;
+	const m=cont._extInfo.key2idx;
+	for(;;){
+		let next=idx;
+		const left=(idx<<1)+1;
+		const right=left+1;
+		if(left<len&&this._cmpLt(next,left)) next=left;
+		if(right<len&&this._cmpLt(next,right)) next=right;
+		
+		if(next===idx) break;
+		
+		const tmp=cont[next];
+		cont[next]=cont[idx];
+		cont[idx]=tmp;
+		const m=cont._extInfo.key2idx;
+		m.set(cont[idx].key,idx);
+		m.set(cont[next].key,next);
+		idx=next;
+	}
+}).
+addBase('enqueue',function f(key,value){
+	const cont=this._getCont();
+	const idx=cont.push({
+		key:key,
+		value:value,
+		cmpVal:--cont._extInfo.pushSerial,
+	})-1;
+	const m=cont._extInfo.key2idx;
+	m.set(key,idx);
+	this._float(idx);
+}).
+addBase('update',function f(){
+	const cont=this._getCont(); if(!cont.length) return;
+	let top=cont[0];
+	if(top.value.isRequestReady()){
+		cont._extInfo.key2idx.delete(top.key);
+		top=undefined;
+		cont[0]=cont.back;
+		cont.pop();
+		if(cont.length){
+			this._sink(0);
+			cont[0].value.startRequest();
+		}else{
+			this._getCont_resetExtInfo();
+		}
+	}else{
+		top.value.startRequest();
+	}
+}).
+addBase('raisePriority',function f(key){
+	const cont=this._getCont();
+	const idx=cont._extInfo.key2idx.get(key);
+	if(idx>=0){
+		cont[idx].cmpVal=++cont._extInfo.raiseSerial;
+		this._float(idx);
+	}
+}).
+addBase('clear',function f(){
+	this._queue.length=0;
+	this._getCont_resetExtInfo();
+}).
+getP;
+
+
+//window._dbg_totalTime=0;
+//window._dbg_totalCnt=0;
+new cfc(PIXI.glCore.GLTexture.prototype).
+addBase('upload',function f(source){
+//	const t0=performance.now();
+//if(window._useOri){
+//	f._dbg.apply(this,arguments);
+//}else{
+	this.bind();
+	
+	const gl = this.gl;
+	gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, this.premultiplyAlpha);
+	gl.texImage2D(gl.TEXTURE_2D, f.tbl[0], this.format, this.format, this.type, source);
+	
+	// if the source is a video, we need to use the videoWidth / videoHeight properties as width / height will be incorrect.
+	const newWidth = source.videoWidth || source.width;
+	const newHeight = source.videoHeight || source.height;
+	this.width = newWidth;
+	this.height = newHeight;
+//}
+//	const t1=performance.now();
+//	window._dbg_totalTime+=t1-t0;
+//	++window._dbg_totalCnt;
+},[
+0, // 0: n-th mipmap reduction level
+]).
+getP;
+
+
 new cfc(WebAudio.prototype).
 addBase('stop',function f(){
 	const arr=this._stopListeners;
@@ -5362,6 +5525,135 @@ addBase('_executeTint',function f(x, y, w, h){
 },[
 ["00","FF"], // 0: rgbColorChannel<0?
 ]).
+getP;
+
+
+new cfc(ShaderTilemap.prototype).
+addBase('_drawAutotile',function f(layer,tileId,dx,dy){
+	let autotileTable=Tilemap.FLOOR_AUTOTILE_TABLE;
+	const kind=Tilemap.getAutotileKind(tileId)|0;
+	const shape=Tilemap.getAutotileShape(tileId)|0;
+	const tx=kind&7;
+	const ty=kind>>3;
+	let setNumber=0;
+	let isTable=false;
+	const params={
+		bx:0,
+		by:0,
+		animX:0,
+		animY:0,
+	};
+
+	if(Tilemap.isTileA1(tileId)){
+		setNumber=0;
+		const func=f.tbl[0][kind];
+		if(func) func.call(this,params);
+		else{
+			params.bx=tx>>2<<3;
+			params.by=((ty<<1)+((tx>>1)&1))*3;
+			if(kind&1){
+				params.bx+=6;
+				autotileTable=Tilemap.WATERFALL_AUTOTILE_TABLE;
+				params.animY=1;
+			}else{
+				params.animX=2;
+			}
+		}
+	}else if(Tilemap.isTileA2(tileId)){
+		setNumber=1;
+		params.bx=tx<<1;
+		params.by=(ty-2)*3;
+		isTable=this._isTableTile(tileId);
+	}else if(Tilemap.isTileA3(tileId)){
+		setNumber=2;
+		params.bx=tx<<1;
+		params.by=(ty-6)<<1;
+		autotileTable = Tilemap.WALL_AUTOTILE_TABLE;
+	}else if(Tilemap.isTileA4(tileId)){
+		setNumber=3;
+		params.bx=tx<<1;
+		params.by=Math.floor((ty-10)*2.5 + (ty&1?0.5:0));
+		if(ty&1){
+			autotileTable=Tilemap.WALL_AUTOTILE_TABLE;
+		}
+	}
+
+	const table=autotileTable[shape];
+	const w1=this._tileWidth>>1;
+	const h1=this._tileHeight>>1;
+	const bx2=params.bx<<1;
+	const by2=params.by<<1;
+	const animX=params.animX;
+	const animY=params.animY;
+	for(let i=0;i<4;++i){
+		const qsx = table[i][0];
+		const qsy = table[i][1];
+		const sx1 = (bx2 + qsx) * w1;
+		const sy1 = (by2 + qsy) * h1;
+		const dx1 = dx + (i&1) * w1;
+		const dy1 = dy + (i>>1) * h1;
+		if(isTable && (qsy === 1 || qsy === 5)){
+			const qsx2 = qsx;
+			const qsy2 = 3;
+			if (qsy === 1) {
+				//qsx2 = [0, 3, 2, 1][qsx];
+				qsx2 = (4-qsx)&3;
+			}
+			const sx2 = (bx2 + qsx2) * w1;
+			const sy2 = (by2 + qsy2) * h1;
+			layer.addRect(setNumber, sx2, sy2, dx1, dy1, w1, h1, animX, animY);
+			layer.addRect(setNumber, sx1, sy1, dx1, dy1+(h1>>1), w1, (h1>>1), animX, animY);
+		}else{
+			layer.addRect(setNumber, sx1, sy1, dx1, dy1, w1, h1, animX, animY);
+		}
+	}
+},[
+[
+params=>{
+	params.animX=2;
+	params.by=0;
+}, // 0-0
+params=>{
+	params.animX=2;
+	params.by=3;
+}, // 0-1
+params=>{
+	params.bx=6;
+	params.by=0;
+}, // 0-2
+params=>{
+	params.bx=6;
+	params.by=3;
+}, // 0-3
+], // 0: A1 kinds
+]).
+getP;
+
+
+new cfc(Sprite_Animation.prototype).
+addBase('updatePosition',function(){
+	if(this._animation.position===3){
+		this.position.set(
+			this.parent.width>>1,
+			this.parent.height>>1,
+		);
+	}else{
+		const parent=this._target.parent;
+		const grandparent=parent?parent.parent:null;
+		let x=this._target.x;
+		let y=this._target.y;
+		if(this.parent===grandparent){
+			x+=parent.x;
+			y+=parent.y;
+		}
+		if(this._animation.position===0){
+			y-=this._target.height;
+		}else if(this._animation.position===1){
+			y-=this._target.height>>1;
+		}
+		this.position.set(x,y);
+	}
+}).
 getP;
 
 
@@ -6457,12 +6749,22 @@ new cfc(Window_Base.prototype).addBase('duplicateTextState',function(textState,a
 
 (()=>{ let k,r,t;
 
-new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentScene){
+new cfc(SceneManager).
+addBase('push',function f(sceneClass,shouldRecordCurrentScene){
 	this._stack.push(this._scene.constructor);
+	const oriVal=this._gotoViaPush;
+	this._gotoViaPush=true;
 	this.goto(sceneClass,shouldRecordCurrentScene);
+	this._gotoViaPush=oriVal;
 	if(this._scene._prevScene || shouldRecordCurrentScene && this._nextScene) this._nextScene._prevScene=this._scene;
 	return this._nextScene && this._nextScene._prevScene;
-}).addBase('changeScene',function f(){
+}).
+add('goto',function f(sceneClass){
+	const rtv=f.ori.apply(this,arguments);
+	this._nextScene_pushScene=this._gotoViaPush && this._nextScene;
+	return rtv;
+}).
+addBase('changeScene',function f(){
 	if(this.changeScene_condOk()){
 		this.changeScene_do_before();
 		this.changeScene_do();
@@ -6488,7 +6790,7 @@ new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentSc
 		this._nextScene = null;
 		(this._scene=recordedPrevScene)._active=true;
 	}else{
-		if(recordedPrevScene && this._nextScene){
+		if(recordedPrevScene && this._nextScene===this._nextScene_pushScene){
 			SceneManager.snapForBackground(this._scene);
 			this._nextScene._prevScene=this._scene;
 		}
@@ -6501,6 +6803,7 @@ new cfc(SceneManager).addBase('push',function f(sceneClass,shouldRecordCurrentSc
 			this.onSceneCreate();
 		}
 	}
+	this._nextScene_andShouldRecordPrevScene=undefined;
 	if(this._exiting){
 		if(f.tbl[0]){
 			--f.tbl[0];
@@ -9771,6 +10074,17 @@ for(let x=keys.length;x--;) if(p[keys[x]]===pp[keys[x]]) new cfc(p).addBase(keys
 (()=>{ let k,r,t;
 
 
+new cfc(Window_Selectable.prototype).
+add('deactivate',function f(){
+	if(this.active) this.deactivate_recordActiveWindow.apply(this,arguments);
+	return f.ori.apply(this,arguments);
+}).
+addBase('deactivate_recordActiveWindow',function f(){
+	const sc=SceneManager._scene;
+	if(sc) sc._lastDeactiveWindow=this;
+}).
+getP;
+
 new cfc(Scene_Menu.prototype).
 addWithBaseIfNotOwn('initialize',function f(){
 	const rtv=f.ori.apply(this,arguments);
@@ -9785,7 +10099,7 @@ addWithBaseIfNotOwn('create',function f(){
 }).
 addWithBaseIfNotOwn('stop',function f(){
 	const rtv=f.ori.apply(this,arguments);
-	this._commandWindow.active=true;
+	const w=this._lastDeactiveWindow; if(w) w.active=true;
 	return rtv;
 }).
 addWithBaseIfNotOwn('popScene',function f(){
