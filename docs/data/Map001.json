@@ -7725,6 +7725,9 @@
 				"$gameSystem.bringSkills_setEnableState(true);"
 			]},
 			{"code":655,"indent":1,"parameters":[
+				"SceneManager.snapForBackground(this._scene);"
+			]},
+			{"code":655,"indent":1,"parameters":[
 				"SceneManager.push(Scene_Skill,true);"
 			]},
 			{"code":230,"indent":1,"parameters":[
@@ -13054,5 +13057,6 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
-	],"x":13,"y":8}
+	],"x":13,"y":8},
+	null
 ]}
