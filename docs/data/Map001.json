@@ -7725,6 +7725,9 @@
 				"$gameSystem.bringSkills_setEnableState(true);"
 			]},
 			{"code":655,"indent":1,"parameters":[
+				"SceneManager.snapForBackground(this._scene);"
+			]},
+			{"code":655,"indent":1,"parameters":[
 				"SceneManager.push(Scene_Skill,true);"
 			]},
 			{"code":230,"indent":1,"parameters":[
