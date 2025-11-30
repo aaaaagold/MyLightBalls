@@ -2,10 +2,6 @@
 /*:
  * @plugindesc make an actor only be able to use skills that are brought
  * @author agold404
- * @help providing a global default value and a trait to adjust brought amount.
- * the final amount will not less than 0 and is truncated to an integer.
- * write the following in a note of an item with traits option.
- * <bringSkillsAmount:a_number_here>
  * 
  * 
  * @param GlobalChanges
@@ -30,7 +26,19 @@
  * @type note
  * @text hint text for switch types in BroughtSkill
  * @desc used for eval()
- * @default "DataManager.getLocale()==='zh-TW'?\"按 shift 或點擊右方的 \\\"ALL\\\" 來切換技能類別\":\"press shift or tap text \\\"ALL\\\" on the right to change skill type\""
+ * @default "DataManager.getLocale()==='zh-TW'?\"按 control 或點擊右方的 \\\"ALL\\\" 來切換技能類別\":\"press control or tap text \\\"ALL\\\" on the right to change skill type\""
+ * 
+ * @param BroughtSkillSwitchTypeKey
+ * @type note
+ * @text key name for switch skill type
+ * @desc used for eval(), expected to be string. see Input.keyMapper for names.
+ * @default "'control'"
+ * 
+ * 
+ * @help providing a global default value and a trait to adjust brought amount.
+ * the final amount will not less than 0 and is truncated to an integer.
+ * write the following in a note of an item with traits option.
+ * <bringSkillsAmount:a_number_here>
  * 
  * 
  * This plugin can be renamed as you want.
@@ -42,7 +50,8 @@ const params=PluginManager.parameters(pluginName)||{};
 params._globalChanges=params.GlobalChanges-0; if(isNaN(params._globalChanges)) params._globalChanges=Infinity;
 params._broughtSkillTextOpt=JSON.parse(params.BroughtSkillTextOpt||"\"\\\"Brought Skills\\\"\"");
 params._broughtSkillTextCap=JSON.parse(params.BroughtSkillTextCap||"\"{ let rtv=\\\"\\\";\\nif(total<current+1) rtv+=\\\"\\\\\\\\C[10]\\\";\\nif(Window_Base.prototype.processEscapeCharacter_textPosition) rtv+=\\\" \\\\\\\\TXTRIGHT:\\\"+JSON.stringify(current+' / '+total);\\nelse rtv+=current+' / '+total;\\nrtv; }\"");
-params._broughtSkillTextSwitchType=JSON.parse(params.BroughtSkillTextSwitchType||"\"DataManager.getLocale()==='zh-TW'?\\\"按 shift 或點擊右方的 \\\\\\\"ALL\\\\\\\" 來切換技能類別\\\":\\\"press shift or tap text \\\\\\\"ALL\\\\\\\" on the right to change skill type\\\"\"");
+params._broughtSkillTextSwitchType=JSON.parse(params.BroughtSkillTextSwitchType||"\"DataManager.getLocale()==='zh-TW'?\\\"按 control 或點擊右方的 \\\\\\\"ALL\\\\\\\" 來切換技能類別\\\":\\\"press control or tap text \\\\\\\"ALL\\\\\\\" on the right to change skill type\\\"\"");
+params._broughtSkillSwitchTypeKey=JSON.parse(params.BroughtSkillSwitchTypeKey||"\"'control'\"");
 
 
 const gbb=Game_BattlerBase;
@@ -314,6 +323,7 @@ addBase('commandBringSkills',function f(){
 add('create',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.create_bringSkills.apply(this,arguments);
+	this.create_bringSkills_finalTune.apply(this,arguments);
 	return rtv;
 }).
 addBase('create_bringSkills',function f(){
@@ -344,6 +354,11 @@ addBase('create_bringSkills',function f(){
 	
 	const wndT=this._bringSkills_itemWindowType=new Window_Help(1);
 	this.addChild(wndT);
+}).
+addBase('create_bringSkills_finalTune',function f(){
+	if(this._bringSkills_hideOpt) return;
+	this.addChild(this._bringSkills_itemWindowAll);
+	this.addChild(this._bringSkills_itemWindowBrought);
 }).
 addBase('bringSkills_cmd_goBackToTypes',function f(){
 	const wndB=this._bringSkills_itemWindowBrought;
@@ -478,7 +493,7 @@ addBase('update_bringSkills_switchType',function f(){
 		isSetTextTrigger=true;
 	}
 	
-	if(Input.isTriggered('shift')) isSetTextTrigger=isChangeTrigger=true;
+	if(Input.isTriggered(EVAL.call(this,f.tbl[1]._broughtSkillSwitchTypeKey))) isSetTextTrigger=isChangeTrigger=true;
 	if(TouchInput.isTriggered() && this._bringSkills_itemWindowType.containsPoint_global(TouchInput)) isSetTextTrigger=isChangeTrigger=true;
 	
 	if(!isSetTextTrigger) return;
@@ -579,3 +594,4 @@ getP;
 
 
 })();
+

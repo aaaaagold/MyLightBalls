@@ -242,16 +242,23 @@ add('startLoading',function f(){
 	return rtv;
 }).
 getP;
-new cfc(Graphics).addBase('_requestFullScreen',function(){
+new cfc(Graphics).
+addBase('_requestFullScreen',function(){
 	const element = getTopFrameWindow().document.body;
 	if(element.requestFullScreen) element.requestFullScreen();
 	else if(element.mozRequestFullScreen) element.mozRequestFullScreen();
 	else if(element.webkitRequestFullScreen) element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 	else if(element.msRequestFullscreen) element.msRequestFullscreen();
-}).addBase('_isFullScreen',function(){
+}).
+addBase('_isFullScreen',function(){
+	// means "can get in full screen"
 	const d=getTopFrameWindow().document;
-	return ( (d.fullScreenElement && d.fullScreenElement !== null) || (!d.mozFullScreen && !d.webkitFullscreenElement && !d.msFullscreenElement) );
-}).addBase('_cancelFullScreen',function(){
+	return ( !d.fullScreenElement && !d.mozFullScreen && !d.webkitFullscreenElement && !d.msFullscreenElement );
+}).
+addBase('isFullScreen',function f(){
+	return !this._isFullScreen();
+}).
+addBase('_cancelFullScreen',function(){
 	const d=getTopFrameWindow().document;
 	if(d.cancelFullScreen) d.cancelFullScreen();
 	else if(d.mozCancelFullScreen) d.mozCancelFullScreen();
@@ -4057,19 +4064,30 @@ addBase('apply_onHit',function f(target){
 		if(result.critical) this.apply_onCritical.apply(this,arguments);
 		const value=this.makeDamageValue(target,result.critical);
 		this.executeDamage(target,value);
+		this.apply_onExecuteDamage.apply(this,arguments);
 	}
 	this._effectsOnTarget=target;
 	this.item().effects.forEach(f.tbl[0],this);
 	this._effectsOnTarget=undefined;
-	this.apply_onEffects.apply(this,arguments);
 	this.applyItemUserEffect(target);
+	this.apply_onEffects.apply(this,arguments);
 },[
 function f(effect){
 	this.applyItemEffect(this._effectsOnTarget,effect);
 }, // 0: forEach Effects
 ]).
 addBase('apply_onCritical',none).
+addBase('apply_onExecuteDamage',none).
 addBase('apply_onEffects',none).
+addBase('executeDamage',function f(target,value){
+	const result=target.result();
+	if(this.isHpEffect()){
+		this.executeHpDamage(target,value);
+	}
+	if(this.isMpEffect()){
+		this.executeMpDamage(target,value);
+	}
+}).
 getP;
 
 
@@ -4172,13 +4190,47 @@ addBase('addState',function(stateId) {
 			this.addNewState(stateId);
 			if(this._result) this._result.pushAddedState(stateId);
 			this.refresh();
+			this.onAddNewStateSucc.apply(this,arguments);
+		}else{
+			this.onAddNewStateFail.apply(this,arguments);
 		}
 		this.resetStateCounts(stateId);
+		this.onAddStateSucc.apply(this,arguments);
+	}else{
+		this.onAddStateFail.apply(this,arguments);
 	}
+		this.onAddState.apply(this,arguments);
 }).
 addBase('addNewState_condOk',function f(stateId){
 	return !this.isStateAffected(stateId);
 }).
+addBase('onAddNewStateSucc',none).
+addBase('onAddNewStateFail',none).
+addBase('onAddState',none).
+addBase('onAddStateSucc',none).
+addBase('onAddStateFail',none).
+add('removeState',function f(stateId){
+	const isAffected=this.isStateAffected(stateId);
+	const rtv=f.ori.apply(this,arguments);
+	if(isAffected){
+		this.onRemoveStateSucc.apply(this,arguments);
+	}else{
+		this.onRemoveStateFail.apply(this,arguments);
+	}
+		this.onRemoveState.apply(this,arguments);
+	return rtv;
+}).
+addBase('onRemoveState',none).
+addBase('onRemoveStateSucc',none).
+addBase('onRemoveStateFail',none).
+addWithBaseIfNotOwn('resetStateCounts',function f(stateId){
+	const oriVal=this._stateTurns[stateId]-0||0;
+	const rtv=f.ori.apply(this,arguments);
+	this._stateTurns[stateId]=Math.max(this._stateTurns[stateId],oriVal);
+	this.onResetStateCounts.apply(this,arguments);
+	return rtv;
+}).
+addBase('onResetStateCounts',none). // probably used for dbg
 getP;
 
 new cfc(Game_ActionResult.prototype).
@@ -5275,7 +5327,8 @@ new Map([
 (()=>{ let k,r,t;
 
 
-new cfc(Bitmap.prototype).addBase('isRequestReady',function f(){
+new cfc(Bitmap.prototype).
+addBase('isRequestReady',function f(){
 	return !f.tbl[0].has(this._loadingState);
 },[
 new Set([
@@ -5992,6 +6045,74 @@ addBase('_createCanvas',function(width, height){
 	
 	this._setDirty();
 }).
+addBase('blur',function f(){
+	for(let i=this.blur_iterCnt();i--;){
+		this.blur_do1(i);
+	}
+	this._setDirty();
+}).
+addBase('blur_iterCnt',function f(){
+	return 5;
+}).
+addBase('blur_blurN',function f(){
+	return 3;
+}).
+addBase('blur_globalAlphaMultiplier',function f(){
+	return 1;
+}).
+addBase('blur_do1',function f(){
+	const w=this.width;
+	const h=this.height;
+	const canvas=this._canvas;
+	const context=this._context;
+	const tempCanvas=f.tbl[0];
+	const blurN=this.blur_blurN();
+	const blur2N=blurN<<1;
+	tempCanvas.width=w+blur2N;
+	tempCanvas.height=h+blur2N;
+	{
+		const tempContext=tempCanvas.getContext('2d');
+		tempContext.drawImage(canvas, 0, 0, w, h, blurN, blurN, w, h);
+		
+		tempContext.drawImage(canvas, 0, 0, w, 1, blurN, 0, w, blurN);
+		tempContext.drawImage(canvas, 0, h-1, w, 1, blurN, blurN+h, w, blurN);
+		
+		tempContext.drawImage(canvas, 0, 0, 1, h, 0, blurN, blurN, h);
+		tempContext.drawImage(canvas, w-1, 0, 1, h, blurN+w, blurN, blurN, h);
+		
+		tempContext.drawImage(canvas, 0, 0, 1, 1, 0, 0, blurN, blurN);
+		tempContext.drawImage(canvas, w-1, 0, 1, 1, blurN+w, 0, blurN, blurN);
+		tempContext.drawImage(canvas, 0, h-1, 1, 1, 0, blurN+h, blurN, blurN);
+		tempContext.drawImage(canvas, w-1, h-1, 1, 1, blurN+w, blurN+h, blurN, blurN);
+	}
+	const tempContext=tempCanvas.getContext('2d',f.tbl[1]);
+	
+	const r__05=this.blur_globalAlphaMultiplier() / (blur2N+1); // r**0.5
+	const tempCanvas2=f.tbl[2];
+	tempCanvas2.width=tempCanvas.width;
+	tempCanvas2.height=h;
+	{
+		const tempContext2=tempCanvas2.getContext('2d');
+		tempContext2.globalCompositeOperation = 'lighter';
+		tempContext2.globalAlpha = r__05;
+		for(let y=0;y<=blur2N;++y) tempContext2.drawImage(tempCanvas, 0, y, w+blur2N, h, 0, 0, w+blur2N, h);
+	}
+	const tempContext2=tempCanvas2.getContext('2d',f.tbl[1]);
+	
+	context.save();
+	context.fillStyle = 'black';
+	context.fillRect(0, 0, w, h);
+	context.globalCompositeOperation = 'lighter';
+	context.globalAlpha = r__05;
+	for(let x=0;x<=blur2N;++x) context.drawImage(tempCanvas2, x, 0, w, h, 0, 0, w, h);
+	context.restore();
+},[
+document.ce('canvas'), // 0: tempCanvas
+({
+	willReadFrequently:true,
+}), // 1: ctx settings
+document.ce('canvas'), // 2: tempCanvas2
+]).
 getP;
 
 
@@ -7633,6 +7754,7 @@ p.reloader_add=function(f){ this._reloaders.add(f); };
 p.reloader_del=function(f){ this._reloaders.delete(f); };
 p.setLoaderType=function(t){ this._loaderType=t; };
 p.getLoaderType=function(){ return this._loaderType; };
+p._defaultRetryInterval.length=0; // tell me why reload when error is determined.
 p.createLoader=function(url, retryMethod, resignMethod, retryInterval){
 	// create re-loader, actually
 	retryInterval=retryInterval||this._defaultRetryInterval;
@@ -7667,6 +7789,13 @@ p.createLoader=function(url, retryMethod, resignMethod, retryInterval){
 	return fname && fname.constructor===String && f.tbl.some(p=>fname.match(p));
 }).ori=undefined;
 t.tbl=[/^((blob|data):|\.\/\/)/,];
+(t=ResourceHandler.isEnemyUrl=function f(url){
+	if(url && url.constructor===String){
+		const m=url.match(f.tbl[0]);
+		return m&&f.tbl[1][1-!m[2]]+m[3];
+	}
+}).ori=undefined;
+t.tbl=[/^(img\/(sv_)?enemies\/)(.*)$/,["img/sv_enemies/","img/enemies/"],];
 (t=ResourceHandler.isBlobUrl=function f(url){
 	return url && url.constructor===String && url.match(f.tbl[0]);
 }).ori=undefined;
@@ -7682,6 +7811,7 @@ new cfc(Bitmap).addBase('giveUpUrl_getCont',function f(){
 }).addBase('giveUpUrl_getMod',function f(url){
 	return this.giveUpUrl_getCont().has(url)?ResourceHandler._emptyData.img:url;
 });
+Bitmap._enemyUrlOther_remapPath=new Map();
 new cfc(Bitmap.prototype).add('_onLoad',function f(){
 	{ const div=this._loader&&this._loader._div; if(div) Graphics.currentLoadErrorDivs_clear(div); }
 	return f.ori.apply(this,arguments);
@@ -7690,6 +7820,20 @@ new cfc(Bitmap.prototype).add('_onLoad',function f(){
 	ResourceHandler.setLoaderType('img');
 	const rtv=f.ori.apply(this,arguments);
 	ResourceHandler.setLoaderType(bakT);
+	return rtv;
+}).add('_requestImage',function f(url){
+	arguments[0]=url=Bitmap._enemyUrlOther_remapPath.get(url)||url;
+	return f.ori.apply(this,arguments);
+}).
+add('_onError',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	if(!rtv&&!this._tryEnemyUrlOther){ const enemyUrlOther=ResourceHandler.isEnemyUrl(this._url); if(enemyUrlOther){
+		this._tryEnemyUrlOther=true;
+		this._loader=undefined; // reset
+		Bitmap._enemyUrlOther_remapPath.set(this._url,enemyUrlOther);
+		this._requestImage(enemyUrlOther);
+		return true; // has special handling
+	} }
 	return rtv;
 }).add('_requestImage',function f(url){
 	const bakT=ResourceHandler.getLoaderType();
@@ -9483,12 +9627,6 @@ addBase('stateOverlayIndex',function f(){
 // placeholders
 addBase('removeStatesByTiming_add',none).
 addBase('removeStatesByTiming_del',none).
-addBase('removeStatesByDamage_add',none).
-addBase('removeStatesByDamage_del',none).
-addBase('removeStatesByBattleEnd_add',none).
-addBase('removeStatesByBattleEnd_del',none).
-addBase('removeStatesByRestriction_add',none).
-addBase('removeStatesByRestriction_del',none).
 addBase('removeStatesBySteps_add',none).
 addBase('removeStatesBySteps_del',none).
 // state common
@@ -9502,10 +9640,8 @@ addBase('traitsOpCache_addTraitObj_state',function f(stateId){
 	this.mostImportantStateText_add(stateId);
 	this.firstSortedState_add(stateId);
 	this.removeStatesByTiming_add(stateId);
-	this.removeStatesByDamage_add(stateId);
-	this.removeStatesByBattleEnd_add(stateId);
-	this.removeStatesByRestriction_add(stateId);
 	this.removeStatesBySteps_add(stateId);
+	this.traitsOpCache_statePropTrue_addTraitObj(stateId);
 }).
 addBase('traitsOpCache_delTraitObj_state',function f(stateId){
 	// before actually change `this._states`
@@ -9518,10 +9654,8 @@ addBase('traitsOpCache_delTraitObj_state',function f(stateId){
 	this.mostImportantStateText_del(stateId);
 	this.firstSortedState_del(stateId);
 	this.removeStatesByTiming_del(stateId);
-	this.removeStatesByDamage_del(stateId);
-	this.removeStatesByBattleEnd_del(stateId);
-	this.removeStatesByRestriction_del(stateId);
 	this.removeStatesBySteps_del(stateId);
+	this.traitsOpCache_statePropTrue_delTraitObj(stateId);
 }).
 add('addNewState',function f(stateId){
 	this.traitsOpCache_addTraitObj_state(stateId); // before actually change `this._states`
@@ -9578,6 +9712,51 @@ addBase('refresh_resistStates',function f(){
 		}
 	}
 }).
+addBase('traitsOpCache_statePropTrue_init',function f(propName){
+	if(!propName) return; // propName should not be false-like
+	if(!f.tbl[0][propName]){ f.tbl[0][propName]={
+		code:"statePropTrue-"+propName,
+		dataId:0,
+	}; f.tbl[1].push(propName); }
+	// initializing here
+	const code=f.tbl[0][propName].code;
+	if(!this.traitsOpCache_hasUsedOp(code,'','set')){
+		this.traitsOpCache_addUsedOp(code,'','set');
+		if(this._states) for(let i=this._states.length;i--;) this.traitsOpCache_statePropTrue_addTraitObj(this._states[i],propName);
+	}
+},t=[
+{}, // 0: propName -> trait-like obj
+[], // 1: propName s
+]).
+addBase('_traitsOpCache_statePropTrue_getRepeatedIds',function f(propName){
+	this.traitsOpCache_statePropTrue_init(propName);
+	return this.traitsOpCache_getCacheVal_set(f.tbl[0][propName].code);
+},t).
+addBase('traitsOpCache_statePropTrue_getUniquesIds',function f(propName){
+	return this._traitsOpCache_statePropTrue_getRepeatedIds(propName).multisetUniques();
+}).
+addBase('traitsOpCache_statePropTrue_getRepeatedIds',function f(propName){
+	return this._traitsOpCache_statePropTrue_getRepeatedIds(propName).slice();
+}).
+addBase('_traitsOpCache_statePropTrue_alterTraitObj',function f(stateId,propName,alterFunc){
+	if(propName){
+		if(!$dataStates[stateId][propName]) return; // such property not true-like. omitted.
+		this.traitsOpCache_statePropTrue_init(propName);
+		const trait=f.tbl[0][propName];
+		trait.dataId=stateId;
+		alterFunc.call(this,trait);
+	}else{
+		for(let x=0,arr=f.tbl[1],xs=arr.length;x<xs;++x) f.call(this,stateId,arr[x],alterFunc,);
+	}
+},t).
+addBase('traitsOpCache_statePropTrue_addTraitObj',function f(stateId,propName){
+	if(!$dataStates[stateId]) return;
+	this._traitsOpCache_statePropTrue_alterTraitObj(stateId,propName,this.traitsOpCache_updateVal_set_add);
+}).
+addBase('traitsOpCache_statePropTrue_delTraitObj',function f(stateId,propName){
+	if(!$dataStates[stateId]) return;
+	this._traitsOpCache_statePropTrue_alterTraitObj(stateId,propName,this.traitsOpCache_updateVal_set_del);
+}).
 getP;
 
 new cfc(Game_Battler.prototype).
@@ -9632,123 +9811,38 @@ addBase('removeStatesAuto',function f(timing){
 	for(let x=arr.length;x--;) if(this.isStateExpired(arr[x])) this.removeState(arr[x]);
 }).
 // removeStatesByDamage
-addBase('removeStatesByDamage_init',function f(){
-	// initializing here
-	const code=f.tbl[0].code;
-	if(!this.traitsOpCache_hasUsedOp(code,'','set')){
-		this.traitsOpCache_addUsedOp(code,'','set');
-		if(this._states) for(let i=this._states.length;i--;) this.removeStatesByDamage_add(this._states[i]);
-	}
-},t=[
-{code:"stateRemoveByDamageChanceValue",dataId:0,}, // dummy obj for chanceByDamage info
-]).
-addBase('removeStatesByDamage_isTargetStateId',function f(stateId){
-	// return the state's dataobj if stateId is (one of) the target(s)
-	const dataobj=$dataStates[stateId];
-	return dataobj&&dataobj.removeByDamage?dataobj:undefined;
-}).
-addBase('removeStatesByDamage_add',function f(stateId){
-	const dataobj=this.removeStatesByDamage_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByDamage_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_add(trait);
-},t).
-addBase('removeStatesByDamage_del',function f(stateId){
-	const dataobj=this.removeStatesByDamage_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByDamage_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_del(trait);
-},t).
 addBase('removeStatesByDamage_getStateIdsToBeRemoved',function f(){
 	// result may differ in each call due to the use of `Math.random()`.
-	this.removeStatesByDamage_init();
-	const valObj=this.traitsOpCache_getCacheVal_set(f.tbl[0].code);
-	const arr=valObj.multisetUniques();
+	const arr=this.traitsOpCache_statePropTrue_getUniquesIds(f.tbl[0]);
 	const rtv=[];
 	for(let x=arr.length;x--;){
 		const state=$dataStates[arr[x]];
 		if(Math.random()*100<state.chanceByDamage) rtv.push(arr[x]);
 	}
 	return rtv;
-},t).
+},[
+'removeByDamage',
+]).
 addBase('removeStatesByDamage',function f(){
 	const arr=this.removeStatesByDamage_getStateIdsToBeRemoved();
 	for(let x=arr.length;x--;) this.removeState(arr[x]);
 }).
 // removeBattleStates
-addBase('removeStatesByBattleEnd_init',function f(){
-	// initializing here
-	const code=f.tbl[0].code;
-	if(!this.traitsOpCache_hasUsedOp(code,'','set')){
-		this.traitsOpCache_addUsedOp(code,'','set');
-		if(this._states) for(let i=this._states.length;i--;) this.removeStatesByBattleEnd_add(this._states[i]);
-	}
-},t=[
-{code:"stateRemoveStatesByBattleEndValue",dataId:0,}, // dummy obj for removeStatesByBattleEnd
-]).
-addBase('removeStatesByBattleEnd_isTargetStateId',function f(stateId){
-	// return the state's dataobj if stateId is (one of) the target(s)
-	const dataobj=$dataStates[stateId];
-	return dataobj&&dataobj.removeAtBattleEnd?dataobj:undefined;
-}).
-addBase('removeStatesByBattleEnd_add',function f(stateId){
-	const dataobj=this.removeStatesByBattleEnd_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByBattleEnd_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_add(trait);
-},t).
-addBase('removeStatesByBattleEnd_del',function f(stateId){
-	const dataobj=this.removeStatesByBattleEnd_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByBattleEnd_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_del(trait);
-},t).
 addBase('removeStatesByBattleEnd_getStateIdsToBeRemoved',function f(){
-	this.removeStatesByBattleEnd_init();
-	return this.traitsOpCache_getCacheVal_set(f.tbl[0].code).slice();
-},t).
+	return this.traitsOpCache_statePropTrue_getUniquesIds(f.tbl[0]).slice();
+},[
+'removeAtBattleEnd',
+]).
 addBase('removeBattleStates',function f(){
 	const arr=this.removeStatesByBattleEnd_getStateIdsToBeRemoved();
 	for(let x=arr.length;x--;) this.removeState(arr[x]);
 }).
 // onRestrict
-addBase('removeStatesByRestriction_init',function f(){
-	// initializing here
-	const code=f.tbl[0].code;
-	if(!this.traitsOpCache_hasUsedOp(code,'','set')){
-		this.traitsOpCache_addUsedOp(code,'','set');
-		if(this._states) for(let i=this._states.length;i--;) this.removeStatesByRestriction_add(this._states[i]);
-	}
-},t=[
-{code:"stateRemoveByRestrictionValue",dataId:0,}, // dummy obj for removeStatesByRestriction info
-]).
-addBase('removeStatesByRestriction_isTargetStateId',function f(stateId){
-	// return the state's dataobj if stateId is (one of) the target(s)
-	const dataobj=$dataStates[stateId];
-	return dataobj&&dataobj.removeByRestriction?dataobj:undefined;
-}).
-addBase('removeStatesByRestriction_add',function f(stateId){
-	const dataobj=this.removeStatesByRestriction_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByRestriction_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_add(trait);
-},t).
-addBase('removeStatesByRestriction_del',function f(stateId){
-	const dataobj=this.removeStatesByRestriction_isTargetStateId(stateId); if(!dataobj) return;
-	this.removeStatesByRestriction_init();
-	const trait=f.tbl[0];
-	trait.dataId=stateId;
-	this.traitsOpCache_updateVal_set_del(trait);
-},t).
 addBase('removeStatesByRestriction_getStateIdsToBeRemoved',function f(){
-	this.removeStatesByRestriction_init();
-	return this.traitsOpCache_getCacheVal_set(f.tbl[0].code).slice();
-},t).
+	return this.traitsOpCache_statePropTrue_getUniquesIds(f.tbl[0]).slice();
+},[
+'removeByRestriction',
+]).
 addBase('removeStatesByRestriction',function f(){
 	const arr=this.removeStatesByRestriction_getStateIdsToBeRemoved();
 	for(let x=arr.length;x--;) this.removeState(arr[x]);
@@ -10103,8 +10197,7 @@ addWithBaseIfNotOwn('stop',function f(){
 	return rtv;
 }).
 addWithBaseIfNotOwn('popScene',function f(){
-	Input.clear();
-	TouchInput.clear();
+	SceneManager.updateInputData();
 	return f.ori.apply(this,arguments);
 }).
 getP;
