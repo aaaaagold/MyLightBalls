@@ -43,7 +43,7 @@
 	{"id":17,"autoRemovalTiming":0,"chanceByDamage":100,"iconIndex":72,"maxTurns":1,"message1":" is (multi) recovering!","message2":" is (multi) recovering!","message3":"","message4":" is no longer (multi) recovering!","minTurns":1,"motion":1,"overlay":1,"name":"test-state-6-MultiRegen","note":"<initStackTimesAdd:4>\n<changeStatesStackTimesAdd>\n{\"17\":1}\n</changeStatesStackTimesAdd>\n","priority":49,"releaseByDamage":false,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100,"traits":[
 		{"code":22,"dataId":7,"value":0.01}
 	]},
-	{"id":18,"autoRemovalTiming":0,"chanceByDamage":100,"iconIndex":16,"maxTurns":1,"message1":" is (multi) resisting recovering!","message2":" is (multi) resisting recovering!","message3":"","message4":" is no longer (multi) resisting recovering!","minTurns":1,"motion":1,"overlay":10,"name":"test-state-7-resist17","note":"","priority":49,"releaseByDamage":false,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100,"traits":[
+	{"id":18,"autoRemovalTiming":0,"chanceByDamage":100,"iconIndex":16,"maxTurns":1,"message1":" is (multi) resisting recovering!","message2":" is (multi) resisting recovering!","message3":"","message4":" is no longer (multi) resisting recovering!","minTurns":1,"motion":1,"overlay":10,"name":"test-state-7-resist17","note":"<removeByRecoverHp>","priority":49,"releaseByDamage":false,"removeAtBattleEnd":false,"removeByDamage":false,"removeByRestriction":false,"removeByWalking":false,"restriction":0,"stepsToRemove":100,"traits":[
 		{"code":14,"dataId":17,"value":1}
 	]},
 	{"id":19,"autoRemovalTiming":0,"chanceByDamage":100,"traits":[
