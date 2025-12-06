@@ -393258,5 +393258,6 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":0,"priorityType":0,"stepAnime":false,"through":true,"trigger":0,"walkAnime":false}
-	],"x":23,"y":22}
+	],"x":23,"y":22},
+	null
 ]}
