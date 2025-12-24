@@ -533,6 +533,21 @@ addBase('toMapXyReal',function f(overwriteTouchXy,overwriteMapXy){
 		y:$gameMap.roundY(overwriteMapXy._displayY+overwriteTouchXy.y/$gameMap.tileHeight ()),
 	}):({});
 }).
+addBase('_onMouseDown_condOk',function f(event){
+	return !Input.isTexting();
+}).
+addBase('_onMouseDown_do',function f(event){
+	if(event.button===0){
+		this._onLeftButtonDown(event);
+	}else if (event.button===1){
+		this._onMiddleButtonDown(event);
+	}else if(event.button===2){
+		this._onRightButtonDown(event);
+	}
+}).
+addBase('_onMouseDown',function f(event){
+	return this._onMouseDown_condOk.apply(this,arguments)&&this._onMouseDown_do.apply(this,arguments);
+}).
 /*
 addBase('_onMouseDown_preventDefault_condOk',function f(event){
 	const x=Graphics.pageToCanvasX(event.pageX);
@@ -551,7 +566,30 @@ add('_onMouseDown',function f(event){
 	return rtv;
 }).
 */
+addBase('_onPointerDown',function f(){
+	return this._onPointerDown_condOk.apply(this,arguments)&&this._onPointerDown_do.apply(this,arguments);
+}).
+addBase('_onPointerDown_condOk',function f(){
+	return !Input.isTexting();
+}).
+addBase('_onPointerDown_do',function f(){
+	if(event.pointerType==='touch'&&!event.isPrimary){
+		const x=Graphics.pageToCanvasX(event.pageX);
+		const y=Graphics.pageToCanvasY(event.pageY);
+		if(Graphics.isInsideCanvas(x,y)){
+			// For Microsoft Edge
+			this._onCancel(x,y);
+			event.preventDefault();
+		}
+	}
+}).
 addBase('_onTouchStart',function f(event){
+	return this._onTouchStart_condOk.apply(this,arguments)&&this._onTouchStart_do.apply(this,arguments);
+}).
+addBase('_onTouchStart_condOk',function f(event){
+	return !Input.isTexting();
+}).
+addBase('_onTouchStart_do',function f(event){
 	this._touched=true;
 	let preventDefaulted=false;
 	for(let i=0;i<event.changedTouches.length;++i){
@@ -575,10 +613,22 @@ addBase('_onTouchStart',function f(event){
 	if (window.cordova || window.navigator.standalone) {
 		if(!preventDefaulted){ preventDefaulted=true; event.preventDefault(); }
 	}
+}).
+addBase('_onWheel_condOk',function f(evt){
+	return !Input.isTexting();
+}).
+addBase('_onWheel_do',function f(evt){
+	this._events.wheelX+=event.deltaX;
+	this._events.wheelY+=event.deltaY;
+	event.preventDefault();
+}).
+addBase('_onWheel',function f(evt){
+	return this._onWheel_condOk.apply(this,arguments)&&this._onWheel_do.apply(this,arguments);
 }).add('_onWheel',function f(evt){
 	if(this.bypassPreventDefault_wheel_get(evt)) evt.preventDefault=f.tbl[0];
 	return f.ori.apply(this,arguments);
 },t).addBase('bypassPreventDefault_wheel_get',function f(){
+	if(Input.isTexting()) return true;
 	return this._bypassPreventDefault_wheel||this._bypassPreventDefault_wheel_stackSize;
 }).addBase('bypassPreventDefault_wheel_set',function f(rhs){
 	return this._bypassPreventDefault_wheel=rhs;
@@ -3207,13 +3257,17 @@ addBase('addKeyName',function f(keyCode,keyName){
 	this.keyMapper[keyCode]=keyName;
 	return this;
 }).addBase('_onKeyUp',function f(event){
-	return this._onKeyUp_do.apply(this,arguments);
+	return this._onKeyUp_condOk.apply(this,arguments)&&this._onKeyUp_do.apply(this,arguments);
+}).addBase('_onKeyUp_condOk',function f(event){
+	return true;
 }).addBase('_onKeyUp_do',function f(event){
 	const btnName=this._getKeyName(event);
 	this._currentState[btnName]=false;
 	if(event.keyCode===0) this.clear(); // it is said that: For QtWebEngine on OS X
 }).addBase('_onKeyDown',function f(event){
-	return this._onKeyDown_do.apply(this,arguments);
+	return this._onKeyDown_condOk.apply(this,arguments)&&this._onKeyDown_do.apply(this,arguments);
+}).addBase('_onKeyDown_condOk',function f(event){
+	return !this.isTexting();
 }).addBase('_onKeyDown_do',function f(event){
 	if (this._shouldPreventDefault(event.keyCode)) event.preventDefault();
 /*
@@ -6960,7 +7014,7 @@ addBase('changeScene',function f(){
 ).addBase('changeScene_do',function f(){
 	let recordedPrevScene;
 	if(this._scene){
-		if(!this._nextScene||!this._nextScene._prevScene){
+		if(!this._nextScene||this._nextScene._prevScene!==this._scene){
 			this._scene.terminate_before();
 			this._scene.terminate();
 			this._scene.terminate_after();
@@ -10244,7 +10298,12 @@ getP;
 new cfc(Scene_Menu.prototype).
 addWithBaseIfNotOwn('initialize',function f(){
 	const rtv=f.ori.apply(this,arguments);
-	this._prevScene_store(true);
+	{
+		const sc=SceneManager._scene;
+		const pc=sc&&sc._prevScene;
+		const c=pc&&pc.constructor;
+		if(c!==this.constructor) this._prevScene_store(true);
+	}
 	return rtv;
 }).
 addWithBaseIfNotOwn('create',function f(){
