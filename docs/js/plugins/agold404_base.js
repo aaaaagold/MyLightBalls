@@ -1301,12 +1301,22 @@ new cfc(Window_SkillList.prototype).addBase('item',function f(idx){
 	return this._data && idx >= 0 ? this._data[idx] : null;
 });
 //
-new cfc(Window_Base.prototype).add('updateClose',function f(){
+new cfc(Window_Base.prototype).
+add('updateClose',function f(){
 	const isClosed=this.isClosed();
 	const rtv=f.ori.apply(this,arguments);
 	if(!isClosed && this.isClosed()) this.onclosed();
 	return rtv;
-}).addBase('onclosed',none);
+}).
+addBase('onclosed',none).
+add('updateOpen',function f(){
+	const isOpen=this.isOpen();
+	const rtv=f.ori.apply(this,arguments);
+	if(!isOpen && this.isOpen()) this.onopened();
+	return rtv;
+}).
+addBase('onopened',none).
+getP;
 new cfc(Window_Message.prototype).addBase('onclosed',function f(){
 	Window_Base.prototype.onclosed.apply(this,arguments);
 	if(this._positionType!==2 && this._choiceWindow && this._choiceWindow.updatePlacement){ this.updatePlacement(); this._choiceWindow.updatePlacement(); }
@@ -3994,6 +4004,31 @@ addBase('startAction_useItem',function f(subject,action){
 }).
 addBase('startAction_updateLogWindow',function f(subject,action,targets){
 	this._logWindow.startAction(subject,action,targets);
+}).
+getP;
+
+
+new cfc(Game_Action.prototype).
+addBase('testApply_isBypassCheck',function f(target){
+	return $gameParty.inBattle() || this.isForOpponent();
+}).
+addBase('testApply_deadState',function f(target){
+	return this.isForDeadFriend() === trgt.isDead();
+}).
+addBase('testApply_effective',function f(target){
+	return (
+		this.isDamage() ||
+		(this.isHpRecover() && target.hp < target.mhp) ||
+		(this.isMpRecover() && target.mp < target.mmp) ||
+		this.hasItemAnyValidEffects(target)
+	);
+}).
+addBase('testApply',function f(target){
+	return (
+		this.testApply_isBypassCheck.apply(this,arguments) || (
+			this.testApply_deadState.apply(this,arguments) && this.testApply_effective.apply(this,arguments)
+		)
+	);
 }).
 getP;
 
@@ -10329,6 +10364,21 @@ getP;
 // ---- ---- ---- ---- dbg
 
 (()=>{ let k,r,t;
+
+
+if(window.isTest()){
+const disabledPluginsRaw=getUrlParamVal('disabledPlugins');
+new cfc(PluginManager).
+add('parameters',function f(pluginName){
+	if(f.tbl[0].has(pluginName)){
+		throw new Error('use error to stop the script');
+	}
+	return f.ori.apply(this,arguments);
+},[
+new Set(disabledPluginsRaw&&disabledPluginsRaw.split(',')),
+]).
+getP;
+}
 
 
 new cfc(SceneManager).add('run',function f(){

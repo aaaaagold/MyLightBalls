@@ -398,6 +398,8 @@ addBase('update_touch_testLayeredItemWindow',function f(globalXy){
 	if(lw.activive) return -2;
 	const xy=lw.toLocal(TouchInput);
 	if(!lw.containsPoint_local(xy)) return;
+	this.update_touch_closeAddons_windowInputText.apply(this,arguments);
+	lw.activate();
 	return true;
 }).
 addBase('update_touch_testWindowCommon',function f(wnd,globalXy,actFunc){
@@ -414,12 +416,24 @@ addBase('update_touch_testWindowCommon',function f(wnd,globalXy,actFunc){
 	if(actFunc) actFunc.call(this,idx);
 	return true; // avoid 0
 }).
+addBase('update_touch_closeAddons',function f(){
+	this.update_touch_closeAddons_layeredItemWindow.apply(this,arguments);
+	this.update_touch_closeAddons_windowInputText.apply(this,arguments);
+}).
+addBase('update_touch_closeAddons_layeredItemWindow',function f(){
+{ const func=this.changeUiState_toCloseLayeredItemWindow; func&&func.call(this); }
+}).
+addBase('update_touch_closeAddons_windowInputText',function f(){
+{ const wnd=this.getWindowInputText(); if(wnd){ wnd._listWindow=undefined; if(wnd.isClosed()){ wnd.open(); wnd.updateOpen(); } wnd.close(); } }
+}).
 addBase('update_touch_testCategoryWindow',function f(globalXy){
 	const wnd=this._window_category;
 	return this.update_touch_testWindowCommon(wnd,globalXy,f.tbl[0]);
 },[
 function f(idx){
-{ const func=this.changeUiState_toCloseLayeredItemWindow; func&&func.call(this); }
+	//if(!(idx>=0)) return; // need to execute `this.onCategoryOk();` even idx is not valid
+	this.update_touch_closeAddons.apply(this,arguments);
+	if(this._window_category.index()!==idx) SoundManager.playCursor(); // temp.
 	this._window_category.select(idx);
 	this.onCategoryOk();
 }, // 0: actFunc
@@ -429,7 +443,7 @@ addBase('update_touch_testDepositoryWindow',function f(globalXy){
 	return this.update_touch_testWindowCommon(this._window_itemList_depository,globalXy,f.tbl[0]);
 },[
 function f(idx){
-{ const func=this.changeUiState_toCloseLayeredItemWindow; func&&func.call(this); }
+	this.update_touch_closeAddons.apply(this,arguments);
 this._window_itemList_backpack.alpha=f.tbl[0];
 this._window_itemList_depository.alpha=f.tbl[1];
 if(this._window_itemList_depository.index()===idx) TouchInput.clear();
@@ -441,7 +455,7 @@ addBase('update_touch_testBackpackWindow',function f(globalXy){
 	return this.update_touch_testWindowCommon(this._window_itemList_backpack,globalXy,f.tbl[0]);
 },[
 function f(idx){
-{ const func=this.changeUiState_toCloseLayeredItemWindow; func&&func.call(this); }
+	this.update_touch_closeAddons.apply(this,arguments);
 this._window_itemList_depository.alpha=f.tbl[0];
 this._window_itemList_backpack.alpha=f.tbl[1];
 if(this._window_itemList_backpack.index()===idx) TouchInput.clear();
@@ -578,6 +592,53 @@ addBase('createWindow_description',function f(wndAbove,wndBelow){
 },[
 2, // 0: line count
 ]).
+addBase('createWindow_windowInputText',function f(){
+	if(typeof Window_InputText==='undefined') return;
+	const wnd=this._windowInputText=new Window_InputText(0,0,1,1,f.tbl[0]);
+	this.addChild(wnd);
+	wnd._scene=this;
+	wnd.height=Math.ceil(wnd.standardFontSize()*1.25+wnd.standardPadding()*2);
+	wnd.onclosed=f.tbl[1];
+},[
+({
+line1:"arrowsToAdjustNumber:10",
+align:'right',
+updatePolling:function(){
+	if(!this._listWindow||this._listWindow.isClosing()||this._listWindow.isClosed()) this.close();
+},
+cancelCallback:function(){
+	SoundManager.playCancel();
+	this._wnd.close();
+	//this.blur(); // too early
+},
+escAsCancel:true,
+okCallback:function(){
+	const wnd=this._wnd;
+	const self=wnd._scene;
+	const val=this.value-0;
+	if(self.onCommonOk_item(wnd._listWindow,wnd._selectFunc,this.value)){
+		// err
+	}else{
+		SoundManager.playOk();
+		wnd._listWindow.refresh();
+		wnd.close();
+		//this.blur(); // too early
+	}
+	wnd.deactivate(); // wait for using `onclosed()` to `activate()`
+},
+enterAsOk:true,
+btns:"left-h",
+}), // 0: opt
+function(){
+	if(this._listWindow) this._listWindow.activate();
+	this._textarea.blur();
+	Graphics._canvas.focus();
+	Input.isTexting_clear();
+}, // 1: onclosed
+]).
+addBase('getWindowInputText',function f(){
+	return this._windowInputText;
+}).
 addBase('createWindow_END',function f(){
 	const cat=this._window_category;
 	cat.setListWindow(this._window_itemList_backpack);
@@ -596,6 +657,11 @@ addBase('createWindow_END',function f(){
 	
 	cat.select(1); // call for onSelect calling setText
 	this.refreshCapacityWindow();
+	
+	this.createWindow_windowInputText(); // try Window_InputText
+	{ const wnd=this.getWindowInputText(); if(wnd){
+	wnd.close();
+	} }
 }).
 addBase('onCommonOk_selectValid',function f(wnd,idx){
 	const newIdx=Math.max(Math.min(idx,wnd.maxItems()-1),0);
@@ -605,15 +671,43 @@ addBase('refreshCapacityWindow',function f(){
 	const wnd=this._window_itemList_depositoryCapacity; if(!wnd) return;
 	wnd.setText($gameParty.depository_getTotalCapacityUsed(this._depositoryId)+' / '+this._capacity);
 }).
-addBase('onCommonOk_item',function f(wnd,func){
+addBase('onCommonOk_item',function f(wnd,func,amount){
 	const item=wnd.item();
-	if(item && !(func.call($gameParty,this._depositoryId,item,1,this._capacity)<0)){
+	if(item && amount===undefined){ const wit=this.getWindowInputText(); if(wit){
+		wnd.deactivate();
+		wit._listWindow=wnd;
+		wit._selectFunc=func;
+		wit.width=wnd.width;
+		wit.position.set(
+			wnd.x,
+			wnd.y+wnd.height,
+		);
+		if(wit.isOpen()){
+			// restore so that onopened will be called.
+			wit.close();
+			wit.updateClose();
+		}
+		wit.open();
+		const ta=wit._textarea;
+		ta._btns=wnd.x>=wit.standardFontSize()*2?'left-h':'right-h';
+		ta.value=1;
+		//ta.focus(); // in onopened
+		//Input.isTexting_set(); // too early
+		return;
+	} }
+	let err;
+	if(amount===undefined) amount=1;
+	if(item && !(func.call($gameParty,this._depositoryId,item,amount,this._capacity)<0)){
 		this._window_itemList_backpack.refresh();
 		this._window_itemList_depository.refresh();
 		this.onCommonOk_selectValid(wnd,wnd.index());
 		this.refreshCapacityWindow();
-	}else wnd.playBuzzerSound();
+	}else{
+		wnd.playBuzzerSound();
+		err=1;
+	}
 	wnd.activate();
+	return err;
 }).
 addBase('onCategoryOk',function f(){
 	const cat=this._window_category;
@@ -718,6 +812,7 @@ addBase('tryCreateRandomParamsLayeredItemWindow',function f(){
 ], // 0: method names
 function f(){
 	if(this._onItemOk_bypass) return f.ori.apply(this,arguments);
+	// already ensure existence
 	if(!this.randomEquipParams_isUsingLayeredWindows()) return f.ori.apply(this,arguments);
 	return this.randomEquipParams_onItemOk();
 }, // 1: onItemOk
