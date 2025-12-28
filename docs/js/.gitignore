@@ -1,0 +1,9 @@
+
+plugins/AltMenuScreen.js
+plugins/AltSaveScreen.js
+plugins/EnemyBook.js
+plugins/ItemBook.js
+plugins/SimpleMsgSideView.js
+plugins/TitleCommandPosition.js
+plugins/WeaponSkill.js
+
