@@ -17,6 +17,9 @@
  */
 
 (()=>{ let k,r,t;
+const pluginName=getPluginNameViaSrc(document.currentScript.getAttribute('src'))||"agold404_Depository";
+const params=PluginManager.parameters(pluginName)||{};
+
 
 new cfc(Game_Party.prototype).
 addBase('_depository_getContAll',function f(){
@@ -280,7 +283,7 @@ _switchToWindow(nxt,wrap){
 	nxt.alpha=a0;
 	this.alpha=a1;
 	nxt.activate();
-	SoundManager.playCursor();
+	this.playCursorSe();
 	this._onSwitchToWindow(nxt);
 }
 };
@@ -433,8 +436,7 @@ addBase('update_touch_testCategoryWindow',function f(globalXy){
 function f(idx){
 	//if(!(idx>=0)) return; // need to execute `this.onCategoryOk();` even idx is not valid
 	this.update_touch_closeAddons.apply(this,arguments);
-	if(this._window_category.index()!==idx) SoundManager.playCursor(); // temp.
-	this._window_category.select(idx);
+	this._window_category.playerSelect(idx);
 	this.onCategoryOk();
 }, // 0: actFunc
 ]).
@@ -861,3 +863,4 @@ getP;
 }
 
 })();
+
