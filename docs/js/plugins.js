@@ -57,6 +57,7 @@ var $plugins =
 {"name":"agold404_ItemNewTag","status":true,"description":"item \"new\" tag","parameters":{"NewText":"new!"}},
 {"name":"agold404_ItemOrder","status":true,"description":"Customize item sorting order","parameters":{"ItemToCmpValFunc":"\"(function(item){\\n\\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \\n})\"","LogItemGainOrder":"true","ReordModeBtn":"81"}},
 {"name":"agold404_LoadMoreJs","status":true,"description":"load more javascript files specify by this plugin","parameters":{"JsList":"\"example-1.js\\nexample-2.js# comment after path should start immediately. you should not write something like \\\"____.js # comment\\\" since the path to js file will become \\\"____.js \\\"\\n# a comment line starting with #\"","JsListFile":"custom/js_file_list.txt"}},
+{"name":"agold404_LoopAni","status":true,"description":"loop animation effect","parameters":{}},
 {"name":"agold404_MakeStyledText","status":true,"description":"make drawText to use drawTextEx when specified prefix is given","parameters":{"ThePrefix":"\"\\\\STYLEDTEXT.\""}},
 {"name":"agold404_ManualScreenOffset","status":true,"description":"manually set screen offset","parameters":{}},
 {"name":"agold404_MaxStack","status":true,"description":"set max stack for each item/weapon/armor","parameters":{"DefaultMaxStack":"32767"}},
