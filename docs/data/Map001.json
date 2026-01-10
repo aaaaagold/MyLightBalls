@@ -7967,9 +7967,11 @@
 			]},
 			{"code":102,"indent":0,"parameters":[
 				[
-					"(cancel)",
+					"(cancel) (curr. len. = \\EVALTOSTR:\"$gameParty._actors.length\")",
 					"add direct",
-					"add another"
+					"add another",
+					"add another 100s",
+					"remove after idx 3"
 				],
 				0,
 				1,
@@ -7978,7 +7980,7 @@
 			]},
 			{"code":402,"indent":0,"parameters":[
 				0,
-				"(cancel)"
+				"(cancel) (curr. len. = \\EVALTOSTR:\"$gameParty._actors.length\")"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
@@ -8047,6 +8049,51 @@
 			]},
 			{"code":401,"indent":1,"parameters":[
 				"\\EVALTOSTR:\"'\\\\\\\\N['+$gameTemp._tmp_actorId+']'\" is added"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"add another 100s"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const baseName=$dataActors[2].name+'-';"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"for(let x=1e2;x--;){"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"let s=baseName; for(let x=4,b=\"a\".charCodeAt();x--;) s+=String.fromCharCode(~~(Math.random()*26)+b);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._tmp_actor=$gameActors.actor(2,{name:s});"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const actorId=$gameTemp._tmp_actorId=$gameTemp._tmp_actor.actorId();"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"const actor=$gameActors.actor(actorId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"actor.setName(actor.name()+'-!');"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameParty.addActor(actorId);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"}"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"remove after idx 3"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty._actors.slice(3).reverse().forEach(i=>$gameParty.removeActor(i))"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
