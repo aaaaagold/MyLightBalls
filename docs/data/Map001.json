@@ -13105,5 +13105,89 @@
 			]}
 		],"repeat":true,"skippable":true,"wait":false},"moveSpeed":3,"moveType":3,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
 	],"x":13,"y":8},
+	{"id":58,"name":"EV058","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"agold404_1","direction":6,"pattern":1,"characterIndex":0},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"tileScale"
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"tile scale test"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"(cancel)",
+					"start demo"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"start demo"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"{ const state={ctr:1e1,ctrMax:1234,},update=()=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    if(!SceneManager.isScene_map()){ $gameTemp.popupMsg('end due to not in map'); return true; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    if(!(state.ctrMax>=++state.ctr)){ $gameTemp.popupMsg('done'); return true; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    const rateInv=state.ctr/state.ctrMax*4;"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    $gameMap.setTileScale(1/rateInv);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    $gamePlayer.center($gamePlayer._realX,$gamePlayer._realY);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"};"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.additionalUpdate_updateScene_add(()=>{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"    if(update()){ $gameMap.setTileScale(1); return true; }"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"},true); }"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":5,"moveRoute":{"list":[
+			{"code":24,"indent":null},
+			{"code":45,"parameters":[
+				"this._waitCount=~~(Math.random()*64);"
+			],"indent":null},
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":6,"moveType":3,"priorityType":1,"stepAnime":true,"through":false,"trigger":0,"walkAnime":true}
+	],"x":20,"y":18},
 	null
 ]}
