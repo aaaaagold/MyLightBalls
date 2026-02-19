@@ -56,18 +56,40 @@ addBase('value',function f(variableId){
 }).
 getP;
 
-new cfc(Game_Event.prototype).add('start',function f(triggerer){
+new cfc(Game_Event.prototype).
+add('start',function f(triggerer){
 	const oriTriggerer=this._triggerer; this._triggerer=triggerer;
 	f.ori.apply(this,arguments);
 	if(this.isStarting()) this._triggerer=triggerer;
 	else this._triggerer=oriTriggerer;
 	return this;
-}).add('clearStartingFlag',function f(){
+}).
+add('clearStartingFlag',function f(){
 	this._triggerer=undefined;
 	f.ori.apply(this,arguments);
 	return this;
-});
+}).
+add('isStarting',function f(triggerer){
+	return (!triggerer||this._triggerer===triggerer)&&f.ori.apply(this,arguments);
+}).
+getP;
 new cfc(Game_Map.prototype).
+addBase('isEventRunning',function f(triggerer){
+	if(this._interpreter.isRunning()&&(!triggerer||this._interpreter.getTriggerer()===triggerer)){
+		return true;
+	}
+	if(this.isAnyEventStarting(triggerer)){
+		return true;
+	}
+	return false;
+}).
+addBase('isAnyEventStarting',function f(triggerer){
+	return this.events().some(f.tbl[0],triggerer);
+},[
+function(event){
+	return event.isStarting(this);
+}, // 0: forEach evt
+]).
 addBase('setupStartingMapEvent',function f(){
 	for(let arr=this._events,xs=arr.length,x=0;x<xs;++x){
 		const evt=arr[x];
@@ -103,6 +125,23 @@ function(commonEvent){
 	return new Game_CommonEvent(commonEvent.id);
 }, // 0: parallel common evt map
 ]).
+getP;
+new cfc(Game_Player.prototype).
+addBase('canMove',function f(){
+	if ($gameMap.isEventRunning(this) || $gameMessage.isBusy()) {
+		return false;
+	}
+	if (this.isMoveRouteForcing() || this.areFollowersGathering()) {
+		return false;
+	}
+	if (this._vehicleGettingOn || this._vehicleGettingOff) {
+		return false;
+	}
+	if (this.isInVehicle() && !this.vehicle().canMove()) {
+		return false;
+	}
+	return true;
+}).
 getP;
 { const a=Game_Interpreter,p=a.prototype;
 a.NOP={code:0,indent:0,parameters:[],};
@@ -8155,8 +8194,8 @@ addWithBaseIfNotOwn('removeChild',function f(c){
 	if(arguments.length===1) this.tileScale_handleChildSetting(c,false);
 	return f.ori.apply(this,arguments);
 }).
-addWithBaseIfNotOwn('removeChildAt',function f(c){
-	if(arguments.length===1) this.tileScale_handleChildSetting(c,false);
+addWithBaseIfNotOwn('removeChildAt',function f(idx){
+	this.tileScale_handleChildSetting(this.getChildAt(idx),false);
 	return f.ori.apply(this,arguments);
 }).
 addWithBaseIfNotOwn('removeChildren',function f(){
@@ -10994,6 +11033,159 @@ getP;
 // ---- ---- ---- ---- fix bug
 
 (()=>{ let k,r,t;
+
+
+{ const webgl1VerticesCntUpperBound=65536;
+new cfc(PIXI.tilemap.RectTileLayer.prototype).
+addBase('renderWebGL',function f(renderer, useSquare){
+	if (useSquare === void 0) { useSquare = false; }
+	const points = this.pointsBuf;
+	if (points.length === 0)
+		return;
+	const rectsCount = points.length / 9;
+	const tile = renderer.plugins.tilemap;
+	const gl = renderer.gl;
+	if (!useSquare) {
+		tile.checkIndexBuffer(rectsCount);
+	}
+	const shader = tile.getShader(useSquare);
+	const textures = this.textures;
+	if (textures.length === 0)
+		return;
+	const len = textures.length;
+	if (this._tempTexSize < shader.maxTextures) {
+		this._tempTexSize = shader.maxTextures;
+		this._tempSize = new Float32Array(2 * shader.maxTextures);
+	}
+	for (var i = 0; i < len; i++) {
+		if (!textures[i] || !textures[i].valid)
+			return;
+		var texture = textures[i].baseTexture;
+	}
+	tile.bindTextures(renderer, shader, textures);
+	let vb = tile.getVb(this.vbId);
+	if (!vb) {
+		vb = tile.createVb(useSquare);
+		this.vbId = vb.id;
+		this.vbBuffer = null;
+		this.modificationMarker = 0;
+	}
+	const vao = vb.vao;
+	renderer.bindVao(vao);
+	const vertexBuf = vb.vb;
+	vertexBuf.bind();
+	const vertices = rectsCount * shader.vertPerQuad;
+	if (vertices === 0)
+		return;
+	if (this.modificationMarker != vertices) {
+		this.modificationMarker = vertices;
+		const vs=shader.stride*vertices;
+		if (!this.vbBuffer || this.vbBuffer.byteLength < vs) {
+			let bk=shader.stride;
+			while(bk<vs) bk<<=1;
+			this.vbBuffer = new ArrayBuffer(bk);
+			this.vbArray = new Float32Array(this.vbBuffer);
+			this.vbInts = new Uint32Array(this.vbBuffer);
+			vertexBuf.upload(this.vbBuffer, 0, true);
+		}
+		const arr=this.vbArray,ints=this.vbInts;
+		let sz=0;
+		let textureId,shiftU,shiftV;
+		const pe=points.length;
+		if (useSquare) {
+			for(let i=0,vCnt=0;i<pe;vCnt+=shader.vertPerQuad,i+=9){
+				if(webgl1VerticesCntUpperBound-shader.vertPerQuad<vCnt){
+					vertexBuf.upload(arr, 0, true);
+					gl.drawArrays(gl.POINTS, 0, vCnt);
+					vCnt=0;
+					sz=0;
+				}
+				textureId = (points[i + 8] >> 2);
+				shiftU = 1024 * (points[i + 8] & 1);
+				shiftV = 1024 * ((points[i + 8] >> 1) & 1);
+				arr[sz++] = points[i + 2];
+				arr[sz++] = points[i + 3];
+				arr[sz++] = points[i + 0] + shiftU;
+				arr[sz++] = points[i + 1] + shiftV;
+				arr[sz++] = points[i + 4];
+				arr[sz++] = points[i + 6];
+				arr[sz++] = points[i + 7];
+				arr[sz++] = textureId;
+			}
+		}
+		else {
+			//var tint = -1;
+			const eps = 0.5;
+			for(let i=0,vCnt=0;i<pe;vCnt+=6,i+=9){
+				if(webgl1VerticesCntUpperBound-6<vCnt){
+					vertexBuf.upload(arr, 0, true);
+					gl.drawElements(gl.TRIANGLES, vCnt, gl.UNSIGNED_SHORT, 0);
+					vCnt=0;
+					sz=0;
+				}
+				textureId = (points[i + 8] >> 2);
+				shiftU = 1024 * (points[i + 8] & 1);
+				shiftV = 1024 * ((points[i + 8] >> 1) & 1);
+				const x = points[i + 2], y = points[i + 3];
+				const w = points[i + 4], h = points[i + 5];
+				const u = points[i] + shiftU, v = points[i + 1] + shiftV;
+				const animX = points[i + 6], animY = points[i + 7];
+				arr[sz++] = x;
+				arr[sz++] = y;
+				arr[sz++] = u;
+				arr[sz++] = v;
+				arr[sz++] = u + eps;
+				arr[sz++] = v + eps;
+				arr[sz++] = u + w - eps;
+				arr[sz++] = v + h - eps;
+				arr[sz++] = animX;
+				arr[sz++] = animY;
+				arr[sz++] = textureId;
+				arr[sz++] = x + w;
+				arr[sz++] = y;
+				arr[sz++] = u + w;
+				arr[sz++] = v;
+				arr[sz++] = u + eps;
+				arr[sz++] = v + eps;
+				arr[sz++] = u + w - eps;
+				arr[sz++] = v + h - eps;
+				arr[sz++] = animX;
+				arr[sz++] = animY;
+				arr[sz++] = textureId;
+				arr[sz++] = x + w;
+				arr[sz++] = y + h;
+				arr[sz++] = u + w;
+				arr[sz++] = v + h;
+				arr[sz++] = u + eps;
+				arr[sz++] = v + eps;
+				arr[sz++] = u + w - eps;
+				arr[sz++] = v + h - eps;
+				arr[sz++] = animX;
+				arr[sz++] = animY;
+				arr[sz++] = textureId;
+				arr[sz++] = x;
+				arr[sz++] = y + h;
+				arr[sz++] = u;
+				arr[sz++] = v + h;
+				arr[sz++] = u + eps;
+				arr[sz++] = v + eps;
+				arr[sz++] = u + w - eps;
+				arr[sz++] = v + h - eps;
+				arr[sz++] = animX;
+				arr[sz++] = animY;
+				arr[sz++] = textureId;
+			}
+		}
+		vertexBuf.upload(arr, 0, true);
+	}
+	if(useSquare){
+		gl.drawArrays(gl.POINTS, 0, vertices);
+	}else{
+		gl.drawElements(gl.TRIANGLES, rectsCount * 6, gl.UNSIGNED_SHORT, 0);
+	}
+}).
+getP;
+}
 
 
 new cfc(Bitmap.prototype).
