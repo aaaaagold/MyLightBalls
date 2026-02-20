@@ -31557,7 +31557,8 @@
 			{"code":102,"indent":0,"parameters":[
 				[
 					"(cancel)",
-					"start demo"
+					"start demo",
+					"via scroll"
 				],
 				0,
 				0,
@@ -31605,6 +31606,79 @@
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"},true); }"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				2,
+				"via scroll"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp.popupMsg(\"ESC/cancel to exit\");"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._tmp_scaleTick_current="
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"$gameTemp._tmp_scaleTick_target=0;"
+			]},
+			{"code":112,"indent":1,"parameters":[
+			]},
+			{"code":111,"indent":2,"parameters":[
+				12,
+				"TouchInput.isCancelled()||Input.isPressed('cancel')"
+			]},
+			{"code":355,"indent":3,"parameters":[
+				"SceneManager.updateInputData();"
+			]},
+			{"code":655,"indent":3,"parameters":[
+				"$gameTemp.popupMsg(\"exit\");"
+			]},
+			{"code":230,"indent":3,"parameters":[
+				1
+			]},
+			{"code":113,"indent":3,"parameters":[
+			]},
+			{"code":0,"indent":3,"parameters":[
+			]},
+			{"code":412,"indent":2,"parameters":[
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"if(TouchInput.wheelY){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				" $gameTemp._tmp_scaleTick_target+=((TouchInput.wheelY<0)<<1)-1;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				" $gameTemp._tmp_scaleTick_mxy=TouchInput.toMapXyReal(); $gameTemp._tmp_scaleTick_tx=TouchInput.x; $gameTemp._tmp_scaleTick_ty=TouchInput.y;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"} const lastTick=$gameTemp._tmp_scaleTick_current;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameTemp._tmp_scaleTick_current=($gameTemp._tmp_scaleTick_current+$gameTemp._tmp_scaleTick_target)/2;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameMap.setTileScale(2**($gameTemp._tmp_scaleTick_current/8));"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"if(lastTick!==$gameTemp._tmp_scaleTick_current){ $gamePlayer.center("
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"    $gameMap._displayX+$gamePlayer.centerX()+$gameTemp._tmp_scaleTick_mxy.x-$gameMap.canvasToMapRealX($gameTemp._tmp_scaleTick_tx),"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"    $gameMap._displayY+$gamePlayer.centerY()+$gameTemp._tmp_scaleTick_mxy.y-$gameMap.canvasToMapRealY($gameTemp._tmp_scaleTick_ty),"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"); }"
+			]},
+			{"code":230,"indent":2,"parameters":[
+				1
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":413,"indent":1,"parameters":[
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
