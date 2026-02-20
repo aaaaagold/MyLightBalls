@@ -4634,6 +4634,44 @@
 			{"code":355,"indent":0,"parameters":[
 				"$gameTimer.start((4*60+4)*60,false,true);"
 			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"!window.isTest()"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._pregameInfo=({ link:\"https://itch.io/jam/rm-event-2024-summer\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"txtv:["
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"\",\"此為 RM EVENT 2024 summer 之參加作品\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"比賽主題為：\\\\C[6]自由發揮\\\\C[0]\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"\",\"https://itch.io/jam/rm-event-2024-summer\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"連結會出現在畫面右上角\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"].map(s=>\"\\\\TXTCENTER:\"+JSON.stringify(s)),"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"});"
+			]},
+			{"code":117,"indent":1,"parameters":[
+				23
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
 			{"code":230,"indent":0,"parameters":[
 				1
 			]},
