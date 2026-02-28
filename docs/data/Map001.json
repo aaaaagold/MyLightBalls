@@ -31558,7 +31558,8 @@
 				[
 					"(cancel)",
 					"start demo",
-					"via scroll"
+					"via scroll",
+					"another tilemap"
 				],
 				0,
 				0,
@@ -31679,6 +31680,88 @@
 			{"code":0,"indent":2,"parameters":[
 			]},
 			{"code":413,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"another tilemap"
+			]},
+			{"code":102,"indent":1,"parameters":[
+				[
+					"(cancel)",
+					"add 1",
+					"restore"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":1,"parameters":[
+				0,
+				"(cancel)"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				1,
+				"add 1"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"if(!SceneManager._scene._testMapTmp_tm2){ const tm2=SceneManager._scene._testMapTmp_tm2=new Tilemap();"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const tm=SceneManager.getTilemap();"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"tm2.origin=tm.origin; tm2.bitmaps=tm.bitmaps;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"tm2.setDataFromGameMap($gameMap);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"tm2.scale.set(0.5);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"tm2.position.set(Math.max($gameMap.tileWidth_src(),$gameMap.tileHeight_src(),)>>1);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"tm2.alpha=0.75;"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"SceneManager._scene.addChild(tm2);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameMap.setTileScale(0.3);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"}"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":402,"indent":1,"parameters":[
+				2,
+				"restore"
+			]},
+			{"code":355,"indent":2,"parameters":[
+				"if(SceneManager._scene._testMapTmp_tm2){ const tm2=SceneManager._scene._testMapTmp_tm2; SceneManager._scene._testMapTmp_tm2=undefined; if(tm2.parent){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"SceneManager._scene._testMapTmp_tm2_last=tm2;tm2.parent.removeChild(tm2);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gameMap.setTileScale(1);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"$gamePlayer.centerChr($gamePlayer);"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"} }"
+			]},
+			{"code":0,"indent":2,"parameters":[
+			]},
+			{"code":404,"indent":1,"parameters":[
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
