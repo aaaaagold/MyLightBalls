@@ -3865,12 +3865,33 @@ addBase('loadTileset',function f(gameMap){
 	// gameMap instanceof Game_Map or capable
 	if(this.loadTileset_condOk.apply(this,arguments)) return this.loadTileset_do.apply(this,arguments);
 }).
+addBase('createCharacters',function f(gameMap,gamePlayer){
+	const rtv=[];
+	gameMap=gameMap||$gameMap;
+	gamePlayer=gamePlayer||$gamePlayer;
+	if(gameMap) gameMap.events().forEach(f.tbl[0],rtv);
+	if(gameMap) gameMap.vehicles().forEach(f.tbl[0],rtv);
+	if(gamePlayer) gamePlayer.followers().reverseEach(f.tbl[0],rtv);
+	if(gamePlayer) rtv.push(new Sprite_Character(gamePlayer));
+	rtv.forEach(f.tbl[1],this);
+	return rtv;
+},[
+function(chr){
+	this.push(new Sprite_Character(chr));
+}, // 0: forEach - create spChr
+function(spChr){
+	this.addChild(spChr);
+}, // 1: forEach - add spChr
+]).
 getP;
 
 new cfc(Spriteset_Map.prototype).
 addBase('loadTileset',function f(){
 	this._tileset=$gameMap.tileset();
 	this._tilemap.loadTileset($gameMap);
+}).
+addBase('createCharacters',function f(){
+	this._characterSprites=this._tilemap.createCharacters();
 }).
 getP;
 
@@ -5719,19 +5740,37 @@ new cfc(Game_Event.prototype).addBase('page',function f(){
 
 (()=>{ let k,r,t;
 
-new cfc(Sprite_Character.prototype).add('setCharacter',function f(){
-	{ const sc=SceneManager._scene; if(sc){
-		if(!sc._chr2sp) sc._chr2sp=new Map();
-		sc._chr2sp.set(arguments[0],this);
-	} }
+new cfc(SceneManager).
+addBase('chr2sp_getDefaultRoot',function f(isNoWrap){
+	const rtv=this._chr2sp_defaultRoot;
+	return isNoWrap?rtv:(rtv||this._scene);
+}).
+addBase('chr2sp_setDefaultRoot',function f(root){
+	this._chr2sp_defaultRoot=root;
+	return this;
+}).
+addBase('chr2sp_getCont',function f(root){
+	root=root||this.chr2sp_getDefaultRoot();
+	let rtv; if(root){ rtv=root._chr2sp; if(!rtv) rtv=root._chr2sp=new Map(); }
+	return rtv;
+}).
+getP;
+
+new cfc(Sprite_Character.prototype).
+add('setCharacter',function f(gameChr){
+	const chr2sp=SceneManager.chr2sp_getCont();
+	if(chr2sp) chr2sp.set(gameChr,this);
 	return f.ori.apply(this,arguments);
-}).addBase('updatePosition',function f(){
+}).
+addBase('updatePosition',function f(){
 	const chr=this._character;
 	this.position.set(chr.screenX(),chr.screenY());
 	this.z=chr.screenZ();
-});
+}).
+getP;
 
-new cfc(Sprite_Battler.prototype).add('setBattler',function f(){
+new cfc(Sprite_Battler.prototype).
+add('setBattler',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	const sc=SceneManager._scene;
 	if(sc){
@@ -5739,23 +5778,29 @@ new cfc(Sprite_Battler.prototype).add('setBattler',function f(){
 		sc._btlr2sp.set(this._battler,this);
 	}
 	return rtv;
-}).addBase('updatePosition',function f(){
+}).
+addBase('updatePosition',function f(){
 	this.position.set( this._homeX+this._offsetX , this._homeY+this._offsetY );
-});
+}).
+getP;
 
-new cfc(Game_Character.prototype).addBase('getSprite',function f(){
-	const sc=SceneManager._scene;
-	const m=sc&&sc._chr2sp;
+new cfc(Game_Character.prototype).
+addBase('getSprite',function f(root){
+	const m=SceneManager.chr2sp_getCont(root);
 	return m&&m.get(this);
-});
+}).
+getP;
 
-new cfc(Game_Battler.prototype).addBase('getSprite',function f(){
+new cfc(Game_Battler.prototype).
+addBase('getSprite',function f(){
 	const sc=SceneManager._scene;
 	const m=sc&&sc._btlr2sp;
 	return m&&m.get(this);
-});
+}).
+getP;
 
-new cfc(SceneManager).addBase('getSprite',function f(obj){
+new cfc(SceneManager).
+addBase('getSprite',function f(obj){
 	const sc=this._scene;
 	const func=f.tbl[0].get(sc&&sc.constructor);
 	const m=func&&func(sc);
@@ -5765,7 +5810,8 @@ new Map([
 [Scene_Map,sc=>sc&&sc._chr2sp],
 [Scene_Battle,sc=>sc&&sc._btlr2sp],
 ]), // 0: constructor -> spritesMap
-]);
+]).
+getP;
 
 })(); // gameObj2sprite
 
@@ -8294,11 +8340,11 @@ addBase('_createLayers',function f(){
 	 */
 	
 	this._lowerLayer = new Sprite();
-	this._lowerLayer.move(-margin, -margin, width, height);
+	//this._lowerLayer.move(-margin, -margin, width, height);
 	this._lowerLayer.z = 0;
 	
 	this._upperLayer = new Sprite();
-	this._upperLayer.move(-margin, -margin, width, height);
+	//this._upperLayer.move(-margin, -margin, width, height);
 	this._upperLayer.z = 4;
 	
 	for(let i = 4;i--;){
@@ -8427,22 +8473,27 @@ addBase('_updateLayerPositions',function f(startX,startY){
 	const scalex_=Math.max(1,scalex,);
 	const scaley_=Math.max(1,scaley,);
 	
+	/* from (xy0) to (xy1) but rounded in (mod layerSize) */
 	const m=this._margin;
 	const ox=Math.floor(this.origin.x/scalex_);
 	const oy=Math.floor(this.origin.y/scaley_);
-	const x2=(ox - m).mod(this._layerWidth  );
-	const y2=(oy - m).mod(this._layerHeight );
-	const w1=this._layerWidth  -x2;
-	const h1=this._layerHeight -y2;
-	const w2=this._layerWidth  -w1;
-	const h2=this._layerHeight -h1;
+	const displayWidth  =~~(this._width  -m*2);
+	const displayHeight =~~(this._height -m*2);
+	const x0=(ox).mod(this._layerWidth  );
+	const y0=(oy).mod(this._layerHeight );
+	const x1=(x0+displayWidth  ).mod(this._layerWidth  );
+	const y1=(y0+displayHeight ).mod(this._layerHeight );
+	const w0=x1<x0?this._layerWidth  -x0:x1-x0;
+	const h0=y1<y0?this._layerHeight -y0:y1-y0;
+	const w1=displayWidth  -w0;
+	const h1=displayHeight -h0;
 	
 	const baseX=-m*scalex_;
 	const baseY=-m*scaley_;
 	
 	for(let i=2;i--;){
 		const p=i?this._upperLayer:this._lowerLayer;
-		p.position.set(
+		if(0)p.position.set(
 			baseX,
 			baseY,
 		);
@@ -8452,13 +8503,33 @@ addBase('_updateLayerPositions',function f(startX,startY){
 		);
 		
 		const children=p.children;
-		this._updateLayerPositions_setBmpFrame(children[0], 0, 0,  x2,y2,w1,h1);
-		this._updateLayerPositions_setBmpFrame(children[1],w1, 0,   0,y2,w2,h1);
-		this._updateLayerPositions_setBmpFrame(children[2], 0,h1,  x2, 0,w1,h2);
-		this._updateLayerPositions_setBmpFrame(children[3],w1,h1,   0, 0,w2,h2);
+		this._updateLayerPositions_setBmpFrame(children[0], 0, 0,  x0,y0,w0,h0);
+		this._updateLayerPositions_setBmpFrame(children[1],w0, 0,   0,y0,w1,h0);
+		this._updateLayerPositions_setBmpFrame(children[2], 0,h0,  x0, 0,w0,h1);
+		this._updateLayerPositions_setBmpFrame(children[3],w0,h0,   0, 0,w1,h1);
 	}
 }).
 getP;
+
+{ const a=class MiniTilemap extends Tilemap{
+};
+new cfc(a.prototype).
+addWithBaseIfNotOwn('initialize',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._tileScaleRendering=true;
+	return rtv;
+}).
+addWithBaseIfNotOwn('createCharacters',function f(){
+	const scmgr=SceneManager;
+	const root0=scmgr.chr2sp_getDefaultRoot(true);
+	scmgr.chr2sp_setDefaultRoot(this);
+	const rtv=f.ori.apply(this,arguments);
+	scmgr.chr2sp_setDefaultRoot(root0);
+	return rtv;
+}).
+getP;
+window[a.name]=a;
+}
 
 { const p=ShaderTilemap.prototype;
 delete p._drawTile;
