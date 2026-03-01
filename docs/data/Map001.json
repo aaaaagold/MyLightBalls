@@ -31709,7 +31709,10 @@
 				"add 1"
 			]},
 			{"code":355,"indent":2,"parameters":[
-				"if(!SceneManager._scene._testMapTmp_tm2){ const tm2=SceneManager._scene._testMapTmp_tm2=new Tilemap();"
+				"if(!SceneManager._scene._testMapTmp_tm2){"
+			]},
+			{"code":655,"indent":2,"parameters":[
+				"const tm2=SceneManager._scene._testMapTmp_tm2=new MiniTilemap();"
 			]},
 			{"code":655,"indent":2,"parameters":[
 				"const tm=SceneManager.getTilemap();"
@@ -31721,13 +31724,10 @@
 				"tm2.setDataFromGameMap($gameMap);"
 			]},
 			{"code":655,"indent":2,"parameters":[
-				"tm2.scale.set(0.5);"
+				"tm2.createCharacters($gameMap,$gamePlayer);"
 			]},
 			{"code":655,"indent":2,"parameters":[
-				"tm2.position.set(Math.max($gameMap.tileWidth_src(),$gameMap.tileHeight_src(),)>>1);"
-			]},
-			{"code":655,"indent":2,"parameters":[
-				"tm2.alpha=0.75;"
+				"tm2.alpha=0.75; tm2.scale.set(0.5); tm2.position.set(Math.max($gameMap.tileWidth_src(),$gameMap.tileHeight_src(),)>>1);"
 			]},
 			{"code":655,"indent":2,"parameters":[
 				"SceneManager._scene.addChild(tm2);"
