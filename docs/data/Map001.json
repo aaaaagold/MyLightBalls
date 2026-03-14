@@ -26403,7 +26403,8 @@
 					"add direct",
 					"add another",
 					"add another 100s",
-					"remove after idx 3"
+					"remove after idx 3",
+					"remove last"
 				],
 				0,
 				1,
@@ -26526,6 +26527,15 @@
 			]},
 			{"code":355,"indent":1,"parameters":[
 				"$gameParty._actors.slice(3).reverse().forEach(i=>$gameParty.removeActor(i))"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				5,
+				"remove last"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty._actors.length && $gameParty.removeActor($gameParty._actors.back);"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
