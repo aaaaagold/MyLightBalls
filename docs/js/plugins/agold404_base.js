@@ -741,7 +741,8 @@ new cfc(SceneManager).addBase('isMapOrIsBattle',function f(){
 	this.updateMain_data();
 	this.updateMain_render();
 	this.updateMain_final();
-}).addBase('updateMain_data',function f(){
+}).
+addBase('updateMain_data',function f(){
 	if(Utils.isMobileSafari()){
 		// this.updateInputData(); // already in .update
 		this.updateMain_data1(true);
@@ -749,12 +750,17 @@ new cfc(SceneManager).addBase('isMapOrIsBattle',function f(){
 		const newTime=this._getTimeInMsWithoutMobileSafari();
 		const fTime=Math.min((newTime-this._currentTime)/1000.0,f.tbl[0]);
 		this._currentTime=newTime;
-		this._accumulator+=fTime;
-		for(;this._accumulator>=this._deltaTime;this._accumulator-=this._deltaTime){
+		this._accumulator=Math.min(this._accumulator+fTime,f.tbl[1]);
+		for(let x=f.tbl[2];x--&&this._accumulator>=this._deltaTime;this._accumulator-=this._deltaTime){
 			this.updateMain_data1(false);
 		}
 	}
-},[0.25,]).addBase('updateMain_data1',function f(isNotToUpdateInputData){
+},[
+1.0/16, // 0: max dt
+1.0/4, // 1: max accumulated dt
+2|0, // 2: max update time per requestAnimationFrame
+]).
+addBase('updateMain_data1',function f(isNotToUpdateInputData){
 	if(!isNotToUpdateInputData) this.updateInputData();
 	this.changeScene_before();
 	this.changeScene();
@@ -5276,7 +5282,7 @@ addBase('matchMembersCnt',function f(){
 	if(mc>=2){ for(;;){
 		const idx=arr.length+1;
 		if(idx>=mc) break;
-		const last=arr.back;
+		const last=arr.back||$gamePlayer;
 		const flwr=new Game_Follower(idx);
 		flwr.locate(last.x,last.y);
 		flwr.refresh();
@@ -11202,6 +11208,18 @@ getP;
 
 (()=>{ let k,r,t;
 
+
+new cfc(PIXI.tilemap.TileRenderer.prototype).
+addBase('getVb',function f(key){
+	this.checkLeaks();
+	const vb=this.vbs[key];
+	if(vb){
+		vb.lastTimeAccess=Date.now();
+		return vb;
+	}
+	return null;
+}).
+getP;
 
 { const webgl1VerticesCntUpperBound=65536|0;
 new cfc(PIXI.tilemap.RectTileLayer.prototype).
