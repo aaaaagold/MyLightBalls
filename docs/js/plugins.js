@@ -53,6 +53,7 @@ var $plugins =
 {"name":"agold404_InChrVision","status":true,"description":"set what to do when an event sees player","parameters":{}},
 {"name":"agold404_InNoteTraits_ElementRate","status":true,"description":"setting element rate in note ; thus can be a wierd value","parameters":{}},
 {"name":"agold404_InfinitySaveFileSlots","status":true,"description":"make number of save files be infinity","parameters":{"InitSaveFileSlots":"20","ExtNumSaveFileSlots":"4"}},
+{"name":"agold404_InterpreterOnGameLoadedIndex","status":true,"description":"reset `._index` of a Game_Interpreter to the save point when loading the game","parameters":{}},
 {"name":"agold404_ItemEffectJavascript","status":true,"description":"add skill or item effect of a piece of js code","parameters":{}},
 {"name":"agold404_ItemNewTag","status":true,"description":"item \"new\" tag","parameters":{"NewText":"new!"}},
 {"name":"agold404_ItemOrder","status":true,"description":"Customize item sorting order","parameters":{"ItemToCmpValFunc":"\"(function(item){\\n\\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \\n})\"","LogItemGainOrder":"true","ReordModeBtn":"81"}},
