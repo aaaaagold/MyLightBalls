@@ -105,6 +105,7 @@ var $plugins =
 {"name":"agold404_Trait_levelUpEval","status":true,"description":"make number of save files be infinity","parameters":{"GlobalEvalBefore":"\"\"","GlobalEvalAfter":"\"\""}},
 {"name":"agold404_Trait_statesStackTimes","status":true,"description":"specifying a state can be stacked multiple times","parameters":{"GlobalChanges":"\"0\"\r"}},
 {"name":"agold404_TroopEval","status":true,"description":"run an event page of a troop BEFORE entering battle scene","parameters":{}},
+{"name":"agold404_Ui_missions","status":true,"description":"UI for missions","parameters":{}},
 {"name":"agold404_Ui_synthesis","status":true,"description":"UI for synthesis","parameters":{"TemplatePath":"data/synthesis.json","ItemPropertyStringName":"name","ItemPropertyStringDescription":"description","ItemPropertyStringMaterials":"materials","ItemPropertyStringGains":"gains"}},
 {"name":"agold404_UnionCount","status":true,"description":"set a group of items to count together when determine hasMaxItem","parameters":{}},
 {"name":"agold404_UnorederedSprite","status":true,"description":"a sprite whose .children will not keep the order.","parameters":{}},
