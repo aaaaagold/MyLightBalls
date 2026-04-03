@@ -31947,6 +31947,21 @@
 			]},
 			{"code":412,"indent":1,"parameters":[
 			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp._tmp_missionInfo=\"\"+"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"title: \"+$gameSystem.missions_current_getTitle(undefined,$gamePlayer._missionIds[0])+"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"\\n\"+"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"description: \"+$gameSystem.missions_current_getDescription(undefined,$gamePlayer._missionIds[0])+"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"\"\";"
+			]},
 			{"code":111,"indent":1,"parameters":[
 				12,
 				"$gameSystem.missions_current_chkOk(undefined,$gamePlayer._missionIds[0])"
@@ -31958,7 +31973,10 @@
 				2
 			]},
 			{"code":401,"indent":2,"parameters":[
-				"can be completed"
+				"can be completed. info:"
+			]},
+			{"code":401,"indent":2,"parameters":[
+				"\\EVALTOSTR:\"$gameTemp._tmp_missionInfo\""
 			]},
 			{"code":0,"indent":2,"parameters":[
 			]},
@@ -31971,7 +31989,10 @@
 				2
 			]},
 			{"code":401,"indent":2,"parameters":[
-				"cannot be completed"
+				"cannot be completed. info:"
+			]},
+			{"code":401,"indent":2,"parameters":[
+				"\\EVALTOSTR:\"$gameTemp._tmp_missionInfo\""
 			]},
 			{"code":0,"indent":2,"parameters":[
 			]},
