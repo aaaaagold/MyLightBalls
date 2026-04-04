@@ -31892,7 +31892,7 @@
 			{"code":102,"indent":0,"parameters":[
 				[
 					"(cancel)",
-					"(no function)",
+					"show list gui",
 					"add instance",
 					"chk instances[0]",
 					"complete instances[0]"
@@ -31910,7 +31910,28 @@
 			]},
 			{"code":402,"indent":0,"parameters":[
 				1,
-				"(no function)"
+				"show list gui"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameTemp.missions_current_show("
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" undefined, // option"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" \"\", // ignored separator"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" filterArg0, // filter"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" \"?\", // separator"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				" filterArg0, // filter"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				");"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
