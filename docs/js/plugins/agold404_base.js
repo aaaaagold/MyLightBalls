@@ -25,6 +25,34 @@ console.log(getPluginNameViaSrc(document.currentScript.src));
 window._isTest=getUrlParamVal('test')||Utils.isOptionValid('test')||Utils.isOptionValid('btest')||Utils.isOptionValid('etest');
 window.isTest=()=>window._isTest;
 
+
+{ const a=function ScreenshotsManager(){
+	throw new Error('This is a static class');
+};
+new cfc(a).
+addBase('_getCont',function f(){
+	let rtv=this._cont; if(!rtv) rtv=this._cont=[];
+	return rtv;
+}).
+addBase('add1',function f(canvasSrc,opt){
+	const cont=this._getCont();
+	opt=Object.assign({},opt||{});
+	opt.canvas=canvasSrc.ptcp(0,0,canvasSrc.width,canvasSrc.height);
+	cont.push(opt);
+}).
+addBase('size',function f(){
+	const cont=this._getCont();
+	return cont.length;
+}).
+addBase('getI',function f(idx){
+	const cont=this._getCont();
+	return cont[idx];
+}).
+getP;
+window[a.name]=a;
+}
+
+
 new cfc(Decrypter).addBase('checkImgIgnore',function(url){
 	return this._ignoreList.uniqueHas(url) || ResourceHandler.isDirectPath(url);
 }).add('decryptArrayBuffer',function f(arrayBuffer,refHeader){
@@ -798,6 +826,7 @@ function(f){ if(!f()) this.push(f); },
 }).addBase('additionalUpdate_changeScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_changeScene_getAfter():this.additionalUpdate_changeScene_getBefore();
 	arr.push(func);
+	return this;
 }).addBase('updateScene_before',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_updateScene_getBefore());
 }).addBase('updateScene_after',function f(){
@@ -811,6 +840,7 @@ function(f){ if(!f()) this.push(f); },
 }).addBase('additionalUpdate_updateScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_updateScene_getAfter():this.additionalUpdate_updateScene_getBefore();
 	arr.push(func);
+	return this;
 }).addBase('renderScene_before',function f(){
 	this.additionalUpdate_doArr(this.additionalUpdate_renderScene_getBefore());
 }).addBase('renderScene_after',function f(){
@@ -824,6 +854,7 @@ function(f){ if(!f()) this.push(f); },
 }).addBase('additionalUpdate_renderScene_add',function f(func,isAfter){
 	const arr=isAfter?this.additionalUpdate_renderScene_getAfter():this.additionalUpdate_renderScene_getBefore();
 	arr.push(func);
+	return this;
 }).addBase('updateScene',function f(){
 	if(this._scene){
 		if(!this._sceneStarted && this._scene.isReady()){
@@ -2318,10 +2349,11 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 	}; }
 	const w=getTopFrameWindow(); if(w===window) return;
 	w._w=window;
+	if(!f.tbl) f.tbl=[];
 	// dynamicData
 	{
 		w.exposeToTopFrame=f;
-		const arr=f.tbl=f.tbl||getPrefixPropertyNames(window,'$data'); arr.uniquePop('$dataMap');
+		const arr=f.tbl[0]=f.tbl[0]||getPrefixPropertyNames(window,'$data'); arr.uniquePop('$dataMap');
 		arr.uniquePush('$dataMap','$gameTemp','$gameSystem','$gameScreen','$gameTimer','$gameMessage','$gameSwitches','$gameVariables','$gameSelfSwitches','$gameActors','$gameParty','$gameTroop','$gameMap','$gamePlayer',);
 		arr.forEach(key=>{ if(!key) return;
 			try{
@@ -2330,8 +2362,18 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 			}
 		});
 	}
+	// staticData
 	{
-		const arr=[];
+		const arr=f.tbl[1]=f.tbl[1]||getPrefixPropertyNames(w._w,'Game_').concat_inplace(
+			getPrefixPropertyNames(w._w,'Scene_')
+		).concat_inplace(
+			getPrefixPropertyNames(w._w,'Window_')
+		).concat_inplace(
+			getSuffixPropertyNames(w._w,'Manager').filter(s=>{
+				const obj=w._w[s];
+				return obj&&!obj.toString().indexOf('[native code]')===-1;
+			})
+		);
 		arr.push('AudioManager','BattleManager','ConfigManager','DataManager','ImageManager','SceneManager','SoundManager','PluginManager',);
 		arr.push('Input','TouchInput',);
 		arr.push('Graphics','PIXI','Sprite','Bitmap','WebAudio',);
@@ -2343,7 +2385,7 @@ const exposeToTopFrame=window.exposeToTopFrame=function f(){
 		arr.push('isArray',);
 		arr.push('useDefaultIfIsNaN','useDefaultIfIsNone',);
 		arr.push('getCStyleStringStartAndEndFromString',);
-		arr.push('getPrefixPropertyNames',);
+		arr.push('getPrefixPropertyNames','getSuffixPropertyNames',);
 		arr.push('getTopFrameWindow','chTitle',);
 		arr.push('copyToClipboard','pasteCanvas',);
 		arr.push('listMapParents',);
@@ -3279,7 +3321,7 @@ getP;
 
 new cfc(Window_EquipSlot.prototype).
 addBase('processOk',function f(){
-	// always ok. block equipment change when okItemOk.
+	// always ok here. block equipment change in okItemOk if not changable.
 	this.playOkSound();
 	this.updateInputData();
 	this.deactivate();
@@ -9507,10 +9549,16 @@ p.getImageData=function f(x,y,w,h){
 p.pasteCanvas=function f(){
 	if(!this._createScreenshot) return;
 	this._createScreenshot=false;
+	if(this._createScreenshot_fromHotkey){
+		this._createScreenshot_fromHotkey=false;
+		ScreenshotsManager.add1(this._canvas);
+		return;
+	}
 	pasteCanvas(this._canvas);
 };
-p.createScreenshot=function f(){
+p.createScreenshot=function f(isFromHotkey){
 	this._createScreenshot=true;
+	this._createScreenshot_fromHotkey=isFromHotkey;
 };
 }
 
