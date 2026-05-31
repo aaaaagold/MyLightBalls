@@ -30273,19 +30273,19 @@
 				"].concat_inplace($dataItems.filter(filterFunc).map(dataobj=>{"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				" return [0,dataobj.id,0];"
+				" return [0,dataobj.id,0,0,11];"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"})).concat_inplace($dataWeapons.filter(filterFunc).map(dataobj=>{"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				" return [1,dataobj.id,0];"
+				" return [1,dataobj.id,0,0,22];"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"})).concat_inplace($dataArmors.filter(filterFunc).map(dataobj=>{"
 			]},
 			{"code":655,"indent":1,"parameters":[
-				" return [2,dataobj.id,0];"
+				" return [2,dataobj.id,0,0,33];"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"}));"
