@@ -2907,6 +2907,28 @@ getP;
 
 
 new cfc(Scene_MenuBase.prototype).
+addWithBaseIfNotOwn('initialize',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this._allCmdWnds=[];
+	return rtv;
+}).
+addBase('_changeUiState_defocusAll',function f(){
+	this._allCmdWnds.forEach(f.tbl[0]);
+},[
+wnd=>{
+	wnd.deactivate();
+}, // 0: forEach
+]).
+addBase('_changeUiState_deselectExcept',function f(exceptWnds){
+	// exceptWnds instanceof Set
+	this._allCmdWnds.forEach(f.tbl[0],exceptWnds||f.tbl[1]);
+},[
+function(wnd){
+	if(this.has(wnd)) return;
+	wnd.deselect();
+}, // 0: forEach
+new Set(), // 1: prevent null
+]).
 addBase('setUiState',function f(val){
 	return this._uiState=val;
 }).
@@ -2916,10 +2938,22 @@ addBase('getUiState',function f(){
 addBase('isWndClicked',function f(wnd){
 	return wnd.isOpen()&&wnd.visible&&wnd.containsPoint_global(TouchInput);
 }).
-addBase('changeUiState_focusOnItemWnd',function f(){
-}).
 addBase('update_focusWndFromTouch_condOk',function f(){
 	return TouchInput.isTriggered();
+}).
+addBase('update_focusWndFromTouch_do',function f(){
+	return undefined ||
+		undefined;
+}).
+addBase('update_focusWndFromTouch',function f(){
+	if(this.update_focusWndFromTouch_condOk()) this.update_focusWndFromTouch_do();
+}).
+addWithBaseIfNotOwn('update',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.update_focusWndFromTouch();
+	return rtv;
+}).
+addBase('changeUiState_focusOnItemWnd',function f(){
 }).
 getP;
 
@@ -3000,14 +3034,6 @@ addBase('update_focusWndFromTouch_do',function f(){
 		this.update_focusWndFromTouch_do_itemList.apply(this,arguments) ||
 		this.update_focusWndFromTouch_do_category.apply(this,arguments) ||
 		undefined;
-}).
-addBase('update_focusWndFromTouch',function f(){
-	if(this.update_focusWndFromTouch_condOk()) this.update_focusWndFromTouch_do();
-}).
-addWithBaseIfNotOwn('update',function f(){
-	const rtv=f.ori.apply(this,arguments);
-	this.update_focusWndFromTouch();
-	return rtv;
 }).
 getP;
 
@@ -3179,14 +3205,6 @@ addBase('update_focusWndFromTouch_do',function f(){
 		this.update_focusWndFromTouch_do_sell.apply(this,arguments) ||
 		undefined;
 }).
-addBase('update_focusWndFromTouch',function f(){
-	if(this.update_focusWndFromTouch_condOk()) this.update_focusWndFromTouch_do();
-}).
-addWithBaseIfNotOwn('update',function f(){
-	const rtv=f.ori.apply(this,arguments);
-	this.update_focusWndFromTouch();
-	return rtv;
-}).
 getP;
 
 new cfc(Window_ShopCommand.prototype).
@@ -3329,14 +3347,6 @@ addBase('update_focusWndFromTouch_do',function f(){
 		this.changeUiState_focusOnItemWnd();
 		return wnd;
 	} }
-}).
-addBase('update_focusWndFromTouch',function f(){
-	if(this.update_focusWndFromTouch_condOk()) this.update_focusWndFromTouch_do();
-}).
-addWithBaseIfNotOwn('update',function f(){
-	const rtv=f.ori.apply(this,arguments);
-	this.update_focusWndFromTouch();
-	return rtv;
 }).
 getP;
 
@@ -7640,17 +7650,35 @@ undefined,
 },t);
 
 new cfc(Window_Command.prototype).
+addBase('command',function f(idx){
+	return this._list&&this._list[idx];
+}).
 addBase('commandExt',function f(idx){
-	const cmd=this._list&&this._list[idx];
+	const cmd=this.command(idx);
 	return cmd&&cmd.ext;
 }).
 addBase('commandSymbol',function f(idx){
-	const cmd=this._list&&this._list[idx];
+	const cmd=this.command(idx);
 	return cmd&&cmd.symbol;
 }).
 addBase('commandName',function f(idx){
-	const cmd=this._list&&this._list[idx];
+	const cmd=this.command(idx);
 	return cmd&&cmd.name;
+}).
+addBase('setCommandExt',function f(idx,ext){
+	const cmd=this.command(idx);
+	if(cmd) cmd.ext=ext;
+	return this;
+}).
+addBase('setCommandSymbol',function f(idx,symb){
+	const cmd=this.command(idx);
+	if(cmd) cmd.symbol=symb;
+	return this;
+}).
+addBase('setCommandName',function f(idx,name){
+	const cmd=this.command(idx);
+	if(cmd) cmd.name=name;
+	return this;
 }).
 getP;
 
@@ -12382,7 +12410,7 @@ add('drawItem_draw_do',function f(rect,item,index){
 	this.drawItem_drawRemainedCount.apply(this,arguments);
 	return f.ori.apply(this,arguments);
 }).
-add('isEnabled_byIndex_hasRemained',function f(index){
+addBase('isEnabled_byIndex_hasRemained',function f(index){
 	return 0<this.getRemainedCountByIndex(index);
 },t).
 add('isEnabled_byIndex',function f(index){
@@ -12391,7 +12419,7 @@ add('isEnabled_byIndex',function f(index){
 getP;
 
 new cfc(Scene_Shop.prototype).
-add('maxBuy_remainedCount',function f(){
+addBase('maxBuy_remainedCount',function f(){
 	return this._buyWindow.getRemainedCountByIndex(this._buyIndex);
 }).
 add('maxBuy',function f(){

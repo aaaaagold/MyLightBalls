@@ -59,10 +59,23 @@ undefined,
 	}
 	document.ce('a').sa('href',info.url).sa('download',info.name).click();
 	this._itemCmdWindow.activate();
-},], // 5-0: 
+},], // 5- : 
+["chName","Change name",function f(){
+	const wnd=this._inputTextWindow;
+	const ta=wnd._textarea;
+	const refWnd=this._previewBackgroundWindow;
+	const listWnd=this._listWindow;
+	ta._index=listWnd.index();
+	const info=ta._info=listWnd.currentExt();
+	wnd.position.set(refWnd.x,refWnd.y);
+	wnd.width=refWnd.width;
+	ta.value=info.name;
+	wnd.open();
+	//wnd._textarea.focus(); // auto. exec. in `onopened` 
+},()=>(typeof Window_InputText!=='undefined'),], // 5- : 
 ["goback","Go back",function f(){
 	this._itemCmdWindow._handlers.cancel();
-},], // 5-1: 
+},], // 5- : 
 ["delete","Delete",function f(){
 	const idx=this._listWindow.index();
 	ScreenshotsManager.delI(idx);
@@ -70,23 +83,56 @@ undefined,
 	if(idx&&idx>=this._listWindow._list.length) this._listWindow.select(idx-1);
 	else this._listWindow.onNewSelect_updatePreview(idx);
 	this._itemCmdWindow._handlers.goback();
-},], // 5-2: 
+},], // 5- : 
 ], // 5: itemCmds
 {
 	display:"see screenshots", // f.tbl[1]._commandTextGetter()
 	key:"screenshots",
 }, // 6: entry
+[
+{
+	updatePolling:undefined,
+	cancelCallback:function f(){
+		SoundManager.playCancel();
+		this._wnd.close();
+		//this.blur(); // too early
+	},
+	escAsCancel:true,
+	okCallback:function f(){
+		const wnd=this._wnd;
+		const self=wnd._scene;
+		if(this._info) this._info.name=this.value;
+		this._info=undefined;
+		if(this._index!=null) self._listWindow.redrawItem(this._index);
+		this._index=undefined;
+		SoundManager.playOk();
+		wnd.close();
+	},
+	enterAsOk:true,
+	btns:"left-h",
+}, // 7-0: opt
+function f(){
+	this._scene._itemCmdWindow.activate();
+	this._textarea.blur();
+	Graphics._canvas.focus();
+	Input.isTexting_clear();
+}, // 7-1: onclosed
+], // 7: Window_InputText setting
 ];
 
 
 { const a=class Window_Screenshots_List extends Window_Command{
 };
 new cfc(a.prototype).
+addWithBaseIfNotOwn('commandName',function f(idx){
+	const info=f.ori.apply(this,arguments);
+	return typeof info==='string'?info:info&&info.name;
+}).
 addBase('makeCommandList',function f(){
 	const sz=ScreenshotsManager.size();
 	for(let x=0;x<sz;++x){
 		const info=ScreenshotsManager.getI(x);
-		this.addCommand(info.name,'',undefined,info);
+		this.addCommand(info,'',undefined,info);
 	}
 	if(!sz){
 		this.addCommand(f.tbl[4],'none',false);
@@ -98,8 +144,8 @@ addBase('windowWidth',function f(){
 addBase('windowHeight',function f(){
 	return Graphics.boxHeight;
 }).
-addBase('onNewSelect',function f(idx){
-	const rtv=f._super[f._funcName].apply(this,arguments);
+addWithBaseIfNotOwn('onNewSelect',function f(idx){
+	const rtv=f.ori.apply(this,arguments);
 	this.onNewSelect_updatePreview.apply(this,arguments);
 	return rtv;
 }).
@@ -107,12 +153,29 @@ addBase('onNewSelect_updatePreview',function f(idx){
 	const sc=this._scene; if(!sc) return;
 	const sp=sc._previewSprite; if(!sp) return;
 	const info=sc._listWindow.commandExt(idx);
-	if(info&&info.url){
+	this._autoUpdatePreviewIndex=undefined;
+	let useEmpty=true;
+	if(info){
+		if(info.url){
+			useEmpty=false;
+		}else if(!info.isDeleted){
+			this._autoUpdatePreviewIndex=idx;
+		}
+	}
+	if(!useEmpty){
 		sp.bitmap=ImageManager.loadNormalBitmap(info.url);
 	}else{
 		sp.bitmap=ImageManager.loadEmptyBitmap();
 	}
 	sc.previewSprite_resetPosition();
+}).
+addBase('update_autoUpdatePreview',function f(){
+	const idx=this._autoUpdatePreviewIndex;
+	if(idx>=0) this.onNewSelect_updatePreview(idx);
+}).
+addWithBaseIfNotOwn('update',function f(){
+	this.update_autoUpdatePreview.apply(this,arguments);
+	return f.ori.apply(this,arguments);
 }).
 getP;
 window[a.name]=a;
@@ -122,7 +185,9 @@ window[a.name]=a;
 };
 new cfc(a.prototype).
 addBase('makeCommandList',function f(){
+	this.maxCols(); // update enabled items
 	for(let arr=f.tbl[5],x=0,xs=arr.length;x<xs;++x){
+		if(arr[x][3]!=null) if((arr[x][3] instanceof Function)?!arr[x][3]():!arr[x][3]) continue;
 		this.addCommand(arr[x][1],arr[x][0]);
 	}
 },t).
@@ -130,13 +195,22 @@ addBase('windowWidth',function f(){
 	return Graphics.boxWidth-Window_Screenshots_List.prototype[f._funcName].call(this);
 }).
 addBase('maxCols',function f(){
-	return f.tbl[5].length;
+	const tbl5=f.tbl[5];
+	if(!tbl5._checked){
+		tbl5._checked=true;
+		const arr=tbl5.slice();
+		tbl5.length=0;
+		for(let x=0,xs=arr.length;x!==xs;++x){
+			tbl5.push(arr[x]);
+		}
+	}
+	return tbl5.length;
 },t).
 getP;
 window[a.name]=a;
 }
 
-{ const a=class Scene_Screenshots extends Scene_Base{
+{ const a=class Scene_Screenshots extends Scene_MenuBase{
 };
 new cfc(a.prototype).
 addBase('create',function f(){
@@ -148,9 +222,11 @@ addBase('create',function f(){
 }).
 addBase('create_do_before',function f(){
 	Scene_MenuBase.prototype.createBackground.apply(this,arguments);
+	this._allCmdWnds.length=0;
 }).
 addBase('create_do_after',function f(){
 	this._listWindow.select(0);
+	this._itemCmdWindow.deactivate();
 	if($gameTemp&&$gameTemp.popupMsg&&f.tbl[1]._hintsSceneCreate) $gameTemp.popupMsg(f.tbl[1]._hintsSceneCreate);
 },t).
 addBase('create_do',function f(){
@@ -158,6 +234,7 @@ addBase('create_do',function f(){
 	this.create_do_itemCmdWindow.apply(this,arguments);
 	this.create_do_previewBackgroundWindow.apply(this,arguments);
 	this.create_do_previewSprite.apply(this,arguments);
+	this.create_do_inputTextWindow.apply(this,arguments);
 }).
 addBase('create_do_listWindow',function f(){
 	this._listWindow=new Window_Screenshots_List(0,0);
@@ -166,10 +243,13 @@ addBase('create_do_listWindow',function f(){
 	this._listWindow._scene=this;
 	this._listWindow.setHandler('cancel',this.popScene.bind(this));
 	this._listWindow.setHandler('ok',()=>{
+		this.changeUiState_focusOnItemCmdWnd(); return;
 		this._listWindow.deactivate();
 		this._itemCmdWindow.select(0);
 		this._itemCmdWindow.activate();
 	});
+	
+	this._allCmdWnds.push(this._listWindow);
 }).
 addBase('create_do_itemCmdWindow',function f(){
 	this._itemCmdWindow=new Window_Screenshots_ItemCommands(0,0);
@@ -179,13 +259,17 @@ addBase('create_do_itemCmdWindow',function f(){
 	this._itemCmdWindow._scene=this;
 	this._itemCmdWindow.position.set(this._listWindow.width,0);
 	this._itemCmdWindow.setHandler('cancel',()=>{
+		this.changeUiState_focusOnListWnd(); return;
 		this._itemCmdWindow.deactivate();
 		this._itemCmdWindow.select(-1);
 		this._listWindow.activate();
 	});
+	this._itemCmdWindow.maxCols(); // update enabled items
 	for(let arr=f.tbl[5],x=0,xs=arr.length;x<xs;++x){
 		this._itemCmdWindow.setHandler(arr[x][0],arr[x][2].bind(this));
 	}
+	
+	this._allCmdWnds.push(this._itemCmdWindow);
 },t).
 addBase('create_do_previewBackgroundWindow',function f(){
 	this._previewBackgroundWindow=new Window_Base(this._listWindow.width,this._itemCmdWindow.height,Graphics.boxWidth-this._listWindow.width,this._listWindow.height-this._itemCmdWindow.height);
@@ -196,6 +280,18 @@ addBase('create_do_previewSprite',function f(){
 	this.addChild(this._previewSprite);
 	this.previewSprite_resetPosition.apply(this,arguments);
 }).
+addBase('create_do_inputTextWindow',function f(){
+	this._inputTextWindow=undefined;
+	if(typeof Window_InputText==='undefined') return;
+	const wnd=this._inputTextWindow=new Window_InputText(0,0,1,1,f.tbl[7][0]);
+	this.addChild(wnd);
+	wnd._scene=this;
+	wnd.height=1+Math.ceil(wnd.standardFontSize()*1.25+wnd.standardPadding()*2);
+	wnd.onclosed=f.tbl[7][1];
+	wnd.openness=0;
+	wnd.close();
+	wnd.updateClose();
+},t).
 addBase('previewSprite_resetPosition',function f(){
 	this._previewSprite.anchor.set(0.5);
 	this._previewSprite.scale.set(0.5);
@@ -204,6 +300,30 @@ addBase('previewSprite_resetPosition',function f(){
 		this._previewBackgroundWindow.y+(this._previewBackgroundWindow.height>>1),
 	);
 }).
+addBase('changeUiState_focusOnListWnd',function f(){
+	this.setUiState(f.tbl[0]);
+	this._changeUiState_defocusAll();
+	this._changeUiState_deselectExcept(new Set([
+		this._listWindow,
+	]));
+	const wnd=this._listWindow;
+	wnd.activate();
+},[
+'focusOnListWnd',
+]).
+addBase('changeUiState_focusOnItemCmdWnd',function f(){
+	this.setUiState(f.tbl[0]);
+	this._changeUiState_defocusAll();
+	this._changeUiState_deselectExcept(new Set([
+		this._listWindow,
+		this._itemCmdWindow,
+	]));
+	const wnd=this._itemCmdWindow;
+	wnd.activate();
+	if(!(wnd.index()>=0)) wnd.select(0);
+},[
+'focusOnItemCmdWnd',
+]).
 getP;
 window[a.name]=a;
 }
@@ -244,6 +364,27 @@ if(params._keys&&params._keys.forEach) params._keys.forEach(x=>{
 SceneManager.additionalUpdate_renderScene_add(()=>{
 	if(Input.isTriggered(keyName_screenshot)) Graphics.createScreenshot(true);
 });
+new cfc(ScreenshotsManager).
+addBase('refreshGui',function f(){
+	const sc=SceneManager._scene;
+	if(sc&&sc.constructor===Scene_Screenshots){
+		sc._listWindow.refresh();
+		// refresh current new pewview
+		const idx=sc._listWindow.index();
+		if(Math.abs(ScreenshotsManager.size()-idx)<=1) sc._listWindow.onNewSelect_updatePreview(idx);
+	}
+}).
+add('add1',function f(canvasSrc,opt){
+	const rtv=f.ori.apply(this,arguments);
+	this.refreshGui();
+	return rtv;
+}).
+add('delI',function f(idx){
+	const rtv=f.ori.apply(this,arguments);
+	this.refreshGui();
+	return rtv;
+}).
+getP;
 
 
 })();
