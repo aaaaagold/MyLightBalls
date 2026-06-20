@@ -30305,7 +30305,8 @@
 					"extend - item only",
 					"extend - weapon only",
 					"extend - armor only",
-					"extend - members as money"
+					"extend - members as money",
+					"extend - sellOptions"
 				],
 				0,
 				0,
@@ -30411,6 +30412,39 @@
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"  getter:()=>$gameParty._actors.length-1,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"},},"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				");"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				4,
+				"extend - sellOptions"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"SceneManager.push(Scene_Shop);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.prepareNextScene("
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"[ [0,2,-1,1,111,], [0,2,-1,2,222,], ],"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"false,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{sellOptions:{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"  filter:item=>item&&item.id<12,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"  price:item=>item?item.id*1000:0,"
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"},},"
