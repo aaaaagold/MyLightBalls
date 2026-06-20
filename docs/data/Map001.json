@@ -30304,7 +30304,8 @@
 				[
 					"extend - item only",
 					"extend - weapon only",
-					"extend - armor only"
+					"extend - armor only",
+					"extend - members as money"
 				],
 				0,
 				0,
@@ -30380,6 +30381,42 @@
 			]},
 			{"code":655,"indent":1,"parameters":[
 				"SceneManager.prepareNextScene(arr,false); }"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				3,
+				"extend - members as money"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"SceneManager.push(Scene_Shop);"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"SceneManager.prepareNextScene("
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"[ [0,2,-1,1,111,], [0,2,-1,2,222,], ],"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"true,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"{goldOptions:{"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"  unit:\"人\","
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"  setter:val=>{ for(let x=$gameParty._actors.length-1-val;x-->0;) $gameParty.removeActor($gameParty._actors.back); },"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"  getter:()=>$gameParty._actors.length-1,"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				"},},"
+			]},
+			{"code":655,"indent":1,"parameters":[
+				");"
 			]},
 			{"code":0,"indent":1,"parameters":[
 			]},
