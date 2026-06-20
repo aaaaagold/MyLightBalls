@@ -2514,6 +2514,17 @@ addBase('snapForBackground',function f(sc){
 getP;
 
 
+new cfc(Window_Gold.prototype).
+add('initialize',function f(){
+	this._currencyUnit=TextManager.currencyUnit;
+	return f.ori.apply(this,arguments);
+}).
+addBase('currencyUnit',function f(){
+	return this._currencyUnit;
+}).
+getP
+
+
 new cfc(Window_ShopNumber.prototype).
 addBase('processNumberChange_condOk',function f(){
 	return this.isOpenAndActive();
@@ -3248,11 +3259,58 @@ cancel:'onNewSelect_adjustWindow_cancel',
 getP;
 
 
-new cfc(Window_ShopBuy.prototype).
-addBase('isEnabled',function f(item){
-	return item && $gameParty._gold>=this.price(item) && !$gameParty.hasMaxItems(item);
+new cfc(Scene_Shop.prototype).
+add('prepare',function f(goods, purchaseOnly, opts){
+	const rtv=f.ori.apply(this,arguments);
+	this.sellOptions_initOptions.apply(this,arguments);
+	return rtv;
+}).
+addBase('sellOptions_initOptions',function f(goods, purchaseOnly, opts){
+	const sellOptions=opts&&opts.sellOptions||{};
+	this._sellOption_sellFilter=sellOptions.filter;
+	this._sellOption_getSellPrice=sellOptions.price;
+}).
+add('createSellWindow',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.sellOptions_passOptionsToSellWindow.apply(this,arguments);
+	return rtv;
+}).
+addBase('sellOptions_passOptionsToSellWindow',function f(){
+	const wnd=this._sellWindow;
+	wnd._sellOption_sellFilter=this._sellOption_sellFilter;
+	wnd._sellOption_getSellPrice=this._sellOption_getSellPrice;
+}).
+add('sellingPrice',function f(item){
+	return this._sellOption_getSellPrice?this._sellOption_getSellPrice(item):f.ori.apply(this,arguments);
+}).
+addBase('doBuy',function f(cnt){
+	this.doBuy_setMoney.apply(this,arguments);
+	this.doBuy_setItem.apply(this,arguments);
+}).
+addBase('doBuy_setMoney',function f(cnt){
+	$gameParty.loseGold(this.buyingPrice()*cnt);
+}).
+addBase('doBuy_setItem',function f(cnt){
+	$gameParty.gainItem(this._item,cnt);
+}).
+addBase('doSell',function f(cnt){
+	this.doSell_setMoney.apply(this,arguments);
+	this.doSell_setItem.apply(this,arguments);
+}).
+addBase('doSell_setMoney',function f(cnt){
+	$gameParty.gainGold(this.sellingPrice()*cnt);
+}).
+addBase('doSell_setItem',function f(cnt){
+	$gameParty.loseItem(this._item,cnt);
 }).
 getP;
+
+new cfc(Window_ShopSell.prototype).
+addWithBaseIfNotOwn('isEnabled',function f(item){
+	return f.ori.apply(this,arguments)&&(!this._sellOption_sellFilter||this._sellOption_sellFilter(item));
+}).
+getP;
+
 
 new cfc(Scene_Equip.prototype).
 addBase('changeUiState_focusOnSlotWnd',function f(){
@@ -5135,6 +5193,16 @@ getP;
 
 
 new cfc(Window_ShopBuy.prototype).
+addBase('price_byIndex',function f(index){
+	return this._price[index]-0||0;
+}).
+addBase('getMoney',function f(){
+	return $gameParty.gold();
+}).
+addBase('isEnabled_byIndex',function f(index){
+	const item=this._data[index];
+	return (item && this.getMoney()>=this.price_byIndex(index) && !$gameParty.hasMaxItems(item));
+}).
 addBase('makeItemList_do_initAllData',function f(){
 	this._data = [];
 	this._price = [];
@@ -5177,7 +5245,7 @@ addBase('drawItem_drawItemName',function(rect,item,index){
 addBase('drawItem_drawItemPrice',function(rect,item,index){
 	const padding=this.textPadding();
 	let width=Math.min(rect.width-padding,this.drawItem_priceWidth(index));
-	this.drawText(this.price(item), rect.x + rect.width - width, rect.y, width, 'right');
+	this.drawText(this.price_byIndex(index), rect.x + rect.width - width, rect.y, width, 'right');
 	width+=padding;
 	rect.width-=width;
 }).
@@ -12239,6 +12307,17 @@ new cfc(Bitmap.prototype).add('_callLoadListeners',function f(){
 }
 
 
+new cfc(Scene_Shop.prototype).
+add('onBuyOk',function f(){
+	this._itemIndex=this._buyWindow.index();
+	return f.ori.apply(this,arguments);
+}).
+addBase('buyingPrice',function f(){
+	return this._buyWindow.price_byIndex(this._itemIndex);
+}).
+getP;
+
+
 new cfc(Window_ShopSell.prototype).
 addBase('isEnabled',function f(item){
 	return item && 0<item.price && $gameParty && $gameParty.numItems(item);
@@ -12379,7 +12458,7 @@ addBase('getRemainedCountByIndex',function f(index){
 new Set([
 	typeof 0,
 ]), // 0: expected typeof s
-"#", // 1: hint text
+"  #", // 1: hint text
 ]).
 addBase('decreaseRemainedCountByIndex',function f(index,val){
 	const info=this.getInfoByIndex(index);
@@ -12394,14 +12473,18 @@ addBase('increaseRemainedCountByIndex',function f(index,val){
 addBase('drawItem_remainedCountWidth',function f(index){
 	return 96;
 }).
+addBase('drawItem_hintTextWidth',function f(index){
+	return 32;
+}).
 addBase('drawItem_drawRemainedCount',function f(rect,item,index){
 	const padding=this.textPadding();
 	let width=Math.min(rect.width-padding,this.drawItem_remainedCountWidth(index));
 	const info=this._infos[index];
 	const remainedCount=info&&info[4];
 	if(f.tbl[0].has(typeof remainedCount)){
-		this.drawText(f.tbl[1], rect.x + rect.width - width, rect.y, width, 'left');
-		this.drawText(remainedCount, rect.x + rect.width - width, rect.y, width, 'right');
+		const hintTextWidth=this.drawItem_hintTextWidth(index);
+		this.drawText(f.tbl[1], rect.x + rect.width - width, rect.y, hintTextWidth, 'left');
+		this.drawText(remainedCount, rect.x + rect.width - width + hintTextWidth, rect.y, width-hintTextWidth, 'right');
 	}
 	width+=padding;
 	rect.width-=width;
