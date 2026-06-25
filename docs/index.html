@@ -5,6 +5,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="viewport" content="user-scalable=no">
+	<meta name="description" content="agold404 ㄉ光球ㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉㄉ">
 	<link rel="icon" href="icon/icon.png" type="image/png">
 	<link rel="apple-touch-icon" href="icon/icon.png">
 	<title>我ㄉ光球ㄉㄉㄉ</title>
@@ -26,13 +27,28 @@ padding: 0px;
 <iframe src="inner.html#entry=MyLightBalls" id="root-iframe"></iframe>
 <script>
 "use strict";
-const focusOnTheGame=()=>{
-const ele=document.getElementById("root-iframe");
-if(ele) ele.focus();
-else console.warn("cannot find game iframe");
+const focusOnTheGame=function f(){
+	const ele=document.getElementById("root-iframe");
+	if(ele){ const cw=ele.contentWindow; if(cw){
+		cw.focus();
+		return;
+	} }
+	const th=1e2;
+	if(isNaN(f._lastDateNow)) f._lastDateNow=-th;
+	if(isNaN(f._lastPerformance)) f._lastPerformance=-th;
+	const dt=Math.min(Date.now()-f._lastDateNow,performance.now()-f._lastPerformance)||0;
+	if(!(dt>=0)||dt>=th){
+		f._lastDateNow=Date.now();
+		f._lastPerformance=performance.now();
+		console.warn("cannot find game iframe");
+	}
 };
 window.onfocus=focusOnTheGame;
+const focusOnTheGameLoop1=function f(){
 focusOnTheGame();
+requestAnimationFrame(f);
+};
+focusOnTheGameLoop1();
 </script>
 </body>
 </html>
