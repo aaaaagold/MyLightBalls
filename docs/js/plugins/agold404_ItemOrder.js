@@ -10,6 +10,12 @@
  * @desc define function here. `this` is corresponding the container like $gameParty._items, $gameParty._weapons, $gameParty._armors 
  * @default "(function(item){\n\treturn -this._itemOrder.uniqueGetIdx(item.id); // sync with Game_Party.prototype._itemOrder_getItemKey \n})"
  * 
+ * @param ItemToGlbCmpValFunc
+ * @type note
+ * @text itemGlbValFunc
+ * @desc same concept as the previous, except used by `$gameParty.allItems()`.
+ * @default "(function(item){\n\treturn -$gameParty._itemOrder_global.uniqueGetIdx($gameParty.itemOrder_getItemGlobalKey(item)); \n})"
+ * 
  * @param LogItemGainOrder
  * @type boolean
  * @text enable logging item gain order
@@ -35,6 +41,9 @@
 const pluginName=getPluginNameViaSrc(document.currentScript.getAttribute('src'))||"agold404_ItemOrder";
 const params=PluginManager.parameters(pluginName)||{};
 params._func_itemToCmpVal=EVAL.call(null,JSON.parse(params.ItemToCmpValFunc||"\"\""));
+params._func_itemToGlbCmpVal=EVAL.call(null,JSON.parse(useDefaultIfIsNone(params.ItemToGlbCmpValFunc,JSON.stringify(
+"(function(item){\n\treturn -$gameParty._itemOrder_global.uniqueGetIdx($gameParty.itemOrder_getItemGlobalKey(item)); \n})"
+))));
 params._isEnableLogItemGainOrder=JSON.parse(params.LogItemGainOrder||"false");
 params._reordModeBtnKeyCode=params.ReordModeBtn-0||0;
 
@@ -47,13 +56,22 @@ function(val,i,a){ return [val,this[i]]; }, // 3: combine value and data
 x=>x[1], // 5: map back from f.tbl[3]
 function(cont,cmpValGetterFunc,a,b){
 	const co=cont._customOrder;
-	const valA=co&&a&&(a.id in co)?cont._customOrder[a.id]:(cmpValGetterFunc&&cmpValGetterFunc(a));
-	const valB=co&&a&&(b.id in co)?cont._customOrder[b.id]:(cmpValGetterFunc&&cmpValGetterFunc(b));
+	const valA=co&&a&&(a.id in co)?co[a.id]:(cmpValGetterFunc&&cmpValGetterFunc(a));
+	const valB=co&&a&&(b.id in co)?co[b.id]:(cmpValGetterFunc&&cmpValGetterFunc(b));
 	if(isNaN(valB)) return isNaN(valA)?0:-1; // put NaN last
 	return valA-valB;
 }, // 6: bind cmpValGetterFunc
 "itemReorderMode", // 7: keyName
 [144,144,0,0], // 8: reorder mode cursor color tone
+function(cmpValGetterFunc,a,b){
+	const co=this._customOrder_global;
+	const keyA=this.itemOrder_getItemGlobalKey(a);
+	const keyB=this.itemOrder_getItemGlobalKey(b);
+	const valA=co&&a&&(keyA in co)?co[keyA]:(cmpValGetterFunc&&cmpValGetterFunc(a));
+	const valB=co&&a&&(keyB in co)?co[keyB]:(cmpValGetterFunc&&cmpValGetterFunc(b));
+	if(isNaN(valB)) return isNaN(valA)?0:-1; // put NaN last
+	return valA-valB;
+}, // 9: bind glb cmpValGetterFunc
 ];
 
 
@@ -74,6 +92,7 @@ addBase('itemOrder_appendNew',function f(cont,item,amount,includeEquip){
 	}
 	const key=this._itemOrder_getItemKey(item,cont);
 	if(key) arr.uniquePush(key);
+	this._itemOrder_appendGlobalNew.apply(this,arguments);
 },t).
 addBase('_itemOrder_getOrderCont',function f(cont){
 	if(!cont) return;
@@ -91,6 +110,12 @@ addBase('_itemOrder_getOrderCont',function f(cont){
 addBase('_itemOrder_getItemKey',function f(item,cont){
 	return (item&&item.id)-0; // typeof : 'number'
 },t).
+addBase('_itemOrder_appendGlobalNew',function f(_,item){ // align other methods' param position
+	// only use `item`
+	const cont=this._itemOrder_getGlobalOrderCont();
+	const key=this.itemOrder_getItemGlobalKey(item,cont);
+	cont.uniquePush(key);
+}).
 add('items',function f(){
 	const rtv=f.ori.apply(this,arguments);
 	this.itemOrder_reorderList(rtv,this._items);
@@ -134,6 +159,46 @@ addBase('itemOrder_reorderList',function f(src,cont){
 	//return src.map(cmpValGetterFunc,cont).map(f.tbl[3],src).sort(f.tbl[4]).map(f.tbl[5]);
 	return src.sort(f.tbl[6].bind(this,cont,cmpValGetterFunc&&cmpValGetterFunc.bind(cont)));
 },t).
+add('allItems',function f(){
+	const rtv=f.ori.apply(this,arguments);
+	this.itemOrder_reorderList_global(rtv);
+	return rtv;
+}).
+addBase('itemOrder_reorderList_global',function f(src){
+	const cmpValGetterFunc=f.tbl[1]._func_itemToGlbCmpVal;
+	return src.sort(f.tbl[9].bind(this,cmpValGetterFunc&&cmpValGetterFunc.bind(this)));
+},t).
+addBase('itemOrder_getCustomGlobalOrderCont',function f(){
+	let rtv=this._customOrder_global;
+	if(!rtv) rtv=this._customOrder_global={};
+	return rtv;
+}).
+addBase('_itemOrder_getGlobalOrderCont',function f(){
+	let rtv=this._itemOrder_global;
+	if(!rtv){
+		rtv=[];
+		for(let arr=[].concat_inplace(this.items(),this.weapons(),this.armors()),x=0,xs=arr.length;x<xs;++x) rtv.uniquePush(this.itemOrder_getItemGlobalKey(arr));
+		this._itemOrder_global=rtv;
+	}
+	return rtv;
+}).
+addBase('itemOrder_setCustomGlobalOrder',function f(item,val){
+	const co=this.itemOrder_getCustomGlobalOrderCont();
+	if(co) co[this.itemOrder_getItemGlobalKey(item)]=val;
+}).
+addBase('itemOrder_getGlobalOrder',function f(item){
+	// exceptions -> cont._customOrder -> cmpValGetterFunc -> combined key = (typeStr,int(id))
+	if(!item) return NaN;
+	const co=this.itemOrder_getCustomGlobalOrderCont();
+	const key=this.itemOrder_getItemGlobalKey(item);
+	if(key in co) return co[key];
+	const cmpValGetterFunc=f.tbl[1]._func_itemToGlbCmpVal;
+	if(cmpValGetterFunc) return cmpValGetterFunc.call(this,item);
+	return key;
+},t).
+addBase('itemOrder_getItemGlobalKey',function f(item){
+	return DataManager.getItemDataClassName(item)+'-'+(item&&item.id-0||0); // typeof : 'number'
+},t).
 getP;
 
 
@@ -169,10 +234,18 @@ addBase('itemOrder_arrangeOrder',function f(currIdx,lastIdx){
 	const item1=this._data[currIdx];
 	const item2=this._data[lastIdx];
 	if(!item1||!item2||item1===item2) return;
+	{ const cont1=$gameParty.itemContainer(item1); if(cont1===$gameParty.itemContainer(item2)){
 	const ord1=$gameParty.itemOrder_getOrder(undefined,item1);
 	const ord2=$gameParty.itemOrder_getOrder(undefined,item2);
 	$gameParty.itemOrder_setCustomOrder(undefined,item1,ord2);
 	$gameParty.itemOrder_setCustomOrder(undefined,item2,ord1);
+	} }
+	{
+	const ord1=$gameParty.itemOrder_getGlobalOrder(item1);
+	const ord2=$gameParty.itemOrder_getGlobalOrder(item2);
+	$gameParty.itemOrder_setCustomGlobalOrder(item1,ord2);
+	$gameParty.itemOrder_setCustomGlobalOrder(item2,ord1);
+	}
 	this._data[currIdx]=item2;
 	this._data[lastIdx]=item1;
 	this.redrawItem(lastIdx);

@@ -1929,9 +1929,49 @@ addBase('dataarr_getIdxOfDataobj',function f(dataarr,dataobj){
 }).
 addBase('resetDataarrs',function(){
 	this.dataarr_reset($dataActors);
+	this.dataarr_reset($dataClasses);
+	;
+	this.dataarr_reset($dataSkills);
+	this.dataarr_reset($dataItems);
 	this.dataarr_reset($dataArmors);
 	this.dataarr_reset($dataWeapons);
+	;
+	this.dataarr_reset($dataEnemies);
+	this.dataarr_reset($dataTroops);
+	this.dataarr_reset($dataStates);
 }).
+addBase('isActor',function f(item){
+	return item && this.dataarr_hasDataobj($dataActors,item);
+}).
+addBase('isClass',function f(item){
+	return item && this.dataarr_hasDataobj($dataClasses,item);
+}).
+addBase('isEnemy',function f(item){
+	return item && this.dataarr_hasDataobj($dataEnemies,item);
+}).
+addBase('isTroop',function f(item){
+	return item && this.dataarr_hasDataobj($dataTroops,item);
+}).
+addBase('isState',function f(item){
+	return item && this.dataarr_hasDataobj($dataTroops,item);
+}).
+addBase('getItemDataClassName',function f(item){
+	let rtv='';
+	for(let arr=f.tbl[0],x=0,xs=arr.length;x<xs;++x) if(arr[x]&&arr[x][0](item)){ rtv=arr[x][1]; break; }
+	return rtv;
+},[
+[
+[item=>DataManager.isActor(item)  ,'actor',   ], // 0-?: 
+[item=>DataManager.isClass(item)  ,'class',   ], // 0-?: 
+[item=>DataManager.isSkill(item)  ,'skill',   ], // 0-?: 
+[item=>DataManager.isItem(item)   ,'item',    ], // 0-?: 
+[item=>DataManager.isWeapon(item) ,'weapon',  ], // 0-?: 
+[item=>DataManager.isArmor(item)  ,'armor',   ], // 0-?: 
+[item=>DataManager.isEnemy(item)  ,'enemy',   ], // 0-?: 
+[item=>DataManager.isTroop(item)  ,'troop',   ], // 0-?: 
+[item=>DataManager.isState(item)  ,'state',   ], // 0-?: 
+], // 0: tbl
+]).
 getP;
 // Scene_Boot.prototype.terminate_after is defined later
 new cfc(Scene_Title.prototype).
@@ -2877,6 +2917,38 @@ addBase('isEnabled_byIndex',function(index){
 }).
 getP;
 }
+
+
+new cfc(Window_ItemCategory.prototype).
+addBase('numVisibleRows',function f(){
+	return Math.min(3,this.maxRows());
+}).
+addBase('_makeCommandList_getMakerNames',function f(){
+	return f.tbl[0];
+},[
+[
+'makeCommandList_item',
+'makeCommandList_weapon',
+'makeCommandList_armor',
+'makeCommandList_keyItem',
+], // 0: "makeCommandList*" s
+]).
+addBase('makeCommandList',function f(){
+	for(let arr=this._makeCommandList_getMakerNames.apply(this,arguments),x=0,xs=arr.length;x<xs;++x) this[arr[x]].apply(this,arguments);
+}).
+addBase('makeCommandList_item',function f(){
+	this.addCommand(TextManager.item,    'item');
+}).
+addBase('makeCommandList_weapon',function f(){
+	this.addCommand(TextManager.weapon,  'weapon');
+}).
+addBase('makeCommandList_armor',function f(){
+	this.addCommand(TextManager.armor,   'armor');
+}).
+addBase('makeCommandList_keyItem',function f(){
+	this.addCommand(TextManager.keyItem, 'keyItem');
+}).
+getP;
 
 
 new cfc(Window_SkillList.prototype).
