@@ -31183,6 +31183,39 @@
 			{"code":404,"indent":0,"parameters":[
 			]},
 			{"code":108,"indent":0,"parameters":[
+				"@CONCAT"
+			]},
+			{"code":102,"indent":0,"parameters":[
+				[
+					"add contrary pair A - 19",
+					"add contrary pair A - 20"
+				],
+				0,
+				0,
+				2,
+				0
+			]},
+			{"code":402,"indent":0,"parameters":[
+				0,
+				"add contrary pair A - 19"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].addState(19);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":402,"indent":0,"parameters":[
+				1,
+				"add contrary pair A - 20"
+			]},
+			{"code":355,"indent":1,"parameters":[
+				"$gameParty.members()[0].addState(20);"
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":404,"indent":0,"parameters":[
+			]},
+			{"code":108,"indent":0,"parameters":[
 				""
 			]},
 			{"code":0,"indent":0,"parameters":[
