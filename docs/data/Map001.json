@@ -24823,10 +24823,19 @@
 				"@EVENTTEXT"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"copy"
+				"    copy self"
 			]},
 			{"code":408,"indent":0,"parameters":[
-				"self"
+				"<startParallelly>"
+			]},
+			{"code":118,"indent":0,"parameters":[
+				""
+			]},
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<startParallelly>"
 			]},
 			{"code":355,"indent":0,"parameters":[
 				"{ let idx=$gameMap.cpevt(this._eventId,this.getEvt().x,this.getEvt().y);"
