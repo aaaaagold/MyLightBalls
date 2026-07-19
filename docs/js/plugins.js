@@ -106,6 +106,7 @@ var $plugins =
 {"name":"agold404_TraitPerFrameEval","status":true,"description":"a trait for eval() per frame","parameters":{}},
 {"name":"agold404_Trait_adjustEquipSlots","status":true,"description":"adjust nums of equip slots for each type","parameters":{"GlobalChanges":"\"{\\n\\\"1\\\":0,\\n\\\"_dummy\\\":\\\"\\\"\\n}\"\r"}},
 {"name":"agold404_Trait_adjustEquipsParams","status":true,"description":"adjust some params of worn equipments","parameters":{}},
+{"name":"agold404_Trait_changeAddingStates","status":true,"description":"traits that change states on addState","parameters":{"MaxChangesDepthGetter":"\"(function(){\\n  return 44;\\n})\\n\""}},
 {"name":"agold404_Trait_duplicatedStates","status":true,"description":"specifying a state can be stacked multiple times","parameters":{"GlobalChanges":"\"0\"\r"}},
 {"name":"agold404_Trait_levelUpEval","status":true,"description":"make number of save files be infinity","parameters":{"GlobalEvalBefore":"\"\"","GlobalEvalAfter":"\"\""}},
 {"name":"agold404_Trait_statesStackTimes","status":true,"description":"specifying a state can be stacked multiple times","parameters":{"GlobalChanges":"\"0\"\r"}},
