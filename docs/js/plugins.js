@@ -77,6 +77,7 @@ var $plugins =
 {"name":"agold404_PreloadBitmapsCache","status":true,"description":"Preload Bitmap to implement cache, by putting sprites out of the screen at every scene from the game start","parameters":{"BitmapPaths":"[\"img/characters/$elephant.png\"]"}},
 {"name":"agold404_PreloadOnMapload","status":true,"description":"preload images on map load","parameters":{}},
 {"name":"agold404_PressPToPause","status":true,"description":"press P to pause","parameters":{}},
+{"name":"agold404_Prng","status":true,"description":"pseudo-random number generator","parameters":{}},
 {"name":"agold404_QuestAPI","status":true,"description":"api for quests","parameters":{}},
 {"name":"agold404_QuestAPI_exampleQuest","status":true,"description":"example quests","parameters":{}},
 {"name":"agold404_QuizAPI","status":true,"description":"easy APIs to show a multiple-choices quiz from a pre-defined quizzes set","parameters":{"QuizzesSetJsonGetter":"\"[\\n {\\n  id:'unique id',\\n  description:'quiz description',\\n  answer:'the answer',\\n  otherChoices:['other choice 1','other choice 2','other choice 3',],\\n },\\n]\""}},
