@@ -9,12 +9,12 @@
 	2816,
 	2820,
 	2844,
-	2844,
-	2844,
-	2844,
 	2854,
-	1644,
-	1641,
+	7448,
+	2832,
+	2816,
+	2840,
+	7464,
 	1641,
 	1642,
 	7704,
@@ -33,12 +33,12 @@
 	2816,
 	2820,
 	2854,
-	1644,
+	7428,
 	1641,
-	1641,
-	1641,
-	1641,
-	1642,
+	7462,
+	2832,
+	2816,
+	2840,
 	1649,
 	1649,
 	1650,
@@ -57,13 +57,13 @@
 	2844,
 	2844,
 	2854,
-	1644,
+	7428,
 	1642,
 	1649,
 	1649,
-	1649,
-	1649,
-	1650,
+	2832,
+	2816,
+	2840,
 	1657,
 	1657,
 	1658,
@@ -78,7 +78,7 @@
 	2820,
 	2844,
 	2854,
-	1644,
+	7428,
 	1641,
 	1641,
 	1641,
@@ -86,10 +86,10 @@
 	1650,
 	1657,
 	1657,
-	1657,
-	1657,
-	1658,
-	2850,
+	2856,
+	2844,
+	2846,
+	2838,
 	2836,
 	2836,
 	2836,
@@ -101,7 +101,7 @@
 	7704,
 	7692,
 	2854,
-	1644,
+	7428,
 	1641,
 	1642,
 	1649,
@@ -110,11 +110,11 @@
 	1650,
 	1658,
 	2850,
-	2836,
-	2836,
-	2836,
-	2836,
-	2817,
+	2852,
+	2946,
+	2932,
+	2948,
+	2832,
 	2816,
 	2816,
 	2816,
@@ -125,7 +125,7 @@
 	8060,
 	8051,
 	8054,
-	1644,
+	7428,
 	1642,
 	1649,
 	1650,
@@ -135,11 +135,11 @@
 	1658,
 	2850,
 	2817,
-	2816,
-	2816,
-	2816,
-	2816,
-	2816,
+	2840,
+	2928,
+	2912,
+	2936,
+	2832,
 	2816,
 	2816,
 	2816,
@@ -160,11 +160,11 @@
 	2838,
 	2817,
 	2816,
-	2816,
-	2816,
-	2816,
-	2816,
-	2816,
+	2840,
+	2928,
+	2912,
+	2936,
+	2832,
 	2816,
 	2816,
 	2816,
@@ -185,11 +185,11 @@
 	2834,
 	2844,
 	2844,
-	2844,
-	2824,
-	2816,
-	2820,
-	2844,
+	2854,
+	2928,
+	2912,
+	2936,
+	2856,
 	2844,
 	2844,
 	2844,
@@ -211,9 +211,9 @@
 	4098,
 	4084,
 	4100,
-	2832,
-	2816,
-	2840,
+	2928,
+	2912,
+	2936,
 	4098,
 	4084,
 	4084,
@@ -236,9 +236,9 @@
 	4080,
 	4064,
 	4088,
-	2832,
-	2816,
-	2840,
+	2928,
+	2912,
+	2936,
 	4080,
 	4064,
 	4064,
@@ -261,9 +261,9 @@
 	4080,
 	4064,
 	4088,
-	2832,
-	2816,
-	2840,
+	2928,
+	2912,
+	2936,
 	4080,
 	4064,
 	4064,
@@ -286,9 +286,9 @@
 	4104,
 	4092,
 	4102,
-	2856,
-	2844,
-	2854,
+	2928,
+	2912,
+	2936,
 	4104,
 	4092,
 	4092,
@@ -298,8 +298,8 @@
 	2844,
 	2844,
 	2844,
-	2844,
-	2844,
+	2824,
+	2816,
 	1634,
 	2832,
 	2816,
@@ -311,6 +311,9 @@
 	2932,
 	2932,
 	2932,
+	2913,
+	2912,
+	2914,
 	2932,
 	2932,
 	2932,
@@ -319,12 +322,9 @@
 	2932,
 	2932,
 	2932,
-	2932,
-	2932,
-	2932,
-	2932,
-	2932,
-	2932,
+	2948,
+	2832,
+	2816,
 	1634,
 	2856,
 	2824,
@@ -347,9 +347,9 @@
 	2940,
 	2940,
 	2940,
-	2940,
-	2940,
-	2940,
+	2950,
+	2832,
+	2816,
 	1636,
 	1626,
 	2834,
@@ -373,8 +373,8 @@
 	2836,
 	2836,
 	2836,
-	2836,
-	2836,
+	2817,
+	2816,
 	2852,
 	1634,
 	2848,
@@ -611,6 +611,9 @@
 	0,
 	0,
 	0,
+	2880,
+	2864,
+	2888,
 	0,
 	0,
 	0,
@@ -633,6 +636,9 @@
 	0,
 	0,
 	0,
+	2880,
+	2864,
+	2888,
 	0,
 	0,
 	0,
@@ -655,6 +661,9 @@
 	0,
 	0,
 	0,
+	2880,
+	2864,
+	2888,
 	0,
 	0,
 	0,
@@ -677,18 +686,9 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	2904,
+	2892,
+	2902,
 	3051,
 	3041,
 	3030,
@@ -711,9 +711,9 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
+	2994,
+	2980,
+	2996,
 	0,
 	0,
 	3048,
@@ -736,9 +736,9 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	0,
 	0,
 	0,
@@ -761,9 +761,9 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	0,
 	0,
 	0,
@@ -786,10 +786,10 @@
 	0,
 	0,
 	0,
-	0,
+	2976,
+	2960,
+	2984,
 	2907,
-	2897,
-	2897,
 	2897,
 	2909,
 	0,
@@ -811,9 +811,9 @@
 	4146,
 	4132,
 	4148,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	4146,
 	4132,
 	4132,
@@ -836,9 +836,9 @@
 	4128,
 	4112,
 	4136,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	4128,
 	4112,
 	4112,
@@ -861,9 +861,9 @@
 	4128,
 	4112,
 	4136,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	4128,
 	4112,
 	4112,
@@ -886,9 +886,9 @@
 	4152,
 	4140,
 	4150,
-	0,
-	0,
-	0,
+	2976,
+	2960,
+	2984,
 	4152,
 	4140,
 	4140,
@@ -911,6 +911,9 @@
 	2980,
 	2980,
 	2980,
+	2961,
+	2960,
+	2962,
 	2980,
 	2980,
 	2980,
@@ -919,12 +922,9 @@
 	2980,
 	2980,
 	2980,
-	2980,
-	2980,
-	2980,
-	2980,
-	2980,
-	2980,
+	2996,
+	2898,
+	2884,
 	0,
 	0,
 	0,
@@ -947,9 +947,9 @@
 	2988,
 	2988,
 	2988,
-	2988,
-	2988,
-	2988,
+	2998,
+	2904,
+	2892,
 	0,
 	0,
 	0,
@@ -1466,6 +1466,7 @@
 	0,
 	0,
 	0,
+	85,
 	0,
 	0,
 	0,
@@ -1566,7 +1567,6 @@
 	0,
 	0,
 	0,
-	109,
 	0,
 	0,
 	0,
@@ -1810,10 +1810,10 @@
 	113,
 	0,
 	90,
-	112,
-	113,
 	0,
-	90,
+	0,
+	0,
+	0,
 	0,
 	0,
 	0,
@@ -1835,8 +1835,8 @@
 	121,
 	0,
 	0,
-	120,
-	121,
+	0,
+	0,
 	0,
 	0,
 	0,
@@ -1887,8 +1887,8 @@
 	0,
 	200,
 	0,
-	208,
-	209,
+	0,
+	0,
 	210,
 	124,
 	124,
@@ -1911,7 +1911,7 @@
 	0,
 	106,
 	0,
-	92,
+	0,
 	0,
 	0,
 	0,
@@ -2011,13 +2011,13 @@
 	224,
 	225,
 	226,
-	91,
 	0,
 	0,
-	119,
-	119,
-	77,
-	80,
+	0,
+	0,
+	0,
+	0,
+	0,
 	116,
 	0,
 	0,
@@ -2039,9 +2039,9 @@
 	0,
 	0,
 	0,
-	86,
-	110,
 	0,
+	117,
+	117,
 	0,
 	116,
 	90,
@@ -2062,11 +2062,11 @@
 	0,
 	0,
 	0,
-	91,
-	91,
 	0,
 	0,
 	0,
+	0,
+	2,
 	0,
 	124,
 	0,
@@ -2166,9 +2166,9 @@
 	0,
 	0,
 	0,
-	127,
-	81,
-	81,
+	0,
+	0,
+	0,
 	0,
 	0,
 	0,
@@ -2193,7 +2193,7 @@
 	0,
 	0,
 	0,
-	126,
+	0,
 	0,
 	0,
 	0,
@@ -2218,7 +2218,7 @@
 	0,
 	0,
 	0,
-	106,
+	0,
 	0,
 	93,
 	89,
@@ -2239,11 +2239,11 @@
 	0,
 	0,
 	0,
-	118,
-	119,
 	117,
-	80,
-	80,
+	0,
+	0,
+	0,
+	0,
 	91,
 	101,
 	0,
@@ -2411,6 +2411,7 @@
 	0,
 	0,
 	0,
+	5,
 	0,
 	0,
 	0,
@@ -2435,6 +2436,7 @@
 	0,
 	0,
 	0,
+	5,
 	0,
 	0,
 	0,
@@ -2459,6 +2461,7 @@
 	0,
 	0,
 	0,
+	5,
 	0,
 	0,
 	0,
@@ -2483,10 +2486,7 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
+	5,
 	0,
 	0,
 	0,
@@ -3011,6 +3011,9 @@
 	0,
 	0,
 	0,
+	6,
+	6,
+	6,
 	0,
 	0,
 	0,
@@ -3211,6 +3214,10 @@
 	0,
 	0,
 	0,
+	8,
+	8,
+	8,
+	8,
 	0,
 	0,
 	0,
@@ -3232,8 +3239,10 @@
 	0,
 	0,
 	0,
+	8,
 	0,
 	0,
+	8,
 	0,
 	0,
 	0,
@@ -3255,7 +3264,10 @@
 	0,
 	0,
 	0,
+	8,
+	8,
 	0,
+	8,
 	0,
 	0,
 	0,
@@ -3280,6 +3292,8 @@
 	0,
 	0,
 	0,
+	8,
+	8,
 	0,
 	0,
 	0,
@@ -3350,6 +3364,13 @@
 	0,
 	0,
 	0,
+	8,
+	8,
+	8,
+	8,
+	8,
+	8,
+	8,
 	0,
 	0,
 	0,
@@ -3374,6 +3395,7 @@
 	0,
 	0,
 	0,
+	8,
 	0,
 	0,
 	0,
@@ -3394,7 +3416,11 @@
 	0,
 	0,
 	0,
+	8,
 	0,
+	8,
+	8,
+	8,
 	0,
 	0,
 	0,
@@ -3415,7 +3441,9 @@
 	0,
 	0,
 	0,
+	8,
 	0,
+	8,
 	0,
 	0,
 	0,
@@ -3438,37 +3466,9 @@
 	0,
 	0,
 	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
+	8,
+	8,
+	8,
 	0,
 	0,
 	0,
@@ -3605,10 +3605,40 @@
 	{"id":1,"name":"EV001","note":"","pages":[
 		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":true,"image":{"characterIndex":0,"characterName":"","direction":2,"pattern":0,"tileId":0},"list":[
 			{"code":355,"indent":0,"parameters":[
-				"$gameMap.event(4).erase();"
+				"$gameMap.event(4).erase(); // 墓碑"
 			]},
 			{"code":355,"indent":0,"parameters":[
-				"this.getEvt().erase();"
+				"$gameTemp._商人買車=src=>{ let r=src.regionId(),evtid=src.eventId(); // 商人馬車"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"let opened=new Set(),q=new Queue(); q.push(src.getPosKey()); opened.add(q[0]);"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"for(let tbl=[1,0,-1,0,1];q.length;){ let c=q[0],xy=$gameMap.posKeyToXy(c); q.pop(); for(let i=0;i<4;++i){"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" let x=xy.x+tbl[i],y=xy.y+tbl[i+1],k=$gameMap.getPosKey(x,y); if(opened.has(k)||$gameMap.regionId(x,y)!==r) continue;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				" q.push(k); opened.add(k); let nxt=$gameMap.event($gameMap.cpevt(evtid,x,y)); nxt.turnTowardCharacter(src); src=nxt;"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"} }"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"};"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"[6,8].forEach(i=>$gameTemp._相鄰同R複製事件($gameMap.event(i)));"
+			]},
+			{"code":655,"indent":0,"parameters":[
+				""
+			]},
+			{"code":655,"indent":0,"parameters":[
+				"$gameTemp._相鄰同R複製事件($gameMap.event(10));"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"this.getEvt().erase(); // 結束ㄌ"
 			]},
 			{"code":0,"indent":0,"parameters":[
 			]}
@@ -3652,5 +3682,189 @@
 			{"code":0,"parameters":[
 			]}
 		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":false}
-	],"x":13,"y":21}
+	],"x":13,"y":21},
+	{"id":5,"name":"EV005","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":2,"pattern":1,"characterIndex":3},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"商人(裝備)"
+			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"this.getTriggerer()!==$gamePlayer"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"Actor1",
+				3,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"\\NAMEFIELD:\"$gameMap.event(5).getTextv().join('.')\"\\TXTDPOS:\"[0,-this.lineHeight()]\""
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"我的馬車沒什麼好看的啦！"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"Actor1",
+				3,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"$gameMap.event(5).getTextv().join('.')\"\\TXTDPOS:\"[0,-this.lineHeight()]\""
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"我是\\C[6]\\EVALTOSTR:\"$gameMap.event(5).getTextv().join('.')\"\\C[0]ㄛ"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
+	],"x":15,"y":11},
+	{"id":6,"name":"EV006","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Vehicle","direction":2,"pattern":1,"characterIndex":5},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<dontTurnOnStart>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<startParallelly>"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameMap.event(5).start(this.getEvt());"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
+	],"x":15,"y":10},
+	{"id":7,"name":"EV007","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Actor1","direction":4,"pattern":1,"characterIndex":5},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@EVENTTEXT"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"商人(消耗品)"
+			]},
+			{"code":111,"indent":0,"parameters":[
+				12,
+				"this.getTriggerer()!==$gamePlayer"
+			]},
+			{"code":101,"indent":1,"parameters":[
+				"Actor1",
+				5,
+				0,
+				2
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"\\NAMEFIELD:\"$gameMap.event(7).getTextv().join('.')\"\\TXTDPOS:\"[0,-this.lineHeight()]\""
+			]},
+			{"code":401,"indent":1,"parameters":[
+				"馬車內的東西很脆弱，弄壞的要賠喔！"
+			]},
+			{"code":115,"indent":1,"parameters":[
+			]},
+			{"code":0,"indent":1,"parameters":[
+			]},
+			{"code":412,"indent":0,"parameters":[
+			]},
+			{"code":101,"indent":0,"parameters":[
+				"Actor1",
+				5,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"$gameMap.event(7).getTextv().join('.')\"\\TXTDPOS:\"[0,-this.lineHeight()]\""
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"我是\\C[6]\\EVALTOSTR:\"$gameMap.event(7).getTextv().join('.')\"\\C[0]ㄛ"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
+	],"x":14,"y":15},
+	{"id":8,"name":"EV008","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":false,"image":{"tileId":0,"characterName":"Vehicle","direction":2,"pattern":1,"characterIndex":5},"list":[
+			{"code":108,"indent":0,"parameters":[
+				"@NOTE"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<dontTurnOnStart>"
+			]},
+			{"code":408,"indent":0,"parameters":[
+				"<startParallelly>"
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameMap.event(7).start(this.getEvt());"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":false,"trigger":0,"walkAnime":true}
+	],"x":14,"y":14},
+	{"id":9,"name":"EV009","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":true,"image":{"characterIndex":0,"characterName":"","direction":2,"pattern":0,"tileId":0},"list":[
+			{"code":101,"indent":0,"parameters":[
+				"",
+				0,
+				0,
+				2
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\NAMEFIELD:\"'裝備店招牌'\""
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\{\\TXTCENTER:\"特盤特價\"\\}"
+			]},
+			{"code":401,"indent":0,"parameters":[
+				"\\{\\TXTCENTER:\"跳樓大拍賣\"\\}"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":1,"stepAnime":false,"through":true,"trigger":0,"walkAnime":true}
+	],"x":16,"y":10},
+	{"id":10,"name":"EV010","note":"","pages":[
+		{"conditions":{"actorId":1,"actorValid":false,"itemId":1,"itemValid":false,"selfSwitchCh":"A","selfSwitchValid":false,"switch1Id":1,"switch1Valid":false,"switch2Id":1,"switch2Valid":false,"variableId":1,"variableValid":false,"variableValue":0},"directionFix":true,"image":{"characterIndex":0,"characterName":"","direction":2,"pattern":0,"tileId":0},"list":[
+			{"code":201,"indent":0,"parameters":[
+				0,
+				15,
+				24,
+				48,
+				0,
+				0
+			]},
+			{"code":355,"indent":0,"parameters":[
+				"$gameMap.setTileScale(0.5,0.5);"
+			]},
+			{"code":0,"indent":0,"parameters":[
+			]}
+		],"moveFrequency":3,"moveRoute":{"list":[
+			{"code":0,"parameters":[
+			]}
+		],"repeat":true,"skippable":false,"wait":false},"moveSpeed":3,"moveType":0,"priorityType":0,"stepAnime":false,"through":true,"trigger":1,"walkAnime":false}
+	],"x":12,"y":0}
 ]}
