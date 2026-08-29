@@ -272,7 +272,7 @@
 	],"price":0},
 	{"id":22,"atypeId":1,"description":"dscr: Clothes2","etypeId":4,"traits":[
 		{"code":22,"dataId":3,"value":0.25}
-	],"iconIndex":135,"name":"Clothes2","note":"","params":[
+	],"iconIndex":135,"name":"Clothes2","note":"<RandomTotalPointsOnSomeParams>\n{\n \"total\":[1,5],\n \"ratio\":{\"luk\":0.5},\n \"params\":[\"luk\"]\n}\n</RandomTotalPointsOnSomeParams>","params":[
 		0,
 		0,
 		0,
