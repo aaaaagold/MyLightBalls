@@ -94,13 +94,24 @@ addBase('dataobjExtInfo_initSubWindows',function f(){
 	if(!this.dataobjExtInfo_hasFunc()) return;
 	this.dataobjExtInfo_getSubWindow_note(); // getter also init
 }).
+addBase('dataobjExtInfo_getSubWindowAlphas',function f(){
+	return f.tbl[0];
+},[
+[1-1.0/64,(1-1.0/64)/2,], // 0: alpha - active,deactive
+]).
 addBase('dataobjExtInfo_getSubWindow_note',function f(){
 	let rtv=this._dataobjExtInfo_getSubWindow_note;
 	if(!rtv){
 		this.addChild(rtv=this._dataobjExtInfo_getSubWindow_note=new Window_Base(0,0,1,1));
-		rtv.alpha=0.984375;
+		rtv.alpha=this.dataobjExtInfo_getSubWindowAlphas()[0];
 	}
 	return rtv;
+}).
+addBase('dataobjExtInfo_adjustSubWindowAlpha',function f(){
+	if(!this.dataobjExtInfo_hasFunc()) return;
+	const wnd=this.dataobjExtInfo_getSubWindow_note();
+	wnd.toLocal(TouchInput,SceneManager._scene,undefined,true);
+	wnd.alpha=this.dataobjExtInfo_getSubWindowAlphas()[0|!(this.active||wnd.containsPoint_global(TouchInput))];
 }).
 addBase('dataobjExtInfo_adjustWindowSize',function f(wnd,infoText){
 	if(!wnd) return;
@@ -177,12 +188,23 @@ if(!Input.isPressed(f.tbl[1]._windowFloatKey)){
 				const gpRect=this.toGlobal(testPt);
 				if(gpRect.y>=wnd.height) wnd.y=testPt.y-wnd.height;
 				else wnd.y-=Math.min(gp.y,overY);
+				;
+				const gp2=wnd.getGlobalPosition();
+				if(gp2.y<0){
+					; // TBD
+				}else{
+					const overY=gp2.y+wnd.height-Graphics.height;
+					if(0<overY){
+						wnd.y-=overY;
+					}
+				}
 			}
 			if(gp.x<0) wnd.x-=gp.x;
 }
 	}else{
 		this.dataobjExtInfo_getSubWindow_note().close();
 	}
+	this.dataobjExtInfo_adjustSubWindowAlpha();
 },t).
 getP;
 
@@ -199,6 +221,12 @@ addBase('dataobjExtInfo_hasFunc',function f(){
 getP;
 
 new cfc(Window_ShopBuy.prototype).
+addBase('dataobjExtInfo_hasFunc',function f(){
+	return true;
+}).
+getP;
+
+new cfc(Window_EquipSlot.prototype).
 addBase('dataobjExtInfo_hasFunc',function f(){
 	return true;
 }).

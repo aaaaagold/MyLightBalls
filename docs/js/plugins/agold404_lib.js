@@ -979,6 +979,10 @@ p.re=function(t,f,o){ this.removeEventListener.apply(this,arguments); return thi
 { const p=HTMLCanvasElement.prototype;
 p.ptcp=function(x,y,w,h,resizeTo){
 	// partial copy ; return another canvas
+	x=useDefaultIfIsNaN(x,0);
+	y=useDefaultIfIsNaN(y,0);
+	w=useDefaultIfIsNaN(w,this.width);
+	h=useDefaultIfIsNaN(h,this.height);
 	const rtv=document.ce('canvas');
 	let targetW=w,targetH=h;
 	if(resizeTo){
@@ -1041,6 +1045,12 @@ const useDefaultIfIsNone=window.useDefaultIfIsNone=(n,d)=>{
 	return n==null?d:n;
 };
 const isArray=window.isArray=obj=>Object.prototype.toString.call(obj)==='[object Array]'; // considering different window-frame
+const toBigInt=function f(s){
+	if(!f.tbl){ f.tbl=[
+		/^[+-]?(?:\d+|0b[01]+|0o[0-7]+|0x[\da-fA-F]+)$/,
+	]; }
+	return f.tbl[0].test(s)?BigInt(n):undefined;
+};
 const getWiderPoints=window.getWiderPoints=(pt3,width,isNormalToCoordinates,dim)=>{
 	// currently only support dim===2
 	width=width-0||0;
